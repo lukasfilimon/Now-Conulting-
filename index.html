@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="NOW Consulting — die einzige spirituelle Unternehmensberatung im DACH-Raum, die dich vom Coach zum Unternehmer macht. Für Coaches und Berater im 5- bis 6-stelligen Bereich." />
+    <meta property="og:title" content="NOW Consulting — Bewusstsein. Unternehmertum. Ein Weg." />
+    <meta property="og:description" content="Die einzige spirituelle Unternehmensberatung im DACH-Raum, die dich vom Coach zum Unternehmer macht." />
+    <meta property="og:image" content="/now-logo.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+
+    <title>NOW Consulting — Bewusstsein. Unternehmertum. Ein Weg.</title>
+
+    <style>
+      :root {
+        /* NOW Brand Colors — synced with masterclass.now-consulting */
+        --color-black: #0e0c0a;           /* warm black, not pure */
+        --color-surface: #181410;         /* brown-tinted dark surface */
+        --color-surface-2: #211d18;       /* elevated surface */
+        --color-gold: #c9a84c;            /* primary gold, warm */
+        --color-gold-light: #e2c97a;      /* highlight gold */
+        --color-gold-dark: #a07830;       /* deep gold for gradients */
+        --color-border: rgba(201, 168, 76, 0.28);
+        --color-text: #f2efe9;            /* warm off-white */
+        --color-text-muted: #9e9a94;
+        --color-text-dim: #6a6560;
+        --color-matrix-green: #00ff41;    /* matrix accent, intro only */
+        --color-white: #ffffff;           /* pure white, used sparingly */
+
+        /* Typography */
+        --font-display: 'Cormorant Garamond', Georgia, serif;
+        --font-body: 'Inter', system-ui, sans-serif;
+        --font-numeric: 'Montserrat', 'Inter', sans-serif;
+        --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        width: 100%;
+      }
+      body {
+        width: 100%;
+        background: var(--color-black);
+        color: var(--color-text);
+        font-family: var(--font-body);
+        font-weight: 400;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: clip;
+      }
+
+      html.lenis, html.lenis body {
+        height: auto;
+      }
+      .lenis.lenis-smooth {
+        scroll-behavior: auto !important;
+      }
+      .lenis.lenis-smooth [data-lenis-prevent] {
+        overscroll-behavior: contain;
+      }
+      .lenis.lenis-stopped {
+        overflow: hidden;
+      }
+
+      #app {
+        position: relative;
+        width: 100%;
+      }
+
+      #webgl-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      /* Mobile fallback: no WebGL orb on small screens, static gold gradient instead */
+      @media (max-width: 768px) {
+        #webgl-canvas { display: none; }
+        body {
+          background:
+            radial-gradient(ellipse at 50% 35%, rgba(201, 168, 76, 0.18) 0%, transparent 55%),
+            var(--color-black);
+        }
+      }
+
+      #content {
+        position: relative;
+        z-index: 2;
+      }
+
+      /* Loading state */
+      #boot {
+        position: fixed;
+        inset: 0;
+        background: var(--color-black);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 600ms ease-out;
+      }
+
+      #boot.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      #boot .glyph {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--color-gold);
+        letter-spacing: 0.32em;
+      }
+
+      /* Dev-only FPS overlay */
+      #perf {
+        position: fixed;
+        top: 12px;
+        right: 12px;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--color-gold);
+        background: rgba(0, 0, 0, 0.6);
+        padding: 6px 10px;
+        border-radius: 3px;
+        z-index: 10000;
+        pointer-events: none;
+        display: none;
+      }
+
+      body.dev #perf {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="boot"><span class="glyph">BEWUSSTSEIN. UNTERNEHMERTUM. EIN WEG.</span></div>
+
+    <div id="app">
+      <canvas id="webgl-canvas"></canvas>
+      <main id="content"></main>
+    </div>
+
+    <div id="perf"></div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
