@@ -5,3 +5,9 @@ dist
 .env
 .env.local
 .vercel
+
+# Worktree state — never commit
+.claude/
+
+# Source assets — too large for git, kept locally
+Videos + Bilder/
