@@ -1,36 +1,51 @@
 import { copy } from '../content/copy';
 
 /**
- * Manifest section — cinematic word-by-word reveal of the brand thesis.
- * Uses a custom word-wrap + IntersectionObserver staggered reveal
- * (GSAP SplitText is a paid plugin, so we hand-roll the split).
+ * Manifest section — Darko's personal Manifesto.
+ * Layout: 2-Spalten — Darko-Porträt links, Manifest-Text rechts.
+ *  - Links: Bild (transparent SVG, freigestellter Darko)
+ *  - Rechts: Headline → Body-Paragraphs → Signature
+ * Reveal-Choreografie: Bild fadet zuerst rein, dann Spotlight wandert
+ * vertikal über den rechten Content (headline → body → signature).
+ *
+ * Auf Mobile: vertikal gestapelt — Bild oben, Text darunter.
+ *
+ * Background: shared post-Hero BackgroundShader (in main.ts) + Spotlight-Gradient.
  */
 export class Manifest {
   readonly root: HTMLElement;
   private revealed = false;
 
   constructor(container: HTMLElement) {
+    const paragraphs = copy.manifest.body
+      .map((text) => `<p class="manifest-p">${this.escape(text)}</p>`)
+      .join('');
     container.innerHTML = `
       <div class="manifest-wrap">
-        ${copy.manifest.paragraphs
-          .map((p) => `<p class="manifest-p">${this.splitWords(p)}</p>`)
-          .join('')}
+        <div class="manifest-portrait">
+          <div class="manifest-portrait-glow" aria-hidden="true"></div>
+          <img
+            class="manifest-portrait-img"
+            src="/images/darko-portrait.svg"
+            alt="Darko Krstic — Gründer NOW Consulting"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div class="manifest-content">
+          <h2 class="manifest-headline">${this.escape(copy.manifest.headline)}</h2>
+          <div class="manifest-body">${paragraphs}</div>
+          <div class="manifest-signature">
+            <span class="manifest-sig-line" aria-hidden="true"></span>
+            <span class="manifest-sig-name">${this.escape(copy.manifest.signatureName)}</span>
+            <span class="manifest-sig-title">${this.escape(copy.manifest.signatureTitle)}</span>
+          </div>
+        </div>
       </div>
     `;
     this.root = container.querySelector('.manifest-wrap') as HTMLElement;
     this.injectStyles();
     this.observe();
-  }
-
-  private splitWords(text: string): string {
-    return text
-      .split(/(\s+)/)
-      .map((token, i) => {
-        if (/^\s+$/.test(token)) return token;
-        const safe = this.escape(token);
-        return `<span class="manifest-w" style="--w-i:${i}">${safe}</span>`;
-      })
-      .join('');
   }
 
   private escape(text: string): string {
@@ -47,7 +62,7 @@ export class Manifest {
         for (const entry of entries) {
           if (entry.isIntersecting && !this.revealed) {
             this.revealed = true;
-            this.root.classList.add('reveal');
+            void this.runReveal();
             io.disconnect();
           }
         }
@@ -57,52 +72,251 @@ export class Manifest {
     io.observe(this.root);
   }
 
+  private async runReveal(): Promise<void> {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const portrait = this.root.querySelector<HTMLElement>('.manifest-portrait');
+    const headline = this.root.querySelector<HTMLElement>('.manifest-headline');
+    const body = this.root.querySelector<HTMLElement>('.manifest-body');
+    const paragraphs = this.root.querySelectorAll<HTMLElement>('.manifest-p');
+    const signature = this.root.querySelector<HTMLElement>('.manifest-signature');
+
+    if (reduceMotion) {
+      portrait?.classList.add('reveal');
+      headline?.classList.add('reveal');
+      paragraphs.forEach((p) => p.classList.add('reveal'));
+      signature?.classList.add('reveal');
+      return;
+    }
+
+    // 0. Bild fadet zuerst rein (Gesicht etabliert sich)
+    portrait?.classList.add('reveal');
+    await this.delay(250);
+
+    // 1. Spotlight wandert zur Headline + Headline reveal
+    this.moveSpotlightTo(headline);
+    await this.delay(150);
+    headline?.classList.add('reveal');
+    await this.delay(750);
+
+    // 2. Spotlight wandert zum Body, Paragraphs cascaden rein
+    this.moveSpotlightTo(body);
+    for (const p of Array.from(paragraphs)) {
+      p.classList.add('reveal');
+      await this.delay(380);
+    }
+    await this.delay(450);
+
+    // 3. Spotlight settles auf Signature, fade in
+    this.moveSpotlightTo(signature);
+    await this.delay(200);
+    signature?.classList.add('reveal');
+  }
+
+  private moveSpotlightTo(el: HTMLElement | null): void {
+    if (!el) return;
+    const section = el.closest('section');
+    if (!section) return;
+    const sectionRect = section.getBoundingClientRect();
+    const elRect = el.getBoundingClientRect();
+    const yPx = elRect.top - sectionRect.top + elRect.height / 2;
+    const pct = (yPx / sectionRect.height) * 100;
+    (section as HTMLElement).style.setProperty('--spotlight-y', `${pct.toFixed(2)}%`);
+  }
+
+  private delay(ms: number): Promise<void> {
+    return new Promise((r) => setTimeout(r, ms));
+  }
+
   private injectStyles(): void {
     if (document.getElementById('manifest-styles')) return;
     const style = document.createElement('style');
     style.id = 'manifest-styles';
     style.textContent = `
+      /* Manifest wrap — 2-Spalten-Layout: Porträt links, Content rechts */
       .manifest-wrap {
-        max-width: 920px;
+        position: relative;
+        z-index: 2;
+        max-width: 1180px;
         margin: 0 auto;
         padding: 0 32px;
-        color: var(--color-text);
+        display: grid;
+        grid-template-columns: 0.85fr 1fr;
+        gap: 72px;
+        align-items: center;
+      }
+
+      /* ═══════════════════════════════════════════════════════
+         PORTRAIT — links, mit subtilem Gold-Glow im Hintergrund
+         ═══════════════════════════════════════════════════════ */
+      .manifest-portrait {
+        position: relative;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transform: translateX(-24px) scale(0.98);
+        transition:
+          opacity 1200ms cubic-bezier(0.16, 1, 0.3, 1),
+          transform 1200ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .manifest-portrait.reveal {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
+      /* Sanfter Gold-Glow hinter dem Porträt — atmet leicht */
+      .manifest-portrait-glow {
+        position: absolute;
+        inset: -10%;
+        background:
+          radial-gradient(60% 65% at 50% 55%, rgba(201, 168, 76, 0.16) 0%, transparent 70%);
+        filter: blur(28px);
+        animation: manifest-portrait-breath 9s ease-in-out infinite alternate;
+        pointer-events: none;
+        z-index: 0;
+      }
+      @keyframes manifest-portrait-breath {
+        0%   { opacity: 0.82; transform: scale(1); }
+        100% { opacity: 1;    transform: scale(1.04); }
+      }
+      .manifest-portrait-img {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 480px;
+        height: auto;
+        display: block;
+        border-radius: 12px;
+        filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.6));
+      }
+
+      /* ═══════════════════════════════════════════════════════
+         CONTENT — rechts: Headline + Body + Signature
+         ═══════════════════════════════════════════════════════ */
+      .manifest-content {
         display: flex;
         flex-direction: column;
-        gap: 32px;
+        gap: 36px;
       }
-      .manifest-p {
+
+      /* Headline — gold, display italic, prominent */
+      .manifest-headline {
         font-family: var(--font-display);
-        font-weight: 400;
-        font-size: clamp(1.45rem, 2.4vw, 2.2rem);
-        line-height: 1.45;
-        letter-spacing: -0.005em;
-        margin: 0;
-        text-wrap: balance;
-      }
-      .manifest-p:nth-child(2) {
-        /* "NOW schließt diese Lücke." — set apart visually */
         font-style: italic;
-        color: var(--color-gold);
-        font-size: clamp(1.6rem, 2.7vw, 2.5rem);
         font-weight: 500;
-      }
-      .manifest-w {
-        display: inline-block;
+        font-size: clamp(1.7rem, 3.1vw, 2.6rem);
+        line-height: 1.25;
+        letter-spacing: -0.015em;
+        color: var(--color-gold-light);
+        text-wrap: balance;
+        margin: 0;
         opacity: 0;
-        transform: translateY(18px);
-        transition: opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
-        transition-delay: calc(var(--w-i, 0) * 14ms);
+        transform: translateY(14px);
+        transition: opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
       }
-      .manifest-wrap.reveal .manifest-w {
+      .manifest-headline.reveal {
         opacity: 1;
         transform: translateY(0);
       }
+
+      /* Body — readable, 3 paragraphs */
+      .manifest-body {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+      }
+      .manifest-p {
+        font-family: var(--font-body);
+        font-weight: 400;
+        font-size: clamp(1.02rem, 1.25vw, 1.18rem);
+        line-height: 1.72;
+        letter-spacing: 0.005em;
+        color: rgba(228, 222, 210, 0.88);
+        margin: 0;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 850ms cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 850ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .manifest-p.reveal {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Signature — name + title, prefixed by a small gold hairline */
+      .manifest-signature {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-top: 8px;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 900ms cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .manifest-signature.reveal {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .manifest-sig-line {
+        display: block;
+        width: 56px;
+        height: 1px;
+        background: linear-gradient(90deg, rgba(201, 168, 76, 0.7), rgba(201, 168, 76, 0));
+        margin-bottom: 14px;
+      }
+      .manifest-sig-name {
+        font-family: var(--font-display);
+        font-style: italic;
+        font-weight: 500;
+        font-size: 1.05rem;
+        letter-spacing: 0.005em;
+        color: var(--color-gold-light);
+      }
+      .manifest-sig-title {
+        font-family: var(--font-body);
+        font-size: 0.82rem;
+        font-weight: 400;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: rgba(195, 190, 180, 0.6);
+      }
+
+      /* ═══════════════════════════════════════════════════════
+         RESPONSIVE
+         ═══════════════════════════════════════════════════════ */
+      @media (max-width: 960px) {
+        .manifest-wrap {
+          grid-template-columns: 1fr;
+          gap: 48px;
+          max-width: 640px;
+        }
+        .manifest-portrait-img {
+          max-width: 360px;
+        }
+      }
       @media (max-width: 768px) {
-        .manifest-wrap { padding: 0 24px; gap: 24px; }
-        .manifest-p { font-size: 1.25rem; line-height: 1.5; }
-        .manifest-p:nth-child(2) { font-size: 1.35rem; }
+        .manifest-wrap { padding: 0 24px; gap: 36px; }
+        .manifest-content { gap: 28px; }
+        .manifest-headline { font-size: 1.5rem; }
+        .manifest-body { gap: 18px; }
+        .manifest-p { font-size: 1rem; line-height: 1.65; }
+        .manifest-sig-line { width: 44px; }
+        .manifest-portrait-img { max-width: 280px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .manifest-portrait,
+        .manifest-headline,
+        .manifest-p,
+        .manifest-signature {
+          opacity: 1;
+          transform: none;
+          transition: none;
+        }
+        .manifest-portrait-glow {
+          animation: none;
+        }
       }
     `;
     document.head.appendChild(style);

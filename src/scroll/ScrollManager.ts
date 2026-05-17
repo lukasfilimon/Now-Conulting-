@@ -6,7 +6,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export class ScrollManager {
   readonly lenis: Lenis;
-  private rafId: number | null = null;
+  private scrollEndTimeout: number | null = null;
   private listeners = new Set<(progress: number, velocity: number) => void>();
 
   constructor() {
@@ -21,6 +21,20 @@ export class ScrollManager {
 
     this.lenis.on('scroll', (e: { progress: number; velocity: number }) => {
       ScrollTrigger.update();
+
+      // Wichtig: während aktivem Scroll iframes durchlässig schalten.
+      // Vimeo-iframes (Erlebnisse, Stimmen, Hero-Trailer) fangen sonst das
+      // Wheel-Event ab und Lenis bekommt es nie → ruckelige Scroll-Stopps.
+      // Body-Class wird per CSS in index.html ausgewertet: body.is-scrolling iframe { pointer-events: none }
+      if (!document.body.classList.contains('is-scrolling')) {
+        document.body.classList.add('is-scrolling');
+      }
+      if (this.scrollEndTimeout !== null) clearTimeout(this.scrollEndTimeout);
+      this.scrollEndTimeout = window.setTimeout(() => {
+        document.body.classList.remove('is-scrolling');
+        this.scrollEndTimeout = null;
+      }, 180);
+
       this.listeners.forEach((cb) => cb(e.progress, e.velocity));
     });
 
@@ -28,21 +42,6 @@ export class ScrollManager {
       this.lenis.raf(time * 1000);
     });
     gsap.ticker.lagSmoothing(0);
-  }
-
-  start(): void {
-    if (this.rafId !== null) return;
-    const tick = () => {
-      this.rafId = requestAnimationFrame(tick);
-    };
-    this.rafId = requestAnimationFrame(tick);
-  }
-
-  stop(): void {
-    if (this.rafId !== null) {
-      cancelAnimationFrame(this.rafId);
-      this.rafId = null;
-    }
   }
 
   scrollTo(target: number | string | HTMLElement, opts?: { duration?: number; offset?: number }): void {
@@ -62,7 +61,7 @@ export class ScrollManager {
   }
 
   dispose(): void {
-    this.stop();
+    if (this.scrollEndTimeout !== null) clearTimeout(this.scrollEndTimeout);
     this.lenis.destroy();
     ScrollTrigger.killAll();
     this.listeners.clear();

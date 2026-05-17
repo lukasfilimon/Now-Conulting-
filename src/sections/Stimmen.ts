@@ -1,90 +1,90 @@
-import { copy } from '../content/copy';
+import { copy, cta } from '../content/copy';
+import {
+  testimonialsRowOne,
+  testimonialsRowTwo,
+  vimeoEmbedUrl,
+  type Testimonial,
+} from '../content/stimmen';
 
 /**
- * Stimmen unserer Kunden — Video-Testimonials Grid.
- * In v1: Placeholder-Cards die das Format kommunizieren.
- * Video-Files werden über `/public/testimonials/` geladen sobald verfügbar.
+ * Stimmen / Ergebnisse Section — Video-Testimonial-Wall mit 2-Reihen-Marquee.
+ *
+ * Layout:
+ * - Header (Eyebrow "ERGEBNISSE" + Headline mit Italic-Akzent)
+ * - Reihe 1: scrollt nach links (Videos kommen von rechts rein)
+ * - Reihe 2: scrollt nach rechts (Videos kommen von links rein)
+ * - 3 Karten gleichzeitig sichtbar, plus Peek der 4. an der Fade-Edge
+ *
+ * Pro Karte: 16:9 Vimeo-Video + Name (gold uppercase) + Role (text-dim) zentriert.
+ * Keine CTAs.
+ *
+ * Pause-on-hover: hover auf Karte stoppt die Reihe damit User das Video abspielen kann.
+ * Globale Video-Koordination: nur ein Vimeo-Player läuft gleichzeitig (VideoCoordinator).
  */
-interface VideoTestimonial {
-  name: string;
-  role: string;
-  videoUrl?: string; // YouTube/Vimeo embed URL (Privacy-Enhanced Mode)
-  pullQuote?: string;
-}
-
-// TODO: Replace with real testimonial data once videos are uploaded
-const testimonials: VideoTestimonial[] = [
-  {
-    name: 'Premium-Kunde',
-    role: 'Coaching · Wien',
-    pullQuote: 'Ich verkaufe heute aus Klarheit, nicht aus Druck.',
-  },
-  {
-    name: 'Premium-Kunde',
-    role: 'Beratung · Salzburg',
-    pullQuote: 'Mein Geschäft und meine innere Arbeit sind dasselbe geworden.',
-  },
-  {
-    name: 'Premium-Kunde',
-    role: 'Coaching · München',
-    pullQuote: 'Ich führe heute ein Team, statt selbst zu coachen.',
-  },
-];
-
 export class Stimmen {
   readonly root: HTMLElement;
   private revealed = false;
 
   constructor(container: HTMLElement) {
+    const { stimmen } = copy;
     container.innerHTML = `
       <div class="stimmen-wrap">
         <div class="stimmen-header">
-          <span class="stimmen-eyebrow">${copy.stimmen.eyebrow}</span>
-          <h2 class="stimmen-headline">${this.escape(copy.stimmen.headline)}</h2>
+          <span class="stimmen-eyebrow">${this.escape(stimmen.eyebrow)}</span>
+          <h2 class="stimmen-headline">
+            ${this.escape(stimmen.headline.plain)}
+            <em>${this.escape(stimmen.headline.italic)}</em>
+          </h2>
         </div>
-        <div class="stimmen-grid">
-          ${testimonials
-            .map(
-              (t, i) => `
-            <article class="stimme-card" data-i="${i}">
-              <div class="stimme-thumb">
-                <div class="stimme-thumb-bg"></div>
-                <button class="stimme-play" type="button" aria-label="Video abspielen" data-video="${this.escape(t.videoUrl ?? '')}">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M8 5v14l11-7z" fill="currentColor"/>
-                  </svg>
-                </button>
-              </div>
-              ${t.pullQuote ? `<blockquote class="stimme-quote">„${this.escape(t.pullQuote)}"</blockquote>` : ''}
-              <footer class="stimme-meta">
-                <span class="stimme-name">${this.escape(t.name)}</span>
-                <span class="stimme-role">${this.escape(t.role)}</span>
-              </footer>
-            </article>
-          `,
-            )
-            .join('')}
+
+        <div class="stimmen-marquee" data-direction="ltr">
+          <div class="stimmen-marquee-track stimmen-marquee-track--ltr">
+            ${this.renderRow(testimonialsRowOne)}
+            ${this.renderRow(testimonialsRowOne)}
+          </div>
+        </div>
+
+        <div class="stimmen-marquee" data-direction="rtl">
+          <div class="stimmen-marquee-track stimmen-marquee-track--rtl">
+            ${this.renderRow(testimonialsRowTwo)}
+            ${this.renderRow(testimonialsRowTwo)}
+          </div>
+        </div>
+
+        <div class="section-cta-wrap">
+          <a class="section-cta" href="${cta.primaryHref}"${cta.isCalendly ? ' target="_blank" rel="noopener"' : ''}>
+            <span>${this.escape(cta.primaryLabel)}</span>
+            <span class="section-cta-arrow">→</span>
+          </a>
         </div>
       </div>
     `;
     this.root = container.querySelector('.stimmen-wrap') as HTMLElement;
     this.injectStyles();
-    this.bindClicks();
     this.observe();
   }
 
-  private bindClicks(): void {
-    this.root.querySelectorAll<HTMLButtonElement>('.stimme-play').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const videoUrl = btn.dataset.video;
-        if (!videoUrl) {
-          // No video file yet — soft no-op, brand stays intact
-          return;
-        }
-        // Modal/iframe player implementation deferred until real videos exist
-        window.open(videoUrl, '_blank', 'noopener');
-      });
-    });
+  private renderRow(items: Testimonial[]): string {
+    return items
+      .map(
+        (t) => `
+      <article class="stimme-card" data-id="${this.escape(t.id)}">
+        <div class="stimme-card-video">
+          <iframe
+            src="${this.escape(vimeoEmbedUrl(t.videoId))}"
+            frameborder="0"
+            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
+            allowfullscreen
+            title="${this.escape(t.name)}"
+            loading="lazy"
+          ></iframe>
+        </div>
+        <p class="stimme-card-name">${this.escape(t.name)}</p>
+        <p class="stimme-card-role">${this.escape(t.role)}</p>
+      </article>
+    `,
+      )
+      .join('');
   }
 
   private observe(): void {
@@ -98,7 +98,7 @@ export class Stimmen {
           }
         }
       },
-      { threshold: 0.2 },
+      { threshold: 0.15 },
     );
     io.observe(this.root);
   }
@@ -116,10 +116,14 @@ export class Stimmen {
     const style = document.createElement('style');
     style.id = 'stimmen-styles';
     style.textContent = `
+      /* ═══════════════════════════════════════════════════════
+         WRAPPER & HEADER
+         ═══════════════════════════════════════════════════════ */
       .stimmen-wrap {
-        max-width: 1200px;
+        width: 100%;
         margin: 0 auto;
-        padding: 0 32px;
+        position: relative;
+        z-index: 2;
       }
       .stimmen-header {
         text-align: center;
@@ -127,7 +131,9 @@ export class Stimmen {
         flex-direction: column;
         align-items: center;
         gap: 18px;
-        margin-bottom: 64px;
+        margin: 0 auto 64px;
+        max-width: 760px;
+        padding: 0 32px;
         opacity: 0;
         transform: translateY(20px);
         transition: opacity 900ms ease-out, transform 900ms ease-out;
@@ -147,107 +153,178 @@ export class Stimmen {
       .stimmen-headline {
         font-family: var(--font-display);
         font-weight: 500;
-        font-size: clamp(1.8rem, 3.2vw, 2.8rem);
-        line-height: 1.25;
+        font-size: clamp(2rem, 3.4vw, 3rem);
+        line-height: 1.2;
         margin: 0;
         color: var(--color-text);
-        max-width: 760px;
         text-wrap: balance;
+        letter-spacing: -0.01em;
       }
-
-      .stimmen-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 28px;
-      }
-      .stimme-card {
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-        opacity: 0;
-        transform: translateY(28px);
-        transition: opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .stimmen-wrap.reveal .stimme-card[data-i="0"] { transition-delay: 200ms; opacity: 1; transform: translateY(0); }
-      .stimmen-wrap.reveal .stimme-card[data-i="1"] { transition-delay: 350ms; opacity: 1; transform: translateY(0); }
-      .stimmen-wrap.reveal .stimme-card[data-i="2"] { transition-delay: 500ms; opacity: 1; transform: translateY(0); }
-
-      .stimme-thumb {
-        position: relative;
-        aspect-ratio: 16 / 10;
-        background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-black) 100%);
-        border: 1px solid var(--color-border);
-        border-radius: 6px;
-        overflow: hidden;
-        cursor: pointer;
-        transition: border-color 400ms ease, transform 400ms ease;
-      }
-      .stimme-thumb:hover {
-        border-color: rgba(201, 168, 76, 0.5);
-        transform: translateY(-2px);
-      }
-      .stimme-thumb-bg {
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(ellipse at 50% 40%, rgba(201, 168, 76, 0.18) 0%, transparent 65%);
-      }
-      .stimme-play {
-        position: absolute;
-        inset: 0;
-        margin: auto;
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-        background: rgba(201, 168, 76, 0.95);
-        border: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--color-black);
-        cursor: pointer;
-        transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1),
-                    box-shadow 400ms ease;
-        box-shadow: 0 0 30px rgba(201, 168, 76, 0.35);
-      }
-      .stimme-thumb:hover .stimme-play {
-        transform: scale(1.08);
-        box-shadow: 0 0 48px rgba(201, 168, 76, 0.55);
-      }
-      .stimme-quote {
-        font-family: var(--font-display);
+      .stimmen-headline em {
         font-style: italic;
-        font-weight: 400;
-        font-size: 1.15rem;
-        line-height: 1.5;
-        color: var(--color-text);
-        margin: 0;
-        text-wrap: balance;
-      }
-      .stimme-meta {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-      }
-      .stimme-name {
-        font-family: var(--font-body);
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--color-text);
-      }
-      .stimme-role {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.24em;
-        text-transform: uppercase;
-        color: var(--color-text-dim);
+        color: var(--color-gold-light);
+        font-weight: 500;
+        margin-left: 8px;
       }
 
-      @media (max-width: 900px) {
-        .stimmen-wrap { padding: 0 24px; }
-        .stimmen-grid {
-          grid-template-columns: 1fr;
-          gap: 24px;
+      /* ═══════════════════════════════════════════════════════
+         MARQUEE — 2 Reihen in entgegengesetzte Richtungen
+         ═══════════════════════════════════════════════════════ */
+      .stimmen-marquee {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+        opacity: 0;
+        transition: opacity 1200ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .stimmen-wrap.reveal .stimmen-marquee {
+        opacity: 1;
+      }
+      .stimmen-wrap.reveal .stimmen-marquee[data-direction="ltr"] {
+        transition-delay: 300ms;
+      }
+      .stimmen-wrap.reveal .stimmen-marquee[data-direction="rtl"] {
+        transition-delay: 500ms;
+      }
+      .stimmen-marquee + .stimmen-marquee {
+        margin-top: 28px;
+      }
+
+      .stimmen-marquee-track {
+        display: flex;
+        width: max-content;
+        will-change: transform;
+      }
+      .stimmen-marquee-track--ltr {
+        animation: stimmen-marquee-ltr 80s linear infinite;
+      }
+      .stimmen-marquee-track--rtl {
+        animation: stimmen-marquee-rtl 80s linear infinite;
+      }
+
+      .stimmen-marquee:hover .stimmen-marquee-track {
+        animation-play-state: paused;
+      }
+
+      @keyframes stimmen-marquee-ltr {
+        from { transform: translateX(0); }
+        to   { transform: translateX(-50%); }
+      }
+      @keyframes stimmen-marquee-rtl {
+        from { transform: translateX(-50%); }
+        to   { transform: translateX(0); }
+      }
+
+      /* ═══════════════════════════════════════════════════════
+         CARD — Premium Glass mit Video oben
+         ═══════════════════════════════════════════════════════ */
+      .stimme-card {
+        flex-shrink: 0;
+        width: 420px;
+        margin-right: 28px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+
+        background:
+          linear-gradient(165deg,
+            rgba(34, 30, 20, 0.92) 0%,
+            rgba(20, 17, 11, 0.88) 50%,
+            rgba(12, 10, 7, 0.82) 100%);
+        border: 1px solid rgba(201, 168, 76, 0.16);
+        border-radius: 4px;
+        /* Kein backdrop-filter — bei 16 sichtbaren Karten + Marquee-Animation
+           wäre Blur ein GPU-Killer. Erhöhte Background-Opacity kompensiert. */
+        box-shadow:
+          0 1px 0 0 rgba(255, 240, 200, 0.07) inset,
+          0 -1px 0 0 rgba(0, 0, 0, 0.4) inset,
+          0 24px 48px -24px rgba(0, 0, 0, 0.65),
+          0 0 0 1px rgba(201, 168, 76, 0.04);
+        transition: border-color 400ms ease, box-shadow 400ms ease;
+      }
+      .stimme-card:hover {
+        border-color: rgba(201, 168, 76, 0.4);
+        box-shadow:
+          0 1px 0 0 rgba(255, 240, 200, 0.12) inset,
+          0 -1px 0 0 rgba(0, 0, 0, 0.3) inset,
+          0 32px 64px -20px rgba(0, 0, 0, 0.75),
+          0 0 0 1px rgba(201, 168, 76, 0.12),
+          0 0 32px -10px rgba(201, 168, 76, 0.25);
+      }
+
+      .stimme-card-video {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: #000;
+        border-bottom: 1px solid rgba(201, 168, 76, 0.18);
+        overflow: hidden;
+      }
+      .stimme-card-video iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+      }
+
+      .stimme-card-name {
+        padding: 14px 16px 4px;
+        font-family: var(--font-body);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--color-gold);
+        text-align: center;
+        margin: 0;
+      }
+      .stimme-card-role {
+        padding: 0 16px 16px;
+        font-family: var(--font-body);
+        font-size: 11px;
+        font-weight: 300;
+        letter-spacing: 0.04em;
+        color: var(--color-text-dim);
+        text-align: center;
+        margin: 0;
+      }
+
+      /* ═══════════════════════════════════════════════════════
+         MOBILE
+         ═══════════════════════════════════════════════════════ */
+      @media (max-width: 768px) {
+        .stimmen-header { margin-bottom: 44px; padding: 0 20px; }
+        .stimme-card {
+          width: 320px;
+          margin-right: 20px;
+        }
+        .stimmen-marquee-track--ltr,
+        .stimmen-marquee-track--rtl {
+          animation-duration: 60s;
+        }
+        .stimmen-marquee + .stimmen-marquee {
+          margin-top: 20px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .stimmen-marquee-track--ltr,
+        .stimmen-marquee-track--rtl {
+          animation: none;
+        }
+        .stimmen-marquee {
+          overflow-x: auto;
+          -webkit-mask-image: none;
+          mask-image: none;
+          opacity: 1;
+        }
+        .stimmen-header {
+          opacity: 1;
+          transform: none;
         }
       }
     `;

@@ -134,27 +134,35 @@ export class Team {
       .team-portrait {
         aspect-ratio: 1 / 1;
         background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-black) 100%);
-        border: 1px solid var(--color-border);
-        border-radius: 6px;
+        border: 1px solid rgba(201, 168, 76, 0.18);
+        border-radius: 10px;
         overflow: hidden;
         position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: border-color 400ms ease;
+        box-shadow:
+          0 1px 0 0 rgba(255, 240, 200, 0.05) inset,
+          0 18px 36px -18px rgba(0, 0, 0, 0.65);
+        transition:
+          border-color 400ms ease,
+          box-shadow 600ms ease,
+          transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
       }
       .team-card:hover .team-portrait {
-        border-color: rgba(201, 168, 76, 0.5);
+        border-color: rgba(201, 168, 76, 0.45);
+        transform: translateY(-6px);
+        box-shadow:
+          0 1px 0 0 rgba(255, 240, 200, 0.10) inset,
+          0 28px 56px -16px rgba(0, 0, 0, 0.75),
+          0 0 36px -10px rgba(201, 168, 76, 0.3);
       }
       .team-portrait img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        filter: grayscale(100%);
-        transition: filter 600ms cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .team-card:hover .team-portrait img {
-        filter: grayscale(0%) sepia(15%) saturate(110%);
+        object-position: center top;
+        display: block;
       }
       .team-initials {
         font-family: var(--font-display);

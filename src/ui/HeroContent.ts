@@ -1,39 +1,72 @@
 import { copy, cta } from '../content/copy';
 
+const VIMEO_BASE = 'https://player.vimeo.com/video/1192498083?badge=0&autopause=1&player_id=0&app_id=58479&title=0&byline=0&portrait=0&dnt=1&color=c9a84c&playsinline=1';
+const VIMEO_INITIAL = `${VIMEO_BASE}&autoplay=1&muted=1&controls=0&loop=1&keyboard=0&pip=0`;
+const VIMEO_ENGAGED = `${VIMEO_BASE}&autoplay=1&muted=0&controls=1&loop=0&keyboard=1&pip=1#t=0s`;
+
 export class HeroContent {
   readonly root: HTMLElement;
   private headlineEl: HTMLElement;
   private subEl: HTMLElement;
   private ctaEl: HTMLAnchorElement;
-  private eyebrowEl: HTMLElement;
+  private ctaTrustEl: HTMLElement;
+  private videoColEl: HTMLElement;
+  private videoFrameEl: HTMLElement;
+  private videoPlayEl: HTMLButtonElement;
+  private videoIframeEl: HTMLIFrameElement;
   private revealed = false;
 
   constructor(container: HTMLElement) {
     container.innerHTML = `
       <div class="hero-overlay">
-        <div class="hero-eyebrow">
-          <span class="hero-eyebrow-mark">◈</span>
-          <span class="hero-eyebrow-text">${copy.hero.eyebrow}</span>
-        </div>
-        <h1 class="hero-headline">${this.renderHeadline()}</h1>
-        <p class="hero-sub">${copy.hero.sub}</p>
-        <a class="hero-cta" href="${cta.primaryHref}"${cta.isCalendly ? ' target="_blank" rel="noopener"' : ''}>
-          <span class="hero-cta-label">${cta.primaryLabel}</span>
-          <span class="hero-cta-arrow">→</span>
-        </a>
-        <div class="hero-scroll-hint">
-          <span class="hero-scroll-label">SCROLL</span>
-          <span class="hero-scroll-line"></span>
+        <div class="hero-grid">
+          <div class="hero-text">
+            <h1 class="hero-headline">${this.renderHeadline()}</h1>
+            <p class="hero-sub">${copy.hero.sub}</p>
+            <div class="hero-cta-group">
+              <a class="hero-cta" href="${cta.primaryHref}"${cta.isCalendly ? ' target="_blank" rel="noopener"' : ''}>
+                <span class="hero-cta-label">${cta.primaryLabel}</span>
+                <span class="hero-cta-arrow">→</span>
+              </a>
+              <div class="hero-cta-trust">
+                <span>Kostenlos</span>
+                <span class="hero-cta-trust-dot" aria-hidden="true">·</span>
+                <span>Unverbindlich</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-video">
+            <div class="hero-video-frame">
+              <iframe
+                class="hero-video-iframe"
+                src="${VIMEO_INITIAL}"
+                frameborder="0"
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                title="Matrix Trailer"
+              ></iframe>
+              <button class="hero-video-play" type="button" aria-label="Trailer abspielen">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     `;
     this.root = container.querySelector('.hero-overlay') as HTMLElement;
-    this.eyebrowEl = container.querySelector('.hero-eyebrow') as HTMLElement;
     this.headlineEl = container.querySelector('.hero-headline') as HTMLElement;
     this.subEl = container.querySelector('.hero-sub') as HTMLElement;
     this.ctaEl = container.querySelector('.hero-cta') as HTMLAnchorElement;
+    this.ctaTrustEl = container.querySelector('.hero-cta-trust') as HTMLElement;
+    this.videoColEl = container.querySelector('.hero-video') as HTMLElement;
+    this.videoFrameEl = container.querySelector('.hero-video-frame') as HTMLElement;
+    this.videoPlayEl = container.querySelector('.hero-video-play') as HTMLButtonElement;
+    this.videoIframeEl = container.querySelector('.hero-video-iframe') as HTMLIFrameElement;
     this.injectStyles();
     this.bindMagneticHover();
+    this.bindVideoPlay();
   }
 
   private renderHeadline(): string {
@@ -55,11 +88,19 @@ export class HeroContent {
   private bindMagneticHover(): void {
     const cta = this.ctaEl;
     const strength = 0.25;
+    let lastTrail = 0;
     const onMove = (e: MouseEvent) => {
       const rect = cta.getBoundingClientRect();
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
       cta.style.transform = `translate(${x * strength}px, ${y * strength}px)`;
+
+      // Gold trail: spawn one dot every ~45ms, max ~22/sec
+      const now = performance.now();
+      if (now - lastTrail > 45) {
+        lastTrail = now;
+        this.spawnCtaTrailDot(e.clientX - rect.left, e.clientY - rect.top);
+      }
     };
     const onLeave = () => {
       cta.style.transform = 'translate(0, 0)';
@@ -68,13 +109,31 @@ export class HeroContent {
     cta.addEventListener('mouseleave', onLeave);
   }
 
+  private spawnCtaTrailDot(x: number, y: number): void {
+    const dot = document.createElement('span');
+    dot.className = 'hero-cta-trail-dot';
+    dot.style.left = `${x}px`;
+    dot.style.top = `${y}px`;
+    this.ctaEl.appendChild(dot);
+    setTimeout(() => dot.remove(), 760);
+  }
+
+  private bindVideoPlay(): void {
+    this.videoPlayEl.addEventListener('click', () => {
+      // Swap iframe to engaged URL → restarts from 0, sound on, controls visible
+      this.videoIframeEl.src = VIMEO_ENGAGED;
+      this.videoPlayEl.style.display = 'none';
+    });
+  }
+
   reveal(): void {
     if (this.revealed) return;
     this.revealed = true;
-    this.eyebrowEl.classList.add('reveal');
-    setTimeout(() => this.headlineEl.classList.add('reveal'), 200);
+    this.headlineEl.classList.add('reveal');
+    setTimeout(() => this.videoColEl.classList.add('reveal'), 600);
     setTimeout(() => this.subEl.classList.add('reveal'), 1100);
     setTimeout(() => this.ctaEl.classList.add('reveal'), 1400);
+    setTimeout(() => this.ctaTrustEl.classList.add('reveal'), 1700);
   }
 
   setProgress(p: number): void {
@@ -92,23 +151,64 @@ export class HeroContent {
       .hero-overlay {
         position: relative;
         width: 100%;
-        min-height: 100vh;
+        min-height: auto;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         gap: 28px;
-        padding: 0 24px;
-        text-align: center;
+        padding: 96px 0 48px;
         opacity: var(--hero-opacity, 1);
         transform: translateY(calc(var(--hero-shift, 0px) * -1));
         will-change: opacity, transform;
         pointer-events: none;
+        isolation: isolate;
       }
+      .hero-overlay::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: -2;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><g font-family='monospace' font-size='12' fill='%23c9a84c'><text x='12' y='22' opacity='0.55'>01</text><text x='62' y='40' opacity='0.4'>10</text><text x='110' y='58' opacity='0.5'>01</text><text x='28' y='80' opacity='0.45'>11</text><text x='90' y='100' opacity='0.5'>00</text><text x='14' y='122' opacity='0.4'>10</text><text x='118' y='140' opacity='0.5'>01</text><text x='62' y='150' opacity='0.4'>11</text></g></svg>");
+        background-size: 320px 320px;
+        background-repeat: repeat;
+        opacity: 0.04;
+        -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+        mask-image: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+      }
+      .hero-overlay::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: -2;
+        background: radial-gradient(60% 55% at 50% 50%, rgba(201, 168, 76, 0.14), transparent 70%);
+      }
+
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+        gap: clamp(32px, 5vw, 80px);
+        align-items: center;
+        width: 100%;
+        max-width: 1280px;
+        padding: 0 clamp(24px, 4vw, 64px);
+      }
+      .hero-text {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+        text-align: left;
+      }
+
       .hero-eyebrow {
         display: inline-flex;
         align-items: center;
         gap: 10px;
+        align-self: flex-start;
         background: rgba(201, 168, 76, 0.10);
         border: 1px solid var(--color-border);
         border-radius: 100px;
@@ -130,12 +230,13 @@ export class HeroContent {
       .hero-headline {
         font-family: var(--font-display);
         font-weight: 600;
-        font-size: clamp(2rem, 4.4vw, 3.9rem);
+        font-size: clamp(1.75rem, 3.4vw, 3.2rem);
         line-height: 1.15;
         letter-spacing: -0.005em;
         color: var(--color-text);
         margin: 0;
-        max-width: min(1080px, 92vw);
+        max-width: 100%;
+        text-align: left;
         text-wrap: balance;
         text-shadow: 0 0 60px rgba(201, 168, 76, 0.14);
         opacity: 0;
@@ -149,8 +250,31 @@ export class HeroContent {
       }
       .hero-headline-em {
         font-style: italic;
-        color: var(--color-gold);
         font-weight: 600;
+        background: linear-gradient(
+          100deg,
+          var(--color-gold) 0%,
+          var(--color-gold) 38%,
+          var(--color-gold-light) 48%,
+          #fbeec4 52%,
+          var(--color-gold-light) 56%,
+          var(--color-gold) 66%,
+          var(--color-gold) 100%
+        );
+        background-size: 220% 100%;
+        background-position: 220% 0;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        animation: hero-shimmer 7.5s ease-in-out infinite;
+      }
+      @keyframes hero-shimmer {
+        0%, 12% { background-position: 220% 0; }
+        55%, 100% { background-position: -120% 0; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero-headline-em { animation: none; }
       }
 
       .hero-sub {
@@ -159,7 +283,8 @@ export class HeroContent {
         font-weight: 400;
         line-height: 1.65;
         color: var(--color-text-muted);
-        max-width: 700px;
+        max-width: none;
+        text-align: left;
         margin: 0;
         opacity: 0;
         transform: translateY(20px);
@@ -181,10 +306,9 @@ export class HeroContent {
         background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
         color: var(--color-black);
         font-family: var(--font-body);
-        font-size: 14px;
-        font-weight: 600;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
+        font-size: 15px;
+        font-weight: 500;
+        letter-spacing: 0.04em;
         text-decoration: none;
         cursor: pointer;
         box-shadow: 0 0 18px rgba(201, 168, 76, 0.28),
@@ -192,7 +316,6 @@ export class HeroContent {
         transition: background 400ms cubic-bezier(0.16, 1, 0.3, 1),
                     box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1);
         opacity: 0;
-        margin-top: 8px;
         will-change: transform;
       }
       .hero-cta.reveal {
@@ -214,45 +337,178 @@ export class HeroContent {
       .hero-cta:hover .hero-cta-arrow {
         transform: translateX(6px);
       }
-      .hero-scroll-hint {
+      .hero-cta { position: relative; }
+      .hero-cta-trail-dot {
         position: absolute;
-        bottom: max(28px, env(safe-area-inset-bottom, 0px) + 20px);
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 235, 165, 0.95), rgba(226, 201, 122, 0.4) 45%, transparent 75%);
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        animation: hero-cta-trail 760ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      @keyframes hero-cta-trail {
+        0%   { opacity: 0.95; transform: translate(-50%, -50%) scale(1); }
+        100% { opacity: 0;    transform: translate(-50%, -50%) scale(0.2); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .hero-cta-trail-dot { display: none; }
+      }
+
+      .hero-cta-group {
+        display: inline-flex;
         flex-direction: column;
         align-items: center;
+        gap: 10px;
+        margin-top: 8px;
+      }
+      .hero-cta-trust {
+        display: inline-flex;
+        align-items: center;
         gap: 12px;
-        opacity: 0.5;
+        font-family: var(--font-body);
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        color: rgba(201, 168, 76, 0.72);
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
       }
-      @media (max-height: 760px) {
-        .hero-scroll-hint { display: none; }
+      .hero-cta-trust.reveal {
+        opacity: 1;
+        transform: translateY(0);
       }
-      .hero-scroll-label {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.4em;
-        color: var(--color-gold);
+      .hero-cta-trust-dot { color: rgba(201, 168, 76, 0.3); }
+
+      .hero-video {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 1100ms cubic-bezier(0.16, 1, 0.3, 1) 200ms,
+                    transform 1100ms cubic-bezier(0.16, 1, 0.3, 1) 200ms;
       }
-      .hero-scroll-line {
-        width: 1px;
-        height: 56px;
-        background: linear-gradient(180deg,
-          transparent 0%,
-          var(--color-gold) 50%,
-          transparent 100%);
-        animation: scroll-pulse 2.4s ease-in-out infinite;
+      .hero-video.reveal {
+        opacity: 1;
+        transform: translateY(0);
       }
-      @keyframes scroll-pulse {
-        0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
-        50% { opacity: 1; transform: scaleY(1); }
+      .hero-video-frame {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border: 1px solid rgba(201, 168, 76, 0.35);
+        border-radius: 8px;
+        overflow: hidden;
+        background:
+          radial-gradient(120% 80% at 50% 40%, rgba(201, 168, 76, 0.10), transparent 60%),
+          linear-gradient(180deg, #1a1612 0%, #0a0806 100%);
+        box-shadow:
+          0 0 60px rgba(201, 168, 76, 0.18),
+          inset 0 0 60px rgba(201, 168, 76, 0.06);
+        pointer-events: auto;
+      }
+      .hero-video-iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+      }
+      .hero-video-play {
+        position: absolute;
+        inset: 0;
+        margin: auto;
+        width: 108px;
+        height: 76px;
+        border: 1px solid rgba(201, 168, 76, 0.55);
+        border-radius: 14px;
+        background: rgba(201, 168, 76, 0.38);
+        color: rgba(14, 12, 10, 0.92);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 10px 36px rgba(0, 0, 0, 0.4),
+                    0 0 24px rgba(201, 168, 76, 0.28);
+        transition: background 280ms cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1),
+                    border-color 280ms cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 2;
+      }
+      .hero-video-play:hover {
+        background: rgba(201, 168, 76, 0.72);
+        border-color: rgba(201, 168, 76, 0.9);
+        transform: scale(1.04);
+        box-shadow: 0 14px 48px rgba(0, 0, 0, 0.45),
+                    0 0 40px rgba(201, 168, 76, 0.5);
+      }
+      .hero-video-play svg {
+        width: 26px;
+        height: 26px;
+        margin-left: 3px;
+      }
+      .hero-video-placeholder-label {
+        position: absolute;
+        bottom: 18px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: var(--font-body);
+        font-size: 12px;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        color: rgba(201, 168, 76, 0.55);
+        pointer-events: none;
+      }
+      .hero-video-caption {
+        font-family: var(--font-body);
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: 0.02em;
+        color: var(--color-text-muted);
+        margin: 0;
+        text-align: center;
+      }
+
+      @media (max-width: 960px) {
+        .hero-overlay { padding: 88px 0 32px; }
+        .hero-grid {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          gap: 32px;
+          padding: 0;
+        }
+        .hero-text {
+          display: contents;
+        }
+        .hero-headline { order: 1; padding: 0 20px; text-align: center; }
+        .hero-video    { order: 2; gap: 18px; }
+        .hero-sub      { order: 3; padding: 0 20px; text-align: center; }
+        .hero-cta-group { order: 4; align-self: center; padding: 0 20px; }
+        .hero-video-frame {
+          border-radius: 0;
+          border-left: none;
+          border-right: none;
+        }
+        .hero-video-caption { padding: 0 20px; }
       }
 
       @media (max-width: 768px) {
-        .hero-overlay { gap: 20px; padding: 0 20px; }
+        .hero-overlay { gap: 20px; }
         .hero-headline { font-size: clamp(1.65rem, 8vw, 2.4rem); line-height: 1.2; }
         .hero-sub { font-size: 15px; }
         .hero-cta { padding: 16px 32px; font-size: 13px; }
+      }
+      @media (max-width: 600px) {
+        .hero-cta-trust { font-size: 9px; gap: 8px; letter-spacing: 0.28em; }
+        .hero-overlay::after { background: radial-gradient(80% 40% at 50% 75%, rgba(201, 168, 76, 0.12), transparent 70%); }
       }
     `;
     document.head.appendChild(style);

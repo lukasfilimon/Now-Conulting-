@@ -1,30 +1,58 @@
 export interface Experience {
   id: string;
   title: string;
-  meta: string;
-  description: string;
+  videoUrl: string;       // Vimeo embed URL
+  videoTitle: string;     // for iframe accessibility
+  tagline: string;        // emotionale Anrede (Cormorant Italic)
+  description: string;    // konkrete Beschreibung
+  highlights: string[];   // 3-4 Diamond-Bullet Stichworte
 }
+
+const VIMEO_PARAMS = 'badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&dnt=1&color=c9a84c&playsinline=1';
 
 export const experiences: Experience[] = [
   {
-    id: 'one',
-    title: 'Retreat-Reihe ONE',
-    meta: '1 Woche · max. 10 Teilnehmer · vor Ort',
+    id: 'dubai-mastermind',
+    title: 'Dubai Mastermind',
+    videoUrl: `https://player.vimeo.com/video/1183841506?${VIMEO_PARAMS}`,
+    videoTitle: 'Dubai Mastermind',
+    tagline: 'Eine Woche Dubai. Fülle leben — nicht nur denken.',
     description:
-      'Bewusstseinsarbeit, unternehmerische Strategie und Erlebnis in einem Raum. Konkrete Termine besprechen wir im Erstgespräch.',
+      'Unternehmerische Strategie auf höchstem Niveau, in einem Umfeld, das deine nächste Identität schon verkörpert. Begrenzte Teilnehmeranzahl, exklusiv für unsere Premium-Kunden.',
+    highlights: [
+      'Strategie auf 6- und 7-stelligem Level',
+      'Community von Gleichgesinnten',
+      'Persönlich begleitet von Darko',
+      'Dubai als Erfahrungsraum',
+    ],
   },
   {
-    id: 'mastermind',
-    title: 'Mastermind',
-    meta: 'Premium-Format · ausschließlich für aktive Programm-Teilnehmer',
+    id: 'retreat',
+    title: 'Retreat',
+    videoUrl: `https://player.vimeo.com/video/1192952941?${VIMEO_PARAMS}`,
+    videoTitle: 'Retreat',
+    tagline: 'Ein Raum, in dem du nichts werden musst.',
     description:
-      'Geschlossener Kreis. Tiefe Strategie-Arbeit auf höchstem Niveau, in der Energie eines Raumes, der nur durch Bewusstsein entsteht.',
+      'Bewusstseinsarbeit. Stille. Rückzug zu deinem Kern — raus aus der Matrix, zurück in deine Mitte.',
+    highlights: [
+      'Meditation als tägliche Praxis',
+      'Kleiner, geschützter Kreis',
+      'Wieder in Verbindung mit dir selbst',
+      'Bewusste Stille statt Performance',
+    ],
   },
   {
-    id: 'seminare',
-    title: 'Seminare',
-    meta: 'Halbtages- bis Wochenend-Formate · in Salzburg, Wien oder Dubai',
+    id: 'money-mind',
+    title: 'Money Mind',
+    videoUrl: `https://player.vimeo.com/video/1183850610?${VIMEO_PARAMS}`,
+    videoTitle: 'Money Mind',
+    tagline: 'Ein Tag. Sofort umsetzbare Hebel.',
     description:
-      'Klar fokussierte Räume zu Vertrieb, Bewusstsein und Skalierung. Eintritt nur über Empfehlung oder Programm-Mitgliedschaft.',
+      'Tagesseminar mit Fokus Vertrieb. Transformative Energie und konkrete Inhalte — die du am nächsten Tag anwendest.',
+    highlights: [
+      'Vertriebs-Hebel zum Mitnehmen',
+      'Transformative Praxis',
+      'Content für sofortige Umsetzung',
+    ],
   },
 ];

@@ -1,7 +1,15 @@
-import { copy } from '../content/copy';
+import { copy, cta } from '../content/copy';
 
 /**
- * Minimal footer — Wordmark, Tagline, Adresse, Email, Legal-Links, Instagram.
+ * Footer — 1:1 vom Masterclass-LP Pattern.
+ *
+ * Layout:
+ *  - Top: Logo links + Tagline + CTA-Button rechts (footer-inner)
+ *  - Bottom: Copyright links + Legal-Links rechts (footer-bottom)
+ *  - Top-Hairline (Gold mit Glow) — Grenze zwischen Final-CTA und Footer
+ *
+ * Legal-Links (Impressum, Datenschutz, AGB) sind echte Links auf eigene Seiten
+ * unter /impressum, /datenschutz, /agb (siehe public/{name}/index.html).
  */
 export class Footer {
   readonly root: HTMLElement;
@@ -10,43 +18,22 @@ export class Footer {
     const { footer } = copy;
     container.innerHTML = `
       <footer class="footer-wrap">
-        <div class="footer-top">
-          <a class="footer-wordmark" href="/" aria-label="NOW Consulting — zur Startseite">
-            <span class="footer-wordmark-text">NOW</span>
-            <span class="footer-wordmark-dot" aria-hidden="true">·</span>
-            <span class="footer-wordmark-sub">CONSULTING</span>
-          </a>
-          <p class="footer-tagline">${this.escape(footer.tagline)}</p>
-        </div>
-        <div class="footer-grid">
-          <div class="footer-col">
-            <span class="footer-col-label">Kontakt</span>
-            <p class="footer-address">${this.escape(footer.address)}</p>
-            <a class="footer-email" href="mailto:${this.escape(footer.email)}">${this.escape(footer.email)}</a>
+        <div class="footer-inner">
+          <div class="footer-brand">
+            <img src="/now-logo.png" alt="NOW Consulting" class="footer-logo" loading="lazy" decoding="async" />
+            <p class="footer-tagline">${this.escape(footer.tagline)}</p>
           </div>
-          <div class="footer-col">
-            <span class="footer-col-label">Social</span>
-            ${footer.social
-              .map(
-                (s) => `
-              <a class="footer-link" href="${this.escape(s.href)}" target="_blank" rel="noopener">${this.escape(s.label)}</a>
-            `,
-              )
-              .join('')}
-          </div>
-          <div class="footer-col">
-            <span class="footer-col-label">Rechtliches</span>
-            ${footer.legal
-              .map(
-                (l) => `
-              <a class="footer-link" href="${this.escape(l.href)}">${this.escape(l.label)}</a>
-            `,
-              )
-              .join('')}
+          <div class="footer-right">
+            <a class="footer-cta" href="${cta.primaryHref}"${cta.isCalendly ? ' target="_blank" rel="noopener"' : ''}>${this.escape(cta.primaryLabel)}</a>
           </div>
         </div>
         <div class="footer-bottom">
-          <span class="footer-copy">© ${new Date().getFullYear()} NOW Consulting · Alle Rechte vorbehalten</span>
+          <p class="footer-copy">© ${new Date().getFullYear()} NOW Consulting</p>
+          <div class="footer-legal">
+            <a class="footer-legal-link" href="/impressum">Impressum</a>
+            <a class="footer-legal-link" href="/datenschutz">Datenschutz</a>
+            <a class="footer-legal-link" href="/agb">AGB</a>
+          </div>
         </div>
       </footer>
     `;
@@ -67,121 +54,146 @@ export class Footer {
     const style = document.createElement('style');
     style.id = 'footer-styles';
     style.textContent = `
+      /* ═══════════════════════════════════════════════════════
+         FOOTER WRAP — Masterclass-Pattern
+         ═══════════════════════════════════════════════════════ */
       .footer-wrap {
+        position: relative;
         max-width: 1200px;
         margin: 0 auto;
-        padding: 64px 32px 32px;
-        border-top: 1px solid var(--color-border);
-        display: flex;
-        flex-direction: column;
-        gap: 48px;
-      }
-      .footer-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        gap: 32px;
-        flex-wrap: wrap;
-      }
-      .footer-wordmark {
-        display: inline-flex;
-        align-items: baseline;
-        gap: 10px;
-        text-decoration: none;
-      }
-      .footer-wordmark-text {
-        font-family: var(--font-display);
-        font-style: italic;
-        font-weight: 600;
-        font-size: 28px;
-        color: var(--color-gold-light);
-      }
-      .footer-wordmark-dot {
-        color: var(--color-gold);
-        font-size: 20px;
-        opacity: 0.6;
-      }
-      .footer-wordmark-sub {
-        font-family: var(--font-mono);
-        font-size: 11px;
-        letter-spacing: 0.32em;
-        text-transform: uppercase;
-        color: rgba(212, 175, 55, 0.7);
-      }
-      .footer-tagline {
-        font-family: var(--font-display);
-        font-style: italic;
-        font-size: 1rem;
-        color: var(--color-text-muted);
-        margin: 0;
-        text-align: right;
+        padding: 56px 32px 24px;
       }
 
-      .footer-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 32px;
-        padding-top: 32px;
-        border-top: 1px solid var(--color-border);
+      /* Top-Hairline mit Gold-Glow — Grenze zwischen Final-CTA und Footer */
+      section[data-section="footer"] {
+        position: relative;
+        background:
+          radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201, 168, 76, 0.08) 0%, transparent 55%),
+          var(--color-black);
       }
-      .footer-col {
+      section[data-section="footer"]::after {
+        content: '';
+        position: absolute;
+        left: 8%;
+        right: 8%;
+        top: 0;
+        height: 1px;
+        background: linear-gradient(
+          to right,
+          transparent,
+          rgba(201, 168, 76, 0.45) 30%,
+          rgba(201, 168, 76, 0.45) 70%,
+          transparent
+        );
+        box-shadow:
+          0 0 10px rgba(201, 168, 76, 0.3),
+          0 0 24px rgba(201, 168, 76, 0.12);
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      /* ═══════════════════════════════════════════════════════
+         INNER — Logo + Tagline links, CTA rechts
+         ═══════════════════════════════════════════════════════ */
+      .footer-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 40px;
+        border-bottom: 1px solid rgba(201, 168, 76, 0.18);
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      .footer-brand {
         display: flex;
         flex-direction: column;
         gap: 10px;
       }
-      .footer-col-label {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        font-weight: 600;
-        letter-spacing: 0.32em;
-        text-transform: uppercase;
-        color: var(--color-gold);
-        margin-bottom: 6px;
+      .footer-logo {
+        height: 32px;
+        width: auto;
+        object-fit: contain;
+        display: block;
       }
-      .footer-address {
+      .footer-tagline {
         font-family: var(--font-body);
-        font-size: 13px;
-        line-height: 1.6;
-        color: var(--color-text-muted);
+        font-size: 0.85rem;
+        color: var(--color-text-dim);
         margin: 0;
       }
-      .footer-email,
-      .footer-link {
+
+      /* Footer-CTA: gold Hero-Pattern Button */
+      .footer-cta {
+        display: inline-flex;
+        align-items: center;
+        padding: 14px 32px;
+        border-radius: 4px;
+        background: linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+        color: var(--color-black);
         font-family: var(--font-body);
-        font-size: 13px;
-        color: var(--color-text-muted);
+        font-size: 0.95rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
         text-decoration: none;
-        transition: color 300ms ease;
+        text-transform: uppercase;
+        cursor: pointer;
+        box-shadow:
+          0 0 18px rgba(201, 168, 76, 0.28),
+          0 4px 16px rgba(201, 168, 76, 0.18);
+        transition:
+          background 400ms cubic-bezier(0.16, 1, 0.3, 1),
+          box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1),
+          transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
       }
-      .footer-email:hover,
-      .footer-link:hover {
-        color: var(--color-gold);
+      .footer-cta:hover {
+        background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
+        box-shadow:
+          0 0 36px rgba(201, 168, 76, 0.55),
+          0 8px 32px rgba(201, 168, 76, 0.35);
+        transform: translateY(-2px);
       }
+
+      /* ═══════════════════════════════════════════════════════
+         BOTTOM — Copyright links, Legal-Links rechts
+         ═══════════════════════════════════════════════════════ */
       .footer-bottom {
-        padding-top: 24px;
-        border-top: 1px solid rgba(201, 168, 76, 0.08);
-        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 0;
+        flex-wrap: wrap;
+        gap: 12px;
       }
       .footer-copy {
-        font-family: var(--font-mono);
-        font-size: 10px;
-        letter-spacing: 0.24em;
-        text-transform: uppercase;
+        font-family: var(--font-body);
+        font-size: 0.8rem;
         color: var(--color-text-dim);
+        margin: 0;
+      }
+      .footer-legal {
+        display: flex;
+        gap: 24px;
+      }
+      .footer-legal-link {
+        font-family: var(--font-body);
+        font-size: 0.8rem;
+        color: var(--color-text-dim);
+        text-decoration: none;
+        cursor: pointer;
+        transition: color 300ms ease;
+      }
+      .footer-legal-link:hover {
+        color: var(--color-gold);
       }
 
       @media (max-width: 768px) {
-        .footer-wrap { padding: 48px 24px 24px; gap: 36px; }
-        .footer-top {
+        .footer-wrap { padding: 44px 24px 20px; }
+        .footer-inner {
           flex-direction: column;
           align-items: flex-start;
-          gap: 12px;
+          padding-bottom: 28px;
         }
-        .footer-tagline { text-align: left; }
-        .footer-grid {
-          grid-template-columns: 1fr;
-          gap: 28px;
-        }
+        .footer-bottom { flex-direction: column; align-items: flex-start; }
       }
     `;
     document.head.appendChild(style);

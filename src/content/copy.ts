@@ -19,27 +19,31 @@ export const copy = {
     eyebrow: 'NOW CONSULTING',
     // Italic em-tag marks the key word in gold
     headlineParts: [
-      'Die einzige spirituelle Unternehmensberatung im DACH-Raum, die dich vom ',
-      { italic: true, text: 'Coach' },
-      ' zum Unternehmer macht.',
+      'Die einzige ',
+      { italic: true, text: 'spirituelle' },
+      ' Unternehmensberatung im DACH-Raum',
     ],
     sub: 'Für Coaches und Berater im 5- bis 6-stelligen Bereich, die ihre innere Arbeit und ihren unternehmerischen Erfolg nicht länger trennen wollen.',
     cta: 'Erstgespräch buchen',
   },
 
   manifest: {
-    paragraphs: [
-      'Die meisten Coaches scheitern nicht an Skills, nicht an Funnels, nicht an Werbeanzeigen. Sie scheitern an der Trennung zwischen dem, was sie ihren Kunden predigen, und dem, was sie in ihrem eigenen Business leben.',
-      'NOW schließt diese Lücke.',
-      'Wir verbinden tiefe Bewusstseinsarbeit mit den klarsten Vertriebs- und Skalierungs-Systemen im DACH-Raum. Das Ergebnis ist nicht nur „mehr Umsatz". Das Ergebnis ist ein Unternehmen, das deinem Wesen entspricht — und genau deshalb wächst.',
+    headline: 'Erfolg im Außen beginnt mit Freiheit im Innen.',
+    body: [
+      'Ich glaube nicht an Hustle. Ich glaube nicht an Performance auf Kosten der Seele. Und ich glaube auch nicht an „nur Energie" ohne Strategie.',
+      'Wir führen zwei Welten zusammen, die sonst getrennt bleiben: Bewusstsein und Business. Spiritualität und Unternehmertum. Energie und Zahlen.',
+      'Weil das eine ohne das andere nicht trägt. Geld ohne Bewusstsein macht leer. Bewusstsein ohne Geld macht abhängig. Wir machen beides — gleichzeitig.',
     ],
+    signatureName: 'Darko Krstic',
+    signatureTitle: 'Gründer NOW Consulting',
   },
 
   audience: {
     eyebrow: 'FÜR WEN WIR ARBEITEN',
     headline: 'Du weißt, dass beides zusammen gehört. Dein Geschäft weiß es noch nicht.',
     before: {
-      label: 'Heute',
+      label: 'Vor der Zusammenarbeit',
+      subline: 'Was du heute spürst.',
       items: [
         'Du predigst Fülle und schaust nervös auf dein Bankkonto.',
         'Dein Coaching hat Substanz — aber dein Business hat keine Struktur.',
@@ -47,7 +51,8 @@ export const copy = {
       ],
     },
     after: {
-      label: 'Mit NOW',
+      label: 'Nach der Zusammenarbeit',
+      subline: 'Was möglich wird.',
       items: [
         'Du führst dein Unternehmen aus deiner Mitte.',
         'Du verkaufst aus Klarheit, nicht aus Druck.',
@@ -58,35 +63,79 @@ export const copy = {
 
   approach: {
     eyebrow: 'UNSER WEG',
-    headline: { plain: 'Vier Stationen.', italic: 'Eine Reise.' },
+    headline: { plain: 'Neun Felder.', italic: 'Zwei Welten.' },
+    labels: { inner: 'Im Innen', outer: 'Im Außen' },
     stations: [
       {
         number: '01',
-        title: 'Bewusstsein',
-        body: 'Identität, Selbstwert, Mindset über Preise. Hier beginnt alles.',
+        title: 'Bewusstseinsarbeit',
+        icon: 'eye',
+        inner: 'Identität klären. Glaubenssätze über Geld, Wert und Verkauf auflösen.',
+        outer: 'Aus Hustle wird Klarheit. Entscheidungen aus deiner Mitte statt aus Angst.',
       },
       {
         number: '02',
-        title: 'Vertrieb',
-        body: 'Premium-Pricing, Verkauf als Wahrheit, tägliche Praxis.',
+        title: 'Meditation',
+        icon: 'lotus',
+        inner: 'Stille als tägliche Praxis. Zugang zur eigenen Klarheit und Quelle.',
+        outer: 'Fokus-Reset. Du führst aus Energie und Klarheit, nicht aus Erschöpfung.',
       },
       {
         number: '03',
-        title: 'Struktur',
-        body: 'Team, Prozesse, Mitarbeiter einstellen und führen.',
+        title: 'Geschäftsmodell',
+        icon: 'pyramid',
+        inner: 'Klarheit über das, was du wirklich willst — und warum.',
+        outer: 'Skalierbares Setup. Recurring Revenue. Premium statt Stundensatz.',
       },
       {
         number: '04',
-        title: 'Manifestation',
-        body: 'Reichweite, Wirkung, Freiheit. Die äußere Form.',
+        title: 'Positionierung',
+        icon: 'target',
+        inner: 'Mut zur Nische. Polarisieren statt gefallen wollen.',
+        outer: 'Definierter Avatar. Sichtbare Differenzierung am Markt.',
+      },
+      {
+        number: '05',
+        title: 'Angebot',
+        icon: 'stack',
+        inner: 'Selbstwert vor Preis. Was du wirklich wert bist.',
+        outer: 'Premium-Pricing. Klare Pakete. Hochpreis-Architektur.',
+      },
+      {
+        number: '06',
+        title: 'Vertrieb',
+        icon: 'handshake',
+        inner: 'Verkauf als Wahrheit. Kein Druck. Keine Manipulation.',
+        outer: 'Reproduzierbarer Sales-Prozess. Akquise. Closing-Praxis.',
+      },
+      {
+        number: '07',
+        title: 'Marketing',
+        icon: 'waves',
+        inner: 'Mut zur Sichtbarkeit. Mission verkörpern statt vermarkten.',
+        outer: 'Content, Funnel und Reichweite, die qualifizierte Anfragen produziert.',
+      },
+      {
+        number: '08',
+        title: 'Backoffice',
+        icon: 'gear',
+        inner: 'Loslassen können. Vertrauen in das System.',
+        outer: 'Tools, Prozesse, KI. Automation der wiederkehrenden Aufgaben.',
+      },
+      {
+        number: '09',
+        title: 'Mitarbeiter',
+        icon: 'network',
+        inner: 'Führung aus Klarheit. Verantwortung teilen, nicht abgeben.',
+        outer: 'Recruiting, Onboarding, Leadership-Struktur — ohne dich.',
       },
     ],
   },
 
   experiences: {
     eyebrow: 'ERLEBNISSE',
-    headline: 'Die Räume, in denen Coaches zu Unternehmern werden.',
-    sub: 'Eine Woche. Maximal zehn Teilnehmer. Bewusstseinsarbeit, Strategie und Erlebnis in einem Raum. Die nächste Retreat-Reihe ONE startet bald — Details im Erstgespräch.',
+    headline: { plain: 'Drei Räume jenseits', italic: 'der Beratung.' },
+    sub: 'Wo unsere Kunden sich begegnen, wachsen und auftanken.',
   },
 
   team: {
@@ -96,18 +145,20 @@ export const copy = {
 
   stimmen: {
     eyebrow: 'ERGEBNISSE',
-    headline: 'Was sich verändert hat — in den Worten unserer Kunden.',
+    headline: { plain: 'Was sich verändert hat —', italic: 'in den Worten unserer Kunden.' },
   },
 
   faq: {
     eyebrow: 'HÄUFIGE FRAGEN',
-    headline: 'Bevor du ein Erstgespräch buchst.',
+    headline: 'Hier sind die ehrlichen Antworten.',
   },
 
   finalCta: {
-    headline: { plain: 'Wenn du spürst,', italic: 'dass dieser Schritt deiner ist.' },
-    sub: 'Buche dein kostenloses Erstgespräch. 15 Minuten. Ehrlich. Ohne Verkaufs-Theater.',
-    button: 'Erstgespräch buchen',
+    eyebrow: 'DEIN MOMENT',
+    headline: { plain: 'Du hast bis hier gelesen.', italic: 'Das ist kein Zufall.' },
+    sub: 'Kein Pitch. Kein Skript. Wir hören dich, du hörst uns — danach wissen beide, ob es passt.',
+    button: 'Termin auswählen',
+    trust: '1:1 Gespräch · Unverbindlich · Kostenlos',
   },
 
   footer: {

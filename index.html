@@ -77,6 +77,24 @@
         overflow: hidden;
       }
 
+      /* ═══════════════════════════════════════════════════════════
+         SCROLL-FIX: Vimeo & generic iframes durchlässig während Scroll
+         ═══════════════════════════════════════════════════════════
+         Ohne diesen Patch frisst jeder iframe das wheel/touch-Event
+         sobald der Cursor drüber ist → Lenis stockt, Scroll fühlt sich
+         "verklemmt" an. Die Class wird in ScrollManager gesetzt/entfernt.
+         Beim Stillstand sind iframes wieder klickbar (Play, Fullscreen). */
+      body.is-scrolling iframe {
+        pointer-events: none !important;
+      }
+
+      /* Compositor-Hint für scroll-relevante Sections mit vielen Karten —
+         eigene Layer entlasten den Main-Thread. */
+      section[data-section="experiences"],
+      section[data-section="stimmen"] {
+        contain: layout style;
+      }
+
       #app {
         position: relative;
         width: 100%;
@@ -92,15 +110,6 @@
         pointer-events: none;
       }
 
-      /* Mobile fallback: no WebGL orb on small screens, static gold gradient instead */
-      @media (max-width: 768px) {
-        #webgl-canvas { display: none; }
-        body {
-          background:
-            radial-gradient(ellipse at 50% 35%, rgba(201, 168, 76, 0.18) 0%, transparent 55%),
-            var(--color-black);
-        }
-      }
 
       #content {
         position: relative;
