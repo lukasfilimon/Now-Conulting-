@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Label-Typografie · Innen/Außen · NOW Consulting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(ellipse at top, #14110a 0%, #0a0a0a 60%, #050505 100%);
+      color: rgba(228, 222, 210, 0.85);
+      min-height: 100vh;
+      padding: 60px 40px 80px;
+      overflow-x: hidden;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 60px;
+      max-width: 760px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .page-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: #c9a84c;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      color: rgba(238, 232, 220, 0.95);
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+    .page-title em {
+      font-style: italic;
+      color: #e2c97a;
+    }
+    .page-sub {
+      font-size: 14px;
+      color: rgba(195, 190, 180, 0.55);
+      line-height: 1.6;
+    }
+
+    /* Grid 3 columns × 2 rows */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px 28px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Each comparison card */
+    .demo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* The actual Approach-style mini card */
+    .card {
+      width: 100%;
+      padding: 28px 26px 28px;
+      background:
+        linear-gradient(165deg,
+          rgba(34, 30, 20, 0.78) 0%,
+          rgba(20, 17, 11, 0.68) 50%,
+          rgba(12, 10, 7, 0.58) 100%);
+      border: 1px solid rgba(201, 168, 76, 0.16);
+      border-radius: 4px;
+      backdrop-filter: blur(14px) saturate(135%);
+      box-shadow:
+        0 1px 0 0 rgba(255, 240, 200, 0.07) inset,
+        0 -1px 0 0 rgba(0, 0, 0, 0.4) inset,
+        0 24px 48px -24px rgba(0, 0, 0, 0.7);
+      position: relative;
+    }
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 12px;
+      height: 12px;
+      border-top: 1px solid rgba(201, 168, 76, 0.45);
+      border-right: 1px solid rgba(201, 168, 76, 0.45);
+      pointer-events: none;
+    }
+
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-style: italic;
+      font-size: 24px;
+      line-height: 1.15;
+      color: rgba(240, 234, 222, 0.97);
+      letter-spacing: -0.008em;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(201, 168, 76, 0.14);
+      margin-bottom: 22px;
+    }
+
+    .splits {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .split {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .body-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: rgba(228, 222, 210, 0.82);
+      margin: 0;
+      letter-spacing: 0.005em;
+    }
+
+    /* Caption below each card */
+    .caption {
+      margin-top: 18px;
+      text-align: center;
+      max-width: 320px;
+    }
+    .caption-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(228, 222, 210, 0.85);
+      margin-bottom: 4px;
+    }
+    .caption-desc {
+      font-size: 11px;
+      color: rgba(195, 190, 180, 0.45);
+      line-height: 1.5;
+      letter-spacing: 0.02em;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       LABEL VARIATIONS — each variant overrides .label-X classes
+       ═══════════════════════════════════════════════════════ */
+
+    /* ── A: Aktuell (Mono Uppercase mit Diamant) ── */
+    .label-a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .label-a--inner { color: #d9b96a; }
+    .label-a--inner::before { content: '◆'; font-size: 8px; }
+    .label-a--outer { color: rgba(195, 190, 180, 0.5); }
+    .label-a--outer::before { content: '▸'; font-size: 10px; }
+
+    /* ── B: Cormorant Italic (Display Serif italic) ── */
+    .label-b {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 500;
+      font-style: italic;
+      letter-spacing: 0.005em;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .label-b--inner { color: #d9b96a; }
+    .label-b--inner::before {
+      content: '';
+      display: inline-block;
+      width: 22px;
+      height: 1px;
+      background: #d9b96a;
+      opacity: 0.8;
+    }
+    .label-b--outer { color: rgba(228, 222, 210, 0.65); }
+    .label-b--outer::before {
+      content: '';
+      display: inline-block;
+      width: 22px;
+      height: 1px;
+      background: rgba(195, 190, 180, 0.5);
+    }
+
+    /* ── C: Inter Small Caps ── */
+    .label-c {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      font-variant: all-small-caps;
+      letter-spacing: 0.08em;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .label-c--inner { color: #d9b96a; }
+    .label-c--inner::before { content: '◆'; font-size: 9px; opacity: 0.9; }
+    .label-c--outer { color: rgba(195, 190, 180, 0.6); }
+    .label-c--outer::before { content: '▸'; font-size: 11px; }
+
+    /* ── D: Cormorant Regular Caps (Editorial, mit Hairline) ── */
+    .label-d {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: fit-content;
+    }
+    .label-d--inner { color: #d9b96a; }
+    .label-d--outer { color: rgba(195, 190, 180, 0.55); }
+    .label-d::after {
+      content: '';
+      display: block;
+      width: 36px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.5;
+    }
+
+    /* ── E: Inter Italic, Capitalize ── */
+    .label-e {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      font-style: italic;
+      letter-spacing: 0.04em;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .label-e--inner { color: #d9b96a; }
+    .label-e--inner::before { content: '—'; font-style: normal; }
+    .label-e--outer { color: rgba(195, 190, 180, 0.55); }
+    .label-e--outer::before { content: '—'; font-style: normal; }
+
+    /* ── F: Cormorant Italic Pull-Quote Style ── */
+    .label-f {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      font-weight: 500;
+      font-style: italic;
+      letter-spacing: 0.01em;
+      position: relative;
+      padding-left: 14px;
+    }
+    .label-f--inner {
+      color: #d9b96a;
+      border-left: 2px solid #c9a84c;
+    }
+    .label-f--outer {
+      color: rgba(228, 222, 210, 0.7);
+      border-left: 2px solid rgba(195, 190, 180, 0.4);
+    }
+
+    @media (max-width: 1100px) {
+      .grid { grid-template-columns: repeat(2, 1fr); max-width: 900px; }
+    }
+    @media (max-width: 680px) {
+      .grid { grid-template-columns: 1fr; max-width: 400px; }
+      body { padding: 40px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-header">
+    <div class="page-eyebrow">PROTOTYP · LABEL-TYPOGRAFIE</div>
+    <h1 class="page-title">Sechs Schriftart-Varianten <em>für die Innen/Außen-Labels</em></h1>
+    <p class="page-sub">Welche fühlt sich für NOW richtig an? Alle in derselben Card-Umgebung, damit der Vergleich fair ist.</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- Variante A: Mono Uppercase (aktuell) -->
+    <div class="demo">
+      <div class="card">
+        <h3 class="card-title">Bewusstseinsarbeit</h3>
+        <div class="splits">
+          <div class="split">
+            <span class="label-a label-a--inner">Im Innen</span>
+            <p class="body-text">Identität klären. Glaubenssätze über Geld, Wert und Verkauf auflösen.</p>
+          </div>
+          <div class="split">
+            <span class="label-a label-a--outer">Im Außen</span>
+            <p class="body-text">Aus Hustle wird Klarheit. Entscheidungen aus deiner Mitte statt aus Angst.</p>
+          </div>
+        </div>
+      </div>
+      <div class="caption">
+        <div class="caption-name">A — Mono Uppercase</div>
+        <div class="caption-desc">JetBrains Mono · aktueller Stand · code-technisch</div>
+      </div>
+    </div>
+
+    <!-- Variante B: Cormorant Italic mit Hairline -->
+    <div class="demo">
+      <div class="card">
+        <h3 class="card-title">Bewusstseinsarbeit</h3>
+        <div class="splits">
+          <div class="split">
+            <span class="label-b label-b--inner">Im Innen</span>
+            <p class="body-text">Identität klären. Glaubenssätze über Geld, Wert und Verkauf auflösen.</p>
+          </div>
+          <div class="split">
+            <span class="label-b label-b--outer">Im Außen</span>
+            <p class="body-text">Aus Hustle wird Klarheit. Entscheidungen aus deiner Mitte statt aus Angst.</p>
+          </div>
+        </div>
+      </div>
+      <div class="caption">
+        <div class="caption-name">B — Cormorant Italic + Hairline</div>
+        <div class="caption-desc">Display-Serif italic mit goldener Linie · editorial-premium</div>
+      </div>
+    </div>
+
+    <!-- Variante C: Inter Small Caps -->
+    <div class="demo">
+      <div class="card">
+        <h3 class="card-title">Bewusstseinsarbeit</h3>
+        <div class="splits">
+          <div class="split">
+            <span class="label-c label-c--inner">Im Innen</span>
+            <p class="body-text">Identität klären. Glaubenssätze über Geld, Wert und Verkauf auflösen.</p>
+          </div>
+          <div class="split">
+            <span class="label-c label-c--outer">Im Außen</span>
+            <p class="body-text">Aus Hustle wird Klarheit. Entscheidungen aus deiner Mitte statt aus Angst.</p>
+          </div>
+        </div>
+      </div>
+      <div class="caption">
+        <div class="caption-name">C — Inter Small Caps</div>
+        <div class="caption-desc">Sans-Serif in echten Kapitälchen · klar &amp; modern</div>
+      </div>
+    </div>
+
+    <!-- Variante D: Cormorant Caps mit Hairline darunter -->
+    <div class="demo">
+      <div class="card">
+        <h3 class="card-title">Bewusstseinsarbeit</h3>
+        <div class="splits">
+          <div class="split">
+            <span class="label-d label-d--inner">Im Innen</span>
+            <p class="body-text">Identität klären. Glaubenssätze über Geld, Wert und Verkauf auflösen.</p>
+          </div>
+          <div class="split">
+            <span class="label-d label-d--outer">Im Außen</span>
+            <p class="body-text">Aus Hustle wird Klarheit. Entscheidungen aus deiner Mitte statt aus Angst.</p>
+          </div>
+        </div>
+      </div>
+      <div class="caption">
+        <div class="caption-name">D — Cormorant Caps + Linie unten</div>
+        <div class="caption-desc">Display-Serif gespacet · architektonisches Editorial</div>
+      </div>
+    </div>
+
+    <!-- Variante E: Inter Italic mit em-dash -->
+    <div class="demo">
+      <div class="card">
+        <h3 class="card-title">Bewusstseinsarbeit</h3>
+        <div class="splits">
+          <div class="split">
+            <span class="label-e label-e--inner">Im Innen</span>
+            <p class="body-text">Identität klären. Glaubenssätze über Geld, Wert und Verkauf auflösen.</p>
+          </div>
+          <div class="split">
+            <span class="label-e label-e--outer">Im Außen</span>
+            <p class="body-text">Aus Hustle wird Klarheit. Entscheidungen aus deiner Mitte statt aus Angst.</p>
+          </div>
+        </div>
+      </div>
+      <div class="caption">
+        <div class="caption-name">E — Inter Italic mit em-dash</div>
+        <div class="caption-desc">Sans Italic · zurückgenommen · unaufgeregt</div>
+      </div>
+    </div>
+
+    <!-- Variante F: Cormorant Italic Pull-Quote -->
+    <div class="demo">
+      <div class="card">
+        <h3 class="card-title">Bewusstseinsarbeit</h3>
+        <div class="splits">
+          <div class="split">
+            <span class="label-f label-f--inner">Im Innen</span>
+            <p class="body-text">Identität klären. Glaubenssätze über Geld, Wert und Verkauf auflösen.</p>
+          </div>
+          <div class="split">
+            <span class="label-f label-f--outer">Im Außen</span>
+            <p class="body-text">Aus Hustle wird Klarheit. Entscheidungen aus deiner Mitte statt aus Angst.</p>
+          </div>
+        </div>
+      </div>
+      <div class="caption">
+        <div class="caption-name">F — Cormorant Italic + Border-Left</div>
+        <div class="caption-desc">Pull-Quote-Style · macht Innen/Außen zum Statement</div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

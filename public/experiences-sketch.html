@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Erlebnisse · Sketch · NOW Consulting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --color-gold:        #c9a84c;
+      --color-gold-light:  #e2c97a;
+      --color-gold-dark:   #a07830;
+      --color-text:        #f2efe9;
+      --color-text-muted:  #9e9a94;
+      --color-text-dim:    #6a6560;
+    }
+
+    html, body { min-height: 100%; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(ellipse at top, #14110a 0%, #0a0a0a 60%, #050505 100%);
+      color: var(--color-text);
+      padding: 80px 32px 100px;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════ */
+    .page-header {
+      text-align: center;
+      margin-bottom: 72px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .page-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.32em;
+      color: var(--color-gold);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .page-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.4vw, 3rem);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      color: var(--color-text);
+      text-wrap: balance;
+      margin-bottom: 18px;
+    }
+    .page-headline em {
+      font-style: italic;
+      color: var(--color-gold-light);
+      font-weight: 500;
+      margin-left: 8px;
+    }
+    .page-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.55;
+      color: rgba(228, 222, 210, 0.7);
+      max-width: 560px;
+      margin: 0 auto;
+      letter-spacing: 0.005em;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       GRID (3 Karten side-by-side)
+       ═══════════════════════════════════════════════════════ */
+    .experiences-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      max-width: 1320px;
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       CARD — Premium Glass (kongruent zu Programme)
+       ═══════════════════════════════════════════════════════ */
+    .card {
+      position: relative;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+
+      background:
+        linear-gradient(165deg,
+          rgba(34, 30, 20, 0.78) 0%,
+          rgba(20, 17, 11, 0.68) 50%,
+          rgba(12, 10, 7, 0.58) 100%);
+
+      border: 1px solid rgba(201, 168, 76, 0.16);
+      border-radius: 4px;
+
+      backdrop-filter: blur(18px) saturate(135%);
+      -webkit-backdrop-filter: blur(18px) saturate(135%);
+
+      box-shadow:
+        0 1px 0 0 rgba(255, 240, 200, 0.07) inset,
+        0 -1px 0 0 rgba(0, 0, 0, 0.4) inset,
+        0 32px 64px -28px rgba(0, 0, 0, 0.75),
+        0 0 0 1px rgba(201, 168, 76, 0.04);
+
+      transition:
+        transform 650ms cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 600ms ease,
+        box-shadow 600ms ease;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(
+          ellipse 80% 50% at 50% 0%,
+          rgba(226, 201, 122, 0.09) 0%,
+          transparent 65%
+        );
+      pointer-events: none;
+      opacity: 0.85;
+      transition: opacity 600ms ease;
+      z-index: 0;
+    }
+
+    .card > * { position: relative; z-index: 1; }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(201, 168, 76, 0.4);
+      box-shadow:
+        0 1px 0 0 rgba(255, 240, 200, 0.12) inset,
+        0 -1px 0 0 rgba(0, 0, 0, 0.3) inset,
+        0 44px 88px -24px rgba(0, 0, 0, 0.85),
+        0 0 0 1px rgba(201, 168, 76, 0.12),
+        0 0 40px -10px rgba(201, 168, 76, 0.3);
+    }
+    .card:hover::before { opacity: 1; }
+
+    /* ═══════════════════════════════════════════════════════
+       VIDEO — edge-to-edge oben, 16:9 aspect
+       ═══════════════════════════════════════════════════════ */
+    .card-video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-bottom: 1px solid rgba(201, 168, 76, 0.18);
+      position: relative;
+      overflow: hidden;
+    }
+    .card-video iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    /* Placeholder (Retreat) */
+    .card-video--placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        linear-gradient(135deg, #1a1610 0%, #0a0807 100%);
+    }
+    .card-video-placeholder-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .card-video-placeholder-icon {
+      width: 56px;
+      height: 56px;
+      border: 1px solid rgba(201, 168, 76, 0.35);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-gold);
+      font-size: 18px;
+      padding-left: 4px;
+      transition: border-color 300ms ease, color 300ms ease;
+    }
+    .card-video--placeholder:hover .card-video-placeholder-icon {
+      border-color: var(--color-gold-light);
+      color: var(--color-gold-light);
+    }
+    .card-video-placeholder-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      color: var(--color-text-dim);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       CONTENT — innerhalb der Card unter dem Video
+       ═══════════════════════════════════════════════════════ */
+    .card-content {
+      padding: 28px 32px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      flex: 1;
+    }
+
+    .card-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(28px, 2.6vw, 34px);
+      line-height: 1.1;
+      color: var(--color-gold-light);
+      letter-spacing: -0.012em;
+      margin: 0;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(201, 168, 76, 0.14);
+    }
+
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--color-text);
+      letter-spacing: 0.005em;
+      margin: 0;
+    }
+    .card-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: var(--color-text-muted);
+      letter-spacing: 0.005em;
+      margin: 0;
+    }
+
+    .card-highlights {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 0;
+      margin: 4px 0 0;
+    }
+    .card-highlight {
+      position: relative;
+      padding-left: 22px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      color: rgba(228, 222, 210, 0.85);
+      letter-spacing: 0.005em;
+    }
+    .card-highlight::before {
+      content: '◆';
+      position: absolute;
+      left: 0;
+      top: 2px;
+      color: var(--color-gold);
+      font-size: 9px;
+      line-height: 1.4;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       MOBILE
+       ═══════════════════════════════════════════════════════ */
+    @media (max-width: 1080px) {
+      .experiences-grid {
+        grid-template-columns: 1fr;
+        max-width: 520px;
+        gap: 24px;
+      }
+    }
+    @media (max-width: 768px) {
+      body { padding: 50px 20px 70px; }
+      .page-header { margin-bottom: 48px; }
+      .page-headline { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+      .page-sub { font-size: 15px; }
+      .card-content { padding: 24px 24px 28px; gap: 20px; }
+      .card-headline { font-size: 26px; padding-bottom: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-eyebrow">ERLEBNISSE</div>
+    <h1 class="page-headline">Drei Räume jenseits <em>der Beratung.</em></h1>
+    <p class="page-sub">Wo unsere Kunden sich begegnen, wachsen und auftanken.</p>
+  </div>
+
+  <!-- GRID -->
+  <div class="experiences-grid">
+
+    <!-- KARTE 1 — DUBAI MASTERMIND -->
+    <article class="card">
+      <div class="card-video">
+        <iframe
+          src="https://player.vimeo.com/video/1183841506?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&dnt=1&color=c9a84c&playsinline=1"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          title="Dubai Mastermind"
+        ></iframe>
+      </div>
+      <div class="card-content">
+        <h2 class="card-headline">Dubai Mastermind</h2>
+        <div class="card-body">
+          <p class="card-tagline">Eine Woche Dubai. Fülle leben — nicht nur denken.</p>
+          <p class="card-desc">Unternehmerische Strategie auf höchstem Niveau, in einem Umfeld, das deine nächste Identität schon verkörpert. Begrenzte Teilnehmeranzahl, exklusiv für unsere Premium-Kunden.</p>
+        </div>
+        <ul class="card-highlights">
+          <li class="card-highlight">Strategie auf 6- und 7-stelligem Level</li>
+          <li class="card-highlight">Community von Gleichgesinnten</li>
+          <li class="card-highlight">Persönlich begleitet von Darko</li>
+          <li class="card-highlight">Dubai als Erfahrungsraum</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- KARTE 2 — RETREAT -->
+    <article class="card">
+      <div class="card-video">
+        <iframe
+          src="https://player.vimeo.com/video/1192952941?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&dnt=1&color=c9a84c&playsinline=1"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          title="Retreat"
+        ></iframe>
+      </div>
+      <div class="card-content">
+        <h2 class="card-headline">Retreat</h2>
+        <div class="card-body">
+          <p class="card-tagline">Ein Raum, in dem du nichts werden musst.</p>
+          <p class="card-desc">Bewusstseinsarbeit. Stille. Rückzug zu deinem Kern — raus aus der Matrix, zurück in deine Mitte.</p>
+        </div>
+        <ul class="card-highlights">
+          <li class="card-highlight">Meditation als tägliche Praxis</li>
+          <li class="card-highlight">Kleiner, geschützter Kreis</li>
+          <li class="card-highlight">Wieder in Verbindung mit dir selbst</li>
+          <li class="card-highlight">Bewusste Stille statt Performance</li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- KARTE 3 — MONEY MIND -->
+    <article class="card">
+      <div class="card-video">
+        <iframe
+          src="https://player.vimeo.com/video/1183850610?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&dnt=1&color=c9a84c&playsinline=1"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          title="Money Mind"
+        ></iframe>
+      </div>
+      <div class="card-content">
+        <h2 class="card-headline">Money Mind</h2>
+        <div class="card-body">
+          <p class="card-tagline">Ein Tag. Sofort umsetzbare Hebel.</p>
+          <p class="card-desc">Tagesseminar mit Fokus Vertrieb. Transformative Energie und konkrete Inhalte — die du am nächsten Tag anwendest.</p>
+        </div>
+        <ul class="card-highlights">
+          <li class="card-highlight">Vertriebs-Hebel zum Mitnehmen</li>
+          <li class="card-highlight">Transformative Praxis</li>
+          <li class="card-highlight">Content für sofortige Umsetzung</li>
+        </ul>
+      </div>
+    </article>
+
+  </div>
+
+</body>
+</html>

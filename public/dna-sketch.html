@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>DNA-Helix v2 · Partikel-Density · NOW Consulting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: rgba(228, 222, 210, 0.85);
+      position: relative;
+    }
+
+    /* Full-screen canvas */
+    #stage {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+    }
+
+    /* Atmospheric vignette overlay */
+    .vignette {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      background:
+        radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.4) 75%, rgba(0,0,0,0.85) 100%);
+    }
+
+    /* Header — top center, very subtle */
+    .header {
+      position: fixed;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      text-align: center;
+      pointer-events: none;
+    }
+    .header-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #c9a84c;
+      font-weight: 600;
+      margin-bottom: 12px;
+      opacity: 0.85;
+    }
+    .header-title {
+      font-size: 22px;
+      font-weight: 400;
+      letter-spacing: -0.005em;
+      color: rgba(238, 232, 220, 0.85);
+      line-height: 1.3;
+    }
+    .header-title em {
+      font-style: italic;
+      color: #e2c97a;
+      font-weight: 500;
+    }
+
+    /* Caption — bottom center */
+    .caption {
+      position: fixed;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+      text-align: center;
+      max-width: 600px;
+      pointer-events: none;
+    }
+    .caption-text {
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      color: rgba(195, 190, 180, 0.45);
+      line-height: 1.7;
+    }
+    .caption-text strong {
+      color: rgba(228, 222, 210, 0.7);
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="stage"></canvas>
+  <div class="vignette"></div>
+
+  <div class="header">
+    <div class="header-eyebrow">PROTOTYP V2 · DICHTE PARTIKEL</div>
+    <div class="header-title">DNA aus <em>Gold-Staub</em></div>
+  </div>
+
+  <div class="caption">
+    <div class="caption-text">
+      Helix-Form aus <strong>~4000 Partikeln</strong> · zusätzlich <strong>~3000 Dust-Partikel</strong> im Raum · <strong>4 Station-Cluster</strong> à 400 Partikel.<br>
+      Echte Materialität durch additive Blending und Soft-Sprite-Texturen.
+    </div>
+  </div>
+
+  <script type="module">
+    import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
+
+    // ════════════════════════════════════════════════════════════
+    // Soft Circle Texture (inline canvas — keine External Files)
+    // ════════════════════════════════════════════════════════════
+    function createCircleTexture() {
+      const size = 128;
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+
+      const grad = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+      grad.addColorStop(0.00, 'rgba(255, 255, 255, 1.0)');
+      grad.addColorStop(0.20, 'rgba(255, 255, 255, 0.85)');
+      grad.addColorStop(0.45, 'rgba(255, 255, 255, 0.35)');
+      grad.addColorStop(0.75, 'rgba(255, 255, 255, 0.08)');
+      grad.addColorStop(1.00, 'rgba(255, 255, 255, 0.0)');
+
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, size, size);
+
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.minFilter = THREE.LinearFilter;
+      tex.magFilter = THREE.LinearFilter;
+      return tex;
+    }
+
+    const circleTexture = createCircleTexture();
+
+    // ════════════════════════════════════════════════════════════
+    // Scene Setup
+    // ════════════════════════════════════════════════════════════
+    const canvas = document.getElementById('stage');
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(
+      42,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      3000,
+    );
+    camera.position.set(0, 0, 440);
+    camera.lookAt(0, 0, 0);
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+      alpha: false,
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 1);
+
+    // Helix group for unified rotation
+    const helixGroup = new THREE.Group();
+    scene.add(helixGroup);
+
+    // ════════════════════════════════════════════════════════════
+    // Custom Shader Material — Soft Particles with Animation
+    // ════════════════════════════════════════════════════════════
+    const helixVertex = `
+      attribute float aSize;
+      attribute float aPhase;
+      attribute float aIntensity;
+      uniform float uTime;
+      uniform float uPixelRatio;
+      varying float vIntensity;
+
+      void main() {
+        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+
+        // Pulsation per particle — subtle, never fully dim
+        float pulse = 0.82 + 0.18 * sin(uTime * 1.2 + aPhase);
+
+        // Generous size factor for visible particles
+        gl_PointSize = aSize * pulse * uPixelRatio * (640.0 / -mvPosition.z);
+        gl_Position = projectionMatrix * mvPosition;
+
+        vIntensity = aIntensity * pulse;
+      }
+    `;
+
+    const helixFragment = `
+      uniform sampler2D uTexture;
+      uniform vec3 uColor;
+      varying float vIntensity;
+
+      void main() {
+        vec4 tex = texture2D(uTexture, gl_PointCoord);
+        if (tex.a < 0.03) discard;
+        vec3 finalColor = uColor * (0.9 + 0.4 * vIntensity);
+        gl_FragColor = vec4(finalColor, tex.a * vIntensity);
+      }
+    `;
+
+    function makeHelixMaterial(color, opacity = 1.0) {
+      return new THREE.ShaderMaterial({
+        uniforms: {
+          uTime: { value: 0 },
+          uTexture: { value: circleTexture },
+          uColor: { value: new THREE.Color(color) },
+          uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) },
+        },
+        vertexShader: helixVertex,
+        fragmentShader: helixFragment,
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+      });
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // Build Helix Particles
+    // ════════════════════════════════════════════════════════════
+    const HELIX_HEIGHT = 340;
+    const HELIX_RADIUS = 48;
+    const TURNS = 3.2;
+    const PARTICLES_PER_STRAND = 3800;
+
+    function buildStrand(phaseOffset, colorTint = 0xe2c97a) {
+      const positions = new Float32Array(PARTICLES_PER_STRAND * 3);
+      const sizes = new Float32Array(PARTICLES_PER_STRAND);
+      const phases = new Float32Array(PARTICLES_PER_STRAND);
+      const intensities = new Float32Array(PARTICLES_PER_STRAND);
+
+      const tMax = TURNS * Math.PI * 2;
+
+      for (let i = 0; i < PARTICLES_PER_STRAND; i++) {
+        const tNorm = i / (PARTICLES_PER_STRAND - 1);
+        const t = tNorm * tMax;
+        const angle = t + phaseOffset;
+        const y = tNorm * HELIX_HEIGHT - HELIX_HEIGHT / 2;
+
+        // Slight jitter for organic feel — but very controlled
+        const radialJitter = (Math.random() - 0.5) * 1.8;
+        const angularJitter = (Math.random() - 0.5) * 0.05;
+        const yJitter = (Math.random() - 0.5) * 1.2;
+
+        const r = HELIX_RADIUS + radialJitter;
+        const a = angle + angularJitter;
+
+        positions[i * 3 + 0] = r * Math.cos(a);
+        positions[i * 3 + 1] = y + yJitter;
+        positions[i * 3 + 2] = r * Math.sin(a);
+
+        // Sizes vary — most medium, a healthy fraction of bright highlights
+        const sizeRand = Math.random();
+        sizes[i] = sizeRand < 0.78
+          ? 1.4 + Math.random() * 1.8   // 78% medium particles
+          : 3.0 + Math.random() * 3.2;  // 22% Highlights
+
+        phases[i] = Math.random() * Math.PI * 2;
+        intensities[i] = 0.75 + Math.random() * 0.3;
+      }
+
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geo.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
+      geo.setAttribute('aPhase', new THREE.BufferAttribute(phases, 1));
+      geo.setAttribute('aIntensity', new THREE.BufferAttribute(intensities, 1));
+
+      const mat = makeHelixMaterial(colorTint);
+      return { points: new THREE.Points(geo, mat), material: mat };
+    }
+
+    const strand1 = buildStrand(0, 0xe2c97a);
+    const strand2 = buildStrand(Math.PI, 0xd9b96a);
+    helixGroup.add(strand1.points);
+    helixGroup.add(strand2.points);
+
+    // ════════════════════════════════════════════════════════════
+    // Station Clusters — dichte Partikel-Wolken an 4 Höhen
+    // ════════════════════════════════════════════════════════════
+    const STATION_COUNT = 4;
+    const PARTICLES_PER_STATION = 420;
+    const stationMaterials = [];
+
+    for (let s = 0; s < STATION_COUNT; s++) {
+      const yNorm = (s + 1) / (STATION_COUNT + 1);
+      const yPos = yNorm * HELIX_HEIGHT - HELIX_HEIGHT / 2;
+
+      const positions = new Float32Array(PARTICLES_PER_STATION * 3);
+      const sizes = new Float32Array(PARTICLES_PER_STATION);
+      const phases = new Float32Array(PARTICLES_PER_STATION);
+      const intensities = new Float32Array(PARTICLES_PER_STATION);
+
+      for (let i = 0; i < PARTICLES_PER_STATION; i++) {
+        // Spherical distribution around station point
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(2 * Math.random() - 1);
+        const r = Math.pow(Math.random(), 0.5) * 14; // Density falloff outward
+
+        positions[i * 3 + 0] = r * Math.sin(phi) * Math.cos(theta);
+        positions[i * 3 + 1] = yPos + r * Math.cos(phi) * 0.5; // Squished vertically
+        positions[i * 3 + 2] = r * Math.sin(phi) * Math.sin(theta);
+
+        sizes[i] = 2.5 + Math.random() * 4.0;
+        phases[i] = Math.random() * Math.PI * 2;
+        intensities[i] = 1.0 + Math.random() * 0.6;
+      }
+
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geo.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
+      geo.setAttribute('aPhase', new THREE.BufferAttribute(phases, 1));
+      geo.setAttribute('aIntensity', new THREE.BufferAttribute(intensities, 1));
+
+      const mat = makeHelixMaterial(0xf4d98a);
+      stationMaterials.push(mat);
+      const cluster = new THREE.Points(geo, mat);
+      // Stations don't rotate with helix — stay anchored on Y-axis
+      scene.add(cluster);
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // Atmospheric Dust — Hintergrund-Partikel im ganzen Raum
+    // ════════════════════════════════════════════════════════════
+    const DUST_COUNT = 3200;
+    {
+      const positions = new Float32Array(DUST_COUNT * 3);
+      const sizes = new Float32Array(DUST_COUNT);
+      const phases = new Float32Array(DUST_COUNT);
+      const intensities = new Float32Array(DUST_COUNT);
+
+      for (let i = 0; i < DUST_COUNT; i++) {
+        // Cylindrical volume around helix, with falloff
+        const r = Math.pow(Math.random(), 0.7) * 220;
+        const theta = Math.random() * Math.PI * 2;
+        const y = (Math.random() - 0.5) * HELIX_HEIGHT * 1.6;
+
+        positions[i * 3 + 0] = r * Math.cos(theta);
+        positions[i * 3 + 1] = y;
+        positions[i * 3 + 2] = r * Math.sin(theta) - 30; // Push slightly back
+
+        sizes[i] = 0.7 + Math.random() * 1.4;
+        phases[i] = Math.random() * Math.PI * 2;
+        intensities[i] = 0.4 + Math.random() * 0.45;
+      }
+
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geo.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
+      geo.setAttribute('aPhase', new THREE.BufferAttribute(phases, 1));
+      geo.setAttribute('aIntensity', new THREE.BufferAttribute(intensities, 1));
+
+      const mat = makeHelixMaterial(0xc9a84c);
+      mat.uniforms.uColor.value = new THREE.Color(0xb8954a);
+      stationMaterials.push(mat);
+      scene.add(new THREE.Points(geo, mat));
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // Bright far-back Dust — Tiefen-Sterne
+    // ════════════════════════════════════════════════════════════
+    const DEEP_DUST_COUNT = 800;
+    {
+      const positions = new Float32Array(DEEP_DUST_COUNT * 3);
+      const sizes = new Float32Array(DEEP_DUST_COUNT);
+      const phases = new Float32Array(DEEP_DUST_COUNT);
+      const intensities = new Float32Array(DEEP_DUST_COUNT);
+
+      for (let i = 0; i < DEEP_DUST_COUNT; i++) {
+        positions[i * 3 + 0] = (Math.random() - 0.5) * 900;
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 900;
+        positions[i * 3 + 2] = -200 - Math.random() * 600;
+
+        sizes[i] = 0.4 + Math.random() * 0.8;
+        phases[i] = Math.random() * Math.PI * 2;
+        intensities[i] = 0.2 + Math.random() * 0.3;
+      }
+
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geo.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
+      geo.setAttribute('aPhase', new THREE.BufferAttribute(phases, 1));
+      geo.setAttribute('aIntensity', new THREE.BufferAttribute(intensities, 1));
+
+      const mat = makeHelixMaterial(0xa68a45);
+      stationMaterials.push(mat);
+      scene.add(new THREE.Points(geo, mat));
+    }
+
+    // ════════════════════════════════════════════════════════════
+    // Animation Loop
+    // ════════════════════════════════════════════════════════════
+    const startTime = performance.now();
+    const allMaterials = [strand1.material, strand2.material, ...stationMaterials];
+
+    function animate() {
+      const t = (performance.now() - startTime) / 1000;
+
+      // Update time uniform in all materials
+      for (const mat of allMaterials) {
+        mat.uniforms.uTime.value = t;
+      }
+
+      // Slow group rotation
+      helixGroup.rotation.y = t * 0.08; // ~4.5°/sec
+
+      // Subtle camera breathing
+      const cameraBreath = Math.sin(t * 0.18) * 4;
+      camera.position.x = Math.sin(t * 0.08) * 16;
+      camera.position.y = cameraBreath;
+      camera.lookAt(0, 0, 0);
+
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    // ════════════════════════════════════════════════════════════
+    // Resize
+    // ════════════════════════════════════════════════════════════
+    window.addEventListener('resize', () => {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+      const pr = Math.min(window.devicePixelRatio, 2);
+      renderer.setPixelRatio(pr);
+      for (const mat of allMaterials) {
+        mat.uniforms.uPixelRatio.value = pr;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Ergebnisse · Sketch · NOW Consulting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --color-gold:        #c9a84c;
+      --color-gold-light:  #e2c97a;
+      --color-gold-dark:   #a07830;
+      --color-text:        #f2efe9;
+      --color-text-muted:  #9e9a94;
+      --color-text-dim:    #6a6560;
+    }
+
+    html, body { min-height: 100%; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(ellipse at top, #14110a 0%, #0a0a0a 60%, #050505 100%);
+      color: var(--color-text);
+      padding: 80px 0 100px;
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════ */
+    .page-header {
+      text-align: center;
+      margin-bottom: 64px;
+      max-width: 760px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 32px;
+    }
+    .page-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.32em;
+      color: var(--color-gold);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .page-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.4vw, 3rem);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      color: var(--color-text);
+      text-wrap: balance;
+    }
+    .page-headline em {
+      font-style: italic;
+      color: var(--color-gold-light);
+      font-weight: 500;
+      margin-left: 8px;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       MARQUEE — 2 Reihen in entgegengesetzte Richtungen
+       ═══════════════════════════════════════════════════════ */
+    .marquee {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      /* Fade-Edges für premium Look */
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+      mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+    }
+
+    .marquee + .marquee {
+      margin-top: 24px;
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      will-change: transform;
+    }
+
+    .marquee-track--ltr {
+      animation: marquee-ltr 80s linear infinite;
+    }
+    .marquee-track--rtl {
+      animation: marquee-rtl 80s linear infinite;
+    }
+
+    /* Pause-on-hover damit User Videos abspielen kann */
+    .marquee:hover .marquee-track {
+      animation-play-state: paused;
+    }
+
+    @keyframes marquee-ltr {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @keyframes marquee-rtl {
+      from { transform: translateX(-50%); }
+      to   { transform: translateX(0); }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       TESTI-CARD — Premium Glass mit Video oben
+       ═══════════════════════════════════════════════════════ */
+    .testi-card {
+      flex-shrink: 0;
+      width: 420px;
+      margin-right: 28px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background:
+        linear-gradient(165deg,
+          rgba(34, 30, 20, 0.78) 0%,
+          rgba(20, 17, 11, 0.68) 50%,
+          rgba(12, 10, 7, 0.58) 100%);
+      border: 1px solid rgba(201, 168, 76, 0.16);
+      border-radius: 4px;
+      backdrop-filter: blur(18px) saturate(135%);
+      box-shadow:
+        0 1px 0 0 rgba(255, 240, 200, 0.07) inset,
+        0 -1px 0 0 rgba(0, 0, 0, 0.4) inset,
+        0 24px 48px -24px rgba(0, 0, 0, 0.65),
+        0 0 0 1px rgba(201, 168, 76, 0.04);
+      transition: border-color 400ms ease, box-shadow 400ms ease;
+    }
+
+    .testi-card:hover {
+      border-color: rgba(201, 168, 76, 0.4);
+      box-shadow:
+        0 1px 0 0 rgba(255, 240, 200, 0.12) inset,
+        0 -1px 0 0 rgba(0, 0, 0, 0.3) inset,
+        0 32px 64px -20px rgba(0, 0, 0, 0.75),
+        0 0 0 1px rgba(201, 168, 76, 0.12),
+        0 0 32px -10px rgba(201, 168, 76, 0.25);
+    }
+
+    .testi-card__video {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-bottom: 1px solid rgba(201, 168, 76, 0.18);
+      overflow: hidden;
+    }
+    .testi-card__video iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+
+    .testi-card__name {
+      padding: 14px 16px 4px;
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-gold);
+      text-align: center;
+    }
+    .testi-card__role {
+      padding: 0 16px 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      color: var(--color-text-dim);
+      text-align: center;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       MOBILE
+       ═══════════════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      body { padding: 50px 0 70px; }
+      .page-header { margin-bottom: 44px; padding: 0 20px; }
+      .page-headline { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+      .testi-card {
+        width: 320px;
+        margin-right: 20px;
+      }
+      .marquee-track--ltr,
+      .marquee-track--rtl {
+        animation-duration: 60s;
+      }
+      .marquee + .marquee {
+        margin-top: 18px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track--ltr,
+      .marquee-track--rtl {
+        animation: none;
+      }
+      .marquee {
+        overflow-x: auto;
+        -webkit-mask-image: none;
+        mask-image: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-eyebrow">ERGEBNISSE</div>
+    <h1 class="page-headline">Was sich verändert hat — <em>in den Worten unserer Kunden.</em></h1>
+  </div>
+
+  <!-- REIHE 1 — scrollt nach links -->
+  <div class="marquee">
+    <div class="marquee-track marquee-track--ltr">
+      <!-- Set A -->
+      <article class="testi-card">
+        <div class="testi-card__video">
+          <iframe src="https://player.vimeo.com/video/1179332168?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&vimeo_logo=0&color=c9a84c&quality=1080p" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Nenad Stefanovic" loading="lazy"></iframe>
+        </div>
+        <p class="testi-card__name">Nenad Stefanovic</p>
+        <p class="testi-card__role">CEO von Relief Massage</p>
+      </article>
+
+      <article class="testi-card">
+        <div class="testi-card__video">
+          <iframe src="https://player.vimeo.com/video/1179331518?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&vimeo_logo=0&color=c9a84c&quality=1080p" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Andrea Bryda" loading="lazy"></iframe>
+        </div>
+        <p class="testi-card__name">Andrea Bryda</p>
+        <p class="testi-card__role">Fitnesstrainerin</p>
+      </article>
+
+      <article class="testi-card">
+        <div class="testi-card__video">
+          <iframe src="https://player.vimeo.com/video/1179331896?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&vimeo_logo=0&color=c9a84c&quality=1080p" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Gabriele Ehm" loading="lazy"></iframe>
+        </div>
+        <p class="testi-card__name">Gabriele Ehm</p>
+        <p class="testi-card__role">Coachin für Selbstheilung</p>
+      </article>
+
+      <article class="testi-card">
+        <div class="testi-card__video">
+          <iframe src="https://player.vimeo.com/video/1179332386?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&vimeo_logo=0&color=c9a84c&quality=1080p" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Patrick Farkas" loading="lazy"></iframe>
+        </div>
+        <p class="testi-card__name">Patrick Farkas</p>
+        <p class="testi-card__role">Mentaltrainer</p>
+      </article>
+
+      <!-- Set A duplicate (für nahtlosen Loop) -->
+      <article class="testi-card">
+        <div class="testi-card__video">
+          <iframe src="https://player.vimeo.com/video/1179332168?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&vimeo_logo=0&color=c9a84c&quality=1080p" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Nenad Stefanovic" loading="lazy"></iframe>
+        </div>
+        <p class="testi-card__name">Nenad Stefanovic</p>
+        <p class="testi-card__role">CEO von Relief Massage</p>
+      </article>
+
+      <article class="testi-card">
+        <div class="testi-card__video">
+          <iframe src="https://player.vimeo.com/video/1179331518?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&vimeo_logo=0&color=c9a84c&quality=1080p" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Andrea Bryda" loading="lazy"></iframe>
+        </div>
+        <p class="testi-card__name">Andrea Bryda</p>
+        <p class="testi-card__role">Fitnesstrainerin</p>
+      </article>
+
+      <article class="testi-card">
+        <div class="testi-card__video">
+          <iframe src="https://player.vimeo.com/video/1179331896?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&vimeo_logo=0&color=c9a84c&quality=1080p" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Gabriele Ehm" loading="lazy"></iframe>
+        </div>
+        <p class="testi-card__name">Gabriele Ehm</p>
+        <p class="testi-card__role">Coachin für Selbstheilung</p>
+      </article>
+
+      <article class="testi-card">
+        <div class="testi-card__video">
+          <iframe src="https://player.vimeo.com/video/1179332386?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&vimeo_logo=0&color=c9a84c&quality=1080p" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Patrick Farkas" loading="lazy"></iframe>
+        </div>
+        <p class="testi-card__name">Patrick Farkas</p>
+        <p class="testi-card__role">Mentaltrainer</p>
+      </article>
+    </div>
+  </div>
+
+  <!-- REIHE 2 — scrollt nach rechts -->
+  <div class="marquee">
+    <div class="marquee-track marquee-track--rtl">
+      <!-- Set B -->
+      <article class="testi-card">
+        <div class="testi-card__video">
+          <iframe src="https://player.vimeo.com/video/1179331719?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&vimeo_logo=0&color=c9a84c&quality=1080p" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Elisabeth Lick" loading="lazy"></iframe>
+        </div>
+        <p class="testi-card__name">Elisabeth Lick</p>
+        <p class="testi-card__role">Coachin für Gesundheit</p>
+      </article>
+
+      <article class="testi-card">
+        <div class="testi-card__video">
+          <iframe src="https://player.vimeo.com/video/1179332017?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&vimeo_logo=0&color=c9a84c&quality=1080p" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Jonathan Fischer" loading="lazy"></iframe>
+        </div>
+        <p class="testi-card__name">Jonathan Fischer</p>
+        <p class="testi-card__role">Mentaltrainer</p>
+      </article>
+
+      <article class="testi-card">
+        <div class="testi-card__video">
+          <iframe src="https://player.vimeo.com/video/1179332282?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&vimeo_logo=0&color=c9a84c&quality=1080p" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Nikolay Gueorguiev" loading="lazy"></iframe>
+        </div>
+        <p class="testi-card__name">Nikolay Gueorguiev</p>
+        <p class="testi-card__role">Speditionsleiter</p>
+      </article>
+
+      <article class="testi-card">
+        <div class="testi-card__video">
+          <iframe src="https://player.vimeo.com/video/1179331624?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&vimeo_logo=0&color=c9a84c&quality=1080p" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Bünyamin Ali Deniz" loading="lazy"></iframe>
+        </div>
+        <p class="testi-card__name">Bünyamin Ali Deniz</p>
+        <p class="testi-card__role">Finanzunternehmer</p>
+      </article>
+
+      <!-- Set B duplicate -->
+      <article class="testi-card">
+        <div class="testi-card__video">
+          <iframe src="https://player.vimeo.com/video/1179331719?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&vimeo_logo=0&color=c9a84c&quality=1080p" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Elisabeth Lick" loading="lazy"></iframe>
+        </div>
+        <p class="testi-card__name">Elisabeth Lick</p>
+        <p class="testi-card__role">Coachin für Gesundheit</p>
+      </article>
+
+      <article class="testi-card">
+        <div class="testi-card__video">
+          <iframe src="https://player.vimeo.com/video/1179332017?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&vimeo_logo=0&color=c9a84c&quality=1080p" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Jonathan Fischer" loading="lazy"></iframe>
+        </div>
+        <p class="testi-card__name">Jonathan Fischer</p>
+        <p class="testi-card__role">Mentaltrainer</p>
+      </article>
+
+      <article class="testi-card">
+        <div class="testi-card__video">
+          <iframe src="https://player.vimeo.com/video/1179332282?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&vimeo_logo=0&color=c9a84c&quality=1080p" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Nikolay Gueorguiev" loading="lazy"></iframe>
+        </div>
+        <p class="testi-card__name">Nikolay Gueorguiev</p>
+        <p class="testi-card__role">Speditionsleiter</p>
+      </article>
+
+      <article class="testi-card">
+        <div class="testi-card__video">
+          <iframe src="https://player.vimeo.com/video/1179331624?badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&vimeo_logo=0&color=c9a84c&quality=1080p" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" allowfullscreen title="Bünyamin Ali Deniz" loading="lazy"></iframe>
+        </div>
+        <p class="testi-card__name">Bünyamin Ali Deniz</p>
+        <p class="testi-card__role">Finanzunternehmer</p>
+      </article>
+    </div>
+  </div>
+
+</body>
+</html>

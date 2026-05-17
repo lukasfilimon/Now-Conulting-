@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Programme · Sketch v2 · NOW Consulting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --color-gold:        #c9a84c;
+      --color-gold-light:  #e2c97a;
+      --color-gold-accent: #d9b96a;
+      --color-text:        rgba(240, 234, 222, 0.97);
+      --color-text-mid:    rgba(228, 222, 210, 0.82);
+      --color-text-muted:  rgba(195, 190, 180, 0.55);
+      --color-text-dim:    rgba(195, 190, 180, 0.42);
+    }
+
+    html, body { min-height: 100%; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(ellipse at top, #14110a 0%, #0a0a0a 60%, #050505 100%);
+      color: var(--color-text);
+      padding: 80px 32px 100px;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       HEADER
+       ═══════════════════════════════════════════════════════ */
+    .page-header {
+      text-align: center;
+      margin-bottom: 72px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .page-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.32em;
+      color: var(--color-gold);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .page-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.4vw, 3rem);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      color: var(--color-text);
+      text-wrap: balance;
+      margin-bottom: 18px;
+    }
+    .page-headline em {
+      font-style: italic;
+      color: var(--color-gold-light);
+      font-weight: 500;
+      margin-left: 8px;
+    }
+    .page-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.55;
+      color: var(--color-text-mid);
+      max-width: 560px;
+      margin: 0 auto;
+      letter-spacing: 0.005em;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       GRID (2 Karten)
+       ═══════════════════════════════════════════════════════ */
+    .programs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       CARD — Premium Glass
+       ═══════════════════════════════════════════════════════ */
+    .card {
+      position: relative;
+      padding: 36px 36px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+
+      background:
+        linear-gradient(165deg,
+          rgba(34, 30, 20, 0.78) 0%,
+          rgba(20, 17, 11, 0.68) 50%,
+          rgba(12, 10, 7, 0.58) 100%);
+
+      border: 1px solid rgba(201, 168, 76, 0.16);
+      border-radius: 4px;
+
+      backdrop-filter: blur(18px) saturate(135%);
+      -webkit-backdrop-filter: blur(18px) saturate(135%);
+
+      box-shadow:
+        0 1px 0 0 rgba(255, 240, 200, 0.07) inset,
+        0 -1px 0 0 rgba(0, 0, 0, 0.4) inset,
+        0 32px 64px -28px rgba(0, 0, 0, 0.75),
+        0 0 0 1px rgba(201, 168, 76, 0.04);
+
+      transition:
+        transform 650ms cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 600ms ease,
+        box-shadow 600ms ease;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(
+          ellipse 80% 50% at 50% 0%,
+          rgba(226, 201, 122, 0.09) 0%,
+          transparent 65%
+        );
+      border-radius: inherit;
+      pointer-events: none;
+      opacity: 0.85;
+      transition: opacity 600ms ease;
+    }
+
+    .card > * { position: relative; z-index: 1; }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(201, 168, 76, 0.4);
+      box-shadow:
+        0 1px 0 0 rgba(255, 240, 200, 0.12) inset,
+        0 -1px 0 0 rgba(0, 0, 0, 0.3) inset,
+        0 44px 88px -24px rgba(0, 0, 0, 0.85),
+        0 0 0 1px rgba(201, 168, 76, 0.12),
+        0 0 40px -10px rgba(201, 168, 76, 0.3);
+    }
+    .card:hover::before { opacity: 1; }
+
+    /* ═══════════════════════════════════════════════════════
+       CARD HEAD — Duration (Mono, oben)
+       ═══════════════════════════════════════════════════════ */
+    .card-duration {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      color: var(--color-gold);
+      text-transform: uppercase;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       PHASE — Headline + Umsatz inline
+       ═══════════════════════════════════════════════════════ */
+    .phase {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid rgba(201, 168, 76, 0.14);
+    }
+    .phase-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 500;
+      font-size: clamp(30px, 3vw, 38px);
+      line-height: 1.1;
+      color: var(--color-gold-light);
+      letter-spacing: -0.012em;
+    }
+    .phase-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+    .phase-meta-revenue {
+      color: var(--color-gold-light);
+    }
+    .phase-meta-arrow {
+      color: var(--color-gold);
+      opacity: 0.65;
+      margin: 0 6px;
+      font-weight: 400;
+    }
+    .phase-meta-sep {
+      color: var(--color-text-dim);
+      opacity: 0.6;
+      margin: 0 6px;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       CARD BODY — Tagline + Description
+       ═══════════════════════════════════════════════════════ */
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .card-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--color-text);
+      letter-spacing: 0.005em;
+    }
+    .card-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--color-text-mid);
+      letter-spacing: 0.005em;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       INCLUSIONS — 5 Module mit Title + Description
+       ═══════════════════════════════════════════════════════ */
+    .inclusions {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 0;
+      margin: 4px 0 0;
+    }
+    .inclusion {
+      position: relative;
+      padding-left: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .inclusion::before {
+      content: '◆';
+      position: absolute;
+      left: 0;
+      top: 4px;
+      color: var(--color-gold);
+      font-size: 9px;
+      line-height: 1;
+    }
+    .inclusion-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text);
+      letter-spacing: 0.005em;
+    }
+    .inclusion-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.55;
+      color: var(--color-text-muted);
+      letter-spacing: 0.005em;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       CTA — Erstgespräch buchen
+       ═══════════════════════════════════════════════════════ */
+    .card-cta {
+      margin-top: auto;
+      align-self: center;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 18px 44px;
+      border: none;
+      border-radius: 4px;
+      background: linear-gradient(135deg, var(--color-gold), #a07830);
+      color: #000;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(201, 168, 76, 0.28),
+                  0 4px 16px rgba(201, 168, 76, 0.18);
+      transition: background 400ms cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .card-cta:hover {
+      background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));
+      box-shadow: 0 0 36px rgba(201, 168, 76, 0.55),
+                  0 8px 32px rgba(201, 168, 76, 0.35);
+    }
+    .card-cta-arrow {
+      font-weight: 600;
+    }
+    .card-cta:hover .card-cta-arrow {
+      transform: translateX(4px);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       FOOTER-TEXT
+       ═══════════════════════════════════════════════════════ */
+    .footer-line {
+      max-width: 700px;
+      margin: 64px auto 0;
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(17px, 1.6vw, 20px);
+      line-height: 1.5;
+      color: var(--color-text-mid);
+      letter-spacing: 0.005em;
+    }
+    .footer-line strong {
+      color: var(--color-gold-light);
+      font-weight: 500;
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       MOBILE
+       ═══════════════════════════════════════════════════════ */
+    @media (max-width: 900px) {
+      body { padding: 50px 20px 70px; }
+      .page-header { margin-bottom: 48px; }
+      .page-headline { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+      .page-sub { font-size: 15px; }
+      .programs-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        max-width: 480px;
+      }
+      .card { padding: 28px 26px 26px; gap: 22px; }
+      .phase-headline { font-size: 26px; }
+      .footer-line { margin-top: 48px; font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-eyebrow">PROGRAMME</div>
+    <h1 class="page-headline">Wir holen dich da ab, <em>wo du gerade stehst.</em></h1>
+  </div>
+
+  <!-- GRID -->
+  <div class="programs-grid">
+
+    <!-- KARTE 1 — AUFBAU-PHASE -->
+    <article class="card">
+      <div class="phase">
+        <h2 class="phase-headline">Aufbau-Phase</h2>
+        <div class="phase-meta">
+          <span class="phase-meta-revenue">0 €</span><span class="phase-meta-arrow">→</span><span class="phase-meta-revenue">10.000 €</span> Monatsumsatz <span class="phase-meta-sep">·</span> in 3 bis 6 Monaten
+        </div>
+      </div>
+
+      <div class="card-body">
+        <p class="card-tagline">Du hast den Drive, vielleicht erste Kunden — aber dir fehlt die Strategie, der klare Weg von der Idee zum funktionierenden System.</p>
+        <p class="card-desc">Wir bauen mit dir das Fundament: Positionierung, Angebot, Vertrieb. Du gehst die nächsten Jahre auf solidem Boden.</p>
+      </div>
+
+      <ul class="inclusions">
+        <li class="inclusion">
+          <span class="inclusion-title">Zielgruppe &amp; Positionierung</span>
+          <span class="inclusion-desc">Klare Analyse, wer dein Mensch ist, was er wirklich braucht und warum gerade du.</span>
+        </li>
+        <li class="inclusion">
+          <span class="inclusion-title">Angebotsstruktur</span>
+          <span class="inclusion-desc">Ein durchdachter Verkaufsprozess mit Premium-Preisen, die du selbstverständlich aussprichst.</span>
+        </li>
+        <li class="inclusion">
+          <span class="inclusion-title">Vertriebssystem</span>
+          <span class="inclusion-desc">Eine funktionierende Lead-Quelle, mit der du authentisch verkaufst — ohne Pitch, ohne Druck.</span>
+        </li>
+        <li class="inclusion">
+          <span class="inclusion-title">Mindset &amp; Bewusstsein</span>
+          <span class="inclusion-desc">Die innere Stabilität, die jedes externe System überhaupt erst trägt.</span>
+        </li>
+        <li class="inclusion">
+          <span class="inclusion-title">1-zu-1-Sparring</span>
+          <span class="inclusion-desc">Persönliche Strategie-Calls mit deinem NOW-Berater, abgestimmt auf deinen Stand.</span>
+        </li>
+      </ul>
+
+      <a href="#" class="card-cta">
+        <span>Erstgespräch buchen</span>
+        <span class="card-cta-arrow">→</span>
+      </a>
+    </article>
+
+    <!-- KARTE 2 — SKALIERUNG-PHASE -->
+    <article class="card">
+      <div class="phase">
+        <h2 class="phase-headline">Skalierung-Phase</h2>
+        <div class="phase-meta">
+          <span class="phase-meta-revenue">10.000 €</span><span class="phase-meta-arrow">→</span><span class="phase-meta-revenue">100.000 €</span> Monatsumsatz <span class="phase-meta-sep">·</span> in 12 Monaten
+        </div>
+      </div>
+
+      <div class="card-body">
+        <p class="card-tagline">Du verkaufst schon, du hast eine Marke — aber du bist der Engpass, und du kennst den Weg zum nächsten Level noch nicht.</p>
+        <p class="card-desc">Wir öffnen den Hebel: Team, Struktur, neue Vertriebsmechanik. Du wirst Unternehmer — nicht mehr Selbstständiger.</p>
+      </div>
+
+      <ul class="inclusions">
+        <li class="inclusion">
+          <span class="inclusion-title">Mitarbeiter einstellen</span>
+          <span class="inclusion-desc">Recruiting ohne Headhunter. Die richtigen Menschen an den richtigen Platz.</span>
+        </li>
+        <li class="inclusion">
+          <span class="inclusion-title">Leadership aus dem Herzen</span>
+          <span class="inclusion-desc">Führen ohne Druck, mit Klarheit, Präsenz und einer Kultur, die auch ohne dich trägt.</span>
+        </li>
+        <li class="inclusion">
+          <span class="inclusion-title">Neue Vertriebsmechanik</span>
+          <span class="inclusion-desc">Upselling, Cross-Selling und ein Closer-Team, das auch ohne dich abschließt.</span>
+        </li>
+        <li class="inclusion">
+          <span class="inclusion-title">Systeme &amp; Backoffice</span>
+          <span class="inclusion-desc">CRM, Automatisierung und Prozesse, die dir den Kopf freihalten.</span>
+        </li>
+        <li class="inclusion">
+          <span class="inclusion-title">Inner Circle</span>
+          <span class="inclusion-desc">Kleiner Kreis aus Unternehmern auf demselben Level. Sparring auf Augenhöhe.</span>
+        </li>
+      </ul>
+
+      <a href="#" class="card-cta">
+        <span>Erstgespräch buchen</span>
+        <span class="card-cta-arrow">→</span>
+      </a>
+    </article>
+
+  </div>
+
+  <!-- FOOTER-TEXT -->
+  <p class="footer-line">
+    Beide Wege haben dasselbe <strong>Fundament</strong>.<br>
+    Nur der <strong>Hebel</strong> ist ein anderer.
+  </p>
+
+</body>
+</html>
