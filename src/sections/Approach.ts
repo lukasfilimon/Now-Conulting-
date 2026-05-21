@@ -57,7 +57,6 @@ export class Approach {
                 <div class="approach-card-visual">
                   <img class="approach-card-img" src="${this.escape(s.image)}" alt="${this.escape(s.title)}" style="object-position: ${this.escape(s.focus)}" loading="lazy" decoding="async" />
                   <div class="approach-card-visual-bg" aria-hidden="true"></div>
-                  <span class="approach-card-num">${this.escape(s.number)}</span>
                 </div>
                 <div class="approach-card-content">
                   <h3 class="approach-card-title">${this.escape(s.title)}</h3>
@@ -443,23 +442,6 @@ export class Approach {
         z-index: 2;
       }
 
-      /* Number — top-left of visual frame */
-      .approach-card-num {
-        position: absolute;
-        top: 14px;
-        left: 16px;
-        font-family: var(--font-mono, 'JetBrains Mono', monospace);
-        font-size: 10px;
-        font-weight: 600;
-        letter-spacing: 0.22em;
-        color: rgba(238, 220, 170, 0.92);
-        text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
-        z-index: 2;
-      }
-      .approach-card-num::before {
-        content: 'SCHRITT ';
-        opacity: 0.6;
-      }
 
       /* ═══════════════════════════════════════════════════════════
          CONTENT — Title + Beschreibungstext below visual
