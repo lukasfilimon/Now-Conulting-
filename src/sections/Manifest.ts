@@ -26,7 +26,7 @@ export class Manifest {
           <div class="manifest-portrait-glow" aria-hidden="true"></div>
           <img
             class="manifest-portrait-img"
-            src="/images/darko-portrait.svg"
+            src="/images/darko-manifest.jpg"
             alt="Darko Krstic — Gründer NOW Consulting"
             loading="lazy"
             decoding="async"
