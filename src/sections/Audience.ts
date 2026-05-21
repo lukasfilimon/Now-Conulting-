@@ -23,6 +23,7 @@ export class Audience {
         <div class="audience-header">
           <span class="audience-eyebrow">${audience.eyebrow}</span>
           <h2 class="audience-headline">${this.italicize(audience.headline)}</h2>
+          <p class="audience-sub">${this.escape(audience.sub)}</p>
         </div>
         <div class="audience-grid">
           <div class="audience-grid-bg" aria-hidden="true"></div>
@@ -112,7 +113,7 @@ export class Audience {
 
   private renderCard(
     kind: 'pain' | 'vision',
-    data: { label: string; subline: string; items: string[] },
+    data: { label: string; items: string[] },
   ): string {
     const dividerClass = kind === 'vision' ? 'audience-divider audience-divider--gold' : 'audience-divider';
     const itemsHtml = data.items
@@ -122,7 +123,6 @@ export class Audience {
       <div class="audience-card audience-card--${kind}">
         <div class="audience-card-head">
           <span class="audience-col-label">${this.escape(data.label)}</span>
-          <h3 class="audience-card-subline">${this.escape(data.subline)}</h3>
         </div>
         <hr class="audience-head-rule" />
         ${itemsHtml}
@@ -206,6 +206,16 @@ export class Audience {
         font-style: italic;
         font-weight: 500;
       }
+      .audience-sub {
+        font-family: var(--font-display);
+        font-style: italic;
+        font-size: 17px;
+        line-height: 1.55;
+        color: rgba(228, 222, 210, 0.7);
+        max-width: 640px;
+        margin: 0;
+        letter-spacing: 0.005em;
+      }
       /* Grid wie vor den Bildern — kein Frame, kein BG, keine Padding */
       .audience-grid {
         position: relative;
@@ -258,16 +268,6 @@ export class Audience {
         flex-direction: column;
         gap: 12px;
       }
-      .audience-card-subline {
-        font-family: var(--font-display);
-        font-style: italic;
-        font-weight: 400;
-        font-size: clamp(1.35rem, 2.1vw, 1.75rem);
-        line-height: 1.25;
-        letter-spacing: -0.005em;
-        margin: 0;
-        text-wrap: balance;
-      }
 
       /* Gradient-Hairline trennt Header von Items */
       .audience-head-rule {
@@ -303,9 +303,6 @@ export class Audience {
       }
       .audience-card--pain .audience-col-label {
         color: rgba(160, 170, 185, 0.78);
-      }
-      .audience-card--pain .audience-card-subline {
-        color: rgba(200, 205, 215, 0.92);
       }
       .audience-card--pain .audience-head-rule {
         color: rgba(155, 165, 180, 0.5);
@@ -345,9 +342,6 @@ export class Audience {
       }
       .audience-card--vision .audience-col-label {
         color: var(--color-gold);
-      }
-      .audience-card--vision .audience-card-subline {
-        color: var(--color-gold-light);
       }
       .audience-card--vision .audience-head-rule {
         color: rgba(201, 168, 76, 0.6);
@@ -409,7 +403,6 @@ export class Audience {
           gap: 32px;
         }
         .audience-card { padding: 32px 26px; gap: 22px; }
-        .audience-card-subline { font-size: 1.25rem; }
         /* Side-Slide aus auf Mobile — vertical fade stattdessen */
         .audience-card--vision {
           transform: translateY(calc((1 - var(--vision-progress, 0)) * 40px));

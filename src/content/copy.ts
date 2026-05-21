@@ -10,7 +10,7 @@ const FALLBACK_MAILTO =
 
 export const cta = {
   primaryHref: CALENDLY_URL || FALLBACK_MAILTO,
-  primaryLabel: 'Erstgespräch buchen',
+  primaryLabel: 'Klarheitsgespräch buchen',
   isCalendly: Boolean(CALENDLY_URL),
 };
 
@@ -23,119 +23,97 @@ export const copy = {
       { italic: true, text: 'spirituelle' },
       ' Unternehmensberatung im DACH-Raum',
     ],
-    sub: 'Für Coaches und Berater im 5- bis 6-stelligen Bereich, die ihre innere Arbeit und ihren unternehmerischen Erfolg nicht länger trennen wollen.',
-    cta: 'Erstgespräch buchen',
+    sub: 'Für Coaches, Trainer und Berater, die Bewusstsein & Business in einem einheitlichen Kontext vereinen möchten.',
+    cta: 'Klarheitsgespräch buchen',
   },
 
   manifest: {
-    headline: 'Erfolg im Außen beginnt mit Freiheit im Innen.',
+    headline: 'Dein Kontostand spiegelt deine Frequenz.',
     body: [
-      'Ich glaube nicht an Hustle. Ich glaube nicht an Performance auf Kosten der Seele. Und ich glaube auch nicht an „nur Energie" ohne Strategie.',
-      'Wir führen zwei Welten zusammen, die sonst getrennt bleiben: Bewusstsein und Business. Spiritualität und Unternehmertum. Energie und Zahlen.',
-      'Weil das eine ohne das andere nicht trägt. Geld ohne Bewusstsein macht leer. Bewusstsein ohne Geld macht abhängig. Wir machen beides — gleichzeitig.',
+      'Darko Krstic ist Unternehmer, Trainer und Gründer von NOW. Er steht für eine Art von Unternehmensführung, die sich klar, ethisch und kraftvoll anfühlt — weil sie aus dem Bewusstsein kommt, nicht aus der Manipulation.',
+      'In den letzten 6 Jahren hat Darko über 1.000 Coaches, Berater und Trainer begleitet — nicht nur zu finanziellen Zielen, sondern zu echter innerer Freiheit. Sein Ansatz: Wer seine energetischen Blockaden rund um Geld, Führung und Kontrolle nicht löst, wird sein Business nie wirklich skalieren.',
+      'Darko verbindet Bewusstseinsarbeit mit einem unternehmerischen System. Sein Anspruch ist simpel: Reichtum im Außen beginnt mit Freiheit im Innen. Oder wie er sagt: „Du kannst nicht manifestieren, was du innerlich nicht für möglich hältst."',
+      'Darko hat mit der NOW Consulting die einzige Unternehmensberatung im DACH-Raum gegründet, die erfolgreich Unternehmertum & Spiritualität verbindet.',
     ],
     signatureName: 'Darko Krstic',
-    signatureTitle: 'Gründer NOW Consulting',
+    signatureTitle: 'Gründer & CEO der NOW Consulting',
   },
 
   audience: {
     eyebrow: 'FÜR WEN WIR ARBEITEN',
-    headline: 'Du weißt, dass beides zusammen gehört. Dein Geschäft weiß es noch nicht.',
+    headline: 'Wer ist unser Kunde?',
+    sub: 'Coaches, Trainer und Berater, die dem Licht dienen und finanziell frei leben möchten:',
     before: {
-      label: 'Vor der Zusammenarbeit',
-      subline: 'Was du heute spürst.',
+      label: 'Deine momentane Realität',
       items: [
-        'Du predigst Fülle und schaust nervös auf dein Bankkonto.',
-        'Dein Coaching hat Substanz — aber dein Business hat keine Struktur.',
-        'Du verkaufst dich unter Wert, weil Verkaufen sich für dich falsch anfühlt.',
+        'Du verkaufst dein Angebot für einen zu niedrigen Preis.',
+        'Du weißt nicht, von wo deine nächsten Kunden kommen.',
+        'Du hast unbewusst noch eine mentale Blockade gegen Mitarbeiter.',
       ],
     },
     after: {
-      label: 'Nach der Zusammenarbeit',
-      subline: 'Was möglich wird.',
+      label: 'Deine Wunsch Realität',
       items: [
-        'Du führst dein Unternehmen aus deiner Mitte.',
-        'Du verkaufst aus Klarheit, nicht aus Druck.',
-        'Deine Zahlen spiegeln dein Inneres — nicht deinen Wert.',
+        'Du machst konstant fünf bis sechsstellige Monatsumsätze.',
+        'Du hast einen planbaren & skalierbaren Neukunden-Funnel.',
+        'Du hast 1-3 Mitarbeiter, die mit dir an deiner Mission arbeiten.',
       ],
     },
   },
 
   approach: {
-    eyebrow: 'UNSER WEG',
-    headline: { plain: 'Neun Felder.', italic: 'Zwei Welten.' },
-    labels: { inner: 'Im Innen', outer: 'Im Außen' },
+    eyebrow: 'UNSERE INHALTE',
+    headline: { plain: '7 Schritte zu', italic: 'deiner ersten Million.' },
     stations: [
       {
         number: '01',
         title: 'Bewusstseinsarbeit',
         icon: 'eye',
-        inner: 'Identität klären. Glaubenssätze über Geld, Wert und Verkauf auflösen.',
-        outer: 'Aus Hustle wird Klarheit. Entscheidungen aus deiner Mitte statt aus Angst.',
+        text: 'Durch wöchentliche Live Calls in einem Inner Circle und geführte Meditationen zeigt dir Darko, wie du einen neuen Bewusstseinszustand aus der Fülle erschaffst, um dir dadurch in Rekordzeit deine gewünschte Realität zu manifestieren.',
       },
       {
         number: '02',
-        title: 'Meditation',
-        icon: 'lotus',
-        inner: 'Stille als tägliche Praxis. Zugang zur eigenen Klarheit und Quelle.',
-        outer: 'Fokus-Reset. Du führst aus Energie und Klarheit, nicht aus Erschöpfung.',
+        title: 'Zielgruppe',
+        icon: 'target',
+        text: 'Du wirst gemeinsam mit deinem persönlichen Kundenberater deine Zielgruppe detaillierter durchleuchten, um den Schmerz, den du mit & für deine Kunden löst, genau zu verstehen und klarer im Marketing zu kommunizieren.',
       },
       {
         number: '03',
-        title: 'Geschäftsmodell',
-        icon: 'pyramid',
-        inner: 'Klarheit über das, was du wirklich willst — und warum.',
-        outer: 'Skalierbares Setup. Recurring Revenue. Premium statt Stundensatz.',
+        title: 'Angebote',
+        icon: 'stack',
+        text: 'Außerdem baust du in deinen 1-1 Beratungen ein UpSell System auf, das dir helfen wird, langfristig mit deinen Kunden zusammenzuarbeiten und dadurch konstant fünf bzw. sechsstellige Monatsumsätze zu generieren.',
       },
       {
         number: '04',
-        title: 'Positionierung',
-        icon: 'target',
-        inner: 'Mut zur Nische. Polarisieren statt gefallen wollen.',
-        outer: 'Definierter Avatar. Sichtbare Differenzierung am Markt.',
+        title: 'Vertriebsprozess',
+        icon: 'handshake',
+        text: 'Das ist der Hauptkern unserer Zusammenarbeit. Wir erstellen mit dir gemeinsam einen individuellen Vertriebsprozess, damit du endlich planbaren Umsatz generierst und dir keine Sorgen mehr machen musst, von wo deine nächsten Kunden kommen.',
       },
       {
         number: '05',
-        title: 'Angebot',
-        icon: 'stack',
-        inner: 'Selbstwert vor Preis. Was du wirklich wert bist.',
-        outer: 'Premium-Pricing. Klare Pakete. Hochpreis-Architektur.',
+        title: 'Marketing',
+        icon: 'waves',
+        text: 'Des Weiteren unterstützen wir dich bei deinem authentischen Social Media Auftritt. Wir helfen dir beim Aufbau deines Kanals, schalten mit dir ADs und bauen gemeinsam einen Inbound Kanal auf, damit du wöchentlich neue Anfragen erhältst.',
       },
       {
         number: '06',
-        title: 'Vertrieb',
-        icon: 'handshake',
-        inner: 'Verkauf als Wahrheit. Kein Druck. Keine Manipulation.',
-        outer: 'Reproduzierbarer Sales-Prozess. Akquise. Closing-Praxis.',
+        title: 'Backoffice',
+        icon: 'gear',
+        text: 'Damit du sauber und ordentlich arbeiten kannst, erstellen wir mit dir dein CRM System, damit du alle Kontaktdaten der Leads, Zahlungseingänge deiner Kunden und alle weiteren Zahlen klar im Überblick hast.',
       },
       {
         number: '07',
-        title: 'Marketing',
-        icon: 'waves',
-        inner: 'Mut zur Sichtbarkeit. Mission verkörpern statt vermarkten.',
-        outer: 'Content, Funnel und Reichweite, die qualifizierte Anfragen produziert.',
-      },
-      {
-        number: '08',
-        title: 'Backoffice',
-        icon: 'gear',
-        inner: 'Loslassen können. Vertrauen in das System.',
-        outer: 'Tools, Prozesse, KI. Automation der wiederkehrenden Aufgaben.',
-      },
-      {
-        number: '09',
         title: 'Mitarbeiter',
         icon: 'network',
-        inner: 'Führung aus Klarheit. Verantwortung teilen, nicht abgeben.',
-        outer: 'Recruiting, Onboarding, Leadership-Struktur — ohne dich.',
+        text: 'Sobald du min. 10.000 € pro Monat umsetzt, schalten wir mit dir gemeinsam das Inserat für deinen ersten Vertriebsmitarbeiter, beraten dich im Bewerbungs- und Onboarding-Prozess und sobald dein erster Mitarbeiter im Vertrieb eingestellt ist, übernehmen wir seine Einschulungen und betreuen ihn in individuellen 1-1 Calls.',
       },
     ],
   },
 
   experiences: {
-    eyebrow: 'ERLEBNISSE',
-    headline: { plain: 'Drei Räume jenseits', italic: 'der Beratung.' },
-    sub: 'Wo unsere Kunden sich begegnen, wachsen und auftanken.',
+    eyebrow: 'LIVE EVENTS',
+    headline: { plain: 'Erfahrungen, die dich & dein Business', italic: 'transformieren.' },
+    sub: '',
   },
 
   team: {
@@ -144,8 +122,8 @@ export const copy = {
   },
 
   stimmen: {
-    eyebrow: 'ERGEBNISSE',
-    headline: { plain: 'Was sich verändert hat —', italic: 'in den Worten unserer Kunden.' },
+    eyebrow: 'TESTIMONIALS',
+    headline: { plain: 'Was sich in der Zusammenarbeit mit NOW verändert hat —', italic: 'in ehrlichen Worten unserer Kunden.' },
   },
 
   faq: {
@@ -154,9 +132,9 @@ export const copy = {
   },
 
   finalCta: {
-    eyebrow: 'DEIN MOMENT',
-    headline: { plain: 'Du hast bis hier gelesen.', italic: 'Das ist kein Zufall.' },
-    sub: 'Kein Pitch. Kein Skript. Wir hören dich, du hörst uns — danach wissen beide, ob es passt.',
+    eyebrow: 'JETZT IST DEIN MOMENT',
+    headline: { plain: 'Wenn du den Ruf spürst,', italic: 'melde dich bei uns.' },
+    sub: 'Kein manipulativer Pitch. Kein 0815-Skript. Wir hören dich, du hörst uns — danach wissen beide Seiten, ob es passt.',
     button: 'Termin auswählen',
     trust: '1:1 Gespräch · Unverbindlich · Kostenlos',
   },

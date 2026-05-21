@@ -16,78 +16,78 @@ export interface Program {
 
 export const programs: Program[] = [
   {
-    id: 'aufbau-phase',
-    phaseHeadline: 'Aufbau-Phase',
+    id: 'stabilisierungsphase',
+    phaseHeadline: 'Die Stabilisierungsphase',
     startsAt: '0 €',
     targetRevenue: '10.000 €',
     timeframe: 'in 3 bis 6 Monaten',
     tagline:
-      'Du hast den Drive, vielleicht erste Kunden — aber dir fehlt die Strategie, der klare Weg von der Idee zum funktionierenden System.',
+      'Du möchtest von deiner Selbstständigkeit finanziell stabil leben, deinen Kunden mit vollem Fokus dienen und dir keine Sorgen mehr über anstehende Rechnungen machen.',
     description:
-      'Wir bauen mit dir das Fundament: Positionierung, Angebot, Vertrieb. Du gehst die nächsten Jahre auf solidem Boden.',
+      'Wir bauen mit dir gemeinsam das Fundament, damit du jeden Monat min. 10.000 € Umsatz generierst:',
     inclusions: [
       {
         title: 'Zielgruppe & Positionierung',
         description:
-          'Klare Analyse, wer dein Mensch ist, was er wirklich braucht und warum gerade du.',
+          'Klare Analyse, wer dein Kunde ist, was sein größter Schmerz ist und wie du ihm wirklich weiterhelfen kannst.',
       },
       {
         title: 'Angebotsstruktur',
         description:
-          'Ein durchdachter Verkaufsprozess mit Premium-Preisen, die du selbstverständlich aussprichst.',
+          'Premium-Preise, mit einem aufbauenden UpSell System und Cross Sellings, die sich von selbst verkaufen.',
       },
       {
         title: 'Vertriebssystem',
         description:
-          'Eine funktionierende Lead-Quelle, mit der du authentisch verkaufst — ohne Pitch, ohne Druck.',
+          'Eine funktionierende Lead-Quelle, aus der du pro Monat min. 3-5 Neukunden generierst und endlich planbaren Umsatz erschaffst.',
       },
       {
         title: 'Mindset & Bewusstsein',
         description:
-          'Die innere Stabilität, die jedes externe System überhaupt erst trägt.',
+          'Wöchentliche Live Calls mit Darko, die dein Bewusstsein von der Illusion des Mangels befreien und Meditationen, die dich spüren lassen, wer du wirklich bist.',
       },
       {
-        title: '1-zu-1-Sparring',
+        title: '1-zu-1-Begleitung',
         description:
-          'Persönliche Strategie-Calls mit deinem NOW-Berater, abgestimmt auf deinen Stand.',
+          'Persönliche Betreuung durch deinen eigenen Kundenberater in 1-1 Calls und täglichem WhatsApp Support.',
       },
     ],
   },
   {
-    id: 'skalierung-phase',
-    phaseHeadline: 'Skalierung-Phase',
+    id: 'skalierungsphase',
+    phaseHeadline: 'Skalierungsphase',
     startsAt: '10.000 €',
     targetRevenue: '100.000 €',
     timeframe: 'in 12 Monaten',
     tagline:
-      'Du verkaufst schon, du hast eine Marke — aber du bist der Engpass, und du kennst den Weg zum nächsten Level noch nicht.',
+      'Du möchtest finanziell frei leben, Mitarbeiter einstellen und das kollektive Bewusstsein von der Matrix befreien.',
     description:
-      'Wir öffnen den Hebel: Team, Struktur, neue Vertriebsmechanik. Du wirst Unternehmer — nicht mehr Selbstständiger.',
+      'Wir zeigen dir den Weg vom Selbstständigen, der in seiner eigenen Matrix gefangen ist, zum Unternehmer, der mit seinen Mitarbeitern finanzielle Freiheit erreicht.',
     inclusions: [
       {
         title: 'Mitarbeiter einstellen',
         description:
-          'Recruiting ohne Headhunter. Die richtigen Menschen an den richtigen Platz.',
+          'Recruiting ohne Headhunter. Vom Inserat, über das Onboarding bis zur Vertriebsschulung, wir unterstützen dich beim gesamten Bewerbungsprozess.',
       },
       {
-        title: 'Leadership aus dem Herzen',
+        title: 'Leadership',
         description:
-          'Führen ohne Druck, mit Klarheit, Präsenz und einer Kultur, die auch ohne dich trägt.',
+          'Führe deine Mitarbeiter aus dem Herzen, mit echten Werten und einer Unternehmenskultur, die auf Loyalität und Integrität beruht.',
       },
       {
         title: 'Neue Vertriebsmechanik',
         description:
-          'Upselling, Cross-Selling und ein Closer-Team, das auch ohne dich abschließt.',
+          'Du übergibst Schritt für Schritt den Vertriebsprozess an deine Mitarbeiter, um mehr Zeit für deine Kunden & die Entwicklung deines Unternehmens zu haben.',
       },
       {
-        title: 'Systeme & Backoffice',
+        title: 'Künstliche Intelligenz',
         description:
-          'CRM, Automatisierung und Prozesse, die dir den Kopf freihalten.',
+          'Automatisierungen und Prozesse werden an die KI abgegeben, die wir selbstverständlich mit dir gemeinsam individuell nach deinen Wünschen einstellen.',
       },
       {
-        title: 'Inner Circle',
+        title: 'Exklusive Events',
         description:
-          'Kleiner Kreis aus Unternehmern auf demselben Level. Sparring auf Augenhöhe.',
+          'Du arbeitest intensiv mit Darko in exklusiven Retreats & Masterminds an deinem Mindset und gehst tiefer in die Lehre der Meditation.',
       },
     ],
   },

@@ -161,7 +161,7 @@ export class Approach {
             ${this.escape(approach.headline.plain)}
             <em>${this.escape(approach.headline.italic)}</em>
           </h2>
-          <p class="approach-sub">Aus deiner Coaching-Praxis wird ein Unternehmen — Schritt für Schritt, im Innen wie im Außen.</p>
+          <p class="approach-sub">Wir holen dich dort ab, wo du gerade finanziell stehst und führen dich durch diese 7 Schritte zu deinem gewünschten Monatsumsatz:</p>
         </div>
 
         <div class="approach-viewport">
@@ -179,16 +179,7 @@ export class Approach {
                 </div>
                 <div class="approach-card-content">
                   <h3 class="approach-card-title">${this.escape(s.title)}</h3>
-                  <div class="approach-card-splits">
-                    <div class="approach-card-split approach-card-split--inner">
-                      <span class="approach-card-label">${this.escape(approach.labels.inner)}</span>
-                      <p class="approach-card-text">${this.escape(s.inner)}</p>
-                    </div>
-                    <div class="approach-card-split approach-card-split--outer">
-                      <span class="approach-card-label">${this.escape(approach.labels.outer)}</span>
-                      <p class="approach-card-text">${this.escape(s.outer)}</p>
-                    </div>
-                  </div>
+                  <p class="approach-card-text">${this.escape(s.text)}</p>
                 </div>
               </article>
             `,
@@ -584,7 +575,7 @@ export class Approach {
         z-index: 2;
       }
       .approach-card-num::before {
-        content: 'FELD ';
+        content: 'SCHRITT ';
         opacity: 0.55;
       }
 
@@ -607,12 +598,12 @@ export class Approach {
       }
 
       /* ═══════════════════════════════════════════════════════════
-         CONTENT — Title + Splits below visual
+         CONTENT — Title + Beschreibungstext below visual
          ═══════════════════════════════════════════════════════════ */
       .approach-card-content {
         display: flex;
         flex-direction: column;
-        gap: 22px;
+        gap: 18px;
         flex: 1;
         padding: 4px 12px 0;
       }
@@ -628,53 +619,10 @@ export class Approach {
         padding-bottom: 16px;
         border-bottom: 1px solid rgba(201, 168, 76, 0.14);
       }
-
-      /* Splits — Innen / Außen */
-      .approach-card-splits {
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-      }
-      .approach-card-split {
-        display: flex;
-        flex-direction: column;
-        gap: 7px;
-      }
-      .approach-card-label {
-        font-family: var(--font-display, 'Cormorant Garamond', serif);
-        font-size: 18px;
-        font-weight: 500;
-        font-style: italic;
-        letter-spacing: 0.005em;
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .approach-card-split--inner .approach-card-label {
-        color: #d9b96a;
-      }
-      .approach-card-split--inner .approach-card-label::before {
-        content: '';
-        display: inline-block;
-        width: 22px;
-        height: 1px;
-        background: #d9b96a;
-        opacity: 0.8;
-      }
-      .approach-card-split--outer .approach-card-label {
-        color: rgba(228, 222, 210, 0.65);
-      }
-      .approach-card-split--outer .approach-card-label::before {
-        content: '';
-        display: inline-block;
-        width: 22px;
-        height: 1px;
-        background: rgba(195, 190, 180, 0.5);
-      }
       .approach-card-text {
         font-family: var(--font-body, 'Inter', sans-serif);
-        font-size: 13.5px;
-        line-height: 1.6;
+        font-size: 14px;
+        line-height: 1.65;
         color: rgba(228, 222, 210, 0.82);
         margin: 0;
         letter-spacing: 0.005em;

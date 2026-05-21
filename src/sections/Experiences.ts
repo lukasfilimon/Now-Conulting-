@@ -49,11 +49,6 @@ export class Experiences {
                   <p class="experience-card-tagline">${this.escape(e.tagline)}</p>
                   <p class="experience-card-desc">${this.escape(e.description)}</p>
                 </div>
-                <ul class="experience-card-highlights">
-                  ${e.highlights
-                    .map((h) => `<li class="experience-card-highlight">${this.escape(h)}</li>`)
-                    .join('')}
-                </ul>
               </div>
             </article>
           `,
@@ -321,36 +316,6 @@ export class Experiences {
         color: var(--color-text-muted);
         letter-spacing: 0.005em;
         margin: 0;
-      }
-
-      /* ═══════════════════════════════════════════════════════
-         HIGHLIGHTS — 3-4 Diamond-Bullets
-         ═══════════════════════════════════════════════════════ */
-      .experience-card-highlights {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        padding: 0;
-        margin: 4px 0 0;
-      }
-      .experience-card-highlight {
-        position: relative;
-        padding-left: 22px;
-        font-family: var(--font-body);
-        font-size: 13px;
-        line-height: 1.5;
-        color: rgba(228, 222, 210, 0.85);
-        letter-spacing: 0.005em;
-      }
-      .experience-card-highlight::before {
-        content: '◆';
-        position: absolute;
-        left: 0;
-        top: 2px;
-        color: var(--color-gold);
-        font-size: 9px;
-        line-height: 1.4;
       }
 
       /* ═══════════════════════════════════════════════════════

@@ -6,11 +6,11 @@ interface NavLink {
 }
 
 const NAV_LINKS: NavLink[] = [
-  { label: 'Ansatz',    target: '#section-approach' },
-  { label: 'Programme', target: '#section-programs' },
-  { label: 'Stimmen',   target: '#section-stimmen' },
-  { label: 'Team',      target: '#section-team' },
-  { label: 'FAQ',       target: '#section-faq' },
+  { label: 'Inhalte',      target: '#section-approach' },
+  { label: 'Programme',    target: '#section-programs' },
+  { label: 'Testimonials', target: '#section-stimmen' },
+  { label: 'Unser Team',   target: '#section-team' },
+  { label: 'FAQ',          target: '#section-faq' },
 ];
 
 export class Navigation {
@@ -35,7 +35,7 @@ export class Navigation {
         </ul>
         <div class="now-nav-actions">
           <a class="now-nav-cta" href="${cta.primaryHref}"${cta.isCalendly ? ' target="_blank" rel="noopener"' : ''}>
-            <span>Erstgespräch buchen</span>
+            <span>Klarheitsgespräch buchen</span>
             <span class="now-nav-cta-arrow" aria-hidden="true">→</span>
           </a>
           <button class="now-nav-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false">
@@ -50,7 +50,7 @@ export class Navigation {
           ).join('')}
         </ul>
         <a class="now-nav-overlay-cta" href="${cta.primaryHref}"${cta.isCalendly ? ' target="_blank" rel="noopener"' : ''}>
-          Erstgespräch buchen →
+          Klarheitsgespräch buchen →
         </a>
       </div>
     `;

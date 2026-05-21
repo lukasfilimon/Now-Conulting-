@@ -23,7 +23,7 @@ export class Programs {
         <div class="programs-header">
           <span class="programs-eyebrow">PROGRAMME</span>
           <h2 class="programs-headline">
-            Wir holen dich da ab, <em>wo du gerade stehst.</em>
+            Wir holen dich dort ab, <em>wo du gerade stehst.</em>
           </h2>
         </div>
 
@@ -56,21 +56,18 @@ export class Programs {
                   )
                   .join('')}
               </ul>
-
-              <a class="program-cta" href="${cta.primaryHref}"${cta.isCalendly ? ' target="_blank" rel="noopener"' : ''}>
-                <span>${this.escape(cta.primaryLabel)}</span>
-                <span class="program-cta-arrow">→</span>
-              </a>
             </article>
           `,
             )
             .join('')}
         </div>
 
-        <p class="programs-footer-line">
-          Beide Wege haben dasselbe <strong>Fundament</strong>.<br>
-          Nur der <strong>Hebel</strong> ist ein anderer.
-        </p>
+        <div class="programs-cta-center">
+          <a class="program-cta" href="${cta.primaryHref}"${cta.isCalendly ? ' target="_blank" rel="noopener"' : ''}>
+            <span>${this.escape(cta.primaryLabel)}</span>
+            <span class="program-cta-arrow">→</span>
+          </a>
+        </div>
       </div>
     `;
     this.root = container.querySelector('.programs-wrap') as HTMLElement;
@@ -362,8 +359,6 @@ export class Programs {
          CTA — Solid Gold wie Hero-Button, mittig zentriert
          ═══════════════════════════════════════════════════════ */
       .program-cta {
-        margin-top: auto;
-        align-self: center;
         display: inline-flex;
         align-items: center;
         gap: 14px;
@@ -396,31 +391,20 @@ export class Programs {
       }
 
       /* ═══════════════════════════════════════════════════════
-         FOOTER-TEXT
+         ZENTRALER CTA — ein Button mittig unter beiden Programmen
          ═══════════════════════════════════════════════════════ */
-      .programs-footer-line {
-        max-width: 700px;
-        margin: 64px auto 0;
-        text-align: center;
-        font-family: var(--font-display);
-        font-style: italic;
-        font-weight: 400;
-        font-size: clamp(17px, 1.6vw, 20px);
-        line-height: 1.5;
-        color: var(--color-text-muted);
-        letter-spacing: 0.005em;
+      .programs-cta-center {
+        display: flex;
+        justify-content: center;
+        margin-top: 56px;
         opacity: 0;
         transform: translateY(16px);
         transition: opacity 900ms ease-out, transform 900ms ease-out;
         transition-delay: 600ms;
       }
-      .programs-wrap.reveal .programs-footer-line {
+      .programs-wrap.reveal .programs-cta-center {
         opacity: 1;
         transform: translateY(0);
-      }
-      .programs-footer-line strong {
-        color: var(--color-gold-light);
-        font-weight: 500;
       }
 
       /* ═══════════════════════════════════════════════════════
@@ -435,13 +419,13 @@ export class Programs {
         }
         .program-card { padding: 28px 26px 26px; gap: 22px; }
         .program-phase-headline { font-size: 26px; }
-        .programs-footer-line { margin-top: 48px; font-size: 16px; }
+        .programs-cta-center { margin-top: 44px; }
       }
 
       @media (prefers-reduced-motion: reduce) {
         .programs-header,
         .program-card,
-        .programs-footer-line {
+        .programs-cta-center {
           opacity: 1;
           transform: none;
           transition: none;
