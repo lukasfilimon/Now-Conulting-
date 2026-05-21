@@ -55,7 +55,7 @@ export class Approach {
                 (s, i) => `
               <article class="approach-card" data-idx="${i}" data-orig="${i % this.originalCount}">
                 <div class="approach-card-visual">
-                  <img class="approach-card-img" src="${this.escape(s.image)}" alt="${this.escape(s.title)}" loading="lazy" decoding="async" />
+                  <img class="approach-card-img" src="${this.escape(s.image)}" alt="${this.escape(s.title)}" style="object-position: ${this.escape(s.focus)}" loading="lazy" decoding="async" />
                   <div class="approach-card-visual-bg" aria-hidden="true"></div>
                   <span class="approach-card-num">${this.escape(s.number)}</span>
                 </div>
