@@ -6,7 +6,7 @@
 // CTA destination: Calendly URL fills in later. Auto-fallback to mailto.
 const CALENDLY_URL = ''; // ← Wenn URL kommt, hier eintragen
 const FALLBACK_MAILTO =
-  'mailto:office@now-academy.at?subject=Erstgespr%C3%A4ch%20buchen&body=Hallo%20NOW-Team%2C%20ich%20m%C3%B6chte%20ein%20Erstgespr%C3%A4ch%20buchen.';
+  'mailto:office@now-academy.at?subject=Klarheitsgespr%C3%A4ch%20buchen&body=Hallo%20NOW-Team%2C%20ich%20m%C3%B6chte%20ein%20Klarheitsgespr%C3%A4ch%20buchen.';
 
 export const cta = {
   primaryHref: CALENDLY_URL || FALLBACK_MAILTO,
