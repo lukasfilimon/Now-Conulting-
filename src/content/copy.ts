@@ -3,15 +3,20 @@
  * Update only here — sections read these constants.
  */
 
-// CTA destination: Calendly URL fills in later. Auto-fallback to mailto.
-const CALENDLY_URL = ''; // ← Wenn URL kommt, hier eintragen
-const FALLBACK_MAILTO =
+// Calendly-Buchungslink — hier eintragen, sobald vorhanden. Wird von der
+// /termin-Seite zum Einbetten genutzt, z.B.:
+//   'https://calendly.com/now-consulting/klarheitsgespraech'
+export const calendlyUrl = '';
+
+// Fallback der /termin-Seite, solange kein Calendly-Link gesetzt ist.
+export const fallbackMailto =
   'mailto:office@now-academy.at?subject=Klarheitsgespr%C3%A4ch%20buchen&body=Hallo%20NOW-Team%2C%20ich%20m%C3%B6chte%20ein%20Klarheitsgespr%C3%A4ch%20buchen.';
 
+// Alle CTA-Buttons führen zur internen Buchungsseite /termin/ (bettet Calendly ein).
 export const cta = {
-  primaryHref: CALENDLY_URL || FALLBACK_MAILTO,
+  primaryHref: '/termin/',
   primaryLabel: 'Klarheitsgespräch buchen',
-  isCalendly: Boolean(CALENDLY_URL),
+  isCalendly: false,
 };
 
 export const copy = {

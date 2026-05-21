@@ -19,6 +19,10 @@ export default defineConfig({
     minify: 'esbuild',
     sourcemap: false,
     rollupOptions: {
+      input: {
+        main: 'index.html',
+        termin: 'termin/index.html',
+      },
       output: {
         manualChunks: {
           three: ['three'],
