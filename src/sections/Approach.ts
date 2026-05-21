@@ -1,132 +1,16 @@
 import { copy, cta } from '../content/copy';
 
 /**
- * Approach section — Heartbeat-Style Carousel mit 9 Beratungs-Feldern.
- * Premium-Layout: Visual-Frame oben (60% Höhe) + Content darunter.
+ * Approach section — Heartbeat-Style Carousel mit 7 Schritten.
+ * Premium-Layout: Foto-Frame oben + Content darunter.
  *
  * Mechanik:
- * - Horizontales Carousel mit 9 Karten
+ * - Horizontales Carousel mit 7 Karten
  * - Auto-Rotation alle 5 Sekunden (Pause bei Hover)
  * - Infinite loop via clone-trick (erste 4 Karten am Ende dupliziert)
  * - 4 Karten sichtbar Desktop, 1 auf Mobile
- * - Pro Karte: Visual-Frame mit Icon, Number, Title, Im Innen, Im Außen
+ * - Pro Karte: Foto-Frame mit Schritt-Nummer, Titel, Beschreibungstext
  */
-
-type IconKey = 'eye' | 'lotus' | 'pyramid' | 'target' | 'stack' | 'handshake' | 'waves' | 'gear' | 'network';
-
-const ICON_SVGS: Record<IconKey, string> = {
-  eye: `
-    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M14 60 Q60 26 106 60 Q60 94 14 60 Z" opacity="0.55"/>
-      <path d="M28 60 Q60 38 92 60 Q60 82 28 60 Z" opacity="0.7"/>
-      <circle cx="60" cy="60" r="14" opacity="0.95"/>
-      <circle cx="60" cy="60" r="5" fill="currentColor" stroke="none"/>
-      <line x1="60" y1="6" x2="60" y2="14" opacity="0.5"/>
-      <line x1="60" y1="106" x2="60" y2="114" opacity="0.5"/>
-      <line x1="6" y1="60" x2="14" y2="60" opacity="0.5"/>
-      <line x1="106" y1="60" x2="114" y2="60" opacity="0.5"/>
-      <line x1="22" y1="22" x2="28" y2="28" opacity="0.35"/>
-      <line x1="92" y1="92" x2="98" y2="98" opacity="0.35"/>
-      <line x1="22" y1="98" x2="28" y2="92" opacity="0.35"/>
-      <line x1="92" y1="28" x2="98" y2="22" opacity="0.35"/>
-    </svg>
-  `,
-  lotus: `
-    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M60 20 Q52 50 60 80 Q68 50 60 20 Z" opacity="0.95"/>
-      <path d="M30 36 Q26 56 42 80 Q46 56 30 36 Z" opacity="0.7"/>
-      <path d="M90 36 Q94 56 78 80 Q74 56 90 36 Z" opacity="0.7"/>
-      <path d="M14 56 Q20 72 38 84 Q34 68 14 56 Z" opacity="0.45"/>
-      <path d="M106 56 Q100 72 82 84 Q86 68 106 56 Z" opacity="0.45"/>
-      <path d="M10 86 Q60 100 110 86" opacity="0.6"/>
-      <circle cx="60" cy="86" r="3.5" fill="currentColor" stroke="none"/>
-      <line x1="60" y1="6" x2="60" y2="14" opacity="0.5"/>
-      <line x1="60" y1="10" x2="56" y2="14" opacity="0.4"/>
-      <line x1="60" y1="10" x2="64" y2="14" opacity="0.4"/>
-    </svg>
-  `,
-  pyramid: `
-    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M60 16 L104 96 L16 96 Z" opacity="0.45"/>
-      <path d="M60 36 L92 92 L28 92 Z" opacity="0.7"/>
-      <path d="M60 56 L80 88 L40 88 Z" opacity="0.95"/>
-      <line x1="60" y1="16" x2="60" y2="56" opacity="0.5"/>
-      <circle cx="60" cy="56" r="2.5" fill="currentColor" stroke="none"/>
-    </svg>
-  `,
-  target: `
-    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true">
-      <circle cx="60" cy="60" r="46" opacity="0.3"/>
-      <circle cx="60" cy="60" r="32" opacity="0.5"/>
-      <circle cx="60" cy="60" r="18" opacity="0.75"/>
-      <circle cx="60" cy="60" r="6" opacity="1"/>
-      <circle cx="60" cy="60" r="2.5" fill="currentColor" stroke="none"/>
-      <line x1="60" y1="4" x2="60" y2="18" opacity="0.55"/>
-      <line x1="60" y1="102" x2="60" y2="116" opacity="0.55"/>
-      <line x1="4" y1="60" x2="18" y2="60" opacity="0.55"/>
-      <line x1="102" y1="60" x2="116" y2="60" opacity="0.55"/>
-    </svg>
-  `,
-  stack: `
-    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <rect x="20" y="22" width="80" height="18" rx="2" opacity="0.45"/>
-      <rect x="20" y="50" width="80" height="18" rx="2" opacity="0.7"/>
-      <rect x="20" y="78" width="80" height="18" rx="2" opacity="1"/>
-      <line x1="32" y1="31" x2="56" y2="31" opacity="0.5"/>
-      <line x1="32" y1="59" x2="56" y2="59" opacity="0.5"/>
-      <line x1="32" y1="87" x2="64" y2="87" opacity="0.7"/>
-      <circle cx="86" cy="87" r="3" fill="currentColor" stroke="none"/>
-    </svg>
-  `,
-  handshake: `
-    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M10 44 L36 44 L60 60 L36 76 L10 76" opacity="0.7"/>
-      <path d="M110 44 L84 44 L60 60 L84 76 L110 76" opacity="0.95"/>
-      <circle cx="60" cy="60" r="5" fill="currentColor" stroke="none"/>
-      <circle cx="60" cy="60" r="10" opacity="0.6"/>
-      <line x1="22" y1="34" x2="22" y2="40" opacity="0.4"/>
-      <line x1="98" y1="34" x2="98" y2="40" opacity="0.4"/>
-      <line x1="22" y1="80" x2="22" y2="86" opacity="0.4"/>
-      <line x1="98" y1="80" x2="98" y2="86" opacity="0.4"/>
-    </svg>
-  `,
-  waves: `
-    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true">
-      <circle cx="60" cy="60" r="10" opacity="1"/>
-      <circle cx="60" cy="60" r="4" fill="currentColor" stroke="none"/>
-      <path d="M34 60 A26 26 0 0 1 86 60" opacity="0.7"/>
-      <path d="M34 60 A26 26 0 0 0 86 60" opacity="0.7"/>
-      <path d="M16 60 A44 44 0 0 1 104 60" opacity="0.45"/>
-      <path d="M16 60 A44 44 0 0 0 104 60" opacity="0.45"/>
-      <path d="M4 60 A56 56 0 0 1 116 60" opacity="0.25"/>
-      <path d="M4 60 A56 56 0 0 0 116 60" opacity="0.25"/>
-    </svg>
-  `,
-  gear: `
-    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <circle cx="60" cy="60" r="20" opacity="0.95"/>
-      <circle cx="60" cy="60" r="8" opacity="0.7"/>
-      <circle cx="60" cy="60" r="3" fill="currentColor" stroke="none"/>
-      <path d="M60 8 L60 22 M60 98 L60 112 M8 60 L22 60 M98 60 L112 60" opacity="0.75"/>
-      <path d="M23 23 L33 33 M87 87 L97 97 M23 97 L33 87 M87 33 L97 23" opacity="0.55"/>
-      <circle cx="60" cy="60" r="44" opacity="0.18"/>
-    </svg>
-  `,
-  network: `
-    <svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true">
-      <line x1="60" y1="22" x2="22" y2="88" opacity="0.5"/>
-      <line x1="60" y1="22" x2="98" y2="88" opacity="0.5"/>
-      <line x1="22" y1="88" x2="98" y2="88" opacity="0.5"/>
-      <line x1="60" y1="22" x2="60" y2="60" opacity="0.6"/>
-      <line x1="22" y1="88" x2="60" y2="60" opacity="0.6"/>
-      <line x1="98" y1="88" x2="60" y2="60" opacity="0.6"/>
-      <circle cx="60" cy="22" r="7" fill="currentColor" stroke="none"/>
-      <circle cx="22" cy="88" r="7" fill="currentColor" stroke="none"/>
-      <circle cx="98" cy="88" r="7" fill="currentColor" stroke="none"/>
-      <circle cx="60" cy="60" r="5" opacity="0.95"/>
-    </svg>
-  `,
-};
 
 export class Approach {
   readonly root: HTMLElement;
@@ -171,10 +55,8 @@ export class Approach {
                 (s, i) => `
               <article class="approach-card" data-idx="${i}" data-orig="${i % this.originalCount}">
                 <div class="approach-card-visual">
+                  <img class="approach-card-img" src="${this.escape(s.image)}" alt="${this.escape(s.title)}" loading="lazy" decoding="async" />
                   <div class="approach-card-visual-bg" aria-hidden="true"></div>
-                  <div class="approach-card-icon">
-                    ${ICON_SVGS[s.icon as IconKey] || ''}
-                  </div>
                   <span class="approach-card-num">${this.escape(s.number)}</span>
                 </div>
                 <div class="approach-card-content">
@@ -500,7 +382,7 @@ export class Approach {
       }
 
       /* ═══════════════════════════════════════════════════════════
-         VISUAL FRAME — Large image-like area on top (Heartbeat style)
+         VISUAL FRAME — Foto edge-to-edge oben (Heartbeat style)
          ═══════════════════════════════════════════════════════════ */
       .approach-card-visual {
         position: relative;
@@ -508,46 +390,44 @@ export class Approach {
         height: 200px;
         border-radius: 3px;
         overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background:
-          linear-gradient(180deg,
-            rgba(8, 6, 4, 0.7) 0%,
-            rgba(4, 3, 2, 0.5) 100%);
+        background: #0a0805;
         border: 1px solid rgba(201, 168, 76, 0.08);
         box-shadow:
-          inset 0 0 60px rgba(0, 0, 0, 0.6),
+          inset 0 0 60px rgba(0, 0, 0, 0.4),
           inset 0 1px 0 rgba(255, 240, 200, 0.04);
       }
 
-      /* Visual ambient — subtle gold gradient mass behind icon */
+      /* Foto — füllt den Frame, Center-Crop */
+      .approach-card-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        z-index: 0;
+        transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .approach-card:hover .approach-card-img {
+        transform: scale(1.05);
+      }
+
+      /* Marken-Overlay über dem Foto — dunkler Scrim oben/unten + Gold-Hauch */
       .approach-card-visual-bg {
         position: absolute;
         inset: 0;
+        z-index: 1;
+        pointer-events: none;
         background:
-          radial-gradient(
-            ellipse at 50% 60%,
-            rgba(201, 168, 76, 0.14) 0%,
-            rgba(201, 168, 76, 0.04) 35%,
-            transparent 70%
-          );
-        pointer-events: none;
-      }
-
-      /* Visual grid pattern — very subtle premium texture */
-      .approach-card-visual::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-image:
-          linear-gradient(rgba(201, 168, 76, 0.04) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(201, 168, 76, 0.04) 1px, transparent 1px);
-        background-size: 24px 24px;
-        opacity: 0.6;
-        mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
-        -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
-        pointer-events: none;
+          linear-gradient(180deg,
+            rgba(8, 6, 4, 0.62) 0%,
+            rgba(8, 6, 4, 0.05) 26%,
+            rgba(8, 6, 4, 0) 50%,
+            rgba(8, 6, 4, 0.28) 80%,
+            rgba(8, 6, 4, 0.62) 100%),
+          radial-gradient(ellipse at 50% 38%,
+            rgba(201, 168, 76, 0.10) 0%,
+            transparent 70%);
       }
 
       /* Top scan-line — premium tech feel */
@@ -560,6 +440,7 @@ export class Approach {
         height: 1px;
         background: linear-gradient(90deg, transparent, rgba(226, 201, 122, 0.6), transparent);
         pointer-events: none;
+        z-index: 2;
       }
 
       /* Number — top-left of visual frame */
@@ -571,30 +452,13 @@ export class Approach {
         font-size: 10px;
         font-weight: 600;
         letter-spacing: 0.22em;
-        color: rgba(226, 201, 122, 0.75);
+        color: rgba(238, 220, 170, 0.92);
+        text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
         z-index: 2;
       }
       .approach-card-num::before {
         content: 'SCHRITT ';
-        opacity: 0.55;
-      }
-
-      /* Icon inside visual frame */
-      .approach-card-icon {
-        width: 120px;
-        height: 120px;
-        color: #d9b96a;
-        position: relative;
-        z-index: 1;
-        filter: drop-shadow(0 0 16px rgba(201, 168, 76, 0.25));
-        transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .approach-card:hover .approach-card-icon {
-        transform: scale(1.04);
-      }
-      .approach-card-icon svg {
-        width: 100%;
-        height: 100%;
+        opacity: 0.6;
       }
 
       /* ═══════════════════════════════════════════════════════════
@@ -712,7 +576,6 @@ export class Approach {
           min-height: 500px;
         }
         .approach-card-visual { height: 180px; }
-        .approach-card-icon { width: 100px; height: 100px; }
         .approach-card-title { font-size: 22px; }
         .approach-controls { gap: 14px; margin-top: 36px; }
         .approach-arrow { width: 64px; height: 52px; }
@@ -722,7 +585,8 @@ export class Approach {
         .approach-track { transition: none; }
         .approach-card { transition: none; }
         .approach-card:hover { transform: none; }
-        .approach-card-icon { transition: none; }
+        .approach-card-img { transition: none; }
+        .approach-card:hover .approach-card-img { transform: none; }
       }
     `;
     document.head.appendChild(style);
