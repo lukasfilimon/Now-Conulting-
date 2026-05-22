@@ -266,6 +266,9 @@ export class HeroContent {
         font-size: clamp(1.75rem, 3.4vw, 3.2rem);
         line-height: 1.1;
         letter-spacing: -0.005em;
+        /* Klarer Abstand zur Headline/Video darunter — responsiv (kommt zur
+           28px Flex-Gap der .hero-overlay dazu). */
+        margin-bottom: clamp(28px, 4vw, 56px);
         opacity: 0;
         transform: translateY(20px);
         transition: opacity 1100ms cubic-bezier(0.16, 1, 0.3, 1),
