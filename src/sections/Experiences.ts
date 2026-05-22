@@ -6,9 +6,10 @@ import { experiences } from '../content/experiences';
  * Job: Aspiration + Community + Status. Cross-Sell-Welt zeigen, nicht entscheiden lassen.
  *
  * Layout:
- * - Header (Eyebrow + Headline "Drei Räume jenseits der Beratung." + Sub)
- * - 3 gleichgroße Karten Premium-Glass mit Vimeo-Video edge-to-edge oben
- * - Pro Karte: Video, Headline, Tagline, Description, 3-4 Highlights mit Diamond-Bullet
+ * - Header (Eyebrow + Headline + Sub)
+ * - 3 Karten untereinander, Premium-Glass, im Zickzack: Video links/rechts/links (Desktop)
+ * - Pro Karte: Video (16:9, 50%) neben Headline/Tagline/Description (50%)
+ * - Mobil: Karten stapeln (Video oben, Text darunter)
  * - KEINE CTAs in den Karten (Aspiration-Section, Entscheidung kommt im Erstgespräch)
  */
 export class Experiences {
@@ -161,12 +162,14 @@ export class Experiences {
       }
 
       /* ═══════════════════════════════════════════════════════
-         GRID — 3 Karten side-by-side
+         GRID — 3 Karten untereinander (Zickzack)
          ═══════════════════════════════════════════════════════ */
       .experiences-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 44px;
+        max-width: 1120px;
+        margin: 0 auto;
       }
 
       /* ═══════════════════════════════════════════════════════
@@ -176,7 +179,8 @@ export class Experiences {
         position: relative;
         padding: 0;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        align-items: stretch;
         overflow: hidden;
 
         background:
@@ -252,14 +256,17 @@ export class Experiences {
       }
       .experience-card:hover::before { opacity: 1; }
 
+      /* Zickzack: Karte 2 spiegelt die Anordnung (Video rechts, Text links) */
+      .experience-card[data-i="1"] { flex-direction: row-reverse; }
+
       /* ═══════════════════════════════════════════════════════
          VIDEO — edge-to-edge oben, 16:9 aspect
          ═══════════════════════════════════════════════════════ */
       .experience-card-video {
-        width: 100%;
+        flex: 0 0 50%;
+        max-width: 50%;
         aspect-ratio: 16 / 9;
         background: #000;
-        border-bottom: 1px solid rgba(201, 168, 76, 0.18);
         position: relative;
         overflow: hidden;
       }
@@ -274,11 +281,12 @@ export class Experiences {
          CONTENT — innerhalb der Card unter dem Video
          ═══════════════════════════════════════════════════════ */
       .experience-card-content {
-        padding: 28px 32px 32px;
+        flex: 1 1 50%;
+        padding: 40px 44px;
         display: flex;
         flex-direction: column;
+        justify-content: center;
         gap: 22px;
-        flex: 1;
       }
 
       .experience-card-headline {
@@ -321,13 +329,24 @@ export class Experiences {
       /* ═══════════════════════════════════════════════════════
          MOBILE
          ═══════════════════════════════════════════════════════ */
-      @media (max-width: 1080px) {
-        .experiences-grid {
-          grid-template-columns: 1fr;
-          max-width: 520px;
-          margin-left: auto;
-          margin-right: auto;
-          gap: 24px;
+      /* Tablet/Mobile — Karten stapeln: Video oben, Text darunter (alle gleich,
+         Zickzack-Spiegelung wird aufgehoben) */
+      @media (max-width: 900px) {
+        .experiences-grid { max-width: 560px; gap: 28px; }
+        .experience-card,
+        .experience-card[data-i="1"] {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .experience-card-video {
+          flex: none;
+          width: 100%;
+          max-width: 100%;
+          border-bottom: 1px solid rgba(201, 168, 76, 0.18);
+        }
+        .experience-card-content {
+          justify-content: flex-start;
+          padding: 28px 32px 32px;
         }
       }
       @media (max-width: 768px) {
