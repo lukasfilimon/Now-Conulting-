@@ -162,7 +162,7 @@ export class HeroContent {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 28px;
+        gap: 12px;
         padding: 96px 0 48px;
         opacity: var(--hero-opacity, 1);
         transform: translateY(calc(var(--hero-shift, 0px) * -1));
@@ -267,9 +267,9 @@ export class HeroContent {
         font-size: clamp(2.1rem, 4.1vw, 3.9rem);
         line-height: 1.1;
         letter-spacing: -0.005em;
-        /* Klarer Abstand zur Headline/Video darunter — responsiv (kommt zur
-           28px Flex-Gap der .hero-overlay dazu). ~10% enger als zuvor. */
-        margin-bottom: clamp(25px, 3.6vw, 50px);
+        /* Knapper Abstand zur Headline/Video darunter (kommt zur 12px
+           Flex-Gap der .hero-overlay dazu) — bewusst eng gehalten. */
+        margin-bottom: clamp(2px, 0.4vw, 6px);
         opacity: 0;
         transform: translateY(20px);
         transition: opacity 1100ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -551,7 +551,7 @@ export class HeroContent {
       }
 
       @media (max-width: 768px) {
-        .hero-overlay { gap: 20px; }
+        .hero-overlay { gap: 10px; }
         .hero-headline { font-size: clamp(1.4rem, 6.8vw, 2.04rem); line-height: 1.2; }
         .hero-brand { font-size: clamp(1.95rem, 9vw, 2.85rem); line-height: 1.2; }
         .hero-sub { font-size: 15px; }
