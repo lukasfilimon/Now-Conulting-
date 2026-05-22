@@ -70,12 +70,15 @@ export class HeroContent {
   }
 
   private renderHeadline(): string {
-    return copy.hero.headlineParts
+    const body = copy.hero.headlineParts
       .map((part) => {
         if (typeof part === 'string') return this.escape(part);
         return `<em class="hero-headline-em">${this.escape(part.text)}</em>`;
       })
       .join('');
+    // Marken-Zeile zu Beginn der Headline (ersetzt den "CONSULTING"-Schriftzug
+    // in der Navigation — Brand jetzt prominent im Hero).
+    return `<span class="hero-headline-brand">NOW CONSULTING</span>${body}`;
   }
 
   private escape(text: string): string {
@@ -247,6 +250,16 @@ export class HeroContent {
       .hero-headline.reveal {
         opacity: 1;
         transform: translateY(0);
+      }
+      .hero-headline-brand {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: clamp(12px, 1.1vw, 14px);
+        font-weight: 600;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--color-gold);
+        margin-bottom: 16px;
       }
       .hero-headline-em {
         font-style: italic;
