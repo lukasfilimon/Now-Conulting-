@@ -263,7 +263,8 @@ export class HeroContent {
         text-align: center;
         font-family: var(--font-display);
         font-weight: 600;
-        font-size: clamp(1.75rem, 3.4vw, 3.2rem);
+        /* ~1.2x der Headline — Marke etwas prominenter als die Headline darunter */
+        font-size: clamp(2.1rem, 4.1vw, 3.9rem);
         line-height: 1.1;
         letter-spacing: -0.005em;
         /* Klarer Abstand zur Headline/Video darunter — responsiv (kommt zur
@@ -551,8 +552,8 @@ export class HeroContent {
 
       @media (max-width: 768px) {
         .hero-overlay { gap: 20px; }
-        .hero-headline,
-        .hero-brand { font-size: clamp(1.65rem, 8vw, 2.4rem); line-height: 1.2; }
+        .hero-headline { font-size: clamp(1.65rem, 8vw, 2.4rem); line-height: 1.2; }
+        .hero-brand { font-size: clamp(1.95rem, 9vw, 2.85rem); line-height: 1.2; }
         .hero-sub { font-size: 15px; }
         .hero-cta { padding: 16px 32px; font-size: 13px; }
       }
