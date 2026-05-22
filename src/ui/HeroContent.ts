@@ -281,7 +281,10 @@ export class HeroContent {
       .hero-brand::after {
         content: '';
         display: block;
-        width: clamp(140px, 16vw, 220px);
+        /* In em → skaliert mit der Schriftgröße; "NOW CONSULTING" ist ~8.9em
+           breit, 9.6em sind also ~8% länger als der Schriftzug. min(…,100%)
+           verhindert Überlauf auf sehr schmalen Screens. */
+        width: min(9.6em, 100%);
         height: 1px;
         margin: clamp(10px, 1.1vw, 14px) auto 0;
         background: linear-gradient(
