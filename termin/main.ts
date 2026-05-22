@@ -38,9 +38,27 @@ if (mount) {
     widget.setAttribute('data-url', url);
     widget.style.minWidth = '320px';
     widget.style.width = '100%';
-    widget.style.height = '100%';
-    mount.style.height = getComputedStyle(mount).minHeight;
+    // Start-Höhe; wird gleich per Calendly-Resize-Nachricht an die echte
+    // Inhaltshöhe angepasst.
+    widget.style.height = '1100px';
     mount.appendChild(widget);
+
+    // Calendly meldet seine Inhaltshöhe via postMessage (calendly.page_height).
+    // Wir übernehmen die Höhe 1:1 → der Kalender ist immer komplett sichtbar und
+    // scrollt NICHT intern; gescrollt wird nur die Seite, nie das Calendly-iframe.
+    window.addEventListener('message', (e: MessageEvent) => {
+      // Anker-Regex statt .includes() — nicht durch calendly.com.angreifer.de umgehbar.
+      if (!/^https:\/\/([a-z0-9-]+\.)?calendly\.com$/.test(e.origin)) return;
+      let data: { event?: string; payload?: { height?: string } };
+      try {
+        data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
+      } catch {
+        return;
+      }
+      if (data && data.event === 'calendly.page_height' && data.payload?.height) {
+        widget.style.height = data.payload.height;
+      }
+    });
 
     const script = document.createElement('script');
     script.src = 'https://assets.calendly.com/assets/external/widget.js';
