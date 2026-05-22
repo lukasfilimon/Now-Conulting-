@@ -22,6 +22,7 @@ export default defineConfig({
       input: {
         main: 'index.html',
         termin: 'termin/index.html',
+        vorschau: 'vorschau/index.html',
       },
       output: {
         manualChunks: {
