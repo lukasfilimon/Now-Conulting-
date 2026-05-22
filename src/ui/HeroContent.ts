@@ -276,6 +276,28 @@ export class HeroContent {
                     transform 1100ms cubic-bezier(0.16, 1, 0.3, 1);
       }
       .hero-brand.reveal { opacity: 1; transform: translateY(0); }
+      /* Elegante, mittig leuchtende Gold-Hairline unter der Marke — läuft an
+         beiden Enden weich aus und zeichnet sich beim Reveal aus der Mitte auf. */
+      .hero-brand::after {
+        content: '';
+        display: block;
+        width: clamp(140px, 16vw, 220px);
+        height: 1px;
+        margin: clamp(10px, 1.1vw, 14px) auto 0;
+        background: linear-gradient(
+          90deg,
+          transparent 0%,
+          rgba(201, 168, 76, 0.4) 22%,
+          var(--color-gold-light) 50%,
+          rgba(201, 168, 76, 0.4) 78%,
+          transparent 100%
+        );
+        filter: drop-shadow(0 0 4px rgba(201, 168, 76, 0.45));
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform 1100ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .hero-brand.reveal::after { transform: scaleX(1); }
       .hero-brand-rest { color: var(--color-text); }
       .hero-brand-now {
         /* exakt dieselbe Gold-Shimmer-Animation wie .hero-headline-em ("spirituelle") */
@@ -325,6 +347,7 @@ export class HeroContent {
       @media (prefers-reduced-motion: reduce) {
         .hero-headline-em,
         .hero-brand-now { animation: none; }
+        .hero-brand::after { transition: none; }
       }
 
       .hero-sub {
