@@ -6,6 +6,7 @@ const VIMEO_ENGAGED = `${VIMEO_BASE}&autoplay=1&muted=0&controls=1&loop=0&keyboa
 
 export class HeroContent {
   readonly root: HTMLElement;
+  private brandEl: HTMLElement;
   private headlineEl: HTMLElement;
   private subEl: HTMLElement;
   private ctaEl: HTMLAnchorElement;
@@ -19,6 +20,9 @@ export class HeroContent {
   constructor(container: HTMLElement) {
     container.innerHTML = `
       <div class="hero-overlay">
+        <div class="hero-brand">
+          <span class="hero-brand-now">NOW</span> <span class="hero-brand-rest">CONSULTING</span>
+        </div>
         <div class="hero-grid">
           <div class="hero-text">
             <h1 class="hero-headline">${this.renderHeadline()}</h1>
@@ -56,6 +60,7 @@ export class HeroContent {
       </div>
     `;
     this.root = container.querySelector('.hero-overlay') as HTMLElement;
+    this.brandEl = container.querySelector('.hero-brand') as HTMLElement;
     this.headlineEl = container.querySelector('.hero-headline') as HTMLElement;
     this.subEl = container.querySelector('.hero-sub') as HTMLElement;
     this.ctaEl = container.querySelector('.hero-cta') as HTMLAnchorElement;
@@ -70,15 +75,12 @@ export class HeroContent {
   }
 
   private renderHeadline(): string {
-    const body = copy.hero.headlineParts
+    return copy.hero.headlineParts
       .map((part) => {
         if (typeof part === 'string') return this.escape(part);
         return `<em class="hero-headline-em">${this.escape(part.text)}</em>`;
       })
       .join('');
-    // Marken-Zeile zu Beginn der Headline (ersetzt den "CONSULTING"-Schriftzug
-    // in der Navigation — Brand jetzt prominent im Hero).
-    return `<span class="hero-headline-brand">NOW CONSULTING</span>${body}`;
   }
 
   private escape(text: string): string {
@@ -132,6 +134,7 @@ export class HeroContent {
   reveal(): void {
     if (this.revealed) return;
     this.revealed = true;
+    this.brandEl.classList.add('reveal');
     this.headlineEl.classList.add('reveal');
     setTimeout(() => this.videoColEl.classList.add('reveal'), 600);
     setTimeout(() => this.subEl.classList.add('reveal'), 1100);
@@ -251,15 +254,44 @@ export class HeroContent {
         opacity: 1;
         transform: translateY(0);
       }
-      .hero-headline-brand {
-        display: block;
-        font-family: var(--font-mono);
-        font-size: clamp(12px, 1.1vw, 14px);
+      /* Marken-Section "NOW CONSULTING" — eigene zentrierte Zeile über Headline + Video.
+         Größe & Schriftart wie die Headline; NOW gold mit Shimmer, CONSULTING weiß. */
+      .hero-brand {
+        width: 100%;
+        max-width: 1280px;
+        padding: 0 clamp(24px, 4vw, 64px);
+        text-align: center;
+        font-family: var(--font-display);
         font-weight: 600;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--color-gold);
-        margin-bottom: 16px;
+        font-size: clamp(1.75rem, 3.4vw, 3.2rem);
+        line-height: 1.1;
+        letter-spacing: -0.005em;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 1100ms cubic-bezier(0.16, 1, 0.3, 1),
+                    transform 1100ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .hero-brand.reveal { opacity: 1; transform: translateY(0); }
+      .hero-brand-rest { color: var(--color-text); }
+      .hero-brand-now {
+        /* exakt dieselbe Gold-Shimmer-Animation wie .hero-headline-em ("spirituelle") */
+        background: linear-gradient(
+          100deg,
+          var(--color-gold) 0%,
+          var(--color-gold) 38%,
+          var(--color-gold-light) 48%,
+          #fbeec4 52%,
+          var(--color-gold-light) 56%,
+          var(--color-gold) 66%,
+          var(--color-gold) 100%
+        );
+        background-size: 220% 100%;
+        background-position: 220% 0;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        animation: hero-shimmer 7.5s ease-in-out infinite;
       }
       .hero-headline-em {
         font-style: italic;
@@ -287,7 +319,8 @@ export class HeroContent {
         55%, 100% { background-position: -120% 0; }
       }
       @media (prefers-reduced-motion: reduce) {
-        .hero-headline-em { animation: none; }
+        .hero-headline-em,
+        .hero-brand-now { animation: none; }
       }
 
       .hero-sub {
@@ -515,7 +548,8 @@ export class HeroContent {
 
       @media (max-width: 768px) {
         .hero-overlay { gap: 20px; }
-        .hero-headline { font-size: clamp(1.65rem, 8vw, 2.4rem); line-height: 1.2; }
+        .hero-headline,
+        .hero-brand { font-size: clamp(1.65rem, 8vw, 2.4rem); line-height: 1.2; }
         .hero-sub { font-size: 15px; }
         .hero-cta { padding: 16px 32px; font-size: 13px; }
       }
