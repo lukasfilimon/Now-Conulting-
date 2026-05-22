@@ -6,7 +6,7 @@
 // Calendly-Buchungslink — hier eintragen, sobald vorhanden. Wird von der
 // /termin-Seite zum Einbetten genutzt, z.B.:
 //   'https://calendly.com/now-consulting/klarheitsgespraech'
-export const calendlyUrl = '';
+export const calendlyUrl = 'https://calendly.com/jetzt/klarheitsgespreach';
 
 // Fallback der /termin-Seite, solange kein Calendly-Link gesetzt ist.
 export const fallbackMailto =
