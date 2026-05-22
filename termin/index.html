@@ -170,6 +170,19 @@
         box-shadow: 0 0 36px rgba(201, 168, 76, 0.5);
       }
 
+      /* Auf der Buchungsseite sind die "Klarheitsgespräch buchen"-CTAs überflüssig
+         (man ist ja bereits hier) — Nav-CTA (Desktop + Mobile-Overlay) und Footer-CTA
+         ausblenden. Das Hamburger-Menü bleibt erhalten. Gilt nur für /termin, die
+         Hauptseite ist nicht betroffen. */
+      .now-nav-cta,
+      .now-nav-overlay-cta,
+      .footer-cta {
+        display: none !important;
+      }
+      /* Ohne Nav-CTA die Links sauber rechtsbündig setzen (Logo links, Links rechts) */
+      .now-nav-links { margin-left: auto; }
+      .footer-right { display: none; }
+
       @media (max-width: 768px) {
         .termin-main { padding: 112px 16px 56px; }
         .termin-trust { margin-bottom: 28px; }
