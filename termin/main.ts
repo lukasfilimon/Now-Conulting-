@@ -43,20 +43,47 @@ if (mount) {
     widget.style.height = '1100px';
     mount.appendChild(widget);
 
-    // Calendly meldet seine Inhaltshöhe via postMessage (calendly.page_height).
-    // Wir übernehmen die Höhe 1:1 → der Kalender ist immer komplett sichtbar und
-    // scrollt NICHT intern; gescrollt wird nur die Seite, nie das Calendly-iframe.
+    // EIN Message-Listener für ALLE Calendly-Events (Höhe + Lead-Tracking).
+    // Ein einziger Listener + ein Origin-Check → kein Doppelfeuer durch mehrere
+    // Listener. Sowohl page_height als auch event_scheduled kommen vom
+    // Buchungs-iframe unter https://calendly.com.
+    let leadFired = false; // Guard: Lead feuert max. 1x pro Page-Load.
     window.addEventListener('message', (e: MessageEvent) => {
-      // Anker-Regex statt .includes() — nicht durch calendly.com.angreifer.de umgehbar.
-      if (!/^https:\/\/([a-z0-9-]+\.)?calendly\.com$/.test(e.origin)) return;
+      // Origin-Check exakt auf https://calendly.com — kein Wildcard, nicht umgehbar.
+      if (e.origin !== 'https://calendly.com') return;
+
       let data: { event?: string; payload?: { height?: string } };
       try {
         data = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
       } catch {
         return;
       }
-      if (data && data.event === 'calendly.page_height' && data.payload?.height) {
+      if (!data || typeof data.event !== 'string') return;
+
+      // 1) Höhe: Kalender wächst auf Inhaltshöhe (kein Innen-Scroll).
+      if (data.event === 'calendly.page_height' && data.payload?.height) {
         widget.style.height = data.payload.height;
+        return;
+      }
+
+      // 2) Lead: feuert EXAKT bei finaler Buchungs-Bestätigung — nicht bei
+      //    PageView, Widget-Öffnen oder Terminauswahl, sondern erst wenn
+      //    Calendly die Buchung abgeschlossen meldet. Nur einmal pro Load.
+      if (data.event === 'calendly.event_scheduled' && !leadFired) {
+        leadFired = true;
+        // Eindeutige Event-ID → spätere CAPI-Deduplizierung: Browser-Pixel und
+        // Server-Event mit derselben eventID werden von Meta als EIN Lead gewertet.
+        const eventId =
+          typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+            ? crypto.randomUUID()
+            : `lead-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+        window.fbq?.(
+          'track',
+          'Lead',
+          { content_name: 'Klarheitsgespräch', currency: 'EUR', value: 0 },
+          { eventID: eventId },
+        );
       }
     });
 
@@ -71,5 +98,13 @@ if (mount) {
         <a class="termin-fallback-cta" href="${fallbackMailto}">Termin per E-Mail anfragen</a>
       </div>
     `;
+  }
+}
+
+// Der Meta Pixel wird global via Inline-Script im <head> geladen (window.fbq).
+// Hier nur die Typ-Deklaration, damit TypeScript fbq kennt.
+declare global {
+  interface Window {
+    fbq?: (...args: unknown[]) => void;
   }
 }
