@@ -30,7 +30,7 @@ export class Navigation {
         </a>
         <ul class="now-nav-links" role="list">
           ${NAV_LINKS.map(
-            (l) => `<li><a class="now-nav-link" href="${l.target}" data-target="${l.target}">${l.label}</a></li>`,
+            (l) => `<li><a class="now-nav-link" href="/${l.target}" data-target="${l.target}">${l.label}</a></li>`,
           ).join('')}
         </ul>
         <div class="now-nav-actions">
@@ -46,7 +46,7 @@ export class Navigation {
       <div class="now-nav-overlay" aria-hidden="true">
         <ul class="now-nav-overlay-links" role="list">
           ${NAV_LINKS.map(
-            (l) => `<li><a class="now-nav-overlay-link" href="${l.target}" data-target="${l.target}">${l.label}</a></li>`,
+            (l) => `<li><a class="now-nav-overlay-link" href="/${l.target}" data-target="${l.target}">${l.label}</a></li>`,
           ).join('')}
         </ul>
         <a class="now-nav-overlay-cta" href="${cta.primaryHref}"${cta.isCalendly ? ' target="_blank" rel="noopener"' : ''}>

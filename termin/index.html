@@ -50,7 +50,7 @@
         flex-direction: column;
         position: relative;
       }
-      /* Sanfter Gold-Glow oben — Marken-Atmosphäre, statisch (kein WebGL) */
+      /* Sanfter Gold-Glow — Marken-Atmosphäre, statisch (kein WebGL) */
       body::before {
         content: '';
         position: fixed;
@@ -62,38 +62,6 @@
           radial-gradient(90% 60% at 50% 100%, rgba(201, 168, 76, 0.05), transparent 75%);
       }
 
-      .termin-header {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        padding: 24px 32px;
-        max-width: 1100px;
-        width: 100%;
-        margin: 0 auto;
-      }
-      .termin-logo { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
-      .termin-logo img { width: 44px; height: 44px; display: block; }
-      .termin-logo span {
-        font-family: var(--font-mono);
-        font-size: 13px;
-        letter-spacing: 0.28em;
-        color: var(--color-text);
-        text-transform: uppercase;
-      }
-      .termin-back {
-        font-family: var(--font-body);
-        font-size: 13px;
-        color: var(--color-text-muted);
-        text-decoration: none;
-        letter-spacing: 0.02em;
-        transition: color 300ms ease;
-        white-space: nowrap;
-      }
-      .termin-back:hover { color: var(--color-gold-light); }
-
       .termin-main {
         position: relative;
         z-index: 1;
@@ -101,7 +69,7 @@
         width: 100%;
         max-width: 900px;
         margin: 0 auto;
-        padding: 24px 24px 64px;
+        padding: 148px 24px 72px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -202,21 +170,8 @@
         box-shadow: 0 0 36px rgba(201, 168, 76, 0.5);
       }
 
-      .termin-footer {
-        position: relative;
-        z-index: 1;
-        text-align: center;
-        padding: 28px 24px 36px;
-        font-family: var(--font-body);
-        font-size: 12px;
-        letter-spacing: 0.02em;
-        color: var(--color-text-dim);
-      }
-
       @media (max-width: 768px) {
-        .termin-header { padding: 18px 20px; }
-        .termin-logo span { display: none; }
-        .termin-main { padding: 16px 16px 48px; }
+        .termin-main { padding: 112px 16px 56px; }
         .termin-trust { margin-bottom: 28px; }
         .termin-embed { min-height: 1000px; border-radius: 6px; }
         .termin-fallback { min-height: 460px; }
@@ -224,13 +179,7 @@
     </style>
   </head>
   <body>
-    <header class="termin-header">
-      <a class="termin-logo" href="/" aria-label="NOW Consulting — zur Startseite">
-        <img src="/now-logo.webp" alt="" aria-hidden="true" />
-        <span>NOW Consulting</span>
-      </a>
-      <a class="termin-back" href="/">← Zurück zur Startseite</a>
-    </header>
+    <!-- Navigation wird via termin/main.ts (Navigation-Klasse) an <body> angehängt — 1:1 wie Hauptseite -->
 
     <main class="termin-main">
       <span class="termin-eyebrow">Jetzt ist dein Moment</span>
@@ -244,9 +193,8 @@
       <div class="termin-embed" id="calendly-mount"></div>
     </main>
 
-    <footer class="termin-footer">
-      © NOW Coaching Service FZCO · Dubai Silicon Oasis · now-consulting.at
-    </footer>
+    <!-- Footer 1:1 wie Hauptseite (Impressum/Datenschutz/AGB) — gerendert via Footer-Klasse -->
+    <section data-section="footer" id="footer-section"></section>
 
     <script type="module" src="/termin/main.ts"></script>
   </body>

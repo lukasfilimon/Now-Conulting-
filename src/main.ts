@@ -78,6 +78,20 @@ class NowApp {
     setTimeout(() => this.scroll.lenis.resize(), 300);
     setTimeout(() => this.scroll.lenis.resize(), 1000);
     window.addEventListener('load', () => this.scroll.lenis.resize());
+
+    // Deep-Link: Wenn die Seite mit #section-x geladen wird (z.B. ein Nav-Link
+    // von der /termin-Seite), nach dem Mount sanft zur Section scrollen.
+    if (location.hash && location.hash.length > 1) {
+      window.setTimeout(() => {
+        let el: HTMLElement | null = null;
+        try {
+          el = document.querySelector(location.hash);
+        } catch {
+          el = null;
+        }
+        if (el) this.scroll.scrollTo(el, { offset: -72, duration: 1.0 });
+      }, 600);
+    }
   }
 
   /**
