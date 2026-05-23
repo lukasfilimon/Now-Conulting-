@@ -129,11 +129,13 @@ export class HeroContent {
   reveal(): void {
     if (this.revealed) return;
     this.revealed = true;
+    // Straffer als zuvor (0/600/1100/1400/1700) — landet ~400ms
+    // schneller in der Endpose ohne den Premium-Pace zu verlieren.
     this.headlineEl.classList.add('reveal');
-    setTimeout(() => this.videoColEl.classList.add('reveal'), 600);
-    setTimeout(() => this.subEl.classList.add('reveal'), 1100);
-    setTimeout(() => this.ctaEl.classList.add('reveal'), 1400);
-    setTimeout(() => this.ctaTrustEl.classList.add('reveal'), 1700);
+    setTimeout(() => this.videoColEl.classList.add('reveal'), 450);
+    setTimeout(() => this.subEl.classList.add('reveal'), 750);
+    setTimeout(() => this.ctaEl.classList.add('reveal'), 1000);
+    setTimeout(() => this.ctaTrustEl.classList.add('reveal'), 1300);
   }
 
   setProgress(p: number): void {

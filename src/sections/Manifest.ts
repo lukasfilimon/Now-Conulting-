@@ -15,6 +15,7 @@ import { copy } from '../content/copy';
 export class Manifest {
   readonly root: HTMLElement;
   private revealed = false;
+  private currentLit: HTMLElement | null = null;
 
   constructor(container: HTMLElement) {
     const paragraphs = copy.manifest.body
@@ -123,6 +124,13 @@ export class Manifest {
     const yPx = elRect.top - sectionRect.top + elRect.height / 2;
     const pct = (yPx / sectionRect.height) * 100;
     (section as HTMLElement).style.setProperty('--spotlight-y', `${pct.toFixed(2)}%`);
+    // Text-Backlight: aktuell beleuchtetes Element bekommt dezenten
+    // text-shadow, der mit dem Spotlight wandert.
+    if (this.currentLit && this.currentLit !== el) {
+      this.currentLit.classList.remove('manifest-lit');
+    }
+    el.classList.add('manifest-lit');
+    this.currentLit = el;
   }
 
   private delay(ms: number): Promise<void> {
@@ -181,6 +189,20 @@ export class Manifest {
       }
       section[data-section="manifest"].spotlight-on::before {
         opacity: 1;
+      }
+
+      /* Text-Backlight: das aktuell „beleuchtete" Element bekommt dezenten
+         text-shadow synchron mit dem Spotlight. Wandert mit moveSpotlightTo(). */
+      .manifest-headline,
+      .manifest-body,
+      .manifest-signature {
+        transition:
+          opacity 1000ms var(--ease-reveal),
+          transform 1000ms var(--ease-reveal),
+          text-shadow 900ms var(--ease-reveal);
+      }
+      .manifest-lit {
+        text-shadow: 0 0 36px rgba(201, 168, 76, 0.22);
       }
 
       /* ═══════════════════════════════════════════════════════
@@ -371,6 +393,7 @@ export class Manifest {
           filter: none;
           transition: none;
         }
+        .manifest-lit { text-shadow: none; }
         .manifest-portrait-glow,
         .manifest-portrait-img {
           animation: none;

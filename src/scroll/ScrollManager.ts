@@ -11,7 +11,8 @@ export class ScrollManager {
 
   constructor() {
     this.lenis = new Lenis({
-      duration: 1.2,
+      // 1.2 → 0.9: ~25% schnellere Nav-Click-Scrolls, mehr Tempo-Gefuehl.
+      duration: 0.9,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       wheelMultiplier: 1.0,
@@ -46,7 +47,7 @@ export class ScrollManager {
 
   scrollTo(target: number | string | HTMLElement, opts?: { duration?: number; offset?: number }): void {
     this.lenis.scrollTo(target, {
-      duration: opts?.duration ?? 1.2,
+      duration: opts?.duration ?? 0.9,
       offset: opts?.offset ?? 0,
     });
   }
