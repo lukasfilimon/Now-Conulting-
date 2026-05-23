@@ -67,7 +67,7 @@ export class Manifest {
           }
         }
       },
-      { threshold: 0.25 },
+      { threshold: 0.15 },
     );
     io.observe(this.root);
   }
@@ -90,6 +90,8 @@ export class Manifest {
 
     // 0. Bild fadet zuerst rein (Gesicht etabliert sich)
     portrait?.classList.add('reveal');
+    // Spotlight-Layer einblenden, sobald das Porträt da ist
+    this.root.closest('section')?.classList.add('spotlight-on');
     await this.delay(250);
 
     // 1. Spotlight wandert zur Headline + Headline reveal
@@ -102,7 +104,7 @@ export class Manifest {
     this.moveSpotlightTo(body);
     for (const p of Array.from(paragraphs)) {
       p.classList.add('reveal');
-      await this.delay(380);
+      await this.delay(260);
     }
     await this.delay(450);
 
@@ -143,6 +145,42 @@ export class Manifest {
         grid-template-columns: 0.85fr 1fr;
         gap: 72px;
         align-items: center;
+      }
+
+      /* ═══════════════════════════════════════════════════════
+         SPOTLIGHT — sanfter Gold-Schein, der durch JS-gesteuertes
+         --spotlight-y vertikal zur jeweils aktuellen Content-Zeile
+         wandert (Headline → Body → Signature). Wird ~250 ms nach
+         Portrait-Reveal eingeblendet via .spotlight-on.
+         ═══════════════════════════════════════════════════════ */
+      section[data-section="manifest"] {
+        position: relative;
+        --spotlight-y: 50%;
+      }
+      section[data-section="manifest"]::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: var(--spotlight-y);
+        width: 720px;
+        height: 360px;
+        margin-left: -360px;
+        margin-top: -180px;
+        background: radial-gradient(
+          ellipse 50% 45% at 50% 50%,
+          rgba(201, 168, 76, 0.13) 0%,
+          rgba(201, 168, 76, 0.05) 40%,
+          transparent 75%
+        );
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0;
+        transition:
+          top 1000ms cubic-bezier(0.16, 1, 0.3, 1),
+          opacity 800ms ease-out;
+      }
+      section[data-section="manifest"].spotlight-on::before {
+        opacity: 1;
       }
 
       /* ═══════════════════════════════════════════════════════
@@ -188,6 +226,14 @@ export class Manifest {
         display: block;
         border-radius: 12px;
         filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.6));
+        /* Sub-Pixel Ken-Burns — gibt dem Porträt leise Bewegung statt
+           nach dem Reveal statisch stehen zu bleiben. 18 s Cycle, ~3 %
+           Skalierung, sub-pixel Translate. */
+        animation: manifest-portrait-drift 18s ease-in-out infinite alternate;
+      }
+      @keyframes manifest-portrait-drift {
+        0%   { transform: scale(1.000) translate(0, 0); }
+        100% { transform: scale(1.025) translate(-0.3%, -0.5%); }
       }
 
       /* ═══════════════════════════════════════════════════════
@@ -265,6 +311,13 @@ export class Manifest {
         height: 1px;
         background: linear-gradient(90deg, rgba(201, 168, 76, 0.7), rgba(201, 168, 76, 0));
         margin-bottom: 14px;
+        /* Zeichnet sich von links nach rechts beim Signature-Reveal. */
+        transform: scaleX(0);
+        transform-origin: left center;
+        transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1) 150ms;
+      }
+      .manifest-signature.reveal .manifest-sig-line {
+        transform: scaleX(1);
       }
       .manifest-sig-name {
         font-family: var(--font-display);
@@ -314,8 +367,17 @@ export class Manifest {
           transform: none;
           transition: none;
         }
-        .manifest-portrait-glow {
+        .manifest-portrait-glow,
+        .manifest-portrait-img {
           animation: none;
+        }
+        .manifest-sig-line {
+          transform: scaleX(1);
+          transition: none;
+        }
+        section[data-section="manifest"]::before {
+          opacity: 0 !important;
+          transition: none;
         }
       }
     `;
