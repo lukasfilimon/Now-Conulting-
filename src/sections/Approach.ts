@@ -59,7 +59,7 @@ export class Approach {
                   <div class="approach-card-visual-bg" aria-hidden="true"></div>
                 </div>
                 <div class="approach-card-content">
-                  <h3 class="approach-card-title">${this.escape(s.title)}</h3>
+                  <h3 class="approach-card-title">${parseInt(s.number, 10)}. ${this.escape(s.title)}</h3>
                   <p class="approach-card-text">${this.escape(s.text)}</p>
                 </div>
               </article>
@@ -67,15 +67,14 @@ export class Approach {
               )
               .join('')}
           </div>
-        </div>
-
-        <div class="approach-controls">
-          <button class="approach-arrow approach-arrow--prev" aria-label="Vorheriges Feld" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M15 6 L9 12 L15 18"/></svg>
-          </button>
-          <button class="approach-arrow approach-arrow--next" aria-label="Nächstes Feld" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 6 L15 12 L9 18"/></svg>
-          </button>
+          <div class="approach-controls">
+            <button class="approach-arrow approach-arrow--prev" aria-label="Vorheriges Feld" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M15 6 L9 12 L15 18"/></svg>
+            </button>
+            <button class="approach-arrow approach-arrow--next" aria-label="Nächstes Feld" type="button">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 6 L15 12 L9 18"/></svg>
+            </button>
+          </div>
         </div>
 
         <div class="section-cta-wrap">
@@ -475,35 +474,37 @@ export class Approach {
       }
 
       /* ═══════════════════════════════════════════════════════════
-         CONTROLS — zwei Pfeil-Buttons
+         CONTROLS — Edge-Floating Pfeile mit Verlauf-Halo
          ═══════════════════════════════════════════════════════════ */
       .approach-controls {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 16px;
-        margin-top: 52px;
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 5;
       }
       .approach-arrow {
-        width: 72px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 56px;
         height: 56px;
-        border-radius: 4px;
+        border-radius: 50%;
         background:
           linear-gradient(165deg,
             rgba(34, 30, 20, 0.78) 0%,
             rgba(20, 17, 11, 0.68) 100%);
-        border: 1px solid rgba(201, 168, 76, 0.28);
+        border: 1px solid rgba(201, 168, 76, 0.32);
         color: rgba(226, 201, 122, 0.9);
         cursor: pointer;
+        pointer-events: auto;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 0;
-        position: relative;
         backdrop-filter: blur(12px) saturate(130%);
         -webkit-backdrop-filter: blur(12px) saturate(130%);
         box-shadow:
-          0 1px 0 0 rgba(255, 240, 200, 0.06) inset,
+          0 1px 0 0 rgba(255, 240, 200, 0.08) inset,
           0 -1px 0 0 rgba(0, 0, 0, 0.4) inset,
           0 12px 28px -16px rgba(0, 0, 0, 0.7);
         transition:
@@ -513,26 +514,43 @@ export class Approach {
           transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
           box-shadow 300ms ease;
       }
+      /* Verlauf-Halo: weicher dunkler Pad hinter dem Button, damit er
+         auch über bunten Foto-Hintergründen sauber lesbar bleibt. */
+      .approach-arrow::before {
+        content: '';
+        position: absolute;
+        inset: -18px;
+        border-radius: 50%;
+        background: radial-gradient(circle,
+          rgba(8, 6, 4, 0.55) 0%,
+          rgba(8, 6, 4, 0.25) 45%,
+          transparent 75%);
+        z-index: -1;
+        pointer-events: none;
+        transition: opacity 300ms ease;
+      }
+      .approach-arrow--prev { left: 20px; }
+      .approach-arrow--next { right: 20px; }
       .approach-arrow:hover {
         border-color: rgba(226, 201, 122, 0.7);
         color: #f0d489;
-        transform: translateY(-2px);
+        transform: translateY(calc(-50% - 2px));
         background:
           linear-gradient(165deg,
             rgba(42, 36, 22, 0.85) 0%,
             rgba(26, 22, 14, 0.75) 100%);
         box-shadow:
-          0 1px 0 0 rgba(255, 240, 200, 0.12) inset,
+          0 1px 0 0 rgba(255, 240, 200, 0.14) inset,
           0 -1px 0 0 rgba(0, 0, 0, 0.35) inset,
           0 18px 40px -16px rgba(0, 0, 0, 0.8),
           0 0 24px -8px rgba(201, 168, 76, 0.35);
       }
       .approach-arrow:active {
-        transform: translateY(0);
+        transform: translateY(-50%);
       }
       .approach-arrow svg {
-        width: 22px;
-        height: 22px;
+        width: 20px;
+        height: 20px;
       }
 
       /* Approach hat keine eigene reveal-Choreografie (Carousel ist sofort sichtbar) —
@@ -559,8 +577,10 @@ export class Approach {
         }
         .approach-card-visual { height: 180px; }
         .approach-card-title { font-size: 22px; }
-        .approach-controls { gap: 14px; margin-top: 36px; }
-        .approach-arrow { width: 64px; height: 52px; }
+        .approach-arrow { width: 48px; height: 48px; }
+        .approach-arrow--prev { left: 8px; }
+        .approach-arrow--next { right: 8px; }
+        .approach-arrow::before { inset: -14px; }
       }
 
       @media (prefers-reduced-motion: reduce) {
