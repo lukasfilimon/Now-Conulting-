@@ -278,67 +278,68 @@ export class Audience {
         opacity: 0.25;
       }
 
-      /* Pain-Card — frosted cool-slate glass — Position/Opacity wird von GSAP gesteuert */
+      /* Pain-Card — Matrix Blau-Pille: kühles Blau-Glas (Verharren in der aktuellen Realität) */
       .audience-card--pain {
-        background: rgba(20, 24, 32, 0.55);
+        background: rgba(22, 28, 44, 0.55);
         backdrop-filter: blur(14px) saturate(115%);
         -webkit-backdrop-filter: blur(14px) saturate(115%);
-        border-color: rgba(120, 130, 150, 0.22);
+        border-color: rgba(110, 130, 170, 0.24);
         box-shadow:
-          inset 0 1px 0 rgba(200, 210, 230, 0.10),
+          inset 0 1px 0 rgba(200, 215, 235, 0.10),
           0 6px 14px rgba(0, 0, 0, 0.30),
           0 26px 64px rgba(0, 0, 0, 0.50),
-          0 0 70px rgba(50, 60, 80, 0.15);
+          0 0 70px rgba(70, 110, 180, 0.18);
         transition:
           box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1),
           border-color 500ms cubic-bezier(0.16, 1, 0.3, 1);
       }
       .audience-card--pain:hover {
-        border-color: rgba(150, 165, 190, 0.35);
+        border-color: rgba(130, 165, 210, 0.38);
         box-shadow:
-          inset 0 1px 0 rgba(200, 210, 230, 0.16),
+          inset 0 1px 0 rgba(200, 215, 235, 0.16),
           0 8px 18px rgba(0, 0, 0, 0.35),
           0 36px 90px rgba(0, 0, 0, 0.62),
-          0 0 100px rgba(80, 100, 130, 0.22);
+          0 0 100px rgba(90, 140, 205, 0.25);
       }
       .audience-card--pain .audience-col-label {
-        color: rgba(160, 170, 185, 0.78);
+        color: rgba(155, 175, 200, 0.80);
       }
       .audience-card--pain .audience-head-rule {
-        color: rgba(155, 165, 180, 0.5);
+        color: rgba(150, 170, 200, 0.5);
       }
       .audience-card--pain .audience-line {
-        color: rgba(180, 185, 198, 0.82);
+        color: rgba(180, 195, 215, 0.82);
       }
       .audience-card--pain .audience-divider {
-        background: rgba(155, 165, 180, 0.14);
+        background: rgba(130, 160, 200, 0.16);
       }
 
-      /* Vision-Card — frosted warm-gold glass — Position/Opacity wird von GSAP gesteuert */
+      /* Vision-Card — Matrix Rot-Pille: warmes Rot-Glas (Erwachen / Wunsch-Realität).
+         Gold-Akzente in Label/Lines/Bullet/Divider bleiben — Brand-Faden erhalten. */
       .audience-card--vision {
-        background: rgba(201, 168, 76, 0.10);
+        background: rgba(170, 65, 65, 0.10);
         backdrop-filter: blur(14px) saturate(140%);
         -webkit-backdrop-filter: blur(14px) saturate(140%);
-        border-color: rgba(201, 168, 76, 0.32);
+        border-color: rgba(190, 85, 80, 0.30);
         box-shadow:
           inset 0 1px 0 rgba(255, 230, 165, 0.24),
-          inset 0 0 80px rgba(201, 168, 76, 0.05),
+          inset 0 0 80px rgba(190, 85, 80, 0.06),
           0 6px 14px rgba(0, 0, 0, 0.25),
           0 26px 64px rgba(0, 0, 0, 0.45),
-          0 0 80px rgba(241, 220, 150, 0.14);
+          0 0 80px rgba(220, 95, 80, 0.18);
         transition:
           box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1),
           border-color 500ms cubic-bezier(0.16, 1, 0.3, 1);
         will-change: transform, opacity;
       }
       .audience-card--vision:hover {
-        border-color: rgba(201, 168, 76, 0.45);
+        border-color: rgba(210, 100, 90, 0.42);
         box-shadow:
           inset 0 1px 0 rgba(255, 230, 165, 0.34),
-          inset 0 0 100px rgba(201, 168, 76, 0.08),
+          inset 0 0 100px rgba(210, 100, 90, 0.08),
           0 8px 18px rgba(0, 0, 0, 0.30),
           0 36px 90px rgba(0, 0, 0, 0.55),
-          0 0 110px rgba(241, 220, 150, 0.26);
+          0 0 110px rgba(225, 105, 90, 0.28);
       }
       .audience-card--vision .audience-col-label {
         color: var(--color-gold);
@@ -383,7 +384,7 @@ export class Audience {
         border-radius: 50%;
       }
       .audience-card--pain .audience-line::before {
-        background: rgba(155, 170, 195, 0.55);
+        background: rgba(130, 165, 205, 0.65);
       }
       .audience-card--vision .audience-line::before {
         background: rgba(241, 220, 150, 0.95);
