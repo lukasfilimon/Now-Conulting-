@@ -50,6 +50,14 @@ class NowApp {
     this.assets = new AssetManager();
     this.audio = new AudioManager();
     this.perf = new PerformanceMonitor('perf');
+    // Bei dauerhaft niedrigen FPS (<30 für 3 Samples) body.low-fps setzen —
+    // CSS deaktiviert dann dekorative Animationen (Audience-Pillen ken-burns,
+    // Manifest-Portrait Drift, Hero-Shimmer etc.). Hero-WebGL bleibt aktiv.
+    this.perf.onLowFps(() => {
+      if (!document.body.classList.contains('low-fps')) {
+        document.body.classList.add('low-fps');
+      }
+    });
     this.scroll = new ScrollManager();
 
     this.renderer.camera.position.set(0, 0, 5);

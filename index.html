@@ -120,6 +120,24 @@
         contain: layout style;
       }
 
+      /* Adaptive Quality — wenn die PerformanceMonitor 3× hintereinander <30 fps
+         misst, wird body.low-fps gesetzt. Wir deaktivieren dann dekorative
+         Animationen, ohne den Hero-WebGL (Marken-Identität) zu berühren. */
+      body.low-fps .audience-grid-bg::before,
+      body.low-fps .manifest-portrait-img,
+      body.low-fps .manifest-portrait-glow,
+      body.low-fps .hero-headline-em,
+      body.low-fps .hero-brand-rest,
+      body.low-fps .hero-brand-now,
+      body.low-fps .final-cta-btn::before {
+        animation: none !important;
+      }
+      body.low-fps .approach-card-img,
+      body.low-fps .program-card,
+      body.low-fps .experience-card {
+        will-change: auto;
+      }
+
       #app {
         position: relative;
         width: 100%;

@@ -165,6 +165,10 @@ export class Approach {
     if (reduceMotion) return;
     this.autoRotateId = window.setInterval(() => {
       if (!this.isInViewport) return;
+      // Wenn der globale Performance-Monitor low-fps signalisiert hat,
+      // pausiert auch das Auto-Rotation-Tick — der User kann weiter
+      // manuell mit den Pfeilen blättern.
+      if (document.body.classList.contains('low-fps')) return;
       if (!this.isHovered && !this.isAnimating) this.goToNext();
     }, this.rotationInterval);
   }
@@ -327,6 +331,10 @@ export class Approach {
         display: flex;
         flex-direction: column;
         gap: 24px;
+        /* Isolierter Stacking-Context — verhindert dass das Card-Image-Hover
+           (scale 1.05) den Compositor zwingt den Card-backdrop-filter neu
+           zu evaluieren. */
+        isolation: isolate;
 
         background:
           linear-gradient(165deg,
