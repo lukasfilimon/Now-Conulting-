@@ -254,22 +254,25 @@ export class HeroContent {
         opacity: 1;
         transform: translateY(0);
       }
-      /* Marken-Section "NOW CONSULTING" — eigene zentrierte Zeile über Headline + Video.
-         Größe & Schriftart wie die Headline; NOW gold mit Shimmer, CONSULTING weiß. */
+      /* Marken-Section "NOW CONSULTING" — Luxus-Masthead: dünn, weit gesperrt,
+         zentriert. NOW in Weiß, CONSULTING im Gold-Shimmer. Liest als
+         Masthead-Ebene über dem Hero, konkurriert nicht mit der Headline. */
       .hero-brand {
         width: 100%;
         max-width: 1280px;
         padding: 0 clamp(24px, 4vw, 64px);
         text-align: center;
         font-family: var(--font-display);
-        font-weight: 600;
-        /* ~1.2x der Headline — Marke etwas prominenter als die Headline darunter */
-        font-size: clamp(2.1rem, 4.1vw, 3.9rem);
+        font-weight: 400;
+        /* Dünn + weit gesperrt → präsent durch Breite und Craft, nicht durch Masse. */
+        font-size: clamp(1.5rem, 2.6vw, 2.1rem);
         line-height: 1.1;
-        letter-spacing: -0.005em;
-        /* Knapper Abstand zur Headline/Video darunter (kommt zur 12px
-           Flex-Gap der .hero-overlay dazu) — bewusst eng gehalten. */
-        margin-bottom: clamp(2px, 0.4vw, 6px);
+        letter-spacing: 0.5em;
+        /* Optische Re-Zentrierung wegen der nachlaufenden Sperrung am Wortende. */
+        text-indent: 0.5em;
+        /* Luftiger Abstand zur Headline/Video darunter (kommt zur 12px
+           Flex-Gap der .hero-overlay dazu) — passt zum luftigen Masthead. */
+        margin-bottom: clamp(16px, 2vw, 26px);
         opacity: 0;
         transform: translateY(20px);
         transition: opacity 1100ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -281,10 +284,10 @@ export class HeroContent {
       .hero-brand::after {
         content: '';
         display: block;
-        /* In em → skaliert mit der Schriftgröße; "NOW CONSULTING" ist ~8.9em
-           breit, 9.6em sind also ~8% länger als der Schriftzug. min(…,100%)
-           verhindert Überlauf auf sehr schmalen Screens. */
-        width: min(9.6em, 100%);
+        /* In em → skaliert mit der Schriftgröße. Mit der weiten Sperrung (0.5em)
+           wird der Schriftzug deutlich breiter als die reine em-Breite — 18em
+           passen unter den gesperrten Text. min(…, 58%) verhindert Überlauf. */
+        width: min(18em, 58%);
         height: 1px;
         margin: clamp(10px, 1.1vw, 14px) auto 0;
         background: linear-gradient(
@@ -301,9 +304,10 @@ export class HeroContent {
         transition: transform 1100ms cubic-bezier(0.16, 1, 0.3, 1);
       }
       .hero-brand.reveal::after { transform: scaleX(1); }
-      .hero-brand-rest { color: var(--color-text); }
-      .hero-brand-now {
-        /* exakt dieselbe Gold-Shimmer-Animation wie .hero-headline-em ("spirituelle") */
+      .hero-brand-now { color: var(--color-text); }
+      .hero-brand-rest {
+        /* Gold-Shimmer (vorher auf NOW, jetzt auf CONSULTING) — gleiche
+           Mechanik wie .hero-headline-em ("spirituelle"). */
         background: linear-gradient(
           100deg,
           var(--color-gold) 0%,
@@ -349,7 +353,7 @@ export class HeroContent {
       }
       @media (prefers-reduced-motion: reduce) {
         .hero-headline-em,
-        .hero-brand-now { animation: none; }
+        .hero-brand-rest { animation: none; }
         .hero-brand::after { transition: none; }
       }
 
@@ -579,7 +583,7 @@ export class HeroContent {
       @media (max-width: 768px) {
         .hero-overlay { gap: 10px; }
         .hero-headline { font-size: clamp(1.4rem, 6.8vw, 2.04rem); line-height: 1.2; }
-        .hero-brand { font-size: clamp(1.95rem, 9vw, 2.85rem); line-height: 1.2; }
+        .hero-brand { font-size: clamp(1.15rem, 5vw, 1.6rem); letter-spacing: 0.3em; text-indent: 0.3em; line-height: 1.2; }
         .hero-sub { font-size: 15px; }
         .hero-cta { padding: 16px 32px; font-size: 13px; }
       }
