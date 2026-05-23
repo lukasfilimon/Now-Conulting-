@@ -24,6 +24,7 @@ export class Approach {
   private autoRotateId: number | null = null;
   private isAnimating = false;
   private isHovered = false;
+  private isInViewport = false;
   private rotationInterval = 5000;
   private transitionMs = 800;
 
@@ -144,7 +145,15 @@ export class Approach {
   private startAutoRotate(): void {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) return;
+    // IO-Guard: Auto-Rotation läuft nur, wenn die Carousel-Section im Viewport
+    // ist. Spart CPU + Akku während User in anderen Sections scrollt.
+    const viewportIO = new IntersectionObserver(
+      ([entry]) => { this.isInViewport = entry.isIntersecting; },
+      { threshold: 0 },
+    );
+    viewportIO.observe(this.root);
     this.autoRotateId = window.setInterval(() => {
+      if (!this.isInViewport) return;
       if (!this.isHovered && !this.isAnimating) this.goToNext();
     }, this.rotationInterval);
   }

@@ -81,7 +81,7 @@ export class Experiences {
           }
         }
       },
-      { threshold: 0.2 },
+      { threshold: 0.15 },
     );
     io.observe(this.root);
   }

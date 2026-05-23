@@ -61,7 +61,7 @@ export class StatStrip {
           }
         }
       },
-      { threshold: 0.3 },
+      { threshold: 0.15 },
     );
     io.observe(this.root);
   }
@@ -178,6 +178,7 @@ export class StatStrip {
         background: linear-gradient(180deg, transparent, rgba(201, 168, 76, 0.3), transparent);
       }
       @media (prefers-reduced-motion: reduce) {
+        .stat-strip { transition: none; opacity: 1; transform: none; }
         .stat-strip-item { transition: none; }
         .stat-strip-item:hover { transform: none; }
       }

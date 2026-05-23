@@ -56,7 +56,7 @@ export class Team {
           }
         }
       },
-      { threshold: 0.2 },
+      { threshold: 0.15 },
     );
     io.observe(this.root);
   }
@@ -212,6 +212,15 @@ export class Team {
       @media (max-width: 520px) {
         .team-grid {
           grid-template-columns: 1fr;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .team-header,
+        .team-card,
+        .team-portrait {
+          opacity: 1;
+          transform: none;
+          transition: none;
         }
       }
     `;

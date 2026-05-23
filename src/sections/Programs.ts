@@ -89,7 +89,7 @@ export class Programs {
           }
         }
       },
-      { threshold: 0.2 },
+      { threshold: 0.15 },
     );
     io.observe(this.root);
   }

@@ -62,7 +62,7 @@ export class FinalCTA {
           }
         }
       },
-      { threshold: 0.25 },
+      { threshold: 0.15 },
     );
     io.observe(this.root);
   }
