@@ -93,6 +93,9 @@ export class Approach {
 
     this.injectStyles();
     this.measureCard();
+    // Initial-Transform anwenden (für Mobile-Centering relevant — Desktop
+    // bleibt bei translateX(0) am linken Rand, was korrekt ist).
+    this.applyTransform();
     this.attachEvents();
     this.startAutoRotate();
 
@@ -190,8 +193,16 @@ export class Approach {
   }
 
   private applyTransform(): void {
-    const offset = this.currentIndex * (this.cardWidth + this.cardGap);
-    this.track.style.transform = `translateX(-${offset}px)`;
+    let translateX = -(this.currentIndex * (this.cardWidth + this.cardGap));
+    // Mobile: die aktive Karte horizontal im Viewport zentrieren
+    // (Desktop bleibt links-bündig, da dort mehrere Karten gleichzeitig sichtbar sind).
+    if (window.matchMedia('(max-width: 768px)').matches) {
+      const viewportWidth = this.viewport.clientWidth;
+      const paddingLeft = parseFloat(getComputedStyle(this.viewport).paddingLeft) || 0;
+      const centerOffset = (viewportWidth - this.cardWidth) / 2 - paddingLeft;
+      translateX += centerOffset;
+    }
+    this.track.style.transform = `translateX(${translateX}px)`;
   }
 
   private snapToIndex(i: number): void {
