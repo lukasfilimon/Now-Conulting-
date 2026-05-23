@@ -143,15 +143,26 @@ export class Approach {
   }
 
   private startAutoRotate(): void {
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduceMotion) return;
-    // IO-Guard: Auto-Rotation läuft nur, wenn die Carousel-Section im Viewport
-    // ist. Spart CPU + Akku während User in anderen Sections scrollt.
+    // IO-Guard: tracked viewport-visibility (pausiert Auto-Rotation +
+    // triggert das einmalige Card-Image Cinema-Reveal). Auch unter
+    // prefers-reduced-motion läuft die IO, damit die Images sichtbar werden
+    // (CSS-Override stellt clip-path:0 dann reduced-motion sicher).
+    let firstRevealed = false;
     const viewportIO = new IntersectionObserver(
-      ([entry]) => { this.isInViewport = entry.isIntersecting; },
+      ([entry]) => {
+        this.isInViewport = entry.isIntersecting;
+        if (entry.isIntersecting && !firstRevealed) {
+          firstRevealed = true;
+          // First-time-Reveal: clip-path Cinema-Enthüllung auf allen Cards
+          this.cards.forEach((c) => c.classList.add('in-view'));
+        }
+      },
       { threshold: 0 },
     );
     viewportIO.observe(this.root);
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
     this.autoRotateId = window.setInterval(() => {
       if (!this.isInViewport) return;
       if (!this.isHovered && !this.isAnimating) this.goToNext();
@@ -415,7 +426,8 @@ export class Approach {
           inset 0 1px 0 rgba(255, 240, 200, 0.04);
       }
 
-      /* Foto — füllt den Frame, Center-Crop */
+      /* Foto — füllt den Frame, Center-Crop. Beim ersten Sichtbarwerden
+         enthüllt sich das Bild von oben nach unten (Cinema-Reveal). */
       .approach-card-img {
         position: absolute;
         inset: 0;
@@ -424,7 +436,12 @@ export class Approach {
         object-fit: cover;
         object-position: center;
         z-index: 0;
-        transition: transform 700ms var(--ease-reveal);
+        clip-path: inset(100% 0 0 0);
+        transition: clip-path 1200ms var(--ease-reveal) 200ms,
+                    transform 700ms var(--ease-reveal);
+      }
+      .approach-card.in-view .approach-card-img {
+        clip-path: inset(0 0 0 0);
       }
       .approach-card:hover .approach-card-img {
         transform: scale(1.05);
@@ -607,7 +624,7 @@ export class Approach {
         .approach-track { transition: none; }
         .approach-card { transition: none; }
         .approach-card:hover { transform: none; }
-        .approach-card-img { transition: none; }
+        .approach-card-img { transition: none; clip-path: inset(0 0 0 0); }
         .approach-card:hover .approach-card-img { transform: none; }
       }
     `;

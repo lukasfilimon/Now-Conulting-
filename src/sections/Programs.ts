@@ -331,7 +331,27 @@ export class Programs {
         display: flex;
         flex-direction: column;
         gap: 4px;
+        opacity: 0;
+        transform: translateY(6px);
+        transition: opacity var(--dur-base) var(--ease-reveal),
+                    transform var(--dur-base) var(--ease-reveal);
       }
+      .programs-wrap.reveal .program-inclusion {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      /* Staffel: erste Karte 200ms Base, zweite Karte 400ms Base,
+         pro Inclusion +50ms. */
+      .programs-wrap.reveal .program-card:nth-child(1) .program-inclusion:nth-child(1) { transition-delay: 250ms; }
+      .programs-wrap.reveal .program-card:nth-child(1) .program-inclusion:nth-child(2) { transition-delay: 300ms; }
+      .programs-wrap.reveal .program-card:nth-child(1) .program-inclusion:nth-child(3) { transition-delay: 350ms; }
+      .programs-wrap.reveal .program-card:nth-child(1) .program-inclusion:nth-child(4) { transition-delay: 400ms; }
+      .programs-wrap.reveal .program-card:nth-child(1) .program-inclusion:nth-child(5) { transition-delay: 450ms; }
+      .programs-wrap.reveal .program-card:nth-child(2) .program-inclusion:nth-child(1) { transition-delay: 450ms; }
+      .programs-wrap.reveal .program-card:nth-child(2) .program-inclusion:nth-child(2) { transition-delay: 500ms; }
+      .programs-wrap.reveal .program-card:nth-child(2) .program-inclusion:nth-child(3) { transition-delay: 550ms; }
+      .programs-wrap.reveal .program-card:nth-child(2) .program-inclusion:nth-child(4) { transition-delay: 600ms; }
+      .programs-wrap.reveal .program-card:nth-child(2) .program-inclusion:nth-child(5) { transition-delay: 650ms; }
       .program-inclusion::before {
         content: '◆';
         position: absolute;
@@ -427,7 +447,8 @@ export class Programs {
       @media (prefers-reduced-motion: reduce) {
         .programs-header,
         .program-card,
-        .programs-cta-center {
+        .programs-cta-center,
+        .program-inclusion {
           opacity: 1;
           transform: none;
           transition: none;

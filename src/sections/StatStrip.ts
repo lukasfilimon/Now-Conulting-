@@ -154,6 +154,7 @@ export class StatStrip {
       .stat-strip-item:hover .stat-strip-value {
         color: #f1dc96;
         text-shadow: 0 0 18px rgba(241, 220, 150, 0.55);
+        transform: scale(1.04);
       }
       .stat-strip-value {
         font-family: var(--font-display);
@@ -163,7 +164,9 @@ export class StatStrip {
         line-height: 1;
         color: var(--color-gold-light);
         letter-spacing: -0.012em;
-        transition: color 320ms ease-out, text-shadow 320ms ease-out;
+        transition: color var(--dur-fast) var(--ease-snap),
+                    text-shadow var(--dur-fast) var(--ease-snap),
+                    transform var(--dur-fast) var(--ease-snap);
       }
       .stat-strip-label {
         font-family: var(--font-body);

@@ -13,6 +13,7 @@ import { copy, cta } from '../content/copy';
  */
 export class Footer {
   readonly root: HTMLElement;
+  private revealed = false;
 
   constructor(container: HTMLElement) {
     const { footer } = copy;
@@ -39,6 +40,25 @@ export class Footer {
     `;
     this.root = container.querySelector('.footer-wrap') as HTMLElement;
     this.injectStyles();
+    this.observe();
+  }
+
+  /** IO triggert die Hairline-Draw-Animation beim ersten Erreichen. */
+  private observe(): void {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting && !this.revealed) {
+            this.revealed = true;
+            // Marker auf der parent section setzen, damit ::after-Selector greift
+            this.root.closest('section')?.classList.add('footer-revealed');
+            io.disconnect();
+          }
+        }
+      },
+      { threshold: 0.15 },
+    );
+    io.observe(this.root);
   }
 
   private escape(text: string): string {
@@ -90,6 +110,19 @@ export class Footer {
           0 0 24px rgba(201, 168, 76, 0.12);
         z-index: 2;
         pointer-events: none;
+        /* Hairline zeichnet sich aus der Mitte beim ersten Footer-Reveal. */
+        transform: scaleX(0);
+        transform-origin: center;
+        transition: transform 1100ms var(--ease-reveal);
+      }
+      section[data-section="footer"].footer-revealed::after {
+        transform: scaleX(1);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        section[data-section="footer"]::after {
+          transform: scaleX(1);
+          transition: none;
+        }
       }
 
       /* ═══════════════════════════════════════════════════════

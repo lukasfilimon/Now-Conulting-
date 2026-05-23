@@ -282,12 +282,15 @@ export class Manifest {
         margin: 0;
         opacity: 0;
         transform: translateY(10px);
+        filter: blur(2.5px);
         transition: opacity 850ms var(--ease-reveal),
-                    transform 850ms var(--ease-reveal);
+                    transform 850ms var(--ease-reveal),
+                    filter 850ms var(--ease-reveal);
       }
       .manifest-p.reveal {
         opacity: 1;
         transform: translateY(0);
+        filter: blur(0);
       }
 
       /* Signature — name + title, prefixed by a small gold hairline */
@@ -365,6 +368,7 @@ export class Manifest {
         .manifest-signature {
           opacity: 1;
           transform: none;
+          filter: none;
           transition: none;
         }
         .manifest-portrait-glow,
