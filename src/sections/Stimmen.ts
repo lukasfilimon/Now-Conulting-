@@ -204,8 +204,16 @@ export class Stimmen {
         animation: stimmen-marquee-rtl 80s linear infinite;
       }
 
-      .stimmen-marquee:hover .stimmen-marquee-track {
-        animation-play-state: paused;
+      /* Pause-on-Hover NUR auf Geräten mit echtem Hover (Maus/Trackpad).
+         Auf Touch-Geräten ist :hover "sticky" — tippt der User ein Video an
+         (um es abzuspielen), bleibt die Karte im Hover-Zustand und die
+         Marquee friert ein, läuft nie mehr von selbst weiter. Mit
+         @media (hover: hover) sieht Mobile diese Regel gar nicht — die
+         Marquee läuft konstant durch, auch nach einem Video-Tap. */
+      @media (hover: hover) {
+        .stimmen-marquee:hover .stimmen-marquee-track {
+          animation-play-state: paused;
+        }
       }
 
       @keyframes stimmen-marquee-ltr {
