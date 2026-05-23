@@ -224,6 +224,12 @@ export class Audience {
         gap: 64px;
         opacity: 0;
         transition: opacity 1200ms cubic-bezier(0.16, 1, 0.3, 1) 300ms;
+        /* Karten starten via GSAP bei xPercent: ±120 (offscreen) und sliden
+           rein. overflow-x: clip kappt diese Offscreen-Startposition, damit
+           sie nicht zur Dokument-Breite addiert (das war die echte Ursache
+           für den iOS-Mobile-Zoom-Out-Bug). overflow-y: visible bleibt,
+           damit die Drop-Shadows der Karten nach unten bleeden können. */
+        overflow-x: clip;
       }
       .audience-wrap.reveal .audience-grid {
         opacity: 1;
