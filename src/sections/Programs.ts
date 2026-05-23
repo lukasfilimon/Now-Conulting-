@@ -260,7 +260,7 @@ export class Programs {
         font-weight: 500;
         font-size: clamp(30px, 3vw, 38px);
         line-height: 1.1;
-        color: var(--color-gold-light);
+        color: var(--color-text);
         letter-spacing: -0.012em;
         margin: 0;
       }
@@ -270,7 +270,7 @@ export class Programs {
         font-weight: 600;
         letter-spacing: 0.18em;
         text-transform: uppercase;
-        color: var(--color-text-muted);
+        color: var(--color-gold-light);
         line-height: 1.6;
         display: flex;
         flex-direction: column;
