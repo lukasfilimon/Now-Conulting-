@@ -6,7 +6,6 @@ const VIMEO_ENGAGED = `${VIMEO_BASE}&autoplay=1&muted=0&controls=1&loop=0&keyboa
 
 export class HeroContent {
   readonly root: HTMLElement;
-  private brandEl: HTMLElement;
   private headlineEl: HTMLElement;
   private subEl: HTMLElement;
   private ctaEl: HTMLAnchorElement;
@@ -20,9 +19,6 @@ export class HeroContent {
   constructor(container: HTMLElement) {
     container.innerHTML = `
       <div class="hero-overlay">
-        <div class="hero-brand">
-          <span class="hero-brand-now">NOW</span> <span class="hero-brand-rest">CONSULTING</span>
-        </div>
         <div class="hero-grid">
           <div class="hero-text">
             <h1 class="hero-headline">${this.renderHeadline()}</h1>
@@ -60,7 +56,6 @@ export class HeroContent {
       </div>
     `;
     this.root = container.querySelector('.hero-overlay') as HTMLElement;
-    this.brandEl = container.querySelector('.hero-brand') as HTMLElement;
     this.headlineEl = container.querySelector('.hero-headline') as HTMLElement;
     this.subEl = container.querySelector('.hero-sub') as HTMLElement;
     this.ctaEl = container.querySelector('.hero-cta') as HTMLAnchorElement;
@@ -134,7 +129,6 @@ export class HeroContent {
   reveal(): void {
     if (this.revealed) return;
     this.revealed = true;
-    this.brandEl.classList.add('reveal');
     this.headlineEl.classList.add('reveal');
     setTimeout(() => this.videoColEl.classList.add('reveal'), 600);
     setTimeout(() => this.subEl.classList.add('reveal'), 1100);
@@ -254,78 +248,6 @@ export class HeroContent {
         opacity: 1;
         transform: translateY(0);
       }
-      /* Marken-Section "NOW CONSULTING" — Luxus-Masthead: dünn, weit gesperrt,
-         zentriert. NOW in Weiß, CONSULTING im Gold-Shimmer. Liest als
-         Masthead-Ebene über dem Hero, konkurriert nicht mit der Headline. */
-      .hero-brand {
-        width: 100%;
-        max-width: 1280px;
-        padding: 0 clamp(24px, 4vw, 64px);
-        text-align: center;
-        font-family: var(--font-display);
-        font-weight: 400;
-        /* Dünn + weit gesperrt → präsent durch Breite und Craft, nicht durch Masse. */
-        font-size: clamp(1.5rem, 2.6vw, 2.1rem);
-        line-height: 1.1;
-        letter-spacing: 0.5em;
-        /* Optische Re-Zentrierung wegen der nachlaufenden Sperrung am Wortende. */
-        text-indent: 0.5em;
-        /* Luftiger Abstand zur Headline/Video darunter (kommt zur 12px
-           Flex-Gap der .hero-overlay dazu) — passt zum luftigen Masthead. */
-        margin-bottom: clamp(16px, 2vw, 26px);
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 1100ms cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 1100ms cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .hero-brand.reveal { opacity: 1; transform: translateY(0); }
-      /* Elegante, mittig leuchtende Gold-Hairline unter der Marke — läuft an
-         beiden Enden weich aus und zeichnet sich beim Reveal aus der Mitte auf. */
-      .hero-brand::after {
-        content: '';
-        display: block;
-        /* In em → skaliert mit der Schriftgröße. Mit der weiten Sperrung (0.5em)
-           wird der Schriftzug deutlich breiter als die reine em-Breite — 18em
-           passen unter den gesperrten Text. min(…, 58%) verhindert Überlauf. */
-        width: min(18em, 58%);
-        height: 1px;
-        margin: clamp(10px, 1.1vw, 14px) auto 0;
-        background: linear-gradient(
-          90deg,
-          transparent 0%,
-          rgba(201, 168, 76, 0.4) 22%,
-          var(--color-gold-light) 50%,
-          rgba(201, 168, 76, 0.4) 78%,
-          transparent 100%
-        );
-        filter: drop-shadow(0 0 4px rgba(201, 168, 76, 0.45));
-        transform: scaleX(0);
-        transform-origin: center;
-        transition: transform 1100ms cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .hero-brand.reveal::after { transform: scaleX(1); }
-      .hero-brand-now { color: var(--color-text); }
-      .hero-brand-rest {
-        /* Gold-Shimmer (vorher auf NOW, jetzt auf CONSULTING) — gleiche
-           Mechanik wie .hero-headline-em ("spirituelle"). */
-        background: linear-gradient(
-          100deg,
-          var(--color-gold) 0%,
-          var(--color-gold) 38%,
-          var(--color-gold-light) 48%,
-          #fbeec4 52%,
-          var(--color-gold-light) 56%,
-          var(--color-gold) 66%,
-          var(--color-gold) 100%
-        );
-        background-size: 220% 100%;
-        background-position: 220% 0;
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        -webkit-text-fill-color: transparent;
-        animation: hero-shimmer 7.5s ease-in-out infinite;
-      }
       .hero-headline-em {
         font-style: italic;
         font-weight: 600;
@@ -352,9 +274,7 @@ export class HeroContent {
         55%, 100% { background-position: -120% 0; }
       }
       @media (prefers-reduced-motion: reduce) {
-        .hero-headline-em,
-        .hero-brand-rest { animation: none; }
-        .hero-brand::after { transition: none; }
+        .hero-headline-em { animation: none; }
       }
 
       .hero-sub {
@@ -583,7 +503,6 @@ export class HeroContent {
       @media (max-width: 768px) {
         .hero-overlay { gap: 10px; }
         .hero-headline { font-size: clamp(1.4rem, 6.8vw, 2.04rem); line-height: 1.2; }
-        .hero-brand { font-size: clamp(1.15rem, 5vw, 1.6rem); letter-spacing: 0.3em; text-indent: 0.3em; line-height: 1.2; }
         .hero-sub { font-size: 15px; }
         .hero-cta { padding: 16px 32px; font-size: 13px; }
       }

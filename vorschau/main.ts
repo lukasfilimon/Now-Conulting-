@@ -5,10 +5,9 @@ import { HeroContent } from '../src/ui/HeroContent';
  * Vorschauseite /vorschau — zeigt NUR den Hero mit der neuen "Luxus-Masthead"-
  * Variante des Schriftzugs "NOW CONSULTING", isoliert von der Live-Homepage.
  *
- * Der Luxus-Masthead-Look (NOW in Weiß, CONSULTING in Gold-Shimmer) ist
- * inzwischen direkt in HeroContent.ts integriert — diese Seite mountet die
- * ECHTEN Komponenten ohne Overrides und dient damit als isolierte Vorschau
- * für künftige Hero-Design-Experimente (kein WebGL/Scroll nötig).
+ * Mountet die ECHTEN Komponenten (Navigation + HeroContent) auf statischem
+ * Gold-Glow-Hintergrund — eine isolierte Vorschau des Hero ohne WebGL/Scroll,
+ * ideal für künftige Design-Experimente.
  */
 
 // Echte Navigation (fixed, hängt sich selbst an <body>, inkl. NOW-Logo)

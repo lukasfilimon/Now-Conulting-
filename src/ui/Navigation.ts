@@ -26,6 +26,9 @@ export class Navigation {
       <div class="now-nav-inner">
         <a class="now-wordmark" href="/" aria-label="NOW Consulting — zur Startseite">
           <img class="now-wordmark-img" src="/now-logo.webp" alt="" aria-hidden="true" />
+          <span class="now-wordmark-text" aria-hidden="true">
+            <span class="now-wordmark-text-now">NOW</span> <span class="now-wordmark-text-rest">CONSULTING</span>
+          </span>
         </a>
         <ul class="now-nav-links" role="list">
           ${NAV_LINKS.map(
@@ -183,6 +186,17 @@ export class Navigation {
         transition: opacity 300ms ease-out, transform 300ms ease-out;
       }
       .now-wordmark:hover .now-wordmark-img { transform: scale(1.05); }
+      .now-wordmark-text {
+        font-family: var(--font-body);
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        line-height: 1;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+      .now-wordmark-text-now { color: var(--color-text); }
+      .now-wordmark-text-rest { color: var(--color-gold-light); }
       .now-wordmark:focus-visible {
         outline: 2px solid var(--color-gold);
         outline-offset: 4px;
@@ -353,6 +367,7 @@ export class Navigation {
       @media (max-width: 600px) {
         .now-nav-inner { padding: 14px 18px; }
         .now-wordmark-img { width: 38px; height: 38px; }
+        .now-wordmark-text { display: none; }
         .now-nav-overlay-link { font-size: 24px; }
       }
     `;
