@@ -188,15 +188,14 @@ export class Navigation {
       .now-wordmark:hover .now-wordmark-img { transform: scale(1.05); }
       .now-wordmark-text {
         font-family: var(--font-body);
-        font-size: 13px;
+        font-size: 15px;
         font-weight: 500;
         letter-spacing: 0.2em;
         line-height: 1;
         text-transform: uppercase;
         white-space: nowrap;
+        color: var(--color-gold-light);
       }
-      .now-wordmark-text-now { color: var(--color-text); }
-      .now-wordmark-text-rest { color: var(--color-gold-light); }
       .now-wordmark:focus-visible {
         outline: 2px solid var(--color-gold);
         outline-offset: 4px;
