@@ -35,7 +35,10 @@ export class Programs {
               <div class="program-phase">
                 <h3 class="program-phase-headline">${this.escape(p.phaseHeadline)}</h3>
                 <div class="program-phase-meta">
-                  <span class="program-phase-revenue">${this.escape(p.startsAt)}</span><span class="program-phase-arrow">→</span><span class="program-phase-revenue">${this.escape(p.targetRevenue)}</span> Monatsumsatz <span class="program-phase-sep">·</span> ${this.escape(p.timeframe)}
+                  <span class="program-phase-meta-line">
+                    <span class="program-phase-revenue">${this.escape(p.startsAt)}</span><span class="program-phase-arrow">→</span><span class="program-phase-revenue">${this.escape(p.targetRevenue)}</span> Monatsumsatz
+                  </span>
+                  <span class="program-phase-meta-line">${this.escape(p.timeframe)}</span>
                 </div>
               </div>
 
@@ -269,7 +272,11 @@ export class Programs {
         text-transform: uppercase;
         color: var(--color-text-muted);
         line-height: 1.6;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
       }
+      .program-phase-meta-line { display: block; }
       .program-phase-revenue {
         color: var(--color-gold-light);
       }
@@ -278,11 +285,6 @@ export class Programs {
         opacity: 0.65;
         margin: 0 6px;
         font-weight: 400;
-      }
-      .program-phase-sep {
-        color: var(--color-text-dim);
-        opacity: 0.6;
-        margin: 0 6px;
       }
 
       /* ═══════════════════════════════════════════════════════
