@@ -157,7 +157,7 @@ export class HeroContent {
         align-items: center;
         justify-content: center;
         gap: 12px;
-        padding: 96px 0 48px;
+        padding: 128px 0 48px;
         opacity: var(--hero-opacity, 1);
         transform: translateY(calc(var(--hero-shift, 0px) * -1));
         will-change: opacity, transform;
@@ -477,7 +477,7 @@ export class HeroContent {
       }
 
       @media (max-width: 960px) {
-        .hero-overlay { padding: 88px 0 32px; }
+        .hero-overlay { padding: 112px 0 32px; }
         .hero-grid {
           display: flex;
           flex-direction: column;
