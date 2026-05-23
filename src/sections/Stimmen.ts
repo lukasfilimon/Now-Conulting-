@@ -177,7 +177,7 @@ export class Stimmen {
         -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
         mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
         opacity: 0;
-        transition: opacity 1200ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: opacity 1200ms var(--ease-reveal);
       }
       .stimmen-wrap.reveal .stimmen-marquee {
         opacity: 1;

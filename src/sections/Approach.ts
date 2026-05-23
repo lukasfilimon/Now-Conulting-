@@ -340,7 +340,7 @@ export class Approach {
           0 0 0 1px rgba(201, 168, 76, 0.04);
 
         transition:
-          transform 650ms cubic-bezier(0.16, 1, 0.3, 1),
+          transform 650ms var(--ease-reveal),
           border-color 600ms ease,
           box-shadow 600ms ease;
       }
@@ -424,7 +424,7 @@ export class Approach {
         object-fit: cover;
         object-position: center;
         z-index: 0;
-        transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: transform 700ms var(--ease-reveal);
       }
       .approach-card:hover .approach-card-img {
         transform: scale(1.05);
@@ -531,7 +531,7 @@ export class Approach {
           border-color 300ms ease,
           background 300ms ease,
           color 300ms ease,
-          transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+          transform 300ms var(--ease-reveal),
           box-shadow 300ms ease;
       }
       /* Verlauf-Halo: weicher dunkler Pad hinter dem Button, damit er

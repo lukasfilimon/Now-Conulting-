@@ -141,9 +141,9 @@ export class Footer {
           0 0 18px rgba(201, 168, 76, 0.28),
           0 4px 16px rgba(201, 168, 76, 0.18);
         transition:
-          background 400ms cubic-bezier(0.16, 1, 0.3, 1),
-          box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1),
-          transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+          background 400ms var(--ease-reveal),
+          box-shadow 400ms var(--ease-reveal),
+          transform 400ms var(--ease-reveal);
       }
       .footer-cta:hover {
         background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));

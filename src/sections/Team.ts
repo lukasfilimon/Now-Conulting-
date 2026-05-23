@@ -123,8 +123,8 @@ export class Team {
         gap: 20px;
         opacity: 0;
         transform: translateY(28px);
-        transition: opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: opacity 1000ms var(--ease-reveal),
+                    transform 1000ms var(--ease-reveal);
       }
       .team-wrap.reveal .team-card[data-i="0"] { transition-delay: 150ms; opacity: 1; transform: translateY(0); }
       .team-wrap.reveal .team-card[data-i="1"] { transition-delay: 280ms; opacity: 1; transform: translateY(0); }
@@ -147,7 +147,7 @@ export class Team {
         transition:
           border-color 400ms ease,
           box-shadow 600ms ease,
-          transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+          transform 600ms var(--ease-reveal);
       }
       .team-card:hover .team-portrait {
         border-color: rgba(201, 168, 76, 0.45);

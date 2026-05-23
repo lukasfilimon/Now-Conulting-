@@ -313,8 +313,8 @@ export class FinalCTA {
         opacity: 0;
         transform: translateY(12px);
         transition:
-          opacity 900ms cubic-bezier(0.16, 1, 0.3, 1),
-          transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+          opacity 900ms var(--ease-reveal),
+          transform 900ms var(--ease-reveal);
       }
 
       /* HEADLINE — episch groß, mit Gold-Glow Text-Shadow */
@@ -333,8 +333,8 @@ export class FinalCTA {
         opacity: 0;
         transform: translateY(36px);
         transition:
-          opacity 1400ms cubic-bezier(0.16, 1, 0.3, 1) 200ms,
-          transform 1400ms cubic-bezier(0.16, 1, 0.3, 1) 200ms;
+          opacity 1400ms var(--ease-reveal) 200ms,
+          transform 1400ms var(--ease-reveal) 200ms;
       }
       /* Italic-Akzent — statisch gold-light statt animated shimmer.
          Performance: Shimmer auf background-clip:text triggert pro Frame Repaint
@@ -358,8 +358,8 @@ export class FinalCTA {
         opacity: 0;
         transform: translateY(24px);
         transition:
-          opacity 1100ms cubic-bezier(0.16, 1, 0.3, 1) 550ms,
-          transform 1100ms cubic-bezier(0.16, 1, 0.3, 1) 550ms;
+          opacity 1100ms var(--ease-reveal) 550ms,
+          transform 1100ms var(--ease-reveal) 550ms;
       }
 
       /* BUTTON — deutlich größer, mit atmendem Gold-Pulse
@@ -392,9 +392,9 @@ export class FinalCTA {
           0 10px 40px rgba(201, 168, 76, 0.3),
           0 1px 0 rgba(255, 240, 200, 0.4) inset;
         transition:
-          background 400ms cubic-bezier(0.16, 1, 0.3, 1),
-          transform 400ms cubic-bezier(0.16, 1, 0.3, 1),
-          opacity 1100ms cubic-bezier(0.16, 1, 0.3, 1) 900ms;
+          background 400ms var(--ease-reveal),
+          transform 400ms var(--ease-reveal),
+          opacity 1100ms var(--ease-reveal) 900ms;
         will-change: transform;
       }
       /* PULSE-LAYER: pseudo-element mit max-level glow, opacity 0 default.

@@ -241,8 +241,8 @@ export class HeroContent {
         text-shadow: 0 0 60px rgba(201, 168, 76, 0.14);
         opacity: 0;
         transform: translateY(24px);
-        transition: opacity 1100ms cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 1100ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: opacity 1100ms var(--ease-reveal),
+                    transform 1100ms var(--ease-reveal);
       }
       .hero-headline.reveal {
         opacity: 1;
@@ -313,8 +313,8 @@ export class HeroContent {
         cursor: pointer;
         box-shadow: 0 0 18px rgba(201, 168, 76, 0.28),
                     0 4px 16px rgba(201, 168, 76, 0.18);
-        transition: background 400ms cubic-bezier(0.16, 1, 0.3, 1),
-                    box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: background 400ms var(--ease-reveal),
+                    box-shadow 400ms var(--ease-reveal);
         opacity: 0;
         will-change: transform;
       }
@@ -331,7 +331,7 @@ export class HeroContent {
         outline-offset: 6px;
       }
       .hero-cta-arrow {
-        transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: transform 400ms var(--ease-reveal);
         font-weight: 700;
       }
       .hero-cta:hover .hero-cta-arrow {
@@ -346,7 +346,7 @@ export class HeroContent {
         background: radial-gradient(circle, rgba(255, 235, 165, 0.95), rgba(226, 201, 122, 0.4) 45%, transparent 75%);
         pointer-events: none;
         transform: translate(-50%, -50%);
-        animation: hero-cta-trail 760ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        animation: hero-cta-trail 760ms var(--ease-reveal) forwards;
       }
       @keyframes hero-cta-trail {
         0%   { opacity: 0.95; transform: translate(-50%, -50%) scale(1); }
@@ -374,8 +374,8 @@ export class HeroContent {
         color: rgba(201, 168, 76, 0.72);
         opacity: 0;
         transform: translateY(8px);
-        transition: opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: opacity 800ms var(--ease-reveal),
+                    transform 800ms var(--ease-reveal);
       }
       .hero-cta-trust.reveal {
         opacity: 1;
@@ -389,8 +389,8 @@ export class HeroContent {
         gap: 16px;
         opacity: 0;
         transform: translateY(24px);
-        transition: opacity 1100ms cubic-bezier(0.16, 1, 0.3, 1) 200ms,
-                    transform 1100ms cubic-bezier(0.16, 1, 0.3, 1) 200ms;
+        transition: opacity 1100ms var(--ease-reveal) 200ms,
+                    transform 1100ms var(--ease-reveal) 200ms;
       }
       .hero-video.reveal {
         opacity: 1;
@@ -436,10 +436,10 @@ export class HeroContent {
         cursor: pointer;
         box-shadow: 0 10px 36px rgba(0, 0, 0, 0.4),
                     0 0 24px rgba(201, 168, 76, 0.28);
-        transition: background 280ms cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
-                    box-shadow 280ms cubic-bezier(0.16, 1, 0.3, 1),
-                    border-color 280ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: background 280ms var(--ease-reveal),
+                    transform 280ms var(--ease-reveal),
+                    box-shadow 280ms var(--ease-reveal),
+                    border-color 280ms var(--ease-reveal);
         z-index: 2;
       }
       .hero-video-play:hover {

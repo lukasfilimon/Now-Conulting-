@@ -131,8 +131,8 @@ export class StatStrip {
           inset 0 -1px 0 rgba(0, 0, 0, 0.22);
         opacity: 0;
         transform: translateY(12px);
-        transition: opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: opacity 800ms var(--ease-reveal),
+                    transform 800ms var(--ease-reveal);
       }
       .stat-strip.reveal {
         opacity: 1;
@@ -146,7 +146,7 @@ export class StatStrip {
         padding: 4px 0;
         text-align: center;
         cursor: default;
-        transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: transform 320ms var(--ease-reveal);
       }
       .stat-strip-item:hover {
         transform: translateY(-3px);

@@ -246,7 +246,7 @@ export class FAQ {
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: transform 400ms var(--ease-reveal);
       }
       .faq-item.open .faq-q-icon {
         transform: rotate(45deg);
@@ -262,7 +262,7 @@ export class FAQ {
       .faq-a {
         display: grid;
         grid-template-rows: 0fr;
-        transition: grid-template-rows 450ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: grid-template-rows 450ms var(--ease-reveal);
       }
       .faq-item.open .faq-a {
         grid-template-rows: 1fr;

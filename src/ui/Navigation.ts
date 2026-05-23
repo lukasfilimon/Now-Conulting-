@@ -164,7 +164,7 @@ export class Navigation {
         gap: 32px;
         pointer-events: auto;
         opacity: 0;
-        animation: now-nav-in 900ms cubic-bezier(0.16, 1, 0.3, 1) 500ms forwards;
+        animation: now-nav-in 900ms var(--ease-reveal) 500ms forwards;
       }
       @keyframes now-nav-in {
         from { opacity: 0; transform: translateY(-6px); }
@@ -230,7 +230,7 @@ export class Navigation {
         height: 1px;
         background: var(--color-gold);
         transform: translateX(-50%);
-        transition: width 280ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: width 280ms var(--ease-reveal);
       }
       .now-nav-link:hover { color: var(--color-gold-light); }
       .now-nav-link:hover::after { width: 100%; }
@@ -268,7 +268,7 @@ export class Navigation {
         color: var(--color-black);
       }
       .now-nav-cta-arrow {
-        transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: transform 280ms var(--ease-reveal);
         font-weight: 700;
       }
       .now-nav-cta:hover .now-nav-cta-arrow { transform: translateX(4px); }
@@ -295,7 +295,7 @@ export class Navigation {
         height: 1.5px;
         background: var(--color-gold-light);
         transform: translateX(-50%);
-        transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), opacity 280ms ease-out, top 280ms ease-out;
+        transition: transform 280ms var(--ease-reveal), opacity 280ms ease-out, top 280ms ease-out;
       }
       .now-nav-toggle span:nth-child(1) { top: 13px; }
       .now-nav-toggle span:nth-child(2) { top: 19px; }

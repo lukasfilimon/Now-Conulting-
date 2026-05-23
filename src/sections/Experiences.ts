@@ -205,8 +205,8 @@ export class Experiences {
         opacity: 0;
         transform: translateY(28px);
         transition:
-          opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1),
-          transform 1000ms cubic-bezier(0.16, 1, 0.3, 1),
+          opacity 1000ms var(--ease-reveal),
+          transform 1000ms var(--ease-reveal),
           border-color 600ms ease,
           box-shadow 600ms ease;
       }

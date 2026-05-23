@@ -199,8 +199,8 @@ export class Programs {
         opacity: 0;
         transform: translateY(28px);
         transition:
-          opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1),
-          transform 1000ms cubic-bezier(0.16, 1, 0.3, 1),
+          opacity 1000ms var(--ease-reveal),
+          transform 1000ms var(--ease-reveal),
           border-color 600ms ease,
           box-shadow 600ms ease;
       }
@@ -379,8 +379,8 @@ export class Programs {
           0 0 18px rgba(201, 168, 76, 0.28),
           0 4px 16px rgba(201, 168, 76, 0.18);
         transition:
-          background 400ms cubic-bezier(0.16, 1, 0.3, 1),
-          box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1);
+          background 400ms var(--ease-reveal),
+          box-shadow 400ms var(--ease-reveal);
       }
       .program-cta:hover {
         background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold));

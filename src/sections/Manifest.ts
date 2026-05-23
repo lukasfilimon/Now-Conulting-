@@ -176,7 +176,7 @@ export class Manifest {
         z-index: 1;
         opacity: 0;
         transition:
-          top 1000ms cubic-bezier(0.16, 1, 0.3, 1),
+          top 1000ms var(--ease-reveal),
           opacity 800ms ease-out;
       }
       section[data-section="manifest"].spotlight-on::before {
@@ -195,8 +195,8 @@ export class Manifest {
         opacity: 0;
         transform: translateX(-24px) scale(0.98);
         transition:
-          opacity 1200ms cubic-bezier(0.16, 1, 0.3, 1),
-          transform 1200ms cubic-bezier(0.16, 1, 0.3, 1);
+          opacity 1200ms var(--ease-reveal),
+          transform 1200ms var(--ease-reveal);
       }
       .manifest-portrait.reveal {
         opacity: 1;
@@ -258,8 +258,8 @@ export class Manifest {
         margin: 0;
         opacity: 0;
         transform: translateY(14px);
-        transition: opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 1000ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: opacity 1000ms var(--ease-reveal),
+                    transform 1000ms var(--ease-reveal);
       }
       .manifest-headline.reveal {
         opacity: 1;
@@ -282,8 +282,8 @@ export class Manifest {
         margin: 0;
         opacity: 0;
         transform: translateY(10px);
-        transition: opacity 850ms cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 850ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: opacity 850ms var(--ease-reveal),
+                    transform 850ms var(--ease-reveal);
       }
       .manifest-p.reveal {
         opacity: 1;
@@ -298,8 +298,8 @@ export class Manifest {
         margin-top: 8px;
         opacity: 0;
         transform: translateY(8px);
-        transition: opacity 900ms cubic-bezier(0.16, 1, 0.3, 1),
-                    transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+        transition: opacity 900ms var(--ease-reveal),
+                    transform 900ms var(--ease-reveal);
       }
       .manifest-signature.reveal {
         opacity: 1;
@@ -314,7 +314,7 @@ export class Manifest {
         /* Zeichnet sich von links nach rechts beim Signature-Reveal. */
         transform: scaleX(0);
         transform-origin: left center;
-        transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1) 150ms;
+        transition: transform 700ms var(--ease-reveal) 150ms;
       }
       .manifest-signature.reveal .manifest-sig-line {
         transform: scaleX(1);

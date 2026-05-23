@@ -223,7 +223,7 @@ export class Audience {
         grid-template-columns: 1fr 1fr;
         gap: 64px;
         opacity: 0;
-        transition: opacity 1200ms cubic-bezier(0.16, 1, 0.3, 1) 300ms;
+        transition: opacity 1200ms var(--ease-reveal) 300ms;
         /* Karten starten via GSAP bei xPercent: ±120 (offscreen) und sliden
            rein. overflow-x: clip kappt diese Offscreen-Startposition, damit
            sie nicht zur Dokument-Breite addiert (das war die echte Ursache
@@ -296,8 +296,8 @@ export class Audience {
           0 26px 64px rgba(0, 0, 0, 0.50),
           0 0 70px rgba(70, 110, 180, 0.18);
         transition:
-          box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1),
-          border-color 500ms cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow 500ms var(--ease-reveal),
+          border-color 500ms var(--ease-reveal);
       }
       .audience-card--pain:hover {
         border-color: rgba(130, 165, 210, 0.38);
@@ -334,8 +334,8 @@ export class Audience {
           0 26px 64px rgba(0, 0, 0, 0.45),
           0 0 80px rgba(220, 95, 80, 0.18);
         transition:
-          box-shadow 500ms cubic-bezier(0.16, 1, 0.3, 1),
-          border-color 500ms cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow 500ms var(--ease-reveal),
+          border-color 500ms var(--ease-reveal);
         will-change: transform, opacity;
       }
       .audience-card--vision:hover {
