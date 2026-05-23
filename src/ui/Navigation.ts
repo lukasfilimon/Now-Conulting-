@@ -366,7 +366,10 @@ export class Navigation {
       @media (max-width: 600px) {
         .now-nav-inner { padding: 14px 18px; }
         .now-wordmark-img { width: 38px; height: 38px; }
-        .now-wordmark-text { display: none; }
+        /* Wordmark bleibt auf Mobile sichtbar — etwas kleiner & enger
+           getrackt, damit's auch auf iPhone SE (320px) neben Logo + Burger
+           passt. */
+        .now-wordmark-text { font-size: 12px; letter-spacing: 0.16em; }
         .now-nav-overlay-link { font-size: 24px; }
       }
     `;
