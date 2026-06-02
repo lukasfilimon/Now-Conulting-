@@ -32,7 +32,7 @@ export class Stimmen {
   private rafHandles = new WeakMap<HTMLElement, number>();
   private dragState = new WeakMap<
     HTMLElement,
-    { down: boolean; moved: boolean; startX: number; startScroll: number }
+    { down: boolean; moved: boolean; decided: boolean; startX: number; startY: number; startScroll: number }
   >();
 
   constructor(container: HTMLElement) {
@@ -245,14 +245,16 @@ export class Stimmen {
 
   /** Desktop-Maus/Pen Drag-to-Scroll. Touch nutzt nativen kinetischen Scroll. */
   private attachPointerDrag(scroller: HTMLElement): void {
-    this.dragState.set(scroller, { down: false, moved: false, startX: 0, startScroll: 0 });
+    this.dragState.set(scroller, { down: false, moved: false, decided: false, startX: 0, startY: 0, startScroll: 0 });
 
     scroller.addEventListener('pointerdown', (e) => {
       if (e.pointerType === 'touch') return; // Touch → nativer Scroll
       const st = this.dragState.get(scroller)!;
       st.down = true;
       st.moved = false;
+      st.decided = false;
       st.startX = e.clientX;
+      st.startY = e.clientY;
       st.startScroll = scroller.scrollLeft;
     });
 
@@ -260,7 +262,18 @@ export class Stimmen {
       const st = this.dragState.get(scroller)!;
       if (!st.down) return;
       const dx = e.clientX - st.startX;
-      if (!st.moved && Math.abs(dx) > 4) {
+      const dy = e.clientY - st.startY;
+      // Richtung erst nach etwas Bewegung festlegen — und das Karussell NUR bei
+      // klar horizontaler Absicht ziehen. Eine vertikale Ziehbewegung (User will
+      // die Seite scrollen) darf die Reihe NICHT seitlich verschieben, sonst
+      // springt sie wild zum letzten Video und wieder nach vorn.
+      if (!st.decided) {
+        if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+        st.decided = true;
+        if (Math.abs(dx) <= Math.abs(dy)) {
+          st.down = false; // vertikale Absicht → Drag aufgeben, Reihe bleibt stehen
+          return;
+        }
         st.moved = true;
         scroller.classList.add('is-grabbing');
         try {
@@ -433,6 +446,7 @@ export class Stimmen {
         scroll-behavior: smooth;
         scroll-padding-left: 32px;
         touch-action: pan-x;
+        overscroll-behavior-x: contain;
         cursor: grab;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;          /* Firefox */
