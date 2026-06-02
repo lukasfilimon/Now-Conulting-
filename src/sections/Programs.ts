@@ -156,7 +156,6 @@ export class Programs {
         font-style: italic;
         color: var(--color-gold-light);
         font-weight: 500;
-        margin-left: 8px;
       }
 
       /* ═══════════════════════════════════════════════════════
