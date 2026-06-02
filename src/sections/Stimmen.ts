@@ -10,7 +10,7 @@ import {
  * Stimmen / Ergebnisse Section — Video-Testimonial-Wall, 2 manuell steuerbare Reihen.
  *
  * Mechanik (Umbau von Auto-Marquee → Nutzer-Steuerung):
- * - Pro Reihe ein nativer horizontaler scroll-snap-Container (overflow-x:auto).
+ * - Pro Reihe ein nativer horizontaler Scroll-Container (overflow-x:auto).
  * - Bedienung absichtlich SICHTBAR ("darf nicht untergehen"):
  *     · immer sichtbare Gold-Pfeile links/rechts (am Ende ausgegraut)
  *     · Rand-Peek: nächste Karte lugt rein
@@ -104,7 +104,7 @@ export class Stimmen {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M15 6 L9 12 L15 18"/></svg>
         </button>
 
-        <div class="stimmen-scroller" tabindex="0" aria-label="Ergebnisse — Reihe ${rowIndex}, horizontal scrollbar">
+        <div class="stimmen-scroller" aria-label="Ergebnisse — Reihe ${rowIndex}, horizontal scrollbar">
           <ul class="stimmen-track" role="list">
             ${cards}
           </ul>
@@ -135,6 +135,22 @@ export class Stimmen {
 
       scroller.addEventListener('scroll', () => this.onScroll(scroller), {
         passive: true,
+      });
+
+      // Fokus-Scroll neutralisieren: Wenn ein Video-iframe/Shield beim Laden oder
+      // Antippen den Fokus zieht, scrollt der Browser die Reihe automatisch ins Bild
+      // (springt zum rechten Video und wieder zurueck). Wir holen die Position sofort
+      // zurueck — Navigation laeuft nur ueber Pfeile/Wischen/Drag. Nicht eingreifen,
+      // solange die Maus aktiv zieht (echtes horizontales Scrollen).
+      scroller.addEventListener('focusin', () => {
+        const st = this.dragState.get(scroller);
+        if (st && st.down) return;
+        const x = scroller.scrollLeft;
+        requestAnimationFrame(() => {
+          const cur = this.dragState.get(scroller);
+          if (cur && cur.down) return;
+          if (scroller.scrollLeft !== x) scroller.scrollLeft = x;
+        });
       });
 
       // Erste echte Nutzer-Interaktion blendet den mobilen Hinweis aus
@@ -437,14 +453,12 @@ export class Stimmen {
       .stimmen-row + .stimmen-row { margin-top: 34px; }
 
       /* ═══════════════════════════════════════════════════════
-         SCROLLER — nativer horizontaler scroll-snap Container
+         SCROLLER — nativer horizontaler Scroll-Container (ohne snap)
          ═══════════════════════════════════════════════════════ */
       .stimmen-scroller {
         overflow-x: auto;
         overflow-y: hidden;
-        scroll-snap-type: x proximity;
         scroll-behavior: smooth;
-        scroll-padding-left: 32px;
         touch-action: pan-x;
         overscroll-behavior-x: contain;
         cursor: grab;
@@ -476,7 +490,6 @@ export class Stimmen {
          KARTE — Premium Glass mit Video oben
          ═══════════════════════════════════════════════════════ */
       .stimme-card {
-        scroll-snap-align: start;
         flex: 0 0 420px;
         display: flex;
         flex-direction: column;
@@ -687,7 +700,6 @@ export class Stimmen {
         .stimmen-header { margin-bottom: 44px; padding: 0 20px; }
         .stimmen-track { gap: 16px; padding: 16px 20px; }
         .stimme-card { flex: 0 0 78vw; max-width: 340px; }
-        .stimmen-scroller { scroll-padding-left: 20px; }
         .stimmen-arrow { width: 48px; height: 48px; }
         .stimmen-arrow--prev { left: 8px; }
         .stimmen-arrow--next { right: 8px; }
