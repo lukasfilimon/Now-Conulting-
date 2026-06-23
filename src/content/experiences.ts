@@ -31,7 +31,7 @@ export const experiences: Experience[] = [
   {
     id: 'retreat',
     title: 'NOW Retreat',
-    videoUrl: `https://player.vimeo.com/video/1192952941?${VIMEO_PARAMS}`,
+    videoUrl: `https://player.vimeo.com/video/1203510105?${VIMEO_PARAMS}`,
     videoTitle: 'NOW Retreat',
     tagline: 'Ein zeitloser Raum. Heilung auf allen Ebenen.',
     description:
