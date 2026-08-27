@@ -20,11 +20,11 @@ export class Team {
           ${team
             .map(
               (m, i) => `
-            <article class="team-card" data-i="${i}">
+            <article class="team-card" data-i="${i}" style="transition-delay: ${150 + i * 120}ms">
               <div class="team-portrait">
                 ${
                   m.photoUrl
-                    ? `<img src="${this.escape(m.photoUrl)}" alt="${this.escape(m.name)}" loading="lazy" />`
+                    ? `<img src="${this.escape(m.photoUrl)}" alt="${this.escape(m.name)}" loading="lazy" data-initials="${this.escape(m.initials)}" style="filter: contrast(1.08)${m.photoFilter ? ' ' + this.escape(m.photoFilter) : ''}" />`
                     : `<span class="team-initials">${this.escape(m.initials)}</span>`
                 }
               </div>
@@ -42,7 +42,30 @@ export class Team {
     `;
     this.root = container.querySelector('.team-wrap') as HTMLElement;
     this.injectStyles();
+    this.wirePhotoFallbacks();
     this.observe();
+  }
+
+  /**
+   * Falls ein Foto (noch) nicht existiert oder nicht lädt, wird der
+   * goldene Initialen-Kreis eingeblendet statt eines kaputten Bild-Icons.
+   */
+  private wirePhotoFallbacks(): void {
+    const imgs = this.root.querySelectorAll<HTMLImageElement>('.team-portrait img');
+    imgs.forEach((img) => {
+      const showInitials = () => {
+        const parent = img.parentElement;
+        if (!parent) return;
+        const initials = img.dataset.initials ?? '';
+        const span = document.createElement('span');
+        span.className = 'team-initials';
+        span.textContent = initials;
+        parent.replaceChildren(span);
+      };
+      // Bereits fehlgeschlagen (z. B. aus Cache) ODER künftig beim Laden
+      if (img.complete && img.naturalWidth === 0) showInitials();
+      img.addEventListener('error', showInitials);
+    });
   }
 
   private observe(): void {
@@ -114,7 +137,7 @@ export class Team {
 
       .team-grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(5, 1fr);
         gap: 24px;
       }
       .team-card {
@@ -126,10 +149,9 @@ export class Team {
         transition: opacity 1000ms var(--ease-reveal),
                     transform 1000ms var(--ease-reveal);
       }
-      .team-wrap.reveal .team-card[data-i="0"] { transition-delay: 150ms; opacity: 1; transform: translateY(0); }
-      .team-wrap.reveal .team-card[data-i="1"] { transition-delay: 280ms; opacity: 1; transform: translateY(0); }
-      .team-wrap.reveal .team-card[data-i="2"] { transition-delay: 410ms; opacity: 1; transform: translateY(0); }
-      .team-wrap.reveal .team-card[data-i="3"] { transition-delay: 540ms; opacity: 1; transform: translateY(0); }
+      /* Stagger-Delay kommt inline pro Karte (index-basiert) → skaliert mit
+         beliebig vielen Team-Mitgliedern, kein Hardcode pro Karte mehr. */
+      .team-wrap.reveal .team-card { opacity: 1; transform: translateY(0); }
 
       .team-portrait {
         aspect-ratio: 1 / 1;
@@ -163,6 +185,9 @@ export class Team {
         object-fit: cover;
         object-position: center top;
         display: block;
+        /* Voll farbig (kein Grayscale — funktioniert auch mobil ohne Hover).
+           Konkreter Filter kommt inline pro Foto: leichter Kontrast für alle,
+           plus Sättigungs-Angleichung für Nadine/Lukas (photoFilter). */
       }
       .team-initials {
         font-family: var(--font-display);
@@ -202,16 +227,19 @@ export class Team {
         margin: 4px 0 0;
       }
 
-      @media (max-width: 900px) {
+      /* Desktop/Tablet: immer alle 5 nebeneinander in EINER Reihe.
+         Auf schmaleren Screens nur den Gap verkleinern, damit sie passen. */
+      @media (max-width: 1080px) {
         .team-wrap { padding: 0 24px; }
-        .team-grid {
-          grid-template-columns: 1fr 1fr;
-          gap: 20px;
-        }
+        .team-grid { gap: 16px; }
       }
-      @media (max-width: 520px) {
+      /* Mobil: untereinander (eine Spalte), zentriert. */
+      @media (max-width: 760px) {
         .team-grid {
           grid-template-columns: 1fr;
+          gap: 28px;
+          max-width: 340px;
+          margin: 0 auto;
         }
       }
       @media (prefers-reduced-motion: reduce) {

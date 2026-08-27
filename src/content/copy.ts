@@ -130,7 +130,7 @@ export const copy = {
 
   team: {
     eyebrow: 'WER WIR SIND',
-    headline: 'Vier Menschen. Eine Mission.',
+    headline: 'Fünf Menschen. Eine Mission.',
   },
 
   stimmen: {

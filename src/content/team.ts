@@ -4,6 +4,7 @@ export interface TeamMember {
   bio: string;
   initials: string;
   photoUrl?: string; // optional — falls Foto vorhanden
+  photoFilter?: string; // optionale CSS-filter-Ergänzung, um Fotos farblich anzugleichen
 }
 
 export const team: TeamMember[] = [
@@ -29,10 +30,19 @@ export const team: TeamMember[] = [
     photoUrl: '/images/Stefan%20Bild.jpeg',
   },
   {
+    name: 'Nadine Stöger',
+    role: 'Marketing Managerin',
+    bio: 'Nadine verantwortet den gesamten Markenauftritt von NOW — Content, Ads und Branding. Sie sorgt dafür, dass unsere Botschaft die Menschen erreicht, für die sie bestimmt ist.',
+    initials: 'NS',
+    photoUrl: '/images/Nadine%20Bild.jpeg',
+    photoFilter: 'saturate(0.85)', // wärmer/gesättigter als der Rest → angleichen
+  },
+  {
     name: 'Lukas Filimon',
     role: 'Kundenberater',
     bio: 'Auch er ist ein ehemaliger Kunde von Darko, hat über 5 Jahre Erfahrung als Closer & Vertriebstrainer. Lukas begleitet unsere Kunden in 1-1 Calls und WhatsApp Support zu ihren gewünschten Zielen.',
     initials: 'LF',
     photoUrl: '/images/Lukas%20Bild.jpg',
+    photoFilter: 'saturate(0.82)', // wärmstes/gesättigtstes Foto → am stärksten angleichen
   },
 ];
