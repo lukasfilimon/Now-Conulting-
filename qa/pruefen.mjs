@@ -40,6 +40,7 @@ const p = (name, ist, soll = true) => {
   const robots = await page.locator('meta[name=robots]').count();
   if (LIVE) p('1i LIVE: kein noindex auf der Startseite', robots, 0);
   else p('1i Vorschau: noindex gesetzt', robots, 1);
+  await page.waitForFunction(() => [...document.images].every(i => i.complete), null, { timeout: 10000 }).catch(() => {});
   p('1j alle Bilder geladen', await page.evaluate(() => [...document.images].filter(i => !i.complete || !i.naturalWidth).map(i => i.src).join(', ')), '');
   p('1k Anker der Navigation existieren', await page.evaluate(() => [...document.querySelectorAll('.kopf__nav a')].every(a => document.querySelector(a.getAttribute('href')))), true);
 
