@@ -26,7 +26,7 @@ hier per `cp` nachziehen, nie hier allein ändern.
 | `werkzeuge/inhalte/*.html` | Inhalt der Unterseiten — hier ändern |
 | `bilder/` | WebP, aus den alten Fotos skaliert |
 | `qa/` | Prüfskripte |
-| `notizen/` | Recherche und Orientierungsdokument der alten Seite, nicht ausgeliefert |
+| `notizen/` | `VORHABEN.md` (beschlossen, noch nicht gebaut: Auge-Zoom, offene Bausteine), Recherche und Orientierungsdokument der alten Seite; nicht ausgeliefert |
 
 Kopfleiste und Footer stehen in `index.html`. Nach jeder Änderung daran:
 

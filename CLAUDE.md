@@ -1,6 +1,8 @@
 # CLAUDE.md — NOW Consulting Webseite
 
-Am Anfang jeder Session lesen.
+Am Anfang jeder Session lesen. Danach `notizen/VORHABEN.md`: dort stehen
+beschlossene Vorhaben, die noch gebaut werden (z. B. der Auge-Zoom in
+Darkos Pupille) — Lukas fragen, ob eins davon jetzt dran ist.
 
 ## Grundlage
 
