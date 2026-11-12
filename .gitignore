@@ -1,13 +1,3 @@
-node_modules
-dist
-.DS_Store
-*.log
-.env
-.env.local
-.vercel
-
-# Worktree state — never commit
-.claude/
-
-# Source assets — too large for git, kept locally
-Videos + Bilder/
+node_modules/
+package-lock.json
+qa/aufnahmen/

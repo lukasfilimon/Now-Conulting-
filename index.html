@@ -1,230 +1,570 @@
 <!DOCTYPE html>
 <html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#000000" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>NOW Consulting · Spirituelle Unternehmensberatung</title>
+  <meta name="description" content="NOW Consulting ist eine spirituelle Unternehmensberatung im DACH-Raum. Für Coaches, Trainer und Berater, die Bewusstsein und Business verbinden: planbarer Vertrieb, klare Angebote, ein eigenes Team." />
+  <!-- VORSCHAU: noindex steht hier, solange die Seite nur unter der
+       Vorschau-Adresse laeuft. Beim Umschalten auf now-consulting.at
+       ENTFERNEN, sonst verschwindet die Webseite aus Google.
+       qa/pruefen.mjs --live meldet die Zeile als Fehler. -->
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title" content="NOW Consulting · Bewusstsein. Unternehmertum. Ein Weg." />
+  <meta property="og:description" content="Spirituelle Unternehmensberatung für Coaches, Trainer und Berater im DACH-Raum." />
+  <meta property="og:image" content="https://now-consulting.at/now-logo.webp" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="de_DE" />
+  <meta name="theme-color" content="#0e0c0a" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <script>document.documentElement.className += ' js';</script>
+  <link rel="stylesheet" href="/fonts/fonts.css?v=2" />
+  <link rel="stylesheet" href="/kern.css" />
+  <link rel="stylesheet" href="/seite.css" />
+  <!-- ============================================================
+       TRACKING — laedt erst nach Zustimmung. Vor dem Consent geht kein
+       Request an connect.facebook.net.
+       Meta-Pixel der Webseite (derselbe wie auf der alten Seite). Er wird
+       NUR auf now-consulting.at geladen: auf der Vorschau-Adresse wuerden
+       sonst Klicks beim Durchschauen als echte Besuche gezaehlt.
+       ============================================================ -->
+  <script src="/tracking.js"></script>
+</head>
+<body>
+  <canvas id="bgShader"></canvas>
+  <div class="scroll-progress" id="scrollProgress"></div>
 
-    <!-- Favicon — NOW Logo -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-
-    <meta name="description" content="NOW Consulting — die einzige spirituelle Unternehmensberatung im DACH-Raum, die dich vom Coach zum Unternehmer macht. Für Coaches und Berater im 5- bis 6-stelligen Bereich." />
-    <meta property="og:title" content="NOW Consulting — Bewusstsein. Unternehmertum. Ein Weg." />
-    <meta property="og:description" content="Die einzige spirituelle Unternehmensberatung im DACH-Raum, die dich vom Coach zum Unternehmer macht." />
-    <meta property="og:image" content="/now-logo.png" />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="de_DE" />
-
-    <!-- Meta Pixel Code -->
-    <script>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '2041971686668161');
-      fbq('track', 'PageView');
-    </script>
-    <!-- End Meta Pixel Code -->
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
-    />
-
-    <title>NOW Consulting — Bewusstsein. Unternehmertum. Ein Weg.</title>
-
-    <style>
-      :root {
-        /* NOW Brand Colors — synced with masterclass.now-consulting */
-        --color-black: #0e0c0a;           /* warm black, not pure */
-        --color-surface: #181410;         /* brown-tinted dark surface */
-        --color-surface-2: #211d18;       /* elevated surface */
-        --color-gold: #c9a84c;            /* primary gold, warm */
-        --color-gold-light: #e2c97a;      /* highlight gold */
-        --color-gold-dark: #a07830;       /* deep gold for gradients */
-        --color-border: rgba(201, 168, 76, 0.28);
-        --color-text: #f2efe9;            /* warm off-white */
-        --color-text-muted: #9e9a94;
-        --color-text-dim: #6a6560;
-        --color-matrix-green: #00ff41;    /* matrix accent, intro only */
-        --color-white: #ffffff;           /* pure white, used sparingly */
-
-        /* Typography */
-        --font-display: 'Cormorant Garamond', Georgia, serif;
-        --font-body: 'Inter', system-ui, sans-serif;
-        --font-numeric: 'Montserrat', 'Inter', sans-serif;
-        --font-mono: 'JetBrains Mono', ui-monospace, monospace;
-
-        /* Motion tokens — sitewide Animations-Konstanten */
-        --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);  /* Premium ease-out-expo: Section-Reveals */
-        --ease-snap: cubic-bezier(0.4, 0, 0.2, 1);     /* Schaerfere Kurve: Hover/Click-Feedback */
-        --ease-smooth: cubic-bezier(0.65, 0, 0.35, 1); /* Symmetrische ease-in-out: Loops */
-        --dur-fast: 320ms;        /* Hover, kleine Feedback-Snaps */
-        --dur-base: 600ms;        /* Card-Hover, mittlere Reveals */
-        --dur-slow: 1000ms;       /* Section-Reveal, grosse Bewegungen */
-        --stagger-tight: 140ms;   /* Geschwister-Cards dicht */
-        --stagger-loose: 200ms;   /* Geschwister mit Atem */
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      html {
-        width: 100%;
-      }
-      body {
-        width: 100%;
-        background: var(--color-black);
-        color: var(--color-text);
-        font-family: var(--font-body);
-        font-weight: 400;
-        line-height: 1.6;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        overflow-x: clip;
-      }
-
-      html.lenis, html.lenis body {
-        height: auto;
-      }
-      .lenis.lenis-smooth {
-        scroll-behavior: auto !important;
-      }
-      .lenis.lenis-smooth [data-lenis-prevent] {
-        overscroll-behavior: contain;
-      }
-      .lenis.lenis-stopped {
-        overflow: hidden;
-      }
-
-      /* ═══════════════════════════════════════════════════════════
-         SCROLL-FIX: Vimeo & generic iframes durchlässig während Scroll
-         ═══════════════════════════════════════════════════════════
-         Ohne diesen Patch frisst jeder iframe das wheel/touch-Event
-         sobald der Cursor drüber ist → Lenis stockt, Scroll fühlt sich
-         "verklemmt" an. Die Class wird in ScrollManager gesetzt/entfernt.
-         Beim Stillstand sind iframes wieder klickbar (Play, Fullscreen). */
-      body.is-scrolling iframe {
-        pointer-events: none !important;
-      }
-
-      /* Compositor-Hint für scroll-relevante Sections mit vielen Karten —
-         eigene Layer entlasten den Main-Thread. */
-      section[data-section="experiences"],
-      section[data-section="stimmen"] {
-        contain: layout style;
-      }
-
-      /* Adaptive Quality — wenn die PerformanceMonitor 3× hintereinander <30 fps
-         misst, wird body.low-fps gesetzt. Wir deaktivieren dann dekorative
-         Animationen, ohne den Hero-WebGL (Marken-Identität) zu berühren. */
-      body.low-fps .audience-grid-bg::before,
-      body.low-fps .manifest-portrait-img,
-      body.low-fps .manifest-portrait-glow,
-      body.low-fps .hero-headline-em,
-      body.low-fps .hero-brand-rest,
-      body.low-fps .hero-brand-now,
-      body.low-fps .final-cta-btn::before {
-        animation: none !important;
-      }
-      body.low-fps .approach-card-img,
-      body.low-fps .program-card,
-      body.low-fps .experience-card {
-        will-change: auto;
-      }
-
-      #app {
-        position: relative;
-        width: 100%;
-      }
-
-      #webgl-canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-        pointer-events: none;
-      }
-
-
-      #content {
-        position: relative;
-        z-index: 2;
-      }
-
-      /* Loading state */
-      #boot {
-        position: fixed;
-        inset: 0;
-        background: var(--color-black);
-        z-index: 9999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: opacity 600ms ease-out;
-      }
-
-      #boot.hidden {
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      #boot .glyph {
-        font-family: var(--font-mono);
-        font-size: 12px;
-        color: var(--color-gold);
-        letter-spacing: 0.32em;
-      }
-
-      /* Dev-only FPS overlay */
-      #perf {
-        position: fixed;
-        top: 12px;
-        right: 12px;
-        font-family: var(--font-mono);
-        font-size: 11px;
-        color: var(--color-gold);
-        background: rgba(0, 0, 0, 0.6);
-        padding: 6px 10px;
-        border-radius: 3px;
-        z-index: 10000;
-        pointer-events: none;
-        display: none;
-      }
-
-      body.dev #perf {
-        display: block;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Meta Pixel (noscript fallback) -->
-    <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=2041971686668161&ev=PageView&noscript=1"
-    /></noscript>
-
-    <div id="boot"><span class="glyph">Bewusstsein erschafft Realität</span></div>
-
-    <div id="app">
-      <canvas id="webgl-canvas"></canvas>
-      <main id="content"></main>
+  <!-- KOPFLEISTE — die Webseite hat, anders als die Landingpages, eine
+       Navigation. Auf dem Handy nur Logo und Knopf. -->
+  <header class="kopf" id="kopf">
+    <div class="kopf__inner">
+      <a class="kopf__marke" href="#hero" aria-label="NOW Consulting, nach oben">
+        <img src="/now-logo.webp" width="240" height="240" alt="" class="kopf__logo" />
+        <span class="kopf__name">NOW Consulting</span>
+      </a>
+      <nav class="kopf__nav" aria-label="Hauptnavigation">
+        <a href="#schritte">Inhalte</a>
+        <a href="#programme">Programme</a>
+        <a href="#stimmen">Stimmen</a>
+        <a href="#team">Team</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="btn btn--gold kopf__knopf" href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="kopf">Klarheitsgespräch buchen</a>
     </div>
+  </header>
 
-    <div id="perf"></div>
+  <main>
+  <!-- 1. HERO -->
+  <section class="hero" id="hero">
+    <canvas class="hero__matrix" id="matrixCanvas" data-matrix data-matrix-ab="901"></canvas>
+    <div class="hero__bg-overlay"></div>
+    <div class="container hero__content">
+      <p class="hero__format reveal">Unternehmensberatung &nbsp;·&nbsp; online und vor&nbsp;Ort</p>
+      <h1 class="hero__headline reveal letter-assemble">Spirituelle <em>Unternehmensberatung</em> im DACH-Raum.</h1>
+      <p class="hero__hook reveal">Für Coaches, Trainer und Berater.</p>
 
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+      <div class="hero__video reveal" id="heroVideo" data-vimeo="1192498083">
+        <button type="button" class="hero-video__poster" id="hero-video-poster" aria-label="Video ansehen">
+          <span class="hero-video__play" aria-hidden="true">
+            <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg>
+          </span>
+          <span class="hero-video__hint">Video ansehen</span>
+        </button>
+        <div class="hero__video-replay" id="heroReplay">
+          <button class="hero__video-replay-btn" aria-label="Video erneut abspielen">
+            <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <ul class="hero__punkte reveal">
+        <li>Du baust einen Vertrieb, der dir jeden Monat planbar neue Kunden bringt.</li>
+        <li>Du löst die inneren Blockaden rund um Geld, Führung und Kontrolle.</li>
+        <li>Du wirst vom Selbstständigen zum Unternehmer, mit eigenem Team.</li>
+      </ul>
+
+      <a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="hero" class="btn btn--gold btn--large reveal">Klarheitsgespräch buchen</a>
+      <div class="mini-trust reveal">
+        <span><strong>1:1</strong>-Gespräch</span>
+        <span class="mini-trust__dot">·</span>
+        <span>unverbindlich</span>
+        <span class="mini-trust__dot">·</span>
+        <span><strong>kostenlos</strong></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. FUER WEN — "Wer ist unser Kunde?" der alten Seite. Vorher/Nachher
+       als zwei Karten: links gedaempft, rechts in Gold. -->
+  <section class="section kunde" id="kunde">
+    <div class="container">
+      <div class="section__header reveal">
+        <p class="section__eyebrow">Für wen wir arbeiten</p>
+        <h2 class="section__title">Wer ist unser <em>Kunde?</em></h2>
+      </div>
+      <p class="pr-lead reveal">Coaches, Trainer und Berater, die mit ihrer Arbeit dem Licht dienen und davon finanziell frei leben möchten.</p>
+
+      <div class="fw__grid">
+        <div class="fw-card fw-card--no">
+          <h3 class="fw-card__title">Wo du heute stehst</h3>
+          <ul class="fw-card__list fw-card__list--no">
+            <li class="fw-item reveal-item">
+              <span class="fw-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 12h10" /></svg></span>
+              <span class="fw-item__text">Du verkaufst dein Angebot unter seinem Wert.</span>
+            </li>
+            <li class="fw-item reveal-item">
+              <span class="fw-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 12h10" /></svg></span>
+              <span class="fw-item__text">Du weißt nicht, woher deine nächsten Kunden kommen.</span>
+            </li>
+            <li class="fw-item reveal-item">
+              <span class="fw-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 12h10" /></svg></span>
+              <span class="fw-item__text">Du traust dir noch keine Mitarbeiter zu, obwohl du sie längst bräuchtest.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="fw-card fw-card--yes">
+          <h3 class="fw-card__title">Wohin wir dich begleiten</h3>
+          <ul class="fw-card__list">
+            <li class="fw-item reveal-item">
+              <span class="fw-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5 L10 16.5 L18 7.5" /></svg></span>
+              <span class="fw-item__text">Du machst jeden Monat fünf- bis sechsstellige Umsätze.</span>
+            </li>
+            <li class="fw-item reveal-item">
+              <span class="fw-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5 L10 16.5 L18 7.5" /></svg></span>
+              <span class="fw-item__text">Neue Kunden kommen planbar, über einen Weg, den du selbst steuerst.</span>
+            </li>
+            <li class="fw-item reveal-item">
+              <span class="fw-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5 L10 16.5 L18 7.5" /></svg></span>
+              <span class="fw-item__text">Ein bis drei Mitarbeiter tragen deine Mission mit dir.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="fw-conclusion reveal">Erkennst du dich links wieder? Dann lass uns sprechen.</p>
+      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="kunde" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a></div>
+    </div>
+  </section>
+
+  <!-- 3. DIE SIEBEN SCHRITTE — als Weg untereinander, Bild links, Text
+       rechts. Bilder aus der alten Seite (bilder/schritt-N.webp). -->
+  <section class="section schritte" id="schritte" data-mandala="leise">
+    <div class="container">
+      <div class="section__header reveal">
+        <p class="section__eyebrow">Unsere Inhalte</p>
+        <h2 class="section__title">Sieben Schritte zu deiner <em>ersten Million.</em></h2>
+        <p class="section__subtitle">Wir holen dich dort ab, wo du gerade stehst, und gehen jeden Schritt mit dir gemeinsam.</p>
+      </div>
+
+      <ol class="weg">
+        <li class="weg__schritt glas reveal-card">
+          <div class="weg__bild"><img src="/bilder/schritt-1.webp" width="900" height="675" alt="" loading="lazy" /></div>
+          <div class="weg__text">
+            <span class="weg__nr">01</span>
+            <h3 class="weg__titel">Bewusstseinsarbeit</h3>
+            <p>In wöchentlichen Live-Calls im Inner Circle und in geführten Meditationen zeigt dir Darko, wie du aus der Fülle heraus handelst statt aus dem Mangel. Das ist das Fundament für alles, was danach kommt.</p>
+          </div>
+        </li>
+        <li class="weg__schritt glas reveal-card">
+          <div class="weg__bild"><img src="/bilder/schritt-2.webp" width="900" height="599" alt="" loading="lazy" /></div>
+          <div class="weg__text">
+            <span class="weg__nr">02</span>
+            <h3 class="weg__titel">Zielgruppe</h3>
+            <p>Mit deinem persönlichen Kundenberater findest du heraus, wer dein Kunde wirklich ist und welchen Schmerz du für ihn löst. So sprichst du ihn in deinem Marketing klar an.</p>
+          </div>
+        </li>
+        <li class="weg__schritt glas reveal-card">
+          <div class="weg__bild"><img src="/bilder/schritt-3.webp" width="811" height="1000" alt="" loading="lazy" style="object-position: center 22%" /></div>
+          <div class="weg__text">
+            <span class="weg__nr">03</span>
+            <h3 class="weg__titel">Angebote</h3>
+            <p>Du baust dein Angebot so auf, dass Kunden lange mit dir arbeiten wollen: mit einem Upsell-System, das dir konstant fünf- bis sechsstellige Monatsumsätze bringt.</p>
+          </div>
+        </li>
+        <li class="weg__schritt glas reveal-card">
+          <div class="weg__bild"><img src="/bilder/schritt-4.webp" width="900" height="599" alt="" loading="lazy" /></div>
+          <div class="weg__text">
+            <span class="weg__nr">04</span>
+            <h3 class="weg__titel">Vertriebsprozess</h3>
+            <p>Der Kern unserer Zusammenarbeit. Wir bauen mit dir einen Vertriebsprozess, der zu dir passt. Dein Umsatz wird planbar, und du musst dich nicht mehr fragen, woher der nächste Kunde kommt.</p>
+          </div>
+        </li>
+        <li class="weg__schritt glas reveal-card">
+          <div class="weg__bild"><img src="/bilder/schritt-5.webp" width="900" height="600" alt="" loading="lazy" /></div>
+          <div class="weg__text">
+            <span class="weg__nr">05</span>
+            <h3 class="weg__titel">Marketing</h3>
+            <p>Wir begleiten deinen Auftritt in den sozialen Medien, schalten mit dir Werbeanzeigen und bauen einen Kanal auf, über den jede Woche neue Anfragen kommen.</p>
+          </div>
+        </li>
+        <li class="weg__schritt glas reveal-card">
+          <div class="weg__bild"><img src="/bilder/schritt-6.webp" width="666" height="1000" alt="" loading="lazy" style="object-position: center 28%" /></div>
+          <div class="weg__text">
+            <span class="weg__nr">06</span>
+            <h3 class="weg__titel">Backoffice</h3>
+            <p>Wir richten mit dir dein CRM ein. Kontakte, Zahlungseingänge und alle wichtigen Zahlen hast du an einem Ort im Blick.</p>
+          </div>
+        </li>
+        <li class="weg__schritt glas reveal-card">
+          <div class="weg__bild"><img src="/bilder/schritt-7.webp" width="900" height="978" alt="" loading="lazy" /></div>
+          <div class="weg__text">
+            <span class="weg__nr">07</span>
+            <h3 class="weg__titel">Mitarbeiter</h3>
+            <p>Ab 10.000&nbsp;€ Monatsumsatz schalten wir mit dir das Inserat für deinen ersten Vertriebsmitarbeiter, begleiten Bewerbung und Einarbeitung und schulen ihn danach in persönlichen 1:1-Calls.</p>
+          </div>
+        </li>
+      </ol>
+
+      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="schritte" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a></div>
+    </div>
+  </section>
+
+  <!-- 4. PROGRAMME — zwei Phasen desselben Wegs, keine Preise -->
+  <section class="section programme" id="programme">
+    <div class="container">
+      <div class="section__header reveal">
+        <p class="section__eyebrow">Programme</p>
+        <h2 class="section__title">Wir holen dich dort ab, wo du <em>gerade stehst.</em></h2>
+      </div>
+
+      <div class="phasen">
+        <article class="phase glas reveal-card">
+          <h3 class="phase__titel">Stabilisierungsphase</h3>
+          <p class="phase__zahl">von 0&nbsp;€ auf 10.000&nbsp;€ Monatsumsatz &nbsp;·&nbsp; in 3 bis 6&nbsp;Monaten</p>
+          <p class="phase__wunsch">Du möchtest stabil von deiner Selbstständigkeit leben, mit vollem Fokus auf deine Kunden, ohne Sorgen um die nächste Rechnung.</p>
+          <p class="phase__text">Wir bauen mit dir das Fundament für mindestens 10.000&nbsp;€ Umsatz im Monat:</p>
+          <ul class="phase__liste">
+            <li><strong>Zielgruppe und Positionierung.</strong> Wer dein Kunde ist, was ihn am meisten schmerzt und wie du ihm wirklich weiterhilfst.</li>
+            <li><strong>Angebotsstruktur.</strong> Premium-Preise mit einem aufbauenden Upsell-System, das sich fast von selbst verkauft.</li>
+            <li><strong>Vertriebssystem.</strong> Eine Quelle, aus der du jeden Monat mindestens drei bis fünf Neukunden gewinnst.</li>
+            <li><strong>Mindset und Bewusstsein.</strong> Wöchentliche Live-Calls mit Darko und Meditationen, die dich vom Mangel lösen.</li>
+            <li><strong>1:1-Begleitung.</strong> Dein eigener Kundenberater in 1:1-Calls und täglich per WhatsApp.</li>
+          </ul>
+        </article>
+
+        <article class="phase phase--gold glas reveal-card">
+          <h3 class="phase__titel">Skalierungsphase</h3>
+          <p class="phase__zahl">von 10.000&nbsp;€ auf 100.000&nbsp;€ Monatsumsatz &nbsp;·&nbsp; in 12&nbsp;Monaten</p>
+          <p class="phase__wunsch">Du möchtest finanziell frei leben, Mitarbeiter einstellen und mit deiner Mission mehr Menschen erreichen.</p>
+          <p class="phase__text">Wir begleiten dich vom Selbstständigen, der alles allein macht, zum Unternehmer, der mit seinem Team finanziell frei ist:</p>
+          <ul class="phase__liste">
+            <li><strong>Mitarbeiter einstellen.</strong> Recruiting ohne Headhunter, vom Inserat über die Einarbeitung bis zur Vertriebsschulung.</li>
+            <li><strong>Leadership.</strong> Du führst aus dem Herzen, mit echten Werten und einer Kultur aus Loyalität und Integrität.</li>
+            <li><strong>Neue Vertriebsmechanik.</strong> Du übergibst den Vertrieb Schritt für Schritt an dein Team und gewinnst Zeit für deine Kunden.</li>
+            <li><strong>Künstliche Intelligenz.</strong> Wiederkehrende Abläufe übernimmt die KI, eingerichtet nach deinen Wünschen.</li>
+            <li><strong>Exklusive Events.</strong> Retreats und Masterminds mit Darko, in denen du tiefer in Meditation und Bewusstsein gehst.</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="programme" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a></div>
+    </div>
+  </section>
+
+  <!-- 5. DARKO -->
+  <section class="section darko-section" id="darko">
+    <div class="container">
+      <div class="section__header reveal">
+        <p class="section__eyebrow">Der Gründer</p>
+        <h2 class="section__title">Dein Kontostand spiegelt deine <em>Frequenz.</em></h2>
+      </div>
+
+      <div class="darko__inner">
+        <div class="darko__img reveal">
+          <img src="/bilder/darko-portraet.webp" width="900" height="1125" alt="Darko Krstic, Gründer und CEO der NOW Consulting" loading="lazy" />
+        </div>
+        <div class="darko__content reveal">
+          <h3 class="darko__name">Darko Krstic</h3>
+          <p class="darko__role">Gründer &amp; CEO der NOW Consulting</p>
+          <p class="darko__bio">Darko ist Unternehmer, Trainer und Gründer von NOW. Er steht für eine Unternehmensführung, die sich klar, ethisch und kraftvoll anfühlt, weil sie aus dem Bewusstsein kommt und nicht aus der Manipulation.</p>
+          <p class="darko__bio">In den letzten sechs Jahren hat er über 1.000 Coaches, Berater und Trainer begleitet. Nicht nur zu finanziellen Zielen, sondern zu echter innerer Freiheit. Sein Ansatz: Wer seine Blockaden rund um Geld, Führung und Kontrolle nicht löst, wird sein Business nie wirklich skalieren.</p>
+          <p class="darko__bio">Reichtum im Außen beginnt mit Freiheit im Innen. Oder wie Darko sagt: <em>„Du kannst nicht manifestieren, was du innerlich nicht für möglich hältst.“</em></p>
+          <div class="darko__stats">
+            <div class="darko__stat">
+              <span class="darko__stat-num" data-count="1000" data-suffix="+">1000+</span>
+              <span class="darko__stat-label">Kunden begleitet</span>
+            </div>
+            <div class="darko__stat">
+              <span class="darko__stat-num" data-count="98" data-suffix=" %">98 %</span>
+              <span class="darko__stat-label">Kundenzufriedenheit</span>
+            </div>
+            <div class="darko__stat">
+              <span class="darko__stat-num" data-count="2" data-suffix=" Mio.+">2 Mio.+</span>
+              <span class="darko__stat-label">Euro Jahresumsatz</span>
+            </div>
+            <div class="darko__stat">
+              <span class="darko__stat-num" data-count="6" data-suffix=" Jahre">6 Jahre</span>
+              <span class="darko__stat-label">Erfahrung</span>
+            </div>
+          </div>
+          <div class="sektion-cta sektion-cta--links"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="darko" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. STIMMEN — acht Videos, laden erst nach Zustimmung (kern.js) -->
+  <section class="section testimonials stimmen" id="stimmen">
+    <div class="container">
+      <div class="section__header reveal">
+        <p class="section__eyebrow">Stimmen</p>
+        <h2 class="section__title">Was sich verändert hat, <em>in ihren Worten.</em></h2>
+      </div>
+      <div class="testimonials__grid">
+        <div class="testi-card reveal-testi">
+          <div class="testi-card__video testi-video" data-vimeo="1179332168" data-titel="Nenad Stefanovic">
+            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+          </div>
+          <p class="testi-card__name">Nenad Stefanovic</p>
+          <p class="testi-card__role">CEO von Relief Massage</p>
+        </div>
+        <div class="testi-card reveal-testi">
+          <div class="testi-card__video testi-video" data-vimeo="1179331518" data-titel="Andrea Bryda">
+            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+          </div>
+          <p class="testi-card__name">Andrea Bryda</p>
+          <p class="testi-card__role">Fitnesstrainerin</p>
+        </div>
+        <div class="testi-card reveal-testi">
+          <div class="testi-card__video testi-video" data-vimeo="1179331896" data-titel="Gabriele Ehm">
+            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+          </div>
+          <p class="testi-card__name">Gabriele Ehm</p>
+          <p class="testi-card__role">Coachin für Selbstheilung</p>
+        </div>
+        <div class="testi-card reveal-testi">
+          <div class="testi-card__video testi-video" data-vimeo="1179332386" data-titel="Patrick Farkas">
+            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+          </div>
+          <p class="testi-card__name">Patrick Farkas</p>
+          <p class="testi-card__role">Mentaltrainer</p>
+        </div>
+        <div class="testi-card reveal-testi">
+          <div class="testi-card__video testi-video" data-vimeo="1179331719" data-titel="Elisabeth Lick">
+            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+          </div>
+          <p class="testi-card__name">Elisabeth Lick</p>
+          <p class="testi-card__role">Coachin für Gesundheit</p>
+        </div>
+        <div class="testi-card reveal-testi">
+          <div class="testi-card__video testi-video" data-vimeo="1179332017" data-titel="Jonathan Fischer">
+            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+          </div>
+          <p class="testi-card__name">Jonathan Fischer</p>
+          <p class="testi-card__role">Mentaltrainer</p>
+        </div>
+        <div class="testi-card reveal-testi">
+          <div class="testi-card__video testi-video" data-vimeo="1179332282" data-titel="Nikolay Gueorguiev">
+            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+          </div>
+          <p class="testi-card__name">Nikolay Gueorguiev</p>
+          <p class="testi-card__role">Speditionsleiter</p>
+        </div>
+        <div class="testi-card reveal-testi">
+          <div class="testi-card__video testi-video" data-vimeo="1179331624" data-titel="Bünyamin Ali Deniz">
+            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+          </div>
+          <p class="testi-card__name">Bünyamin Ali Deniz</p>
+          <p class="testi-card__role">Finanzunternehmer</p>
+        </div>
+      </div>
+      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="stimmen" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a></div>
+    </div>
+  </section>
+
+  <!-- 7. ERFAHRUNGEN — die drei Live-Formate. Bewusst ohne Links zu den
+       alten Landingpages (die gehen offline), der Knopf fuehrt zum
+       Klarheitsgespraech. -->
+  <section class="section erfahrungen" id="erfahrungen">
+    <div class="container">
+      <div class="section__header reveal">
+        <p class="section__eyebrow">Live-Formate</p>
+        <h2 class="section__title">Erfahrungen, die dich und dein Business <em>verändern.</em></h2>
+        <p class="section__subtitle">Neben der Begleitung online arbeiten wir mit unseren Kunden auch vor Ort.</p>
+      </div>
+      <div class="formate">
+        <article class="format-karte reveal-card">
+          <div class="testi-video format-karte__video" data-vimeo="1183850610" data-titel="NOW Money Mind">
+            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+          </div>
+          <div class="format-karte__text">
+            <h3 class="format-karte__titel">NOW Money Mind</h3>
+            <p class="format-karte__satz">Ein Tag. Energie aus einer anderen Dimension.</p>
+            <p>Ein Tagesseminar zu Vertrieb und Mindset mit maximal 100 Teilnehmern. Voller Input und Übungen, damit du den Umsatz erreichst, den du verdienst.</p>
+          </div>
+        </article>
+        <article class="format-karte reveal-card">
+          <div class="testi-video format-karte__video" data-vimeo="1183841506" data-titel="NOW Dubai Mastermind">
+            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+          </div>
+          <div class="format-karte__text">
+            <h3 class="format-karte__titel">NOW Dubai Mastermind</h3>
+            <p class="format-karte__satz">Eine Woche. Fülle pur.</p>
+            <p>Sieben Tage, in denen wir dir zeigen, wie der Weg zu einer Million Jahresumsatz aussieht. Dazu Safari, Yacht, ein Abendessen am Burj Khalifa und ein Netzwerk bewusster Unternehmer.</p>
+          </div>
+        </article>
+        <article class="format-karte reveal-card">
+          <div class="testi-video format-karte__video" data-vimeo="1203510105" data-titel="NOW Retreat">
+            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+          </div>
+          <div class="format-karte__text">
+            <h3 class="format-karte__titel">NOW Retreat</h3>
+            <p class="format-karte__satz">Ein zeitloser Raum. Heilung auf allen Ebenen.</p>
+            <p>Tägliche Meditationen, Bewusstseinsarbeit und Stille. Eine Woche Rückzug zu deinem Kern, in der alte emotionale Wunden heilen dürfen.</p>
+          </div>
+        </article>
+      </div>
+      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="erfahrungen" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a></div>
+    </div>
+  </section>
+
+  <!-- 8. TEAM -->
+  <section class="section team" id="team">
+    <div class="container">
+      <div class="section__header reveal">
+        <p class="section__eyebrow">Wer wir sind</p>
+        <h2 class="section__title">Fünf Menschen. <em>Eine Mission.</em></h2>
+      </div>
+      <div class="team__raster">
+        <article class="person glas reveal-card">
+          <div class="person__bild"><img src="/bilder/team-darko.webp" width="640" height="648" alt="Darko Krstic" loading="lazy" /></div>
+          <div class="person__text">
+            <h3 class="person__name">Darko Krstic</h3>
+            <p class="person__rolle">Gründer &amp; CEO</p>
+            <p>Hat NOW 2021 gegründet, um Selbstständigen zu helfen, emotional und finanziell frei zu leben: durch Meditation, Bewusstseinsarbeit und einen Vertrieb, der sich ehrlich anfühlt.</p>
+          </div>
+        </article>
+        <article class="person glas reveal-card">
+          <div class="person__bild"><img src="/bilder/team-denise.webp" width="640" height="648" alt="Denise Krstic" loading="lazy" /></div>
+          <div class="person__text">
+            <h3 class="person__name">Denise Krstic</h3>
+            <p class="person__rolle">Operations &amp; Events</p>
+            <p>Seit ihrem 17. Lebensjahr an Darkos Seite. Denise hält den Raum, in dem alles passiert: Korrespondenz, Verwaltung und die Organisation unserer Events.</p>
+          </div>
+        </article>
+        <article class="person glas reveal-card">
+          <div class="person__bild"><img src="/bilder/team-stefan.webp" width="640" height="655" alt="Stefan Pfeifer" loading="lazy" /></div>
+          <div class="person__text">
+            <h3 class="person__name">Stefan Pfeifer</h3>
+            <p class="person__rolle">Vertriebsleiter</p>
+            <p>Ehemaliger Profifußballer und selbst Kunde von Darko. Verkaufen heißt für Stefan: ehrlich kommunizieren, authentisch auftreten und das beste Ergebnis für den Kunden schaffen.</p>
+          </div>
+        </article>
+        <article class="person glas reveal-card">
+          <div class="person__bild"><img src="/bilder/team-nadine.webp" width="640" height="707" alt="Nadine Stöger" loading="lazy" style="filter: saturate(0.85)" /></div>
+          <div class="person__text">
+            <h3 class="person__name">Nadine Stöger</h3>
+            <p class="person__rolle">Marketing Managerin</p>
+            <p>Verantwortet den gesamten Auftritt von NOW: Content, Werbeanzeigen und Marke. Sie sorgt dafür, dass unsere Botschaft die Menschen erreicht, für die sie bestimmt ist.</p>
+          </div>
+        </article>
+        <article class="person glas reveal-card">
+          <div class="person__bild"><img src="/bilder/team-lukas.webp" width="640" height="853" alt="Lukas Filimon" loading="lazy" style="filter: saturate(0.82)" /></div>
+          <div class="person__text">
+            <h3 class="person__name">Lukas Filimon</h3>
+            <p class="person__rolle">Kundenberater</p>
+            <p>Ebenfalls ehemaliger Kunde von Darko, mit über fünf Jahren Erfahrung als Closer und Vertriebstrainer. Lukas begleitet unsere Kunden in 1:1-Calls und per WhatsApp zu ihren Zielen.</p>
+          </div>
+        </article>
+      </div>
+      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="team" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a></div>
+    </div>
+  </section>
+
+  <!-- 9. FAQ -->
+  <section class="section faq" id="faq">
+    <div class="container">
+      <div class="section__header reveal">
+        <p class="section__eyebrow">Häufige Fragen</p>
+        <h2 class="section__title">Die <em>ehrlichen</em> Antworten.</h2>
+      </div>
+      <div class="faq__list">
+        <div class="faq__item reveal">
+          <button class="faq__question" aria-expanded="false">Was kostet die Zusammenarbeit?<span class="faq__icon">+</span></button>
+          <div class="faq__answer"><p>Das klären wir im Klarheitsgespräch. Wir arbeiten ausschließlich 1:1, deshalb gibt es keine Listenpreise. Wir schauen gemeinsam, was du brauchst, und machen dir dann ein Angebot.</p></div>
+        </div>
+        <div class="faq__item reveal">
+          <button class="faq__question" aria-expanded="false">Was passiert im Klarheitsgespräch?<span class="faq__icon">+</span></button>
+          <div class="faq__answer"><p>Wir sprechen 1:1 über deine Situation und deine Ziele. Kein Pitch, kein Skript. Danach wissen beide Seiten, ob eine Zusammenarbeit passt. Das Gespräch ist kostenlos und unverbindlich.</p></div>
+        </div>
+        <div class="faq__item reveal">
+          <button class="faq__question" aria-expanded="false">Was, wenn ich nicht spirituell bin?<span class="faq__icon">+</span></button>
+          <div class="faq__answer"><p>Spiritualität ist bei uns keine Religion. Es ist die Bereitschaft, an dir selbst zu arbeiten, während du dein Business aufbaust. Wenn du dafür offen bist, bist du bei uns richtig.</p></div>
+        </div>
+        <div class="faq__item reveal">
+          <button class="faq__question" aria-expanded="false">Was ist bei euch anders als bei anderen Beratungen?<span class="faq__icon">+</span></button>
+          <div class="faq__answer"><p>Wir verbinden Bewusstseinsarbeit mit Unternehmensberatung. Anderswo bekommst du Funnels und Skripte. Bei uns arbeitest du zusätzlich an dem, was dich innerlich bremst: mit Meditation und einem Vertrieb, der sich ehrlich anfühlt.</p></div>
+        </div>
+        <div class="faq__item reveal">
+          <button class="faq__question" aria-expanded="false">Wie schnell sehe ich Ergebnisse?<span class="faq__icon">+</span></button>
+          <div class="faq__answer"><p>Das hängt davon ab, wo du gerade stehst. In der Regel nach einem bis drei Monaten.</p></div>
+        </div>
+        <div class="faq__item reveal">
+          <button class="faq__question" aria-expanded="false">Wo findet die Beratung statt?<span class="faq__icon">+</span></button>
+          <div class="faq__answer"><p>Online über Zoom: in 1:1-Calls, in wöchentlichen Gruppen-Calls im Inner Circle und per WhatsApp. Wer es live erleben möchte, kommt zusätzlich zu unseren Retreats, Masterminds und Seminaren.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. SCHLUSS -->
+  <section class="section final-cta" id="final-cta" data-mandala="voll">
+    <div class="container">
+      <p class="section__eyebrow">Jetzt ist dein Moment</p>
+      <h2 class="final-cta__title">Wenn du den Ruf spürst, <em>melde dich.</em></h2>
+      <p class="final-cta__sub">Kein Pitch, kein Skript. Wir hören dir zu, du hörst uns zu, und danach wissen beide Seiten, ob es passt.</p>
+      <a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="schluss" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a>
+      <div class="mini-trust">
+        <span><strong>1:1</strong>-Gespräch</span>
+        <span class="mini-trust__dot">·</span>
+        <span>unverbindlich</span>
+        <span class="mini-trust__dot">·</span>
+        <span><strong>kostenlos</strong></span>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__logo-row">
+        <img src="/now-logo.webp" width="240" height="240" alt="NOW Consulting" class="footer__logo" />
+      </div>
+      <p class="footer__tagline">Bewusstsein. Unternehmertum. Ein Weg.</p>
+      <div class="footer__bottom">
+        <p>© 2026 NOW Consulting</p>
+        <div class="footer__legal">
+          <a href="/impressum/">Impressum</a>
+          <a href="/datenschutz/">Datenschutz</a>
+          <a href="/agb/">AGB</a>
+          <button class="footer__legal-btn" id="cookie-settings">Cookie Einstellungen</button>
+          <a href="https://www.instagram.com/darko_krstic_/" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cookie-Leiste -->
+  <div id="cookie-bar" class="cookie-bar" role="region" aria-label="Hinweis zu Cookies" hidden>
+    <div class="cookie-bar__inner">
+      <span class="cookie-bar__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 12.6A8.5 8.5 0 1 1 11.4 3.5a3 3 0 0 0 3.6 3.6 3 3 0 0 0 3.9 3.9 3 3 0 0 0 1.6 1.6z" fill="currentColor" fill-opacity=".16"/><path d="M20.5 12.6A8.5 8.5 0 1 1 11.4 3.5a3 3 0 0 0 3.6 3.6 3 3 0 0 0 3.9 3.9 3 3 0 0 0 1.6 1.6z"/><circle cx="8.5" cy="11" r=".9" fill="currentColor" stroke="none"/><circle cx="12.5" cy="15.5" r=".9" fill="currentColor" stroke="none"/><circle cx="8.5" cy="16" r=".7" fill="currentColor" stroke="none"/><circle cx="15.5" cy="12" r=".7" fill="currentColor" stroke="none"/></svg></span>
+      <p class="cookie-bar__text">
+        Wir nutzen Cookies und externe Dienste zur Reichweitenmessung. Du entscheidest.
+        <a class="cookie-bar__link" href="/datenschutz/">Mehr in der Datenschutzerklärung</a>
+      </p>
+      <div class="cookie-bar__btns">
+        <button type="button" id="cookie-decline" class="cookie-bar__btn cookie-bar__btn--decline">Ablehnen</button>
+        <button type="button" id="cookie-accept" class="cookie-bar__btn cookie-bar__btn--accept">Akzeptieren</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/seite.js"></script>
+  <script src="/kern.js"></script>
+  <script src="/mandala.js"></script>
+</body>
 </html>

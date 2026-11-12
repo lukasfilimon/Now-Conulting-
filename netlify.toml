@@ -1,0 +1,72 @@
+# NOW-Webseite: statische Dateien, kein Build-Schritt.
+# Der Befehl unten ueberschreibt den alten Build aus dem Netlify-UI
+# ("npm run build" der Vite-Seite). Ohne ihn wuerde Netlify nach dem
+# Umschalten versuchen, eine Seite zu bauen, die es nicht mehr gibt.
+[build]
+  publish = "."
+  command = "echo 'Statische Seite, kein Build'"
+
+# Arbeitsdateien sind nicht oeffentlich. Netlify kann nur Pfade am Ende
+# platzhaltern, keine Dateiendungen: "/*.md" greift nie, jede Datei
+# einzeln nennen.
+[[redirects]]
+  from = "/README.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/CLAUDE.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/netlify.toml"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/qa/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/notizen/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/werkzeuge/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+# Alte Adresse der Vite-Seite
+[[redirects]]
+  from = "/vorschau/*"
+  to = "/"
+  status = 301
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Schriften aendern sich nicht mehr, wenn sie einmal stehen. Neue Fassung
+# nur ueber fonts.css?v=N.
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/bilder/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000"
