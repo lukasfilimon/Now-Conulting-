@@ -87,6 +87,22 @@ const p = (name, ist, soll = true) => {
   });
   p('1w Zwei Welten: NOW und Satz am Ende sichtbar', wl, 'ok');
 
+  // Zusammenarbeit: naechster Live-Call eingetragen, Kacheln und Chat-Antwort erscheinen
+  const za = await page.evaluate(async () => {
+    const sek = document.getElementById('zusammenarbeit');
+    for (const k of sek.querySelectorAll('.kachel')) {
+      scrollTo({ top: k.getBoundingClientRect().top + scrollY - innerHeight * 0.3, behavior: 'instant' });
+      await new Promise(r => setTimeout(r, 250));
+    }
+    await new Promise(r => setTimeout(r, 3800));
+    const naechster = sek.querySelector('[data-naechster]').textContent;
+    const tag = sek.querySelectorAll('.woche__tag.ist-naechster').length;
+    const kacheln = [...sek.querySelectorAll('.kachel')].filter(k => getComputedStyle(k).opacity === '1').length;
+    const antwort = getComputedStyle(sek.querySelector('.blase--berater')).opacity;
+    return /^Nächster: (Heute|Morgen|Mo|Mi) · 10:00$/.test(naechster) && tag === 1 && kacheln === 5 && antwort === '1' ? 'ok' : [naechster, tag, kacheln, antwort].join('/');
+  });
+  p('1x Zusammenarbeit: naechster Live-Call, 5 Kacheln, Chat-Antwort sichtbar', za, 'ok');
+
   // 7 Schritte: Buehne klebt, Schritt wechselt mit dem Scrollen
   const sch = await page.evaluate(async () => {
     const s = document.querySelector('.schritte');
@@ -175,9 +191,10 @@ for (const [name, opts] of [['reduzierte Bewegung', { reducedMotion: 'reduce' }]
     innen: [...document.querySelectorAll('.spiegel__flaeche--innen')].filter(f => f.getBoundingClientRect().height > 40 && getComputedStyle(f).opacity === '1').length,
     schritte: [...document.querySelectorAll('.schritt')].filter(a => a.getBoundingClientRect().height > 50 && getComputedStyle(a).visibility !== 'hidden').length,
     texte: [...document.querySelectorAll('.schritt__text p')].every(p => getComputedStyle(p).opacity === '1'),
+    kacheln: [...document.querySelectorAll('.kachel, .blase--du, .blase--berater, .termin, .verlauf__felder span')].every(e => getComputedStyle(e).opacity === '1'),
   }));
-  p(`5 ${name}: Headline sichtbar, nichts gepinnt/gedreht, alle 6 Innen-Saetze und 7 Schritte lesbar`,
-    `${z.h1}|${z.gepinnt}|${z.dreht}|${z.innen}|${z.schritte}|${z.texte}`, '1|false|false|6|7|true');
+  p(`5 ${name}: Headline sichtbar, nichts gepinnt/gedreht, alle 6 Innen-Saetze, 7 Schritte und die Zusammenarbeit lesbar`,
+    `${z.h1}|${z.gepinnt}|${z.dreht}|${z.innen}|${z.schritte}|${z.texte}|${z.kacheln}`, '1|false|false|6|7|true|true');
   await ctx.close();
 }
 

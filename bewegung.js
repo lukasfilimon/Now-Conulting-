@@ -10,6 +10,7 @@
       Pillen (nur mit Platz, sonst ruhige Fassung)
    5. Zwei Welten: Bewusstsein und Business gleiten zusammen
    6. Die 7 Schritte: gepinnte Buehne, ein Schritt pro Scrollabschnitt
+   7. Zusammenarbeit: Kachel-Wand mit naechstem Live-Call, Uhr und Chat
 
    Alles Bewegte haengt an html.bewegung (im <head> gesetzt, fehlt bei
    "Bewegung reduzieren"). Ohne diese Klasse und ohne dieses Skript ist
@@ -595,5 +596,95 @@
     if (document.readyState === 'complete') pruefen();
     else window.addEventListener('load', pruefen);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { if (an) pruefen(); });
+  })();
+
+  /* ============================================================
+     7. ZUSAMMENARBEIT: Kachel-Wand
+     Der naechste Live-Call (Mo und Mi, 10:00 Wiener Zeit) wird immer
+     eingetragen, auch ohne Bewegung: das ist Inhalt, keine Animation.
+     Alles andere nur mit html.bewegung: Kacheln steigen gestaffelt auf,
+     die Agenda hakt sich ab, die Uhr laeuft, der Chat baut sich auf.
+     ============================================================ */
+  var kacheln = document.querySelector('.kacheln');
+  if (kacheln) (function () {
+    // 7a. Naechster Live-Call
+    var LIVE_TAGE = [1, 3], LIVE_MINUTE = 10 * 60;
+    var KURZ = ['', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+    var feld = kacheln.querySelector('[data-naechster]');
+    function wienJetzt() {
+      try {
+        var teile = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Vienna', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
+        var w = {}, i;
+        for (i = 0; i < teile.length; i++) w[teile[i].type] = teile[i].value;
+        var tag = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].indexOf(w.weekday) + 1;
+        if (!tag) return null;
+        return { tag: tag, minute: parseInt(w.hour, 10) * 60 + parseInt(w.minute, 10) };
+      } catch (e) { return null; }
+    }
+    function naechsterCall() {
+      var jetzt = wienJetzt();
+      if (!feld || !jetzt) return;
+      // Bis zu 7 Tage vorausschauen; heute zaehlt nur vor 10:00
+      for (var d = 0; d < 8; d++) {
+        var tag = ((jetzt.tag - 1 + d) % 7) + 1;
+        if (LIVE_TAGE.indexOf(tag) < 0) continue;
+        if (d === 0 && jetzt.minute >= LIVE_MINUTE) continue;
+        var wann = d === 0 ? 'Heute' : d === 1 ? 'Morgen' : KURZ[tag];
+        feld.textContent = 'Nächster: ' + wann + ' · 10:00';
+        kacheln.querySelectorAll('[data-tag]').forEach(function (t) {
+          t.classList.toggle('ist-naechster', +t.getAttribute('data-tag') === tag);
+        });
+        return;
+      }
+    }
+    naechsterCall();
+    setInterval(naechsterCall, 60000);
+
+    if (!BEWEGUNG) return;
+
+    // 7b. Kacheln erscheinen gestaffelt, jede spielt ihren Ablauf einmal ab
+    var liste = Array.prototype.slice.call(kacheln.querySelectorAll('.kachel'));
+    kacheln.querySelectorAll('.spieler__welle span').forEach(function (s, i) { s.style.setProperty('--i', i); });
+    function staffeln() {
+      var spalten = getComputedStyle(kacheln).gridTemplateColumns.split(' ').length || 1;
+      var spalte = 0;
+      liste.forEach(function (k) {
+        k.style.setProperty('--k', spalten > 1 ? spalte : 0);
+        spalte = (spalte + (k.classList.contains('kachel--beratung') && spalten > 1 ? 2 : 1)) % spalten;
+      });
+    }
+    staffeln();
+    window.addEventListener('resize', staffeln);
+    kacheln.classList.add('kacheln--lebt');
+
+    function starte(k) {
+      if (k.classList.contains('ist-an')) return;
+      k.classList.add('ist-sichtbar', 'ist-an');
+      if (k.classList.contains('kachel--chat')) {
+        setTimeout(function () { k.classList.add('chat--tippt'); }, 1300);
+        setTimeout(function () { k.classList.remove('chat--tippt'); k.classList.add('chat--antwort'); }, 3300);
+      }
+    }
+    if (!('IntersectionObserver' in window)) { liste.forEach(starte); return; }
+    var io = new IntersectionObserver(function (eintraege) {
+      eintraege.forEach(function (e) {
+        if (e.isIntersecting) { starte(e.target); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.3 });
+    liste.forEach(function (k) { io.observe(k); });
+
+    // 7c. Gespraechsuhr laeuft, solange der Anruf im Bild ist
+    var uhr = kacheln.querySelector('[data-uhr]');
+    if (uhr) {
+      var sekunden = 0, takt = null;
+      var zeige = function () {
+        var m = Math.floor(sekunden / 60), s = sekunden % 60;
+        uhr.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+      };
+      new IntersectionObserver(function (e) {
+        if (e[0].isIntersecting && !takt) takt = setInterval(function () { sekunden++; zeige(); }, 1000);
+        else if (!e[0].isIntersecting && takt) { clearInterval(takt); takt = null; }
+      }).observe(uhr.closest('.kachel'));
+    }
   })();
 })();

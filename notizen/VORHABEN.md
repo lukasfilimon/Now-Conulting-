@@ -68,29 +68,32 @@ Monads werden nicht übernommen.
 ## 2. Innen und Außen — offene Bausteine (Strategie vom 12./13.11.2026)
 
 Roter Faden der Seite ist **Innen und Außen** (freigegeben). Gebaut als
-Entwurf: Der Spiegel, Zwei Welten. Offen:
+Entwurf: Der Spiegel, Zwei Welten, Die Zusammenarbeit. Offen:
 
-**„So fühlt sich Zusammenarbeit an“** (Prinzip von attio.com: Liste links
-schaltet beim Scrollen weiter, rechts je eine NOW-Oberfläche).
-Fakten von Lukas (13.11.2026):
-- 2 Live-Calls pro Woche
+**„Die Zusammenarbeit“ — gebaut als Entwurf (13.11.2026)**, zwischen
+Programme und Live Events. Kachel-Wand mit fünf kleinen NOW-Oberflächen
+(1:1-Anruf mit Agenda, Wochenkalender, WhatsApp, Meditations-Player,
+Verlauf Woche 1 / ab Woche 2). Fakten von Lukas (13.11.2026):
+- **Ausschließlich 1:1** (Überschrift der Sektion)
+- Zwei Live-Calls pro Woche mit Darko: **Montag und Mittwoch, 10 Uhr**,
+  zusätzlich 1:1 Calls nach Absprache. Die Seite zeigt den nächsten
+  Live-Call nach Wiener Zeit an.
+- **Täglicher WhatsApp-Support** stimmt („passiert ganz selten, dass mal
+  nicht am selben Tag eine Antwort kommt“). Die Formulierung in
+  „Programme“ bleibt also.
 - Meditationsbibliothek vorhanden
-- Kundenberater antwortet je nachdem, manchmal erst am nächsten Tag
-  („gerade noch nicht so gut“) — also nichts Schnelleres versprechen
-- Kein klassisches Kick-off: Es geht direkt mit einer Beratung los
-  (Geschäftsmodell, Zielgruppe, Angebotsstruktur, Vertriebsweg)
+- Kein klassisches Kick-off: Woche 1 ist eine Beratung (Geschäftsmodell,
+  Zielgruppe, Angebotsstruktur, Vertriebsweg). Ab Woche 2 Umsetzung, vor
+  allem Vertrieb, dazu Content für Marketing und Social Media — „immer
+  sehr individuell“.
 
-Noch zu klären: Wochentage, Uhrzeit und Leitung der Live-Calls; drei bis
-fünf echte Titel aus der Meditationsbibliothek; was in Woche 2 bis 4
-passiert.
+Noch offen: Wer im Anruf und im Chat als Kundenberater zu sehen ist
+(Entwurf: Lukas mit Teamfoto), optional drei bis fünf echte Titel aus der
+Meditationsbibliothek für den Player.
 
 **Vergleich „Andere vs. NOW“** — links matt, rechts NOW mit echten Zahlen.
 
 **Texte des Spiegels** — Lukas liefert die Sätze aus seinen Erstgesprächen.
-
-**Offene Frage:** In „Programme“ steht „täglichem WhatsApp Support“. Das
-verspricht mehr, als derzeit stimmt. Vorschlag: „persönlichem WhatsApp
-Support“. Texte sind tabu — nur mit Lukas' Freigabe ändern.
 
 **Inspiration (je ein Prinzip, nichts kopieren):** attio.com und linear.app
 (Leistung greifbar machen), monads.ch (Selbstbewusstsein, schwebende

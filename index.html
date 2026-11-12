@@ -507,6 +507,130 @@
     </div>
   </section>
 
+  <!-- NEU (Entwurf, 13.11.2026): SO FUEHLT SICH ZUSAMMENARBEIT AN.
+       Fakten von Lukas: ausschliesslich 1:1; zwei Live-Calls pro Woche mit
+       Darko (Montag und Mittwoch, 10 Uhr) zusaetzlich zu den 1:1 Calls;
+       taeglicher WhatsApp-Support; Meditationsbibliothek; kein Kick-off,
+       sondern direkt eine Beratung (Geschaeftsmodell, Zielgruppe,
+       Angebotsstruktur, Vertriebsweg); ab Woche 2 Umsetzung, vor allem im
+       Vertrieb, dazu Content fuer Marketing und Social Media, individuell.
+       Jede Kachel ist eine kleine Oberflaeche, die beim Hereinscrollen
+       anspringt (bewegung.js). Der Chat ist eine Darstellung, keine echte
+       Unterhaltung, und ist im Kopf als "Beispiel" gekennzeichnet.
+       Ohne JavaScript oder bei "Bewegung reduzieren" steht der Endzustand. -->
+  <section class="section zusammenarbeit" id="zusammenarbeit" aria-labelledby="zusammenarbeitTitel">
+    <div class="container">
+      <div class="section__header reveal">
+        <p class="section__eyebrow">Die Zusammenarbeit</p>
+        <h2 class="section__title" id="zusammenarbeitTitel">Wir arbeiten ausschließlich <em>1:1.</em></h2>
+        <p class="section__subtitle">Dazu zwei Live-Calls pro Woche mit Darko, täglicher WhatsApp-Support und eine Meditationsbibliothek.</p>
+      </div>
+
+      <div class="kacheln">
+        <!-- 1:1 Beratung -->
+        <article class="kachel kachel--beratung">
+          <div class="kachel__ui anruf" aria-hidden="true">
+            <div class="anruf__leiste"><span class="anruf__punkt"></span>1:1 Beratung <span class="anruf__zeit" data-uhr>00:00</span></div>
+            <div class="anruf__kacheln">
+              <div class="anruf__person anruf__person--berater">
+                <img src="/bilder/team-lukas.webp" width="640" height="853" alt="" loading="lazy" />
+                <span class="anruf__name">Lukas · Kundenberater</span>
+              </div>
+              <div class="anruf__person anruf__person--du">
+                <span class="anruf__initialen">Du</span>
+                <span class="anruf__name">Du</span>
+              </div>
+            </div>
+            <ul class="agenda-liste">
+              <li style="--n:0">Geschäftsmodell</li>
+              <li style="--n:1">Zielgruppe</li>
+              <li style="--n:2">Angebotsstruktur</li>
+              <li style="--n:3">Vertriebsweg</li>
+            </ul>
+          </div>
+          <div class="kachel__text">
+            <h3 class="kachel__titel">1:1 Beratung</h3>
+            <p>Kein Kick-off, keine Gruppe. Vom ersten Tag an sitzt du mit deinem Kundenberater an deinem Geschäftsmodell, deiner Zielgruppe, deiner Angebotsstruktur und deinem Vertriebsweg.</p>
+          </div>
+        </article>
+
+        <!-- Live-Calls -->
+        <article class="kachel kachel--kalender">
+          <div class="kachel__ui woche" aria-hidden="true">
+            <div class="woche__kopf"><span>Deine Woche</span><span class="woche__naechster" data-naechster>Mo &amp; Mi · 10:00</span></div>
+            <div class="woche__tage">
+              <div class="woche__tag" data-tag="1"><span class="woche__kuerzel">Mo</span><span class="termin termin--live"><b>10:00</b> Live-Call</span></div>
+              <div class="woche__tag" data-tag="2"><span class="woche__kuerzel">Di</span></div>
+              <div class="woche__tag" data-tag="3"><span class="woche__kuerzel">Mi</span><span class="termin termin--live"><b>10:00</b> Live-Call</span></div>
+              <div class="woche__tag" data-tag="4"><span class="woche__kuerzel">Do</span></div>
+              <div class="woche__tag" data-tag="5"><span class="woche__kuerzel">Fr</span></div>
+            </div>
+            <p class="woche__eins"><span class="termin termin--eins">1:1 Calls</span> nach Absprache, dazwischen</p>
+          </div>
+          <div class="kachel__text">
+            <h3 class="kachel__titel">Live-Calls mit Darko</h3>
+            <p>Jeden Montag und Mittwoch um 10 Uhr im Inner Circle, zusätzlich zu deinen 1:1 Calls.</p>
+          </div>
+        </article>
+
+        <!-- WhatsApp -->
+        <article class="kachel kachel--chat">
+          <div class="kachel__ui chat" aria-hidden="true">
+            <div class="chat__kopf"><img src="/bilder/team-lukas.webp" width="640" height="853" alt="" loading="lazy" /><span>Lukas · Kundenberater</span><span class="chat__beispiel">Beispiel</span></div>
+            <div class="chat__verlauf">
+              <p class="blase blase--du" style="--n:0">Morgen habe ich ein Verkaufsgespräch. Kannst du kurz über mein Angebot schauen?</p>
+              <p class="blase blase--tippt" style="--n:1"><span></span><span></span><span></span></p>
+              <p class="blase blase--berater" style="--n:2">Klar, schick es mir. Du bekommst heute noch eine Antwort.</p>
+            </div>
+          </div>
+          <div class="kachel__text">
+            <h3 class="kachel__titel">Täglicher WhatsApp-Support</h3>
+            <p>Für Fragen, die nicht bis zum nächsten Call warten können.</p>
+          </div>
+        </article>
+
+        <!-- Meditationsbibliothek -->
+        <article class="kachel kachel--meditation">
+          <div class="kachel__ui spieler" aria-hidden="true">
+            <div class="spieler__kopf">
+              <span class="spieler__knopf"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l10.5-6.5z"/></svg></span>
+              <span class="spieler__titel"><strong>Geführte Meditation</strong><span>mit Darko · Bibliothek</span></span>
+            </div>
+            <div class="spieler__welle">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+          <div class="kachel__text">
+            <h3 class="kachel__titel">Meditationsbibliothek</h3>
+            <p>Geführte Meditationen, die dich aus dem Mangel in die Fülle bringen. Jederzeit abrufbar.</p>
+          </div>
+        </article>
+
+        <!-- Umsetzung -->
+        <article class="kachel kachel--umsetzung">
+          <div class="kachel__ui verlauf" aria-hidden="true">
+            <div class="verlauf__linie"><span></span></div>
+            <ol class="verlauf__punkte">
+              <li style="--n:0"><span class="verlauf__woche">Woche 1</span>Beratung</li>
+              <li style="--n:1"><span class="verlauf__woche">Ab Woche 2</span>Umsetzung</li>
+            </ol>
+            <div class="verlauf__felder">
+              <span style="--n:0">Vertrieb</span>
+              <span style="--n:1">Content</span>
+              <span style="--n:2">Social Media</span>
+            </div>
+          </div>
+          <div class="kachel__text">
+            <h3 class="kachel__titel">Danach: Umsetzung</h3>
+            <p>Ab Woche 2 geht es direkt in die Umsetzung, vor allem im Vertrieb, dazu Content für Marketing und Social Media. Immer individuell.</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="zusammenarbeit" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a></div>
+    </div>
+  </section>
+
   <!-- 6. LIVE EVENTS — drei Zeilen, Video und Text im Wechsel.
        Videos laden erst nach Zustimmung (kern.js). -->
   <section class="section erfahrungen" id="erfahrungen">
