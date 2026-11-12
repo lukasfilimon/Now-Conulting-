@@ -61,7 +61,6 @@
        Glas-Chips schweben in eigener Tiefe davor. Bei "Bewegung
        reduzieren" steht alles still und ist sofort sichtbar. -->
   <section class="hero" id="hero">
-    <canvas class="hero__matrix" id="matrixCanvas" data-matrix data-matrix-ab="901"></canvas>
     <div class="hero__bg-overlay"></div>
     <div class="hero__aura" aria-hidden="true"></div>
     <div class="container hero__raster">
@@ -103,14 +102,6 @@
             </div>
             <span class="hero__glanzlicht" aria-hidden="true"></span>
           </div>
-          <span class="hero__chip hero__chip--a" aria-hidden="true">
-            <span class="hero__chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20c-4.5 0-8-2.6-8-6 2.6 0 5 1 6.6 2.7M12 20c4.5 0 8-2.6 8-6-2.6 0-5 1-6.6 2.7M12 20c-1.9-1.6-3-4-3-6.6 0-2.9 1.3-5.5 3-7.4 1.7 1.9 3 4.5 3 7.4 0 2.6-1.1 5-3 6.6z" fill="currentColor" fill-opacity=".16"/></svg></span>
-            Bewusstsein
-          </span>
-          <span class="hero__chip hero__chip--b" aria-hidden="true">
-            <span class="hero__chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5h16" /><path d="M6.5 16v-4M11 16V9.5M15.5 16v-6.5" /><path d="M5 9.5l5-4.5 4 3 5.5-4.5" /><path d="M16 3.5h3.5V7"/></svg></span>
-            Unternehmertum
-          </span>
         </div>
       </div>
     </div>
@@ -138,56 +129,103 @@
     </div>
   </section>
 
-  <!-- NEU (12.11.2026, freigegeben von Lukas): Laufband "Wer kann Teil
-       unserer Beratung werden?". Drei Reihen, je eine fuer Coaches, Trainer,
-       Berater. Die Berufe sind Beispiele aus der Zielgruppe, teils aus den
-       Testimonials; Lukas prueft die Liste. Die Reihen laufen gegenlaeufig,
-       werden beim Scrollen schneller und halten bei Maus darueber an. Die
-       Karte in der Mitte leuchtet. Ohne JavaScript oder bei "Bewegung
-       reduzieren" stehen die Chips ruhig in umbrechenden Reihen. -->
-  <section class="section laufband" id="fuer-wen" aria-labelledby="laufbandTitel">
+  <!-- NEU (Entwurf, 12.11.2026): DER SPIEGEL. Roter Faden der Seite:
+       Innen und Aussen (freigegeben von Lukas). Jede Karte zeigt zuerst ein
+       Symptom "Im Aussen" und dreht sich beim Scrollen auf die Ursache
+       "Im Innen". Der Schalter oben dreht alle Karten, mit der Maus dreht
+       sich eine Karte einzeln. Ohne JavaScript oder bei "Bewegung
+       reduzieren" stehen beide Seiten untereinander.
+       TEXTE SIND ENTWURF: Lukas ersetzt sie durch Saetze aus seinen
+       Erstgespraechen. Die ersten zwei Aussen-Saetze stammen von der
+       bisherigen Seite ("Deine momentane Realitaet"). -->
+  <section class="section spiegel" id="spiegel" aria-labelledby="spiegelTitel">
     <div class="container">
       <div class="section__header reveal">
-        <h2 class="section__title" id="laufbandTitel">Wer kann Teil unserer <em>Beratung</em> werden?</h2>
+        <p class="section__eyebrow">Ehrlich hingeschaut</p>
+        <h2 class="section__title" id="spiegelTitel">Im Außen siehst du das Symptom. <em>Im Innen die Ursache.</em></h2>
+        <p class="section__subtitle">Was dich im Business bremst, hat fast immer einen Grund, den du von außen nicht siehst.</p>
       </div>
-    </div>
-    <div class="laufband__reihen">
-      <div class="laufband__reihe" data-richtung="-1" data-tempo="30">
-        <ul class="laufband__spur">
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h9a2 2 0 0 1 2 2V11a2 2 0 0 1-2 2H9.5L6 16v-3a2 2 0 0 1-2-2z" fill="currentColor" fill-opacity=".16"/><path d="M19.5 9.5h.3a1.7 1.7 0 0 1 1.7 1.7v5.6a1.7 1.7 0 0 1-1.7 1.7H19v2.5l-3-2.5h-3.3a1.7 1.7 0 0 1-1.7-1.7v-.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Coach</span><span class="laufband__beruf">Life Coach</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h9a2 2 0 0 1 2 2V11a2 2 0 0 1-2 2H9.5L6 16v-3a2 2 0 0 1-2-2z" fill="currentColor" fill-opacity=".16"/><path d="M19.5 9.5h.3a1.7 1.7 0 0 1 1.7 1.7v5.6a1.7 1.7 0 0 1-1.7 1.7H19v2.5l-3-2.5h-3.3a1.7 1.7 0 0 1-1.7-1.7v-.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Coach</span><span class="laufband__beruf">Business Coach</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h9a2 2 0 0 1 2 2V11a2 2 0 0 1-2 2H9.5L6 16v-3a2 2 0 0 1-2-2z" fill="currentColor" fill-opacity=".16"/><path d="M19.5 9.5h.3a1.7 1.7 0 0 1 1.7 1.7v5.6a1.7 1.7 0 0 1-1.7 1.7H19v2.5l-3-2.5h-3.3a1.7 1.7 0 0 1-1.7-1.7v-.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Coach</span><span class="laufband__beruf">Coachin für Selbstheilung</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h9a2 2 0 0 1 2 2V11a2 2 0 0 1-2 2H9.5L6 16v-3a2 2 0 0 1-2-2z" fill="currentColor" fill-opacity=".16"/><path d="M19.5 9.5h.3a1.7 1.7 0 0 1 1.7 1.7v5.6a1.7 1.7 0 0 1-1.7 1.7H19v2.5l-3-2.5h-3.3a1.7 1.7 0 0 1-1.7-1.7v-.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Coach</span><span class="laufband__beruf">Coachin für Gesundheit</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h9a2 2 0 0 1 2 2V11a2 2 0 0 1-2 2H9.5L6 16v-3a2 2 0 0 1-2-2z" fill="currentColor" fill-opacity=".16"/><path d="M19.5 9.5h.3a1.7 1.7 0 0 1 1.7 1.7v5.6a1.7 1.7 0 0 1-1.7 1.7H19v2.5l-3-2.5h-3.3a1.7 1.7 0 0 1-1.7-1.7v-.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Coach</span><span class="laufband__beruf">Mindset Coach</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h9a2 2 0 0 1 2 2V11a2 2 0 0 1-2 2H9.5L6 16v-3a2 2 0 0 1-2-2z" fill="currentColor" fill-opacity=".16"/><path d="M19.5 9.5h.3a1.7 1.7 0 0 1 1.7 1.7v5.6a1.7 1.7 0 0 1-1.7 1.7H19v2.5l-3-2.5h-3.3a1.7 1.7 0 0 1-1.7-1.7v-.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Coach</span><span class="laufband__beruf">Beziehungscoach</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h9a2 2 0 0 1 2 2V11a2 2 0 0 1-2 2H9.5L6 16v-3a2 2 0 0 1-2-2z" fill="currentColor" fill-opacity=".16"/><path d="M19.5 9.5h.3a1.7 1.7 0 0 1 1.7 1.7v5.6a1.7 1.7 0 0 1-1.7 1.7H19v2.5l-3-2.5h-3.3a1.7 1.7 0 0 1-1.7-1.7v-.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Coach</span><span class="laufband__beruf">Spiritueller Coach</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h9a2 2 0 0 1 2 2V11a2 2 0 0 1-2 2H9.5L6 16v-3a2 2 0 0 1-2-2z" fill="currentColor" fill-opacity=".16"/><path d="M19.5 9.5h.3a1.7 1.7 0 0 1 1.7 1.7v5.6a1.7 1.7 0 0 1-1.7 1.7H19v2.5l-3-2.5h-3.3a1.7 1.7 0 0 1-1.7-1.7v-.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Coach</span><span class="laufband__beruf">Karriere Coach</span></span></li>
-        </ul>
+      <div class="spiegel__schalter" role="group" aria-label="Seite der Karten wählen">
+        <span class="spiegel__daumen" aria-hidden="true"></span>
+        <button type="button" class="spiegel__seite ist-an" data-seite="aussen" aria-pressed="true">Im Außen</button>
+        <button type="button" class="spiegel__seite" data-seite="innen" aria-pressed="false">Im Innen</button>
       </div>
-      <div class="laufband__reihe" data-richtung="1" data-tempo="24">
-        <ul class="laufband__spur">
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".16"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></span><span class="laufband__text"><span class="laufband__art">Trainer</span><span class="laufband__beruf">Mentaltrainer</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".16"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></span><span class="laufband__text"><span class="laufband__art">Trainer</span><span class="laufband__beruf">Fitnesstrainerin</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".16"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></span><span class="laufband__text"><span class="laufband__art">Trainer</span><span class="laufband__beruf">Persönlichkeitstrainer</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".16"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></span><span class="laufband__text"><span class="laufband__art">Trainer</span><span class="laufband__beruf">Vertriebstrainer</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".16"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></span><span class="laufband__text"><span class="laufband__art">Trainer</span><span class="laufband__beruf">Yogalehrerin</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".16"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></span><span class="laufband__text"><span class="laufband__art">Trainer</span><span class="laufband__beruf">Atemtrainer</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".16"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></span><span class="laufband__text"><span class="laufband__art">Trainer</span><span class="laufband__beruf">Speaker</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".16"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></span><span class="laufband__text"><span class="laufband__art">Trainer</span><span class="laufband__beruf">Seminarleiterin</span></span></li>
-        </ul>
-      </div>
-      <div class="laufband__reihe" data-richtung="-1" data-tempo="36">
-        <ul class="laufband__spur">
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3.5v5c0 4.4-3.2 8.1-7.5 9.5-4.3-1.4-7.5-5.1-7.5-9.5v-5z" fill="currentColor" fill-opacity=".16"/><path d="M8.5 12l2.4 2.4 4.6-4.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Berater</span><span class="laufband__beruf">Unternehmensberater</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3.5v5c0 4.4-3.2 8.1-7.5 9.5-4.3-1.4-7.5-5.1-7.5-9.5v-5z" fill="currentColor" fill-opacity=".16"/><path d="M8.5 12l2.4 2.4 4.6-4.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Berater</span><span class="laufband__beruf">Finanzberater</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3.5v5c0 4.4-3.2 8.1-7.5 9.5-4.3-1.4-7.5-5.1-7.5-9.5v-5z" fill="currentColor" fill-opacity=".16"/><path d="M8.5 12l2.4 2.4 4.6-4.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Berater</span><span class="laufband__beruf">Energetikerin</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3.5v5c0 4.4-3.2 8.1-7.5 9.5-4.3-1.4-7.5-5.1-7.5-9.5v-5z" fill="currentColor" fill-opacity=".16"/><path d="M8.5 12l2.4 2.4 4.6-4.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Berater</span><span class="laufband__beruf">Ernährungsberaterin</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3.5v5c0 4.4-3.2 8.1-7.5 9.5-4.3-1.4-7.5-5.1-7.5-9.5v-5z" fill="currentColor" fill-opacity=".16"/><path d="M8.5 12l2.4 2.4 4.6-4.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Berater</span><span class="laufband__beruf">Heilpraktikerin</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3.5v5c0 4.4-3.2 8.1-7.5 9.5-4.3-1.4-7.5-5.1-7.5-9.5v-5z" fill="currentColor" fill-opacity=".16"/><path d="M8.5 12l2.4 2.4 4.6-4.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Berater</span><span class="laufband__beruf">Psychologische Beraterin</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3.5v5c0 4.4-3.2 8.1-7.5 9.5-4.3-1.4-7.5-5.1-7.5-9.5v-5z" fill="currentColor" fill-opacity=".16"/><path d="M8.5 12l2.4 2.4 4.6-4.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Berater</span><span class="laufband__beruf">Massage &amp; Wellness</span></span></li>
-          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3.5v5c0 4.4-3.2 8.1-7.5 9.5-4.3-1.4-7.5-5.1-7.5-9.5v-5z" fill="currentColor" fill-opacity=".16"/><path d="M8.5 12l2.4 2.4 4.6-4.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Berater</span><span class="laufband__beruf">Finanzunternehmer</span></span></li>
-        </ul>
-      </div>
+      <ul class="spiegel__raster">
+        <li class="spiegel__karte">
+          <div class="spiegel__dreh">
+            <div class="spiegel__flaeche spiegel__flaeche--aussen">
+              <span class="spiegel__marke"><span class="spiegel__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12.6V4.5a1 1 0 0 1 1-1h8.1l7.9 7.9a1.4 1.4 0 0 1 0 2l-6.1 6.1a1.4 1.4 0 0 1-2 0z" fill="currentColor" fill-opacity=".12"/><circle cx="8.2" cy="8.2" r="1.4"/><path d="M10.5 15.5l4-4"/></svg></span>Im Außen</span>
+              <p class="spiegel__satz">Du verkaufst dein Angebot für einen zu niedrigen Preis.</p>
+            </div>
+            <div class="spiegel__flaeche spiegel__flaeche--innen">
+              <span class="spiegel__marke"><span class="spiegel__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="currentColor" fill-opacity=".14"/><circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r=".9" fill="currentColor"/></svg></span>Im Innen</span>
+              <p class="spiegel__satz">Tief in dir glaubst du noch nicht, dass du so viel wert bist.</p>
+            </div>
+          </div>
+        </li>
+        <li class="spiegel__karte">
+          <div class="spiegel__dreh">
+            <div class="spiegel__flaeche spiegel__flaeche--aussen">
+              <span class="spiegel__marke"><span class="spiegel__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2" fill="currentColor" fill-opacity=".12"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/><path d="M9.5 14.5l5 0" stroke-dasharray="1.5 2"/></svg></span>Im Außen</span>
+              <p class="spiegel__satz">Du weißt nicht, von wo deine nächsten Kunden kommen.</p>
+            </div>
+            <div class="spiegel__flaeche spiegel__flaeche--innen">
+              <span class="spiegel__marke"><span class="spiegel__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="currentColor" fill-opacity=".14"/><circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r=".9" fill="currentColor"/></svg></span>Im Innen</span>
+              <p class="spiegel__satz">Verkaufen fühlt sich für dich wie Betteln an. Also wartest du auf Empfehlungen.</p>
+            </div>
+          </div>
+        </li>
+        <li class="spiegel__karte">
+          <div class="spiegel__dreh">
+            <div class="spiegel__flaeche spiegel__flaeche--aussen">
+              <span class="spiegel__marke"><span class="spiegel__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h12a2 2 0 0 1 2 2V14a2 2 0 0 1-2 2h-6.5L7 19.5V16H6a2 2 0 0 1-2-2z" fill="currentColor" fill-opacity=".12"/><path d="M9 9.8h.01M12 9.8h.01M15 9.8h.01" stroke-width="2.2"/></svg></span>Im Außen</span>
+              <p class="spiegel__satz">Im Gespräch wirst du leise, sobald es um Geld geht.</p>
+            </div>
+            <div class="spiegel__flaeche spiegel__flaeche--innen">
+              <span class="spiegel__marke"><span class="spiegel__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="currentColor" fill-opacity=".14"/><circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r=".9" fill="currentColor"/></svg></span>Im Innen</span>
+              <p class="spiegel__satz">Geld ist für dich noch mit Schuld verbunden.</p>
+            </div>
+          </div>
+        </li>
+        <li class="spiegel__karte">
+          <div class="spiegel__dreh">
+            <div class="spiegel__flaeche spiegel__flaeche--aussen">
+              <span class="spiegel__marke"><span class="spiegel__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l8.5 4.3L12 12 3.5 7.8z" fill="currentColor" fill-opacity=".12"/><path d="M3.5 12L12 16.2 20.5 12"/><path d="M3.5 16.2L12 20.5l8.5-4.3"/></svg></span>Im Außen</span>
+              <p class="spiegel__satz">Du machst alles selbst und kommst nicht aus dem Tagesgeschäft.</p>
+            </div>
+            <div class="spiegel__flaeche spiegel__flaeche--innen">
+              <span class="spiegel__marke"><span class="spiegel__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="currentColor" fill-opacity=".14"/><circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r=".9" fill="currentColor"/></svg></span>Im Innen</span>
+              <p class="spiegel__satz">Du traust dich nicht, Kontrolle abzugeben. Es könnte ja niemand so gut wie du.</p>
+            </div>
+          </div>
+        </li>
+        <li class="spiegel__karte">
+          <div class="spiegel__dreh">
+            <div class="spiegel__flaeche spiegel__flaeche--aussen">
+              <span class="spiegel__marke"><span class="spiegel__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20.5h18" /><path d="M3.5 15l3.5-6 3.5 7 3.5-9 3.5 6.5 3-3.5"/></svg></span>Im Außen</span>
+              <p class="spiegel__satz">Dein Umsatz schwankt: ein guter Monat, dann wieder Flaute.</p>
+            </div>
+            <div class="spiegel__flaeche spiegel__flaeche--innen">
+              <span class="spiegel__marke"><span class="spiegel__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="currentColor" fill-opacity=".14"/><circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r=".9" fill="currentColor"/></svg></span>Im Innen</span>
+              <p class="spiegel__satz">Du handelst aus dem Mangel. Und Mangel zieht Mangel an.</p>
+            </div>
+          </div>
+        </li>
+        <li class="spiegel__karte">
+          <div class="spiegel__dreh">
+            <div class="spiegel__flaeche spiegel__flaeche--aussen">
+              <span class="spiegel__marke"><span class="spiegel__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7" width="14" height="11" rx="1.8" fill="currentColor" fill-opacity=".12"/><path d="M6.5 4.5h12a2 2 0 0 1 2 2v8.5"/><path d="M9.2 10.2v4.6l3.8-2.3z" fill="currentColor"/></svg></span>Im Außen</span>
+              <p class="spiegel__satz">Du kaufst Kurse und Videos, setzt aber kaum etwas davon um.</p>
+            </div>
+            <div class="spiegel__flaeche spiegel__flaeche--innen">
+              <span class="spiegel__marke"><span class="spiegel__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" fill="currentColor" fill-opacity=".14"/><circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r=".9" fill="currentColor"/></svg></span>Im Innen</span>
+              <p class="spiegel__satz">Du suchst die nächste Methode, weil du dir selbst noch nicht vertraust.</p>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <p class="pr-turn spiegel__schluss reveal">Solange du nur im Außen schraubst, kommt das Problem wieder.<br />Darum arbeiten wir an beiden Seiten.</p>
+      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="spiegel" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a></div>
     </div>
   </section>
 
@@ -277,6 +315,55 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- NEU (Entwurf, 12.11.2026): ZWEI WELTEN. Bewusstsein und Business als
+       zwei Kreise, die beim Scrollen zusammengleiten; die Schnittmenge
+       leuchtet gold und wird zu NOW. Nicht gepinnt (davor und danach steht
+       schon je eine Szene). Ohne JavaScript oder bei "Bewegung reduzieren"
+       steht das fertige Bild mit allen Texten.
+       Die Mitte zitiert die bisherige Seite (Hero und FAQ); die Texte der
+       zwei Welten sind Entwurf. -->
+  <section class="section welten" id="unterschied" aria-labelledby="weltenTitel">
+    <div class="container">
+      <div class="section__header reveal">
+        <p class="section__eyebrow">Der Unterschied</p>
+        <h2 class="section__title" id="weltenTitel">Nicht nur Spiritualität. <em>Nicht nur Vertrieb.</em></h2>
+      </div>
+      <div class="welten__szene">
+        <svg class="welten__bild" viewBox="0 0 1000 460" aria-hidden="true" focusable="false">
+          <defs>
+            <radialGradient id="weltenGold" cx="50%" cy="42%" r="62%">
+              <stop offset="0" stop-color="#F6DE98" />
+              <stop offset="0.55" stop-color="#C9A84C" />
+              <stop offset="1" stop-color="#7d5f22" />
+            </radialGradient>
+            <clipPath id="weltenSchnitt"><circle class="welten__clip" cx="400" cy="230" r="190" /></clipPath>
+            <filter id="weltenWeich" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="22" /></filter>
+          </defs>
+          <circle class="welten__kreis welten__kreis--a" cx="400" cy="230" r="190" />
+          <circle class="welten__kreis welten__kreis--b" cx="600" cy="230" r="190" />
+          <g class="welten__linse" clip-path="url(#weltenSchnitt)">
+            <circle class="welten__linse-glut" cx="600" cy="230" r="190" fill="url(#weltenGold)" filter="url(#weltenWeich)" />
+            <circle class="welten__linse-kern" cx="600" cy="230" r="190" fill="url(#weltenGold)" />
+          </g>
+          <image class="welten__logo" href="/now-logo.webp" x="452" y="182" width="96" height="96" />
+        </svg>
+        <div class="welten__seite welten__seite--links">
+          <h3 class="welten__marke">Bewusstsein</h3>
+          <p>Meditation, Heilung, Mindset. Du fühlst dich besser. Dein Konto merkt davon nichts.</p>
+        </div>
+        <div class="welten__seite welten__seite--rechts">
+          <h3 class="welten__marke">Business</h3>
+          <p>Skripte, Funnels, Druck. Vielleicht kommt Umsatz. Aber er fühlt sich falsch an.</p>
+        </div>
+      </div>
+      <div class="welten__ergebnis">
+        <p class="welten__satz">Bewusstsein &amp; Business in einem einheitlichen Kontext.</p>
+        <p class="welten__zusatz">Emotionale und finanzielle Freiheit durch Meditation &amp; authentischen Vertrieb.</p>
+      </div>
+      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="unterschied" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a></div>
     </div>
   </section>
 

@@ -4,11 +4,12 @@
    1. Kopfleiste wird nach dem ersten Scrollen dichter
    2. Hero: Headline-Woerter einzeln, Videokarte neigt sich mit der Maus
       und spiegelt Licht, Aura folgt dem Zeiger, magnetischer Knopf
-   3. Laufband: drei Reihen gegenlaeufig, Tempo reagiert aufs Scrollen,
-      die Chips in der Bildmitte leuchten
+   3. Der Spiegel: Karten drehen sich vom Symptom (Aussen) auf die
+      Ursache (Innen), Schalter und Maus drehen mit
    4. Wer ist unser Kunde: Haende oeffnen sich, Karten wachsen aus den
       Pillen (nur mit Platz, sonst ruhige Fassung)
-   5. Die 7 Schritte: gepinnte Buehne, ein Schritt pro Scrollabschnitt
+   5. Zwei Welten: Bewusstsein und Business gleiten zusammen
+   6. Die 7 Schritte: gepinnte Buehne, ein Schritt pro Scrollabschnitt
 
    Alles Bewegte haengt an html.bewegung (im <head> gesetzt, fehlt bei
    "Bewegung reduzieren"). Ohne diese Klasse und ohne dieses Skript ist
@@ -58,19 +59,6 @@
       if (a.aktiv) wecke();
     }, { rootMargin: rand || '200px 0px' }).observe(el);
   }
-
-  /* ---------- Scrollgeschwindigkeit (fuer das Laufband) ---------- */
-  var scrollY = window.scrollY, scrollV = 0, scrollRichtung = 1;
-  window.addEventListener('scroll', function () { wecke(); }, { passive: true });
-  var tempoMesser = aufgabe(function (dt) {
-    var y = window.scrollY;
-    var v = (y - scrollY) / dt;
-    scrollY = y;
-    if (Math.abs(v) > 30) scrollRichtung = v > 0 ? 1 : -1;
-    scrollV = folge(scrollV, v, 6, dt);
-    return Math.abs(scrollV) > 2;
-  });
-  tempoMesser.aktiv = true;
 
   /* ============================================================
      1. KOPFLEISTE
@@ -172,77 +160,152 @@
   }
 
   /* ============================================================
-     3. LAUFBAND
+     3. DER SPIEGEL — Aussen und Innen
+     Jede Karte dreht sich auf "Innen", sobald ihre Mitte unter etwa 56 %
+     der Fensterhoehe steigt (zurueck erst wieder ab 66 %, damit sie an
+     der Grenze nicht flackert). Spalten drehen versetzt, so laeuft eine
+     Welle durch die Reihe. Der Schalter uebernimmt dann von Hand; Maus
+     oder Tippen dreht eine einzelne Karte auf die andere Seite.
      ============================================================ */
-  var laufband = document.querySelector('.laufband');
-  if (BEWEGUNG && laufband) {
-    var reihen = [];
-    laufband.classList.add('laufband--laeuft');
-    laufband.querySelectorAll('.laufband__reihe').forEach(function (reihe) {
-      var spur = reihe.querySelector('.laufband__spur');
-      var original = Array.prototype.slice.call(spur.children);
-      reihen.push({
-        reihe: reihe, spur: spur, original: original, chips: [],
-        richtung: Number(reihe.getAttribute('data-richtung')) || -1,
-        tempo: Number(reihe.getAttribute('data-tempo')) || 30,
-        x: 0, satz: 0, breite: 0, faktor: 1, faktorSoll: 1, hover: false
-      });
-      reihe.addEventListener('pointerenter', function () { reihen.forEach(function (r) { if (r.reihe === reihe) r.hover = true; }); });
-      reihe.addEventListener('pointerleave', function () { reihen.forEach(function (r) { if (r.reihe === reihe) r.hover = false; }); wecke(); });
-    });
+  var spiegel = document.querySelector('.spiegel');
+  if (BEWEGUNG && spiegel) (function () {
+    var raster = spiegel.querySelector('.spiegel__raster');
+    var karten = Array.prototype.slice.call(spiegel.querySelectorAll('.spiegel__karte'));
+    var schalter = spiegel.querySelector('.spiegel__schalter');
+    var knoepfe = Array.prototype.slice.call(schalter.querySelectorAll('.spiegel__seite'));
+    var modus = 'auto', vonHand = false;
+    var zustand = karten.map(function () { return { auto: false, gedreht: false }; });
+    spiegel.classList.add('spiegel--dreht');
 
-    // Spur so oft fortsetzen, dass sie mindestens Reihenbreite + zwei
-    // Saetze lang ist. Kopien sind fuer Vorleseprogramme unsichtbar.
-    function bauen() {
-      reihen.forEach(function (r) {
-        Array.prototype.slice.call(r.spur.querySelectorAll('[data-kopie]')).forEach(function (k) { k.remove(); });
-        r.breite = r.reihe.clientWidth;
-        var letzte = r.original[r.original.length - 1];
-        var luecke = parseFloat(getComputedStyle(r.spur).columnGap) || 0;
-        r.satz = letzte.offsetLeft + letzte.offsetWidth + luecke - r.original[0].offsetLeft;
-        var noetig = Math.ceil((r.breite + r.satz * 2) / Math.max(1, r.satz));
-        for (var n = 0; n < noetig; n++) {
-          r.original.forEach(function (chip) {
-            var k = chip.cloneNode(true);
-            k.setAttribute('data-kopie', '');
-            k.setAttribute('aria-hidden', 'true');
-            r.spur.appendChild(k);
-          });
-        }
-        r.chips = Array.prototype.slice.call(r.spur.children).map(function (c) {
-          return { el: c, mitte: c.offsetLeft + c.offsetWidth / 2 };
-        });
-        if (r.richtung > 0) r.x = -r.satz;
+    function versatz() {
+      var spalten = getComputedStyle(raster).gridTemplateColumns.split(' ').length || 1;
+      karten.forEach(function (k, i) { k.style.setProperty('--verzug', ((i % spalten) * 120) + 'ms'); });
+    }
+    function anwenden() {
+      var innen = 0;
+      karten.forEach(function (k, i) {
+        var basis = modus === 'auto' ? zustand[i].auto : vonHand;
+        var ist = zustand[i].gedreht ? !basis : basis;
+        k.classList.toggle('ist-innen', ist);
+        if (ist) innen++;
+      });
+      var schalterInnen = modus === 'auto' ? innen * 2 > karten.length : vonHand;
+      schalter.classList.toggle('ist-innen', schalterInnen);
+      knoepfe.forEach(function (b) {
+        var an = (b.getAttribute('data-seite') === 'innen') === schalterInnen;
+        b.classList.toggle('ist-an', an);
+        b.setAttribute('aria-pressed', an ? 'true' : 'false');
       });
     }
-    bauen();
-    var warteBauen;
-    window.addEventListener('resize', function () { clearTimeout(warteBauen); warteBauen = setTimeout(bauen, 200); });
-
-    var band = aufgabe(function (dt) {
-      reihen.forEach(function (r) {
-        // Scrollen gibt Schub: schneller, und beim Hochscrollen kehrt sich
-        // die Richtung um. Maus darueber haelt die Reihe an.
-        var schub = 1 + Math.min(Math.abs(scrollV) / 260, 5);
-        r.faktorSoll = r.hover ? 0 : schub * scrollRichtung;
-        r.faktor = folge(r.faktor, r.faktorSoll, r.hover ? 6 : 3, dt);
-        r.x += r.richtung * r.tempo * r.faktor * dt;
-        if (r.x <= -r.satz) r.x += r.satz;
-        if (r.x > 0) r.x -= r.satz;
-        r.spur.style.transform = 'translate3d(' + r.x.toFixed(2) + 'px,0,0)';
-        // Naehe zur Mitte -> --f (0..1)
-        var halb = r.breite / 2;
-        for (var i = 0; i < r.chips.length; i++) {
-          var c = r.chips[i];
-          var d = Math.abs(c.mitte + r.x - halb) / halb;
-          var f = d > 1 ? 0 : weich(1 - d);
-          if (Math.abs((c.f || 0) - f) > 0.004) { c.f = f; c.el.style.setProperty('--f', f.toFixed(3)); }
-        }
+    knoepfe.forEach(function (b) {
+      b.addEventListener('click', function () {
+        modus = 'hand';
+        vonHand = b.getAttribute('data-seite') === 'innen';
+        zustand.forEach(function (z) { z.gedreht = false; });
+        anwenden();
       });
-      return true;
     });
-    beobachte(laufband, band, '100px 0px');
-  }
+    karten.forEach(function (k, i) {
+      if (FEINER_ZEIGER) {
+        k.addEventListener('pointerenter', function () { zustand[i].gedreht = true; anwenden(); });
+        k.addEventListener('pointerleave', function () { zustand[i].gedreht = false; anwenden(); });
+      } else {
+        k.addEventListener('click', function () { zustand[i].gedreht = !zustand[i].gedreht; anwenden(); });
+      }
+    });
+    function pruefeLage() {
+      if (modus !== 'auto') return false;
+      var vh = window.innerHeight, geaendert = false;
+      karten.forEach(function (k, i) {
+        var r = k.getBoundingClientRect();
+        var mitte = r.top + r.height / 2;
+        var soll = zustand[i].auto ? mitte < vh * 0.66 : mitte < vh * 0.56;
+        if (soll !== zustand[i].auto) { zustand[i].auto = soll; geaendert = true; }
+      });
+      if (geaendert) anwenden();
+      return false;
+    }
+    var lauf = aufgabe(pruefeLage);
+    window.addEventListener('scroll', function () { if (lauf.aktiv) wecke(); }, { passive: true });
+    beobachte(spiegel, lauf, '0px 0px');
+    window.addEventListener('resize', versatz);
+    versatz();
+    pruefeLage();
+    anwenden();
+  })();
+
+  /* ============================================================
+     5. ZWEI WELTEN — Bewusstsein und Business werden NOW
+     Nicht gepinnt: der Fortschritt kommt aus der Lage der Szene im
+     Fenster (unten rein = 0, bei 20 % von oben = 1). Die Kreise gleiten
+     zusammen, die Schnittmenge waechst und leuchtet, die Beschriftungen
+     wandern in die Sicheln, zuletzt erscheint NOW und der Satz darunter.
+     ============================================================ */
+  var welten = document.querySelector('.welten');
+  if (BEWEGUNG && welten) (function () {
+    var szene = welten.querySelector('.welten__szene');
+    var kreisA = welten.querySelector('.welten__kreis--a');
+    var kreisB = welten.querySelector('.welten__kreis--b');
+    var schnitt = welten.querySelector('.welten__clip');
+    var glut = welten.querySelector('.welten__linse-glut');
+    var kern = welten.querySelector('.welten__linse-kern');
+    var logo = welten.querySelector('.welten__logo');
+    var seiten = [welten.querySelector('.welten__seite--links'), welten.querySelector('.welten__seite--rechts')];
+    var texte = seiten.map(function (s) { return s.querySelector('p'); });
+    var ergebnis = welten.querySelector('.welten__ergebnis');
+    var R = 190, MITTE = 500, D0 = 470, D1 = 240;
+    var p = 0, pSoll = 0;
+    welten.classList.add('welten--lebt');
+
+    function fortschritt() {
+      var r = szene.getBoundingClientRect();
+      var vh = window.innerHeight;
+      return klemme((vh * 0.78 - r.top) / (vh * 0.62), 0, 1);
+    }
+    function zeichnen() {
+      var a = inOut(abschnitt(p, 0.12, 0.78));
+      var d = mische(D0, D1, a);
+      var ax = MITTE - d / 2, bx = MITTE + d / 2;
+      kreisA.setAttribute('cx', ax.toFixed(1));
+      schnitt.setAttribute('cx', ax.toFixed(1));
+      kreisB.setAttribute('cx', bx.toFixed(1));
+      glut.setAttribute('cx', bx.toFixed(1));
+      kern.setAttribute('cx', bx.toFixed(1));
+      var licht = abschnitt(p, 0.2, 0.85);
+      kern.style.opacity = (0.12 + 0.5 * licht).toFixed(3);
+      glut.style.opacity = (0.15 + 0.65 * licht).toFixed(3);
+      var l = ausrollen(abschnitt(p, 0.6, 0.92));
+      logo.style.opacity = l.toFixed(3);
+      logo.style.transform = 'scale(' + (0.55 + 0.45 * l).toFixed(3) + ')';
+      var breit = window.innerWidth > 760;
+      if (breit) {
+        // Beschriftung von der Kreismitte in die Mitte der Sichel
+        var w = abschnitt(p, 0.3, 0.8);
+        var lx = mische(ax, ax - R + d / 2, w), rx = mische(bx, bx + R - d / 2, w);
+        seiten[0].style.left = (lx / 10).toFixed(2) + '%';
+        seiten[1].style.left = (rx / 10).toFixed(2) + '%';
+        // Die Beschreibungen bleiben lesbar und ruecken mit in die Sichel
+      } else {
+        seiten.forEach(function (s) { s.style.left = ''; });
+        texte.forEach(function (el) { el.style.opacity = ''; el.style.transform = ''; });
+      }
+      var e = ausrollen(abschnitt(p, 0.68, 1));
+      ergebnis.style.opacity = e.toFixed(3);
+      ergebnis.style.transform = 'translateY(' + ((1 - e) * 18).toFixed(1) + 'px)';
+    }
+    var lauf = aufgabe(function (dt) {
+      pSoll = fortschritt();
+      p = folge(p, pSoll, 7, dt);
+      if (Math.abs(p - pSoll) < 0.0005) p = pSoll;
+      zeichnen();
+      return p !== pSoll;
+    });
+    window.addEventListener('scroll', function () { if (lauf.aktiv) wecke(); }, { passive: true });
+    window.addEventListener('resize', function () { zeichnen(); });
+    beobachte(welten, lauf, '100px 0px');
+    p = pSoll = fortschritt();
+    zeichnen();
+  })();
 
   /* ============================================================
      4. WER IST UNSER KUNDE — die Pillen-Szene
@@ -382,7 +445,7 @@
   })();
 
   /* ============================================================
-     5. DIE 7 SCHRITTE
+     6. DIE 7 SCHRITTE
      ============================================================ */
   var schritte = document.querySelector('.schritte');
   if (schritte) (function () {

@@ -63,13 +63,28 @@ const p = (name, ist, soll = true) => {
   await page.waitForTimeout(900);
   p('1q Testimonials-Karussell blaettert weiter', (await page.locator('#testimonials .karussell__spur').first().evaluate(e => e.scrollLeft)) > vorher, true);
 
-  // Laufband laeuft (transform aendert sich), Chips in der Mitte leuchten
-  await page.locator('#fuer-wen').scrollIntoViewIfNeeded();
-  const x1 = await page.locator('.laufband__spur').first().evaluate(e => e.style.transform);
-  await page.waitForTimeout(600);
-  const x2 = await page.locator('.laufband__spur').first().evaluate(e => e.style.transform);
-  p('1s Laufband bewegt sich', x1 !== x2 && /translate3d/.test(x2), true);
-  p('1t Laufband: Kopien fuer Vorleser verborgen', await page.evaluate(() => [...document.querySelectorAll('.laufband__chip[data-kopie]')].every(c => c.getAttribute('aria-hidden') === 'true')), true);
+  // Spiegel: Karten drehen beim Scrollen auf "Innen", der Schalter dreht zurueck
+  const sp = await page.evaluate(async () => {
+    const r = document.querySelector('.spiegel__raster');
+    scrollTo({ top: r.getBoundingClientRect().top + scrollY - innerHeight * 0.05, behavior: 'instant' });
+    await new Promise(res => setTimeout(res, 700));
+    return document.querySelectorAll('.spiegel__karte.ist-innen').length;
+  });
+  p('1s Spiegel: nach dem Scrollen zeigen alle 6 Karten die Innen-Seite', sp, 6);
+  await page.locator('.spiegel__seite[data-seite="aussen"]').click();
+  await page.waitForTimeout(300);
+  p('1t Spiegel: Schalter "Im Aussen" dreht alle zurueck', await page.locator('.spiegel__karte.ist-innen').count(), 0);
+
+  // Zwei Welten: am Ende ist NOW sichtbar und der Satz darunter da
+  const wl = await page.evaluate(async () => {
+    const sz = document.querySelector('.welten__szene');
+    scrollTo({ top: sz.getBoundingClientRect().top + scrollY - innerHeight * 0.1, behavior: 'instant' });
+    await new Promise(res => setTimeout(res, 1500));
+    const logo = parseFloat(getComputedStyle(document.querySelector('.welten__logo')).opacity);
+    const satz = parseFloat(getComputedStyle(document.querySelector('.welten__ergebnis')).opacity);
+    return logo > 0.95 && satz > 0.95 ? 'ok' : logo + '/' + satz;
+  });
+  p('1w Zwei Welten: NOW und Satz am Ende sichtbar', wl, 'ok');
 
   // 7 Schritte: Buehne klebt, Schritt wechselt mit dem Scrollen
   const sch = await page.evaluate(async () => {
@@ -155,12 +170,13 @@ for (const [name, opts] of [['reduzierte Bewegung', { reducedMotion: 'reduce' }]
   const z = await page.evaluate(() => ({
     h1: parseFloat(getComputedStyle(document.querySelector('h1')).opacity),
     gepinnt: document.querySelector('.schritte').classList.contains('schritte--gepinnt') || document.querySelector('.kunde').classList.contains('kunde--szene'),
-    laeuft: document.querySelector('.laufband').classList.contains('laufband--laeuft'),
+    dreht: document.querySelector('.spiegel').classList.contains('spiegel--dreht') || document.querySelector('.welten').classList.contains('welten--lebt'),
+    innen: [...document.querySelectorAll('.spiegel__flaeche--innen')].filter(f => f.getBoundingClientRect().height > 40 && getComputedStyle(f).opacity === '1').length,
     schritte: [...document.querySelectorAll('.schritt')].filter(a => a.getBoundingClientRect().height > 50 && getComputedStyle(a).visibility !== 'hidden').length,
     texte: [...document.querySelectorAll('.schritt__text p')].every(p => getComputedStyle(p).opacity === '1'),
   }));
-  p(`5 ${name}: Headline sichtbar, nichts gepinnt, Laufband steht, alle 7 Schritte lesbar`,
-    `${z.h1}|${z.gepinnt}|${z.laeuft}|${z.schritte}|${z.texte}`, '1|false|false|7|true');
+  p(`5 ${name}: Headline sichtbar, nichts gepinnt/gedreht, alle 6 Innen-Saetze und 7 Schritte lesbar`,
+    `${z.h1}|${z.gepinnt}|${z.dreht}|${z.innen}|${z.schritte}|${z.texte}`, '1|false|false|6|7|true');
   await ctx.close();
 }
 
