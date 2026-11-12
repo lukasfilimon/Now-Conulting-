@@ -35,7 +35,7 @@ const p = (name, ist, soll = true) => {
   p('1d an Vimeo nur das Hero-Video', [...new Set(anfragen.filter(u => /player\.vimeo\.com\/video\//.test(u)).map(u => u.match(/video\/(\d+)/)[1]))].join(','), '1192498083');
   p('1e Cookie-Leiste sichtbar', await page.isVisible('#cookie-bar'), true);
   p('1f genau eine h1', await page.locator('h1').count(), 1);
-  p('1g ein Knopf-Wortlaut', [...new Set(await page.locator('a.btn').allTextContents())].map(t => t.trim()).join('|'), 'Klarheitsgespräch buchen');
+  p('1g Knopftexte wie auf der alten Seite', [...new Set(await page.locator('a.btn').allTextContents())].map(t => t.trim()).sort().join('|'), 'Klarheitsgespräch buchen|Termin auswählen');
   p('1h jeder Knopf fuehrt zu /termin/', (await page.locator('a.btn').evaluateAll(as => as.every(a => a.getAttribute('href') === '/termin/'))), true);
   const robots = await page.locator('meta[name=robots]').count();
   if (LIVE) p('1i LIVE: kein noindex auf der Startseite', robots, 0);
@@ -55,7 +55,14 @@ const p = (name, ist, soll = true) => {
   }));
   p('1l Mandala in jeder data-mandala-Sektion da und mittig', mandala.length === 2 && mandala.every(m => m === 'ok') ? 'ok' : mandala.join(', '), 'ok');
   await page.waitForTimeout(1500);   // Linien blenden ueber 1,2 s ein
-  p('1m Trennlinien eingeblendet', await page.evaluate(() => ['.kunde', '.schritte', '.programme', '.darko-section', '.testimonials', '.erfahrungen', '.team', '.faq'].filter(s => getComputedStyle(document.querySelector(s), '::before').opacity !== '1').join(',')), '');
+  p('1m Trennlinien eingeblendet', await page.evaluate(() => ['.manifest', '.kunde', '.schritte', '.programme', '.erfahrungen', '.testimonials', '.team', '.faq'].filter(s => getComputedStyle(document.querySelector(s), '::before').opacity !== '1').join(',')), '');
+
+  // Karussell: Pfeil blaettert weiter, die Seite selbst scrollt nicht seitlich
+  const vorher = await page.locator('#inhalte .karussell__spur').evaluate(e => e.scrollLeft);
+  await page.locator('#inhalte .karussell__pfeil--weiter').click();
+  await page.waitForTimeout(900);
+  p('1q Karussell: Pfeil blaettert weiter', (await page.locator('#inhalte .karussell__spur').evaluate(e => e.scrollLeft)) > vorher, true);
+  p('1r Originaltexte: Headline', (await page.locator('h1').innerText()).replace(/\u00ad/g, '').replace(/\s+/g, ' ').trim(), 'Die einzige spirituelle Unternehmensberatung im DACH-Raum');
 
   // FAQ
   await page.locator('.faq__question').first().click();

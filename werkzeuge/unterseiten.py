@@ -19,7 +19,7 @@ kopf = start[start.index('  <header class="kopf"'):start.index('  </header>') + 
 kopf = kopf.replace('href="#hero"', 'href="/"').replace(
     'aria-label="NOW Consulting, nach oben"', 'aria-label="NOW Consulting, zur Startseite"')
 kopf = re.sub(r'href="#([a-z-]+)"', r'href="/#\1"', kopf)
-fuss = start[start.index('  <!-- FOOTER -->'):start.index('  <script src="/seite.js">')]
+fuss = start[start.index('  <!-- FOOTER'):start.index('  <script src="/seite.js">')]
 
 SEITEN = {
     'termin':      ('Klarheitsgespräch buchen · NOW Consulting', 'Buche dein kostenloses Klarheitsgespräch mit NOW Consulting. 1:1, unverbindlich.', True),

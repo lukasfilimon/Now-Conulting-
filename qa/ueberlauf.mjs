@@ -50,7 +50,10 @@ for (const breite of BREITEN) {
         (typeof el.className === 'string' && el.className
           ? '.' + el.className.trim().split(/\s+/).slice(0, 2).join('.') : '');
 
-      if (r.right > bw + 1 || r.left < -1)
+      // Inhalt eines waagrecht scrollbaren Streifens (Karussell) darf
+      // ausserhalb liegen: er ist erreichbar, die Seite selbst scrollt nicht.
+      const imStreifen = el.parentElement && el.parentElement.closest('.karussell__spur');
+      if (!imStreifen && (r.right > bw + 1 || r.left < -1))
         raus.breiter.push({ name, links: Math.round(r.left), rechts: Math.round(r.right) });
 
       // Beschnitten: Inhalt breiter als der Kasten, und der Kasten schneidet ab.

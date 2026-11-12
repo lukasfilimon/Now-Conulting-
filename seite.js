@@ -12,5 +12,5 @@ window.LP = {
 
   // Sektionen mit leuchtender Linie oben. Neue Sektion mit Linie: hier
   // UND in der opacity-Liste in seite.css eintragen (NOW-DESIGNSYSTEM 5).
-  trennlinien: '.kunde, .schritte, .programme, .darko-section, .testimonials, .erfahrungen, .team, .faq, .footer'
+  trennlinien: '.manifest, .kunde, .schritte, .programme, .erfahrungen, .testimonials, .team, .faq, .footer'
 };

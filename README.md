@@ -1,8 +1,9 @@
 # NOW Consulting — Webseite (now-consulting.at)
 
 Statische Seite auf dem NOW-Kern. Kein Build, kein npm im Auslieferungspfad.
-Seit 12.11.2026 neu gebaut; die alte Vite/Three.js-Seite liegt in der
-Git-Historie von `main` (Stand b791a47).
+Seit 12.11.2026 im neuen Design; die alte Vite/Three.js-Seite liegt in der
+Git-Historie von `main` (Stand b791a47). **Texte und Anordnung der Sektionen
+sind 1:1 die der alten Seite**, neu ist nur das Design.
 
 **Wie eine NOW-Seite aussieht** (Farben, Schriften, Glas, Knöpfe, Mandala,
 Sprache) steht in `NOW-DESIGNSYSTEM.md` im Repo
@@ -15,7 +16,8 @@ hier per `cp` nachziehen, nie hier allein ändern.
 | Datei | Rolle |
 |---|---|
 | `index.html` | Startseite, alle Sektionen |
-| `seite.css` | Layout der Webseite (Kopfleiste, sieben Schritte, Programme, Team, Live-Formate, Unterseiten) |
+| `seite.css` | Layout der Webseite (Kopfleiste, Hero mit Zahlenleiste, Manifest, Karussells, Programme, Live Events, Team, Footer, Unterseiten) |
+| `karussell.js` | Pfeile und Fortschrittsbalken der sieben Schritte und der Testimonials |
 | `seite.js` | Konfiguration für kern.js (Trennlinien, Videotitel) |
 | `tracking.js` | Meta-Pixel, nur nach Zustimmung und nur auf now-consulting.at |
 | `termin.js` | Calendly auf /termin/, lädt erst nach Klick, meldet Lead nach Buchung |
@@ -32,7 +34,7 @@ Kopfleiste und Footer stehen in `index.html`. Nach jeder Änderung daran:
 ## Prüfen
 
     python3 -m http.server 8811 --bind 127.0.0.1 &
-    WEB_URL=http://127.0.0.1:8811 node qa/pruefen.mjs        # 64 Prüfungen
+    WEB_URL=http://127.0.0.1:8811 node qa/pruefen.mjs        # 66 Prüfungen
     LP_URL=http://127.0.0.1:8811 node qa/ueberlauf.mjs       # 7 Breiten
     LP_URL=http://127.0.0.1:8811 node qa/kontrast.mjs        # WCAG AA
 
