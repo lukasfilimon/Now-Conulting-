@@ -35,7 +35,7 @@ const p = (name, ist, soll = true) => {
   p('1d an Vimeo nur das Hero-Video', [...new Set(anfragen.filter(u => /player\.vimeo\.com\/video\//.test(u)).map(u => u.match(/video\/(\d+)/)[1]))].join(','), '1192498083');
   p('1e Cookie-Leiste sichtbar', await page.isVisible('#cookie-bar'), true);
   p('1f genau eine h1', await page.locator('h1').count(), 1);
-  p('1g Knopftexte wie auf der alten Seite', [...new Set(await page.locator('a.btn').allTextContents())].map(t => t.trim()).sort().join('|'), 'Klarheitsgespräch buchen|Termin auswählen');
+  p('1g Knopftexte wie auf der alten Seite', [...new Set((await page.locator('a.btn').allTextContents()).map(t => t.replace(/\s+/g, ' ').trim()))].sort().join('|'), 'Klarheitsgespräch buchen|Termin auswählen');
   p('1h jeder Knopf fuehrt zu /termin/', (await page.locator('a.btn').evaluateAll(as => as.every(a => a.getAttribute('href') === '/termin/'))), true);
   const robots = await page.locator('meta[name=robots]').count();
   if (LIVE) p('1i LIVE: kein noindex auf der Startseite', robots, 0);
@@ -57,11 +57,45 @@ const p = (name, ist, soll = true) => {
   await page.waitForTimeout(1500);   // Linien blenden ueber 1,2 s ein
   p('1m Trennlinien eingeblendet', await page.evaluate(() => ['.manifest', '.kunde', '.schritte', '.programme', '.erfahrungen', '.testimonials', '.team', '.faq'].filter(s => getComputedStyle(document.querySelector(s), '::before').opacity !== '1').join(',')), '');
 
-  // Karussell: Pfeil blaettert weiter, die Seite selbst scrollt nicht seitlich
-  const vorher = await page.locator('#inhalte .karussell__spur').evaluate(e => e.scrollLeft);
-  await page.locator('#inhalte .karussell__pfeil--weiter').click();
+  // Testimonials-Karussell: Pfeil blaettert weiter
+  const vorher = await page.locator('#testimonials .karussell__spur').first().evaluate(e => e.scrollLeft);
+  await page.locator('#testimonials .karussell__pfeil--weiter').first().click();
   await page.waitForTimeout(900);
-  p('1q Karussell: Pfeil blaettert weiter', (await page.locator('#inhalte .karussell__spur').evaluate(e => e.scrollLeft)) > vorher, true);
+  p('1q Testimonials-Karussell blaettert weiter', (await page.locator('#testimonials .karussell__spur').first().evaluate(e => e.scrollLeft)) > vorher, true);
+
+  // Laufband laeuft (transform aendert sich), Chips in der Mitte leuchten
+  await page.locator('#fuer-wen').scrollIntoViewIfNeeded();
+  const x1 = await page.locator('.laufband__spur').first().evaluate(e => e.style.transform);
+  await page.waitForTimeout(600);
+  const x2 = await page.locator('.laufband__spur').first().evaluate(e => e.style.transform);
+  p('1s Laufband bewegt sich', x1 !== x2 && /translate3d/.test(x2), true);
+  p('1t Laufband: Kopien fuer Vorleser verborgen', await page.evaluate(() => [...document.querySelectorAll('.laufband__chip[data-kopie]')].every(c => c.getAttribute('aria-hidden') === 'true')), true);
+
+  // 7 Schritte: Buehne klebt, Schritt wechselt mit dem Scrollen
+  const sch = await page.evaluate(async () => {
+    const s = document.querySelector('.schritte');
+    if (!s.classList.contains('schritte--gepinnt')) return 'nicht gepinnt';
+    const st = document.querySelector('.schritte__strecke');
+    const top = st.getBoundingClientRect().top + scrollY;
+    const weg = st.offsetHeight - document.querySelector('.schritte__buehne').offsetHeight;
+    scrollTo({ top: top + weg * 0.55, behavior: 'instant' }); await new Promise(r => setTimeout(r, 900));
+    const b = document.querySelector('.schritte__buehne').getBoundingClientRect().top;
+    const aktiv = [...document.querySelectorAll('.schritt')].findIndex(a => a.classList.contains('ist-aktiv'));
+    return Math.abs(b) < 2 && aktiv === 3 ? 'ok' : 'buehne ' + b + ', aktiv ' + aktiv;
+  });
+  p('1u 7 Schritte: Buehne gepinnt, bei 55 % ist Schritt 4 aktiv', sch, 'ok');
+
+  // Wer ist unser Kunde: am Ende der Szene sind beide Karten ganz da
+  const kd = await page.evaluate(async () => {
+    const k = document.querySelector('.kunde');
+    if (!k.classList.contains('kunde--szene')) return 'keine Szene';
+    const st = document.querySelector('.kunde__strecke');
+    scrollTo({ top: st.getBoundingClientRect().top + scrollY + st.offsetHeight - innerHeight - 5, behavior: 'instant' });
+    await new Promise(r => setTimeout(r, 1200));
+    const o = [...document.querySelectorAll('.kunde__karten .fw-card')].map(c => parseFloat(getComputedStyle(c).opacity));
+    return o.every(v => v > 0.99) ? 'ok' : o.join(',');
+  });
+  p('1v Kunde-Szene: Karten am Ende sichtbar', kd, 'ok');
   p('1r Originaltexte: Headline', (await page.locator('h1').innerText()).replace(/\u00ad/g, '').replace(/\s+/g, ' ').trim(), 'Die einzige spirituelle Unternehmensberatung im DACH-Raum');
 
   // FAQ
@@ -108,6 +142,25 @@ console.log('  OK   2 kein Ueberstand auf 9 Breiten x 5 Seiten (gesammelt)');
   await page.waitForTimeout(500);
   p('3b Termin: Calendly nach dem Klick', anfragen.some(u => /calendly/.test(u)), true);
   p('3c Termin: Widget eingefuegt', await page.locator('.calendly-inline-widget').count(), 1);
+  await ctx.close();
+}
+
+// --- 5. Bewegung reduziert und ohne JavaScript: alles da, nichts gepinnt
+for (const [name, opts] of [['reduzierte Bewegung', { reducedMotion: 'reduce' }], ['ohne JavaScript', { javaScriptEnabled: false }]]) {
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 }, ...opts });
+  await ctx.route('**/*', r => r.request().url().startsWith(BASIS) ? r.continue() : r.abort());
+  const page = await ctx.newPage();
+  await page.goto(BASIS + '/', { waitUntil: 'load' });
+  await page.waitForTimeout(400);
+  const z = await page.evaluate(() => ({
+    h1: parseFloat(getComputedStyle(document.querySelector('h1')).opacity),
+    gepinnt: document.querySelector('.schritte').classList.contains('schritte--gepinnt') || document.querySelector('.kunde').classList.contains('kunde--szene'),
+    laeuft: document.querySelector('.laufband').classList.contains('laufband--laeuft'),
+    schritte: [...document.querySelectorAll('.schritt')].filter(a => a.getBoundingClientRect().height > 50 && getComputedStyle(a).visibility !== 'hidden').length,
+    texte: [...document.querySelectorAll('.schritt__text p')].every(p => getComputedStyle(p).opacity === '1'),
+  }));
+  p(`5 ${name}: Headline sichtbar, nichts gepinnt, Laufband steht, alle 7 Schritte lesbar`,
+    `${z.h1}|${z.gepinnt}|${z.laeuft}|${z.schritte}|${z.texte}`, '1|false|false|7|true');
   await ctx.close();
 }
 

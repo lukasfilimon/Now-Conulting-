@@ -670,73 +670,6 @@ html { scroll-behavior: smooth; }
 }
 
 /* ============================================
-   HERO — Text links, Video rechts, darunter die Zahlenleiste
-   ============================================ */
-.hero { display: block; padding: 128px 0 56px; }
-.hero__raster {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: 1fr 1.08fr;
-  gap: 56px;
-  align-items: center;
-}
-.hero__raster > * { min-width: 0; }
-.hero__text { text-align: left; }
-.hero__headline {
-  font-size: clamp(2.3rem, 4.2vw, 3.7rem);
-  line-height: 1.1;
-  margin-bottom: 22px;
-  text-wrap: balance;
-}
-.hero__sub {
-  max-width: 520px;
-  font-size: 1.08rem;
-  line-height: 1.7;
-  color: var(--text-muted);
-  margin-bottom: 32px;
-}
-.hero__trust { justify-content: flex-start; margin-top: 16px; }
-.hero .hero__video { margin: 0; max-width: none; border-radius: var(--radius-glas); }
-
-.zahlen {
-  position: relative;
-  z-index: 2;
-  margin-top: 56px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  padding: 26px 12px;
-}
-.zahlen__eintrag {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  text-align: center;
-  min-width: 0;
-}
-.zahlen__eintrag + .zahlen__eintrag { border-left: 1px solid rgba(201, 168, 76, 0.18); }
-.zahlen__wert {
-  font-family: var(--font-display);
-  font-size: clamp(1.7rem, 2.6vw, 2.3rem);
-  font-weight: 500;
-  color: var(--white);
-  line-height: 1.1;
-  font-variant-numeric: tabular-nums;
-}
-.zahlen__label { font-size: 0.82rem; color: var(--text-muted); letter-spacing: 0.02em; }
-
-@media (max-width: 900px) {
-  .hero__raster { grid-template-columns: 1fr; gap: 36px; }
-  .hero__text { text-align: center; }
-  .hero__sub { margin-left: auto; margin-right: auto; }
-  .hero__trust { justify-content: center; }
-  .zahlen { grid-template-columns: 1fr 1fr; row-gap: 22px; margin-top: 40px; }
-  .zahlen__eintrag:nth-child(3) { border-left: 0; }
-}
-@media (max-width: 480px) { .hero { padding-top: 104px; } }
-
-/* ============================================
    MANIFEST — Bild links, Text rechts, Unterschrift
    ============================================ */
 .manifest .darko__img img { aspect-ratio: 4 / 5; }
@@ -764,26 +697,7 @@ html { scroll-behavior: smooth; }
 .manifest__rolle { font-size: 0.82rem; color: var(--text-muted); letter-spacing: 0.04em; }
 
 /* ============================================
-   WER IST UNSER KUNDE — Haende, darunter die zwei Realitaeten
-   ============================================ */
-.kunde .section__title em { color: var(--white); }
-.kunde__haende {
-  max-width: 760px;
-  margin: 0 auto 8px;
-}
-.kunde__haende img {
-  width: 100%;
-  height: auto;
-  display: block;
-  filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.6));
-}
-.kunde__karten { max-width: 1000px; margin: 0 auto; }
-/* Linke Karte gehoert zur blauen, rechte zur roten Pille */
-.kunde .fw-card--no .fw-card__title { color: #9cc9ff; }
-.kunde .fw-card--yes .fw-card__title { color: #ff9a8a; }
-
-/* ============================================
-   KARUSSELL — sieben Schritte und Testimonials
+   KARUSSELL — Testimonials
    Die Spur scrollt waagrecht (scroll-snap), die Seite selbst nie.
    ============================================ */
 .karussell {
@@ -855,36 +769,6 @@ html { scroll-behavior: smooth; }
   .karussell { padding: 0 20px; }
   .karussell__spur { grid-auto-columns: 84%; column-gap: 14px; }
   .karussell__pfeil { display: none; }
-}
-
-/* Die sieben Schritte */
-.schritt {
-  padding: 12px 12px 26px;
-  display: flex;
-  flex-direction: column;
-}
-.schritt__bild {
-  aspect-ratio: 16 / 10;
-  border-radius: 14px;
-  overflow: hidden;
-  margin-bottom: 22px;
-  box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.22);
-}
-.schritt__bild img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(0.92); }
-.schritt__titel {
-  font-family: var(--font-display);
-  font-size: 1.55rem;
-  font-weight: 500;
-  color: var(--white);
-  padding: 0 12px 14px;
-  margin-bottom: 14px;
-  border-bottom: 1px solid rgba(201, 168, 76, 0.2);
-}
-.schritt p {
-  padding: 0 12px;
-  font-size: 0.93rem;
-  line-height: 1.7;
-  color: var(--text-muted);
 }
 
 /* ============================================
@@ -1174,7 +1058,7 @@ html { scroll-behavior: smooth; }
 .kalender__alternativ a, .recht a { color: var(--gold); }
 
 /* Rechtstexte: schmale Lesespalte */
-.recht { max-width: 760px; }
+.recht { max-width: 760px; overflow-wrap: anywhere; }
 .recht h2 {
   font-family: var(--font-display);
   font-size: 1.5rem;
@@ -1204,29 +1088,12 @@ html { scroll-behavior: smooth; }
 /* Footer: Links und der Cookie-Knopf auf einer Grundlinie */
 .footer__legal { align-items: center; gap: 8px 20px; }
 
-/* Stimmen auf dem Handy zweispaltig: acht Videos untereinander waeren
-   acht Bildschirmhoehen. */
-@media (max-width: 560px) {
-  .stimmen .testimonials__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: none; gap: 12px; }
-  .stimmen .testi-card__name { font-size: 0.74rem; letter-spacing: 0.04em; padding: 10px 8px 2px; }
-  .stimmen .testi-card__role { font-size: 0.74rem; padding: 0 8px 10px; }
-}
 
 /* Rasterzellen duerfen schmaler werden als ihr Inhalt, sonst schiebt die
    Kachel "Kundenzufriedenheit" auf 320 px die ganze Spalte ueber den Rand
    (qa/ueberlauf.mjs, 12.11.2026). */
 .darko__inner > * { min-width: 0; }
 
-/* Statistik-Kacheln auf dem Handy: Labels duerfen umbrechen, unter 400 px
-   eine Spalte. "Kundenzufriedenheit" ist ein Wort und passt in Grossbuch-
-   staben nicht in eine halbe 320-px-Spalte. */
-.darko__stat { min-width: 0; }
-@media (max-width: 640px) {
-  .darko__stat-label { white-space: normal; line-height: 1.3; letter-spacing: 0.03em; font-size: 0.72rem; }
-}
-@media (max-width: 400px) {
-  .darko__stats { grid-template-columns: 1fr; }
-}
 
 /* Kleingedrucktes heller als --text-dim: auf dem dunklen Grund kam es nur
    auf 3,3:1 (qa/kontrast.mjs), noetig sind 4,5:1. */
@@ -1237,6 +1104,786 @@ html { scroll-behavior: smooth; }
 .darko__stat-label,
 .testi-video__consent { color: var(--text-muted); }
 
-/* Auf schmalen Handys ist "Unternehmensberatung" breiter als die Spalte.
-   Das weiche Trennzeichen im Markup erlaubt dort den Umbruch. */
-@media (max-width: 400px) { .hero__headline { font-size: 2.05rem; } }
+
+
+/* ============================================================
+   BEWEGUNG UND TIEFE — Hero, Laufband, Kunde, 7 Schritte
+   (Premium-Runde 1, 12.11.2026)
+
+   Alles, was sich bewegt, haengt an html.bewegung (im <head> gesetzt,
+   nur ohne "Bewegung reduzieren") und an bewegung.js. Fehlt beides,
+   ist jede Sektion vollstaendig sichtbar und ruhig. Bewegt werden nur
+   transform, opacity und filter: das rechnet die Grafikkarte, nicht das
+   Layout.
+   ============================================================ */
+
+/* Sticky braucht einen Body ohne overflow-x: hidden (kern.css erklaert,
+   warum: der body wird sonst selbst zum Scroll-Container, und gepinnte
+   Buehnen kleben an einem Kasten, der nie scrollt). Gegen seitliches
+   Wischen clippt weiterhin das html (overflow-x: clip im Kern) —
+   qa/ueberlauf.mjs prueft das auf allen Breiten. */
+body.startseite { overflow-x: visible; }
+
+@property --winkel { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+
+/* --- Kopfleiste ------------------------------------------------- */
+.kopf__inner { transition: background 0.45s var(--aus), box-shadow 0.45s var(--aus); }
+.kopf--gescrollt .kopf__inner {
+  background: linear-gradient(180deg, rgba(22, 18, 14, 0.9), rgba(12, 10, 8, 0.86));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 22px 50px -22px rgba(0, 0, 0, 0.95);
+}
+.bewegung .kopf { animation: kopfEin 1s var(--aus) 0.05s both; }
+@keyframes kopfEin { from { opacity: 0; translate: 0 -18px; } to { opacity: 1; translate: 0 0; } }
+
+/* --- Knopf mit Pfeil (Hero) ------------------------------------- */
+.btn__pfeil {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  margin: 0 -10px 0 14px;
+  border-radius: 10px;
+  background: rgba(20, 16, 10, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(20, 16, 10, 0.12);
+  transition: transform 0.45s var(--aus), background 0.3s ease;
+}
+.btn__pfeil svg { width: 16px; height: 16px; }
+.btn:hover .btn__pfeil { transform: translateX(4px); background: rgba(20, 16, 10, 0.22); }
+[data-magnet] { transition: all var(--transition), translate 0.35s var(--aus); }
+
+/* ============================================
+   HERO
+   ============================================ */
+.hero { display: block; padding: 136px 0 64px; overflow: clip; }
+.hero__aura {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(640px circle at var(--ax, 72%) var(--ay, 38%), rgba(201, 168, 76, 0.14), transparent 62%);
+}
+.hero__raster {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1.04fr) minmax(0, 1fr);
+  gap: 56px;
+  align-items: center;
+}
+.hero__text { text-align: left; }
+.hero__headline {
+  font-size: clamp(2.4rem, 3.75vw, 3.65rem);
+  line-height: 1.08;
+  letter-spacing: -0.022em;
+  margin: 0 0 24px;
+  max-width: none;
+  text-wrap: balance;
+}
+.glanzwort { font-style: italic; color: var(--champagner); }
+.hero__sub {
+  max-width: 500px;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin-bottom: 34px;
+}
+.hero__aktion { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 22px; }
+.hero__trust { margin: 0; justify-content: flex-start; }
+
+/* Vertrauenszeile: Gesichter aus den Testimonial-Videos, fuehrt dorthin */
+.vertrauen {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 30px;
+  padding: 7px 18px 7px 8px;
+  border-radius: 999px;
+  text-decoration: none;
+  background: rgba(255, 248, 235, 0.04);
+  box-shadow: inset 0 0 0 1px rgba(201, 168, 76, 0.2);
+  transition: background 0.35s ease, box-shadow 0.35s ease;
+}
+.vertrauen:hover, .vertrauen:focus-visible {
+  background: rgba(201, 168, 76, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(201, 168, 76, 0.5), 0 10px 30px -14px rgba(201, 168, 76, 0.6);
+}
+.vertrauen__gesichter { display: flex; }
+.vertrauen__gesichter img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #15120e;
+  box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.45);
+  margin-left: -11px;
+  transition: translate 0.45s var(--aus);
+}
+.vertrauen__gesichter img:first-child { margin-left: 0; }
+.vertrauen:hover .vertrauen__gesichter img:nth-child(2) { translate: 3px 0; }
+.vertrauen:hover .vertrauen__gesichter img:nth-child(3) { translate: 6px 0; }
+.vertrauen:hover .vertrauen__gesichter img:nth-child(4) { translate: 9px 0; }
+.vertrauen:hover .vertrauen__gesichter img:nth-child(5) { translate: 12px 0; }
+.vertrauen:hover .vertrauen__text { translate: 12px 0; }
+.vertrauen__text { font-size: 0.9rem; color: var(--text-muted); transition: translate 0.45s var(--aus); }
+.vertrauen__text strong { color: var(--white); font-weight: 600; }
+
+/* --- Videokarte: Buehne > Kippe (3D) > Rahmen (Goldkante) > Video --- */
+.hero__buehne { position: relative; perspective: 1400px; min-width: 0; }
+.hero__buehne::before {
+  content: '';
+  position: absolute;
+  inset: 6% 4%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(201, 168, 76, 0.34), transparent);
+  filter: blur(38px);
+}
+.hero__kippe {
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+}
+.hero__rahmen {
+  position: relative;
+  border-radius: 24px;
+  padding: 1px;
+  background: linear-gradient(150deg, rgba(226, 201, 122, 0.45), rgba(201, 168, 76, 0.08) 40%, rgba(201, 168, 76, 0.22));
+  box-shadow: 0 60px 120px -50px rgba(0, 0, 0, 0.95), 0 30px 60px -40px rgba(201, 168, 76, 0.35);
+}
+/* Ein Lichtpunkt, der langsam um die Kante wandert */
+.hero__rahmen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(from var(--winkel), transparent 0deg 250deg, rgba(255, 236, 180, 0.95) 300deg, transparent 340deg 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  pointer-events: none;
+  opacity: 0;
+}
+.bewegung .hero__rahmen::before { opacity: 1; animation: rahmenLicht 7s linear infinite; }
+@keyframes rahmenLicht { to { --winkel: 360deg; } }
+.hero .hero__video {
+  margin: 0;
+  max-width: none;
+  border: 0;
+  border-radius: 23px;
+  background: #0b0a08;
+}
+.hero-video__bild {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.72) saturate(1.05);
+  transition: opacity 0.9s ease;
+}
+.hero__video--laeuft .hero-video__bild { opacity: 0; }
+.hero .hero-video__play { position: relative; display: grid; place-items: center; }
+.hero .hero-video__play svg { width: 68px; height: 68px; opacity: 1; filter: drop-shadow(0 6px 24px rgba(0, 0, 0, 0.7)); }
+.bewegung .hero .hero-video__play::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(226, 201, 122, 0.7);
+  animation: puls 2.6s var(--aus) infinite;
+}
+@keyframes puls { from { transform: scale(1); opacity: 0.8; } to { transform: scale(1.7); opacity: 0; } }
+.hero__glanzlicht {
+  position: absolute;
+  inset: 1px;
+  z-index: 3;
+  border-radius: 23px;
+  pointer-events: none;
+  background: radial-gradient(520px circle at var(--gx, 50%) var(--gy, 0%), rgba(255, 244, 214, 0.16), transparent 46%);
+  opacity: var(--go, 0);
+  mix-blend-mode: screen;
+}
+
+/* Zwei Glas-Chips vor der Karte, je in eigener Tiefe (translateZ) */
+.hero__chip {
+  position: absolute;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px 8px 8px;
+  border-radius: 16px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+  background: linear-gradient(180deg, rgba(32, 27, 20, 0.86), rgba(16, 14, 11, 0.84));
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
+  box-shadow: inset 0 0 0 1px rgba(201, 168, 76, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 20px 44px -16px rgba(0, 0, 0, 0.95);
+  pointer-events: none;
+}
+.hero__chip--a { top: -20px; left: -26px; transform: translateZ(70px); }
+.hero__chip--b { bottom: -22px; right: -20px; transform: translateZ(120px); }
+.hero__chip-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  display: grid;
+  place-items: center;
+  color: var(--gold);
+  background: radial-gradient(circle at 30% 25%, rgba(226, 201, 122, 0.3), rgba(201, 168, 76, 0.08) 70%);
+  box-shadow: inset 0 0 0 1px rgba(201, 168, 76, 0.38);
+}
+.hero__chip-icon svg { width: 19px; height: 19px; }
+.bewegung .hero__chip--a { animation: chipEin 1s var(--aus) 1.25s both, schweben 6.5s ease-in-out 2.3s infinite alternate; }
+.bewegung .hero__chip--b { animation: chipEin 1s var(--aus) 1.45s both, schweben 7.5s ease-in-out 2.5s infinite alternate-reverse; }
+@keyframes chipEin { from { opacity: 0; scale: 0.82; } to { opacity: 1; scale: 1; } }
+@keyframes schweben { from { translate: 0 -5px; } to { translate: 0 7px; } }
+
+/* --- Zahlenleiste ---------------------------------------------- */
+.zahlen {
+  position: relative;
+  z-index: 2;
+  margin-top: 64px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 26px 12px;
+  overflow: hidden;
+}
+.zahlen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 238, 190, 0.13) 50%, transparent 70%);
+  transform: translateX(-110%);
+}
+.bewegung .zahlen.visible::before { animation: lichtlauf 1.8s var(--aus) 0.5s both; }
+@keyframes lichtlauf { to { transform: translateX(110%); } }
+.zahlen__eintrag {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+  min-width: 0;
+}
+.zahlen__eintrag + .zahlen__eintrag { border-left: 1px solid rgba(201, 168, 76, 0.18); }
+.zahlen__wert {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 2.8vw, 2.5rem);
+  font-weight: 500;
+  color: var(--white);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  transition: translate 0.45s var(--aus), text-shadow 0.45s ease;
+}
+.zahlen__eintrag:hover .zahlen__wert { translate: 0 -3px; text-shadow: 0 0 26px rgba(201, 168, 76, 0.55); }
+.zahlen__label { font-size: 0.82rem; color: var(--text-muted); letter-spacing: 0.02em; }
+
+/* --- Einstieg beim Laden ----------------------------------------
+   Die Woerter der Headline steigen einzeln aus ihrer Zeile auf
+   (bewegung.js teilt sie in .wort > .wort__innen). Danach folgen
+   Untertitel, Knopf, Vertrauenszeile und die Videokarte. Alles per
+   CSS-Animation: laeuft auch, wenn bewegung.js spaeter laedt. */
+.bewegung [data-woerter]:not(.ist-geteilt) { opacity: 0; animation: notfallSichtbar 0.01s linear 2.2s forwards; }
+@keyframes notfallSichtbar { to { opacity: 1; } }
+[data-woerter] .wort { display: inline-block; }
+.bewegung [data-woerter] .wort { clip-path: inset(-0.4em -0.3em -0.22em -0.3em); }
+.bewegung [data-woerter] .wort__innen {
+  display: inline-block;
+  transform-origin: 0 100%;
+  animation: wortAuf 1.15s var(--aus) both;
+  animation-delay: calc(0.2s + var(--i, 0) * 0.07s);
+}
+@keyframes wortAuf { from { transform: translateY(112%) rotate(5deg); opacity: 0; } to { transform: none; opacity: 1; } }
+.bewegung .glanzwort .wort__innen {
+  background: linear-gradient(100deg, #C9A84C 0%, #C9A84C 40%, #FFF0C4 50%, #C9A84C 60%, #C9A84C 100%);
+  background-size: 260% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-right: 0.06em;
+  animation: wortAuf 1.15s var(--aus) both, glanzlauf 6s ease-in-out 1.9s infinite;
+  animation-delay: calc(0.2s + var(--i, 0) * 0.07s), 1.9s;
+}
+@keyframes glanzlauf { 0% { background-position: 100% 0; } 35%, 100% { background-position: 0% 0; } }
+.bewegung .hero [data-intro] { animation: einAuf 1.05s var(--aus) both; animation-delay: calc(0.7s + var(--n, 0) * 0.12s); }
+@keyframes einAuf { from { opacity: 0; transform: translateY(22px); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+.bewegung [data-intro-video] { animation: buehneEin 1.5s var(--aus) 0.4s both; }
+@keyframes buehneEin { from { opacity: 0; transform: translateY(34px) scale(0.94); filter: blur(12px); } to { opacity: 1; transform: none; filter: none; } }
+
+@media (max-width: 900px) {
+  .hero { padding-top: 112px; }
+  .hero__raster { grid-template-columns: minmax(0, 1fr); gap: 52px; }
+  .hero__text { text-align: center; }
+  .hero__sub { margin-left: auto; margin-right: auto; }
+  .hero__aktion { justify-content: center; flex-direction: column; }
+  .hero__trust { justify-content: center; }
+  .vertrauen { margin-top: 26px; }
+  .hero__buehne { max-width: 620px; width: 100%; margin: 0 auto; }
+  .hero__chip { font-size: 0.82rem; padding: 6px 14px 6px 6px; }
+  .hero__chip-icon { width: 28px; height: 28px; border-radius: 9px; }
+  .hero__chip--a { left: -6px; top: -18px; }
+  .hero__chip--b { right: -6px; bottom: -18px; }
+  .zahlen { grid-template-columns: 1fr 1fr; row-gap: 22px; margin-top: 56px; }
+  .zahlen__eintrag:nth-child(3) { border-left: 0; }
+}
+@media (max-width: 480px) {
+  .hero { padding-top: 100px; }
+  .hero .btn--large { width: 100%; }
+  .vertrauen { padding-right: 14px; gap: 10px; }
+  .vertrauen__gesichter img { width: 30px; height: 30px; margin-left: -9px; }
+  .vertrauen__text { font-size: 0.85rem; }
+}
+@media (max-width: 400px) {
+  .hero__headline { font-size: 2.15rem; }
+  .hero .btn__pfeil { display: none; }
+}
+
+/* ============================================
+   LAUFBAND — Wer kann Teil unserer Beratung werden?
+   Ohne .laufband--laeuft (kein JS, reduzierte Bewegung) stehen die
+   Chips ruhig und brechen um. bewegung.js verdoppelt die Spuren und
+   schiebt sie per transform; --f (0..1) ist die Naehe zur Bildmitte.
+   ============================================ */
+.laufband {
+  position: relative;
+  overflow: clip;
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 0%, rgba(201, 168, 76, 0.13) 0%, transparent 65%),
+    linear-gradient(to bottom, var(--black) 0%, var(--surface) 100%);
+}
+.laufband::before {
+  content: '';
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(201, 168, 76, 0.5) 30%, rgba(201, 168, 76, 0.5) 70%, transparent);
+  box-shadow: 0 0 10px rgba(201, 168, 76, 0.3), 0 0 26px rgba(201, 168, 76, 0.12);
+}
+.laufband .section__header { margin-bottom: 40px; }
+.laufband__reihen { display: flex; flex-direction: column; gap: 14px; }
+.laufband__spur {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0 24px;
+  max-width: 1180px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+.laufband--laeuft .laufband__reihen {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+}
+.laufband--laeuft .laufband__reihe { overflow-x: clip; overflow-y: visible; padding: 6px 0; }
+.laufband--laeuft .laufband__spur {
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  max-width: none;
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  will-change: transform;
+}
+.laufband__chip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 22px 9px 9px;
+  border-radius: 16px;
+  white-space: nowrap;
+  background: linear-gradient(180deg, rgba(255, 248, 235, 0.065), rgba(255, 248, 235, 0.025));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 0 0 1px rgba(201, 168, 76, 0.14);
+  opacity: calc(0.38 + 0.62 * var(--f, 1));
+  scale: calc(0.93 + 0.07 * var(--f, 1));
+  transition: background 0.35s ease, translate 0.45s var(--aus);
+}
+.laufband__chip::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(226, 201, 122, 0.55), 0 0 34px -8px rgba(201, 168, 76, 0.5);
+  opacity: calc(var(--f, 0) * var(--f, 0));
+}
+.laufband__chip:hover { translate: 0 -3px; background: linear-gradient(180deg, rgba(201, 168, 76, 0.14), rgba(201, 168, 76, 0.05)); }
+.laufband__icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: var(--gold);
+  background: radial-gradient(circle at 30% 25%, rgba(226, 201, 122, 0.26), rgba(201, 168, 76, 0.06) 70%);
+  box-shadow: inset 0 0 0 1px rgba(201, 168, 76, 0.3);
+}
+.laufband__icon svg { width: 20px; height: 20px; }
+.laufband__text { display: flex; flex-direction: column; line-height: 1.25; }
+.laufband__art {
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.laufband__beruf { font-size: 0.98rem; color: var(--text); }
+@media (max-width: 640px) {
+  .laufband__chip { padding: 7px 16px 7px 7px; gap: 10px; }
+  .laufband__icon { width: 32px; height: 32px; border-radius: 10px; }
+  .laufband__beruf { font-size: 0.9rem; }
+  .laufband--laeuft .laufband__reihen {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+}
+
+/* ============================================
+   WER IST UNSER KUNDE — Haende, Pillen, zwei Realitaeten
+   ============================================ */
+.kunde { overflow: clip; }
+.kunde .section__title em { color: var(--white); }
+.kunde__szene {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 1.5%;
+  row-gap: 12px;
+}
+.kunde__hand { position: relative; width: min(100%, 400px); }
+.kunde__hand--blau { justify-self: end;   --px: 60%;   --py: 54.5%; --glut: 64, 156, 255; }
+.kunde__hand--rot  { justify-self: start; --px: 41.8%; --py: 55.8%; --glut: 255, 72, 48; }
+.kunde__hand img {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.65));
+}
+.kunde__glut {
+  position: absolute;
+  z-index: 1;
+  left: var(--px);
+  top: var(--py);
+  width: 58%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(var(--glut), 0.62), rgba(var(--glut), 0.2) 45%, transparent 72%);
+  mix-blend-mode: screen;
+  opacity: calc(0.55 + 0.45 * var(--glanz, 0));
+  scale: calc(0.85 + 0.45 * var(--glanz, 0));
+}
+.bewegung .kunde__glut { animation: glutAtmen 3.4s ease-in-out infinite alternate; }
+@keyframes glutAtmen { from { filter: brightness(0.85); } to { filter: brightness(1.25); } }
+.kunde__karten { grid-column: 1 / -1; width: 100%; max-width: 1000px; margin: 0 auto; }
+.kunde .fw-card--no .fw-card__title { color: #9ccbff; }
+.kunde .fw-card--yes .fw-card__title { color: #ff9e8c; }
+.kunde .fw-card--no { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 24px 48px -24px rgba(0, 0, 0, 0.75), 0 0 70px -30px rgba(64, 156, 255, 0.45); }
+.kunde .fw-card--yes { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 24px 48px -24px rgba(0, 0, 0, 0.75), 0 0 70px -30px rgba(255, 72, 48, 0.4); }
+
+/* Szene (bewegung.js, nur mit Platz): Sektion bleibt stehen, Haende und
+   Karten sitzen absolut in der Szene und bekommen ihre Transformation pro
+   Bild aus dem Scrollfortschritt. */
+.kunde--szene { padding: 0; }
+.kunde--szene .kunde__strecke { height: 270vh; }
+.kunde--szene .kunde__buehne {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  box-sizing: border-box;
+  padding: 104px 0 36px;
+  display: flex;
+  flex-direction: column;
+}
+.kunde--szene .kunde__buehne > .container { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.kunde--szene .section__header { flex: none; margin-bottom: 8px; }
+.kunde--szene .kunde__szene { flex: 1; min-height: 0; display: block; }
+.kunde--szene .kunde__hand {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--hand-breite, 380px);
+  transform-origin: 0 0;
+  will-change: transform;
+}
+.kunde--szene .kunde__karten {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  width: min(940px, 100%);
+  max-width: none;
+  margin: 0;
+  z-index: 2;
+}
+.kunde--szene .fw-card { will-change: transform, opacity; }
+/* In der Szene liegen die Haende hinter den Karten: helles Glas liesse sie
+   als Farbflecken durchscheinen, darum dunkles Glas (wie auf Fotos, 6.3). */
+.kunde--szene .fw-card { background: linear-gradient(180deg, rgba(30, 26, 20, 0.94), rgba(14, 12, 10, 0.96)); }
+.kunde--szene .fw-card--yes { background: linear-gradient(180deg, rgba(44, 34, 20, 0.95), rgba(18, 14, 10, 0.97)); }
+/* Kompakter, damit die Szene auch auf Laptops mit 720 px Hoehe passt */
+.kunde--szene .fw-card { padding: 26px 28px 14px; }
+.kunde--szene .fw-card__title { margin-bottom: 2px; }
+.kunde--szene .fw-item { padding: 13px 0; }
+.kunde--szene .kunde__buehne { padding-top: 96px; padding-bottom: 28px; }
+.kunde--szene .section__header .section__subtitle { margin-top: 10px; }
+
+/* ============================================
+   DIE 7 SCHRITTE
+   Ohne .schritte--gepinnt: alle Schritte als Glaskarten untereinander.
+   ============================================ */
+.schritte__nav { display: none; }
+.schritte__liste {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1060px;
+  margin: 0 auto;
+}
+.schritt {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: 36px;
+  align-items: center;
+  padding: 14px 14px 14px 34px;
+  border-radius: var(--radius-glas);
+  background: linear-gradient(180deg, rgba(255, 248, 235, 0.07), rgba(255, 248, 235, 0.03));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), inset 0 0 0 1px rgba(201, 168, 76, 0.16), 0 24px 48px -24px rgba(0, 0, 0, 0.75);
+}
+.schritt__titel {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.4vw, 2.1rem);
+  font-weight: 500;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+.schritt__text p { font-size: 0.98rem; line-height: 1.75; color: var(--text-muted); }
+.schritt__bild {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.24);
+}
+.schritt__bild img { width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(0.9); }
+.schritt__bild::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10, 8, 6, 0.7), transparent 45%);
+  pointer-events: none;
+}
+.schritt__ziffer {
+  position: absolute;
+  right: 18px;
+  bottom: 4px;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: clamp(3.4rem, 6vw, 5.4rem);
+  font-weight: 500;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(236, 210, 140, 0.85);
+  letter-spacing: -0.02em;
+}
+@media (max-width: 760px) {
+  .schritt { grid-template-columns: minmax(0, 1fr); gap: 20px; padding: 12px 12px 26px; }
+  .schritt__bild { grid-row: 1; }
+  .schritt__text { padding: 0 10px; }
+}
+
+/* --- Gepinnt (bewegung.js) ---------------------------------------- */
+.schritte--gepinnt { padding: 0; }
+.schritte--gepinnt .schritte__strecke {
+  height: calc(100vh + var(--kopf-weg, 0px) + (var(--anzahl, 7) - 1) * var(--schrittweg, 60vh));
+  height: calc(100svh + var(--kopf-weg, 0px) + (var(--anzahl, 7) - 1) * var(--schrittweg, 60svh));
+}
+.schritte--gepinnt .schritte__buehne {
+  position: sticky;
+  top: calc(-1 * var(--kopf-weg, 0px));
+  height: calc(100vh + var(--kopf-weg, 0px));
+  height: calc(100svh + var(--kopf-weg, 0px));
+  box-sizing: border-box;
+  padding: 100px 0 32px;
+  display: flex;
+  flex-direction: column;
+}
+.schritte--gepinnt .schritte__buehne > .container { position: relative; z-index: 1; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.schritte--gepinnt .section__header { flex: none; margin-bottom: 26px; }
+.schritte--gepinnt .schritte__panel {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  max-height: 560px;
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 248px minmax(0, 1fr);
+  gap: 30px;
+  padding: 16px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255, 248, 235, 0.07), rgba(255, 248, 235, 0.025));
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  backdrop-filter: blur(22px) saturate(150%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), inset 0 0 0 1px rgba(201, 168, 76, 0.18), 0 40px 90px -40px rgba(0, 0, 0, 0.9);
+}
+
+/* Liste links */
+.schritte--gepinnt .schritte__nav {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  padding: 8px 0 8px 22px;
+}
+.schritte__nav::before,
+.schritte__nav-fuell {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 30px;
+  bottom: 30px;
+  width: 2px;
+  border-radius: 2px;
+  background: rgba(201, 168, 76, 0.16);
+}
+.schritte__nav-fuell {
+  background: linear-gradient(180deg, var(--gold-light), var(--gold-dark));
+  box-shadow: 0 0 12px rgba(201, 168, 76, 0.7);
+  transform-origin: top;
+  transform: scaleY(var(--fortschritt, 0));
+}
+.schritte__navpunkt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  font: inherit;
+  font-size: 0.93rem;
+  text-align: left;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.45s ease, background 0.45s ease;
+}
+.schritte__navpunkt:hover { color: var(--text); }
+.schritte__navpunkt-nr {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  font-size: 0.76rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+  background: rgba(20, 17, 13, 0.9);
+  box-shadow: inset 0 0 0 1px rgba(201, 168, 76, 0.24);
+  transition: background 0.45s ease, color 0.45s ease, box-shadow 0.45s ease;
+}
+.schritte__navpunkt.ist-erledigt .schritte__navpunkt-nr { color: var(--gold); box-shadow: inset 0 0 0 1px rgba(201, 168, 76, 0.55); }
+.schritte__navpunkt.ist-aktiv { color: var(--white); background: linear-gradient(90deg, rgba(201, 168, 76, 0.17), rgba(201, 168, 76, 0.03)); }
+.schritte__navpunkt.ist-aktiv .schritte__navpunkt-nr {
+  color: #15110b;
+  background: linear-gradient(180deg, #EBD083, #B9963F);
+  box-shadow: 0 6px 18px -6px rgba(201, 168, 76, 0.85);
+}
+
+/* Inhalt rechts: alle Schritte uebereinander, nur der aktive sichtbar */
+.schritte--gepinnt .schritte__liste { position: relative; display: grid; min-height: 0; max-width: none; margin: 0; gap: 0; }
+.schritte--gepinnt .schritt {
+  grid-area: 1 / 1;
+  min-height: 0;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.1fr);
+  gap: 34px;
+  align-items: stretch;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  visibility: hidden;
+  pointer-events: none;
+}
+.schritte--gepinnt .schritt.ist-aktiv,
+.schritte--gepinnt .schritt.ist-vorher { visibility: visible; }
+.schritte--gepinnt .schritt.ist-aktiv { z-index: 2; pointer-events: auto; }
+.schritte--gepinnt .schritt.ist-vorher { z-index: 1; }
+.schritte--gepinnt .schritt__text { align-self: center; min-height: 0; padding: 6px 0; }
+.schritte--gepinnt .schritt__titel,
+.schritte--gepinnt .schritt__text p {
+  opacity: 0;
+  transform: translateY(26px);
+  filter: blur(5px);
+  transition: opacity 0.35s ease, transform 0.35s ease, filter 0.35s ease;
+}
+.schritte--gepinnt .schritt.ist-aktiv .schritt__titel,
+.schritte--gepinnt .schritt.ist-aktiv .schritt__text p {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  transition: opacity 0.7s ease 0.15s, transform 0.9s var(--aus) 0.15s, filter 0.7s ease 0.15s;
+}
+.schritte--gepinnt .schritt.ist-aktiv .schritt__text p { transition-delay: 0.27s; }
+.schritte--gepinnt .schritt__bild {
+  aspect-ratio: auto;
+  height: 100%;
+  min-height: 0;
+  clip-path: inset(100% 0 0 0 round 18px);
+  transition: clip-path 0.95s cubic-bezier(0.77, 0, 0.18, 1);
+}
+.schritte__liste[data-richtung="-1"] .schritt:not(.ist-aktiv):not(.ist-vorher) .schritt__bild { clip-path: inset(0 0 100% 0 round 18px); }
+.schritte--gepinnt .schritt.ist-aktiv .schritt__bild,
+.schritte--gepinnt .schritt.ist-vorher .schritt__bild { clip-path: inset(0 0 0 0 round 18px); }
+.schritte--gepinnt .schritt.ist-vorher .schritt__bild { transition: none; }
+.schritte--gepinnt .schritt__bild img { scale: 1.14; transition: scale 1.6s var(--aus); }
+.schritte--gepinnt .schritt.ist-aktiv .schritt__bild img,
+.schritte--gepinnt .schritt.ist-vorher .schritt__bild img { scale: 1; }
+.schritte--gepinnt .schritt__ziffer { opacity: 0; translate: 0 30px; transition: opacity 0.6s ease, translate 1s var(--aus); }
+.schritte--gepinnt .schritt.ist-aktiv .schritt__ziffer { opacity: 1; translate: 0 0; transition-delay: 0.35s; }
+.schritte--kompakt .schritt__text p { font-size: 0.9rem; line-height: 1.65; }
+.schritte--kompakt .schritt__titel { font-size: 1.55rem; margin-bottom: 10px; }
+
+/* Schmal und gepinnt (Handy): Ueberschrift scrollt vorher weg
+   (--kopf-weg), Nummern oben, darunter Bild und Text. */
+.schritte--schmal .schritte__buehne { padding: 84px 0 18px; }
+.schritte--schmal .schritte__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: none;
+  padding: 12px;
+  border-radius: 24px;
+}
+.schritte--schmal .schritte__nav { flex-direction: row; justify-content: space-between; gap: 4px; padding: 0; }
+.schritte--schmal .schritte__nav::before,
+.schritte--schmal .schritte__nav-fuell { left: 14px; right: 14px; top: 50%; bottom: auto; width: auto; height: 2px; }
+.schritte--schmal .schritte__nav-fuell { transform-origin: left; transform: scaleX(var(--fortschritt, 0)); }
+.schritte--schmal .schritte__navpunkt { position: relative; z-index: 1; width: auto; padding: 0; background: none; justify-content: center; }
+.schritte--schmal .schritte__navpunkt.ist-aktiv { background: none; }
+.schritte--schmal .schritte__navpunkt-name { display: none; }
+.schritte--schmal .schritte__liste { flex: 1; }
+.schritte--schmal .schritt { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); gap: 16px; }
+.schritte--schmal .schritt__bild { grid-row: 1; height: clamp(140px, 27svh, 240px); }
+.schritte--schmal .schritt__text { grid-row: 2; align-self: start; padding: 0 6px; }
+.schritte--schmal .schritt__titel { font-size: 1.55rem; margin-bottom: 8px; }
+.schritte--schmal .schritt__text p { font-size: 0.92rem; line-height: 1.62; }

@@ -19,7 +19,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-  <script>document.documentElement.className += ' js';</script>
+  <script>document.documentElement.className += ' js' + (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches ? '' : ' bewegung');</script>
   <link rel="stylesheet" href="/fonts/fonts.css?v=2" />
   <link rel="stylesheet" href="/kern.css" />
   <link rel="stylesheet" href="/seite.css" />
@@ -27,7 +27,7 @@
        (siehe tracking.js). -->
   <script src="/tracking.js"></script>
 </head>
-<body>
+<body class="startseite">
   <!-- ============================================================
        TEXTE UND ANORDNUNG sind 1:1 die der bisherigen Seite
        (Stand 12.11.2026, Inhalte aus src/content der Vite-Fassung).
@@ -55,32 +55,62 @@
   </header>
 
   <main>
-  <!-- 1. HERO — Text links, Video rechts -->
+  <!-- 1. HERO — Text links, Video rechts, darunter die Zahlenleiste.
+       Bewegung (bewegung.js): Woerter steigen beim Laden einzeln auf, die
+       Videokarte neigt sich mit der Maus und spiegelt Licht, die zwei
+       Glas-Chips schweben in eigener Tiefe davor. Bei "Bewegung
+       reduzieren" steht alles still und ist sofort sichtbar. -->
   <section class="hero" id="hero">
     <canvas class="hero__matrix" id="matrixCanvas" data-matrix data-matrix-ab="901"></canvas>
     <div class="hero__bg-overlay"></div>
+    <div class="hero__aura" aria-hidden="true"></div>
     <div class="container hero__raster">
       <div class="hero__text">
-        <h1 class="hero__headline reveal">Die einzige <em>spirituelle</em> Unternehmens&shy;beratung im DACH-Raum</h1>
-        <p class="hero__sub reveal">Für Coaches, Trainer und Berater, die Bewusstsein &amp; Business in einem einheitlichen Kontext vereinen möchten.</p>
-        <a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="hero" class="btn btn--gold btn--large reveal">Klarheitsgespräch buchen</a>
-        <div class="mini-trust hero__trust reveal">
-          <span>Kostenlos</span>
-          <span class="mini-trust__dot">·</span>
-          <span>Unverbindlich</span>
+        <h1 class="hero__headline" data-woerter>Die einzige <em class="glanzwort">spirituelle</em> Unternehmens&shy;beratung im DACH-Raum</h1>
+        <p class="hero__sub" data-intro style="--n:1">Für Coaches, Trainer und Berater, die Bewusstsein &amp; Business in einem einheitlichen Kontext vereinen möchten.</p>
+        <div class="hero__aktion" data-intro style="--n:2">
+          <a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="hero" class="btn btn--gold btn--large hero__cta" data-magnet>Klarheitsgespräch buchen <span class="btn__pfeil" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+          <div class="mini-trust hero__trust">
+            <span>Kostenlos</span>
+            <span class="mini-trust__dot">·</span>
+            <span>Unverbindlich</span>
+          </div>
         </div>
-      </div>
-      <div class="hero__video reveal" id="heroVideo" data-vimeo="1192498083">
-        <button type="button" class="hero-video__poster" id="hero-video-poster" aria-label="Trailer abspielen">
-          <span class="hero-video__play" aria-hidden="true">
-            <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg>
+        <a class="vertrauen" href="#testimonials" data-intro style="--n:3" aria-label="1.000+ Unternehmer begleitet. Zu den Testimonials">
+          <span class="vertrauen__gesichter" aria-hidden="true">
+            <img src="/bilder/kunde-gabriele.webp" width="112" height="112" alt="" />
+            <img src="/bilder/kunde-nenad.webp" width="112" height="112" alt="" />
+            <img src="/bilder/kunde-andrea.webp" width="112" height="112" alt="" />
+            <img src="/bilder/kunde-nikolay.webp" width="112" height="112" alt="" />
+            <img src="/bilder/kunde-buenyamin.webp" width="112" height="112" alt="" />
           </span>
-          <span class="hero-video__hint">Trailer ansehen</span>
-        </button>
-        <div class="hero__video-replay" id="heroReplay">
-          <button class="hero__video-replay-btn" aria-label="Video erneut abspielen">
-            <svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg>
-          </button>
+          <span class="vertrauen__text"><strong>1.000+</strong> Unternehmer begleitet</span>
+        </a>
+      </div>
+
+      <div class="hero__buehne" data-intro-video>
+        <div class="hero__kippe" data-kippe>
+          <div class="hero__rahmen">
+            <div class="hero__video" id="heroVideo" data-vimeo="1192498083">
+              <button type="button" class="hero-video__poster" id="hero-video-poster" aria-label="Trailer abspielen">
+                <img class="hero-video__bild" src="/bilder/poster-trailer.webp" width="1280" height="720" alt="" fetchpriority="high" />
+                <span class="hero-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span>
+                <span class="hero-video__hint">Trailer ansehen</span>
+              </button>
+              <div class="hero__video-replay" id="heroReplay">
+                <button class="hero__video-replay-btn" aria-label="Video erneut abspielen"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></button>
+              </div>
+            </div>
+            <span class="hero__glanzlicht" aria-hidden="true"></span>
+          </div>
+          <span class="hero__chip hero__chip--a" aria-hidden="true">
+            <span class="hero__chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20c-4.5 0-8-2.6-8-6 2.6 0 5 1 6.6 2.7M12 20c4.5 0 8-2.6 8-6-2.6 0-5 1-6.6 2.7M12 20c-1.9-1.6-3-4-3-6.6 0-2.9 1.3-5.5 3-7.4 1.7 1.9 3 4.5 3 7.4 0 2.6-1.1 5-3 6.6z" fill="currentColor" fill-opacity=".16"/></svg></span>
+            Bewusstsein
+          </span>
+          <span class="hero__chip hero__chip--b" aria-hidden="true">
+            <span class="hero__chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5h16" /><path d="M6.5 16v-4M11 16V9.5M15.5 16v-6.5" /><path d="M5 9.5l5-4.5 4 3 5.5-4.5" /><path d="M16 3.5h3.5V7"/></svg></span>
+            Unternehmertum
+          </span>
         </div>
       </div>
     </div>
@@ -108,6 +138,59 @@
     </div>
   </section>
 
+  <!-- NEU (12.11.2026, freigegeben von Lukas): Laufband "Wer kann Teil
+       unserer Beratung werden?". Drei Reihen, je eine fuer Coaches, Trainer,
+       Berater. Die Berufe sind Beispiele aus der Zielgruppe, teils aus den
+       Testimonials; Lukas prueft die Liste. Die Reihen laufen gegenlaeufig,
+       werden beim Scrollen schneller und halten bei Maus darueber an. Die
+       Karte in der Mitte leuchtet. Ohne JavaScript oder bei "Bewegung
+       reduzieren" stehen die Chips ruhig in umbrechenden Reihen. -->
+  <section class="section laufband" id="fuer-wen" aria-labelledby="laufbandTitel">
+    <div class="container">
+      <div class="section__header reveal">
+        <h2 class="section__title" id="laufbandTitel">Wer kann Teil unserer <em>Beratung</em> werden?</h2>
+      </div>
+    </div>
+    <div class="laufband__reihen">
+      <div class="laufband__reihe" data-richtung="-1" data-tempo="30">
+        <ul class="laufband__spur">
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h9a2 2 0 0 1 2 2V11a2 2 0 0 1-2 2H9.5L6 16v-3a2 2 0 0 1-2-2z" fill="currentColor" fill-opacity=".16"/><path d="M19.5 9.5h.3a1.7 1.7 0 0 1 1.7 1.7v5.6a1.7 1.7 0 0 1-1.7 1.7H19v2.5l-3-2.5h-3.3a1.7 1.7 0 0 1-1.7-1.7v-.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Coach</span><span class="laufband__beruf">Life Coach</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h9a2 2 0 0 1 2 2V11a2 2 0 0 1-2 2H9.5L6 16v-3a2 2 0 0 1-2-2z" fill="currentColor" fill-opacity=".16"/><path d="M19.5 9.5h.3a1.7 1.7 0 0 1 1.7 1.7v5.6a1.7 1.7 0 0 1-1.7 1.7H19v2.5l-3-2.5h-3.3a1.7 1.7 0 0 1-1.7-1.7v-.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Coach</span><span class="laufband__beruf">Business Coach</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h9a2 2 0 0 1 2 2V11a2 2 0 0 1-2 2H9.5L6 16v-3a2 2 0 0 1-2-2z" fill="currentColor" fill-opacity=".16"/><path d="M19.5 9.5h.3a1.7 1.7 0 0 1 1.7 1.7v5.6a1.7 1.7 0 0 1-1.7 1.7H19v2.5l-3-2.5h-3.3a1.7 1.7 0 0 1-1.7-1.7v-.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Coach</span><span class="laufband__beruf">Coachin für Selbstheilung</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h9a2 2 0 0 1 2 2V11a2 2 0 0 1-2 2H9.5L6 16v-3a2 2 0 0 1-2-2z" fill="currentColor" fill-opacity=".16"/><path d="M19.5 9.5h.3a1.7 1.7 0 0 1 1.7 1.7v5.6a1.7 1.7 0 0 1-1.7 1.7H19v2.5l-3-2.5h-3.3a1.7 1.7 0 0 1-1.7-1.7v-.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Coach</span><span class="laufband__beruf">Coachin für Gesundheit</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h9a2 2 0 0 1 2 2V11a2 2 0 0 1-2 2H9.5L6 16v-3a2 2 0 0 1-2-2z" fill="currentColor" fill-opacity=".16"/><path d="M19.5 9.5h.3a1.7 1.7 0 0 1 1.7 1.7v5.6a1.7 1.7 0 0 1-1.7 1.7H19v2.5l-3-2.5h-3.3a1.7 1.7 0 0 1-1.7-1.7v-.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Coach</span><span class="laufband__beruf">Mindset Coach</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h9a2 2 0 0 1 2 2V11a2 2 0 0 1-2 2H9.5L6 16v-3a2 2 0 0 1-2-2z" fill="currentColor" fill-opacity=".16"/><path d="M19.5 9.5h.3a1.7 1.7 0 0 1 1.7 1.7v5.6a1.7 1.7 0 0 1-1.7 1.7H19v2.5l-3-2.5h-3.3a1.7 1.7 0 0 1-1.7-1.7v-.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Coach</span><span class="laufband__beruf">Beziehungscoach</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h9a2 2 0 0 1 2 2V11a2 2 0 0 1-2 2H9.5L6 16v-3a2 2 0 0 1-2-2z" fill="currentColor" fill-opacity=".16"/><path d="M19.5 9.5h.3a1.7 1.7 0 0 1 1.7 1.7v5.6a1.7 1.7 0 0 1-1.7 1.7H19v2.5l-3-2.5h-3.3a1.7 1.7 0 0 1-1.7-1.7v-.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Coach</span><span class="laufband__beruf">Spiritueller Coach</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2 2 0 0 1 6 3.5h9a2 2 0 0 1 2 2V11a2 2 0 0 1-2 2H9.5L6 16v-3a2 2 0 0 1-2-2z" fill="currentColor" fill-opacity=".16"/><path d="M19.5 9.5h.3a1.7 1.7 0 0 1 1.7 1.7v5.6a1.7 1.7 0 0 1-1.7 1.7H19v2.5l-3-2.5h-3.3a1.7 1.7 0 0 1-1.7-1.7v-.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Coach</span><span class="laufband__beruf">Karriere Coach</span></span></li>
+        </ul>
+      </div>
+      <div class="laufband__reihe" data-richtung="1" data-tempo="24">
+        <ul class="laufband__spur">
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".16"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></span><span class="laufband__text"><span class="laufband__art">Trainer</span><span class="laufband__beruf">Mentaltrainer</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".16"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></span><span class="laufband__text"><span class="laufband__art">Trainer</span><span class="laufband__beruf">Fitnesstrainerin</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".16"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></span><span class="laufband__text"><span class="laufband__art">Trainer</span><span class="laufband__beruf">Persönlichkeitstrainer</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".16"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></span><span class="laufband__text"><span class="laufband__art">Trainer</span><span class="laufband__beruf">Vertriebstrainer</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".16"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></span><span class="laufband__text"><span class="laufband__art">Trainer</span><span class="laufband__beruf">Yogalehrerin</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".16"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></span><span class="laufband__text"><span class="laufband__art">Trainer</span><span class="laufband__beruf">Atemtrainer</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".16"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></span><span class="laufband__text"><span class="laufband__art">Trainer</span><span class="laufband__beruf">Speaker</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5" fill="currentColor" fill-opacity=".16"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r=".8" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3"/></svg></span><span class="laufband__text"><span class="laufband__art">Trainer</span><span class="laufband__beruf">Seminarleiterin</span></span></li>
+        </ul>
+      </div>
+      <div class="laufband__reihe" data-richtung="-1" data-tempo="36">
+        <ul class="laufband__spur">
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3.5v5c0 4.4-3.2 8.1-7.5 9.5-4.3-1.4-7.5-5.1-7.5-9.5v-5z" fill="currentColor" fill-opacity=".16"/><path d="M8.5 12l2.4 2.4 4.6-4.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Berater</span><span class="laufband__beruf">Unternehmensberater</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3.5v5c0 4.4-3.2 8.1-7.5 9.5-4.3-1.4-7.5-5.1-7.5-9.5v-5z" fill="currentColor" fill-opacity=".16"/><path d="M8.5 12l2.4 2.4 4.6-4.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Berater</span><span class="laufband__beruf">Finanzberater</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3.5v5c0 4.4-3.2 8.1-7.5 9.5-4.3-1.4-7.5-5.1-7.5-9.5v-5z" fill="currentColor" fill-opacity=".16"/><path d="M8.5 12l2.4 2.4 4.6-4.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Berater</span><span class="laufband__beruf">Energetikerin</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3.5v5c0 4.4-3.2 8.1-7.5 9.5-4.3-1.4-7.5-5.1-7.5-9.5v-5z" fill="currentColor" fill-opacity=".16"/><path d="M8.5 12l2.4 2.4 4.6-4.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Berater</span><span class="laufband__beruf">Ernährungsberaterin</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3.5v5c0 4.4-3.2 8.1-7.5 9.5-4.3-1.4-7.5-5.1-7.5-9.5v-5z" fill="currentColor" fill-opacity=".16"/><path d="M8.5 12l2.4 2.4 4.6-4.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Berater</span><span class="laufband__beruf">Heilpraktikerin</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3.5v5c0 4.4-3.2 8.1-7.5 9.5-4.3-1.4-7.5-5.1-7.5-9.5v-5z" fill="currentColor" fill-opacity=".16"/><path d="M8.5 12l2.4 2.4 4.6-4.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Berater</span><span class="laufband__beruf">Psychologische Beraterin</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3.5v5c0 4.4-3.2 8.1-7.5 9.5-4.3-1.4-7.5-5.1-7.5-9.5v-5z" fill="currentColor" fill-opacity=".16"/><path d="M8.5 12l2.4 2.4 4.6-4.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Berater</span><span class="laufband__beruf">Massage &amp; Wellness</span></span></li>
+          <li class="laufband__chip"><span class="laufband__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3.5v5c0 4.4-3.2 8.1-7.5 9.5-4.3-1.4-7.5-5.1-7.5-9.5v-5z" fill="currentColor" fill-opacity=".16"/><path d="M8.5 12l2.4 2.4 4.6-4.8"/></svg></span><span class="laufband__text"><span class="laufband__art">Berater</span><span class="laufband__beruf">Finanzunternehmer</span></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <!-- 2. MANIFEST — Bild links, Text rechts -->
   <section class="section darko-section manifest" id="manifest">
     <div class="container">
@@ -130,21 +213,31 @@
     </div>
   </section>
 
-  <!-- 3. WER IST UNSER KUNDE — Haende mit blauer und roter Pille,
-       darunter die zwei Realitaeten (links blau, rechts rot) -->
+  <!-- 3. WER IST UNSER KUNDE — Haende mit blauer und roter Pille, daraus
+       die zwei Realitaeten (links blau, rechts rot).
+       Grosse Bildschirme (bewegung.js, Klasse kunde--szene): die Sektion
+       bleibt stehen, die Haende oeffnen sich beim Scrollen, die Pillen
+       leuchten auf und jede Karte waechst aus ihrer Pille heraus.
+       Sonst: Haende nebeneinander, Karten darunter. -->
   <section class="section kunde" id="kunde">
-    <div class="container">
-      <div class="section__header reveal">
+    <div class="kunde__strecke">
+      <div class="kunde__buehne">
+        <div class="container">
+          <div class="section__header reveal">
         <p class="section__eyebrow">Für wen wir arbeiten</p>
         <h2 class="section__title"><em>Wer ist unser Kunde?</em></h2>
         <p class="section__subtitle">Coaches, Trainer und Berater, die dem Licht dienen und finanziell frei leben möchten:</p>
       </div>
-
-      <div class="kunde__haende reveal">
-        <img src="/bilder/haende-pillen.webp" width="1200" height="515" alt="Zwei Hände, links eine blaue, rechts eine rote Pille" loading="lazy" />
-      </div>
-
-      <div class="fw__grid kunde__karten">
+          <div class="kunde__szene">
+            <div class="kunde__hand kunde__hand--blau" aria-hidden="true">
+              <span class="kunde__glut"></span>
+              <img src="/bilder/hand-blau.webp" width="900" height="873" alt="" />
+            </div>
+            <div class="kunde__hand kunde__hand--rot" aria-hidden="true">
+              <span class="kunde__glut"></span>
+              <img src="/bilder/hand-rot.webp" width="900" height="871" alt="" />
+            </div>
+            <div class="fw__grid kunde__karten">
         <div class="fw-card fw-card--no">
           <h3 class="fw-card__title">Deine momentane Realität</h3>
           <ul class="fw-card__list fw-card__list--no">
@@ -180,62 +273,106 @@
             </li>
           </ul>
         </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- 4. UNSERE INHALTE — sieben Karten nebeneinander zum Durchblaettern -->
-  <section class="section schritte" id="inhalte" data-mandala="leise">
-    <div class="container">
-      <div class="section__header reveal">
+  <!-- 4. UNSERE INHALTE — die 7 Schritte.
+       Mit genug Platz (bewegung.js, Klasse schritte--gepinnt) bleibt die
+       Buehne stehen und jeder Abschnitt Scrollweg zeigt den naechsten
+       Schritt: Liste links (zum Anklicken), Text in der Mitte, Bild rechts.
+       Ohne JavaScript, bei "Bewegung reduzieren" oder wenn der Text nicht
+       in die Buehne passt: alle Schritte untereinander. -->
+  <section class="section schritte" id="inhalte">
+    <div class="schritte__strecke">
+      <div class="schritte__buehne" data-mandala="leise">
+        <div class="container">
+          <div class="section__header reveal">
         <p class="section__eyebrow">Unsere Inhalte</p>
         <h2 class="section__title">7 Schritte zu <em>deiner ersten Million.</em></h2>
         <p class="section__subtitle">Wir holen dich dort ab, wo du gerade finanziell stehst und führen dich durch diese 7 Schritte zu deinem gewünschten Monatsumsatz:</p>
       </div>
+          <div class="schritte__panel">
+            <div class="schritte__nav" aria-hidden="true"></div>
+            <div class="schritte__liste">
+              <article class="schritt" data-schritt="1">
+                <div class="schritt__text">
+                  <h3 class="schritt__titel">1. Bewusstseinsarbeit</h3>
+                  <p>Durch wöchentliche Live Calls in einem Inner Circle und geführte Meditationen zeigt dir Darko, wie du einen neuen Bewusstseinszustand aus der Fülle erschaffst, um dir dadurch in Rekordzeit deine gewünschte Realität zu manifestieren.</p>
+                </div>
+                <div class="schritt__bild">
+                  <img src="/bilder/schritt-1.webp" width="900" height="675" alt="" loading="lazy" />
+                  <span class="schritt__ziffer" aria-hidden="true">01</span>
+                </div>
+              </article>
+              <article class="schritt" data-schritt="2">
+                <div class="schritt__text">
+                  <h3 class="schritt__titel">2. Zielgruppe</h3>
+                  <p>Du wirst gemeinsam mit deinem persönlichen Kundenberater deine Zielgruppe detaillierter durchleuchten, um den Schmerz, den du mit &amp; für deine Kunden löst, genau zu verstehen und klarer im Marketing zu kommunizieren.</p>
+                </div>
+                <div class="schritt__bild">
+                  <img src="/bilder/schritt-2.webp" width="900" height="599" alt="" loading="lazy" />
+                  <span class="schritt__ziffer" aria-hidden="true">02</span>
+                </div>
+              </article>
+              <article class="schritt" data-schritt="3">
+                <div class="schritt__text">
+                  <h3 class="schritt__titel">3. Angebote</h3>
+                  <p>Außerdem baust du in deinen 1-1 Beratungen ein UpSell System auf, das dir helfen wird, langfristig mit deinen Kunden zusammenzuarbeiten und dadurch konstant fünf bzw. sechsstellige Monatsumsätze zu generieren.</p>
+                </div>
+                <div class="schritt__bild">
+                  <img src="/bilder/schritt-3.webp" width="811" height="1000" alt="" loading="lazy" style="object-position: center 22%" />
+                  <span class="schritt__ziffer" aria-hidden="true">03</span>
+                </div>
+              </article>
+              <article class="schritt" data-schritt="4">
+                <div class="schritt__text">
+                  <h3 class="schritt__titel">4. Vertriebsprozess</h3>
+                  <p>Das ist der Hauptkern unserer Zusammenarbeit. Wir erstellen mit dir gemeinsam einen individuellen Vertriebsprozess, damit du endlich planbaren Umsatz generierst und dir keine Sorgen mehr machen musst, von wo deine nächsten Kunden kommen.</p>
+                </div>
+                <div class="schritt__bild">
+                  <img src="/bilder/schritt-4.webp" width="900" height="599" alt="" loading="lazy" />
+                  <span class="schritt__ziffer" aria-hidden="true">04</span>
+                </div>
+              </article>
+              <article class="schritt" data-schritt="5">
+                <div class="schritt__text">
+                  <h3 class="schritt__titel">5. Marketing</h3>
+                  <p>Des Weiteren unterstützen wir dich bei deinem authentischen Social Media Auftritt. Wir helfen dir beim Aufbau deines Kanals, schalten mit dir ADs und bauen gemeinsam einen Inbound Kanal auf, damit du wöchentlich neue Anfragen erhältst.</p>
+                </div>
+                <div class="schritt__bild">
+                  <img src="/bilder/schritt-5.webp" width="900" height="600" alt="" loading="lazy" />
+                  <span class="schritt__ziffer" aria-hidden="true">05</span>
+                </div>
+              </article>
+              <article class="schritt" data-schritt="6">
+                <div class="schritt__text">
+                  <h3 class="schritt__titel">6. Backoffice</h3>
+                  <p>Damit du sauber und ordentlich arbeiten kannst, erstellen wir mit dir dein CRM System, damit du alle Kontaktdaten der Leads, Zahlungseingänge deiner Kunden und alle weiteren Zahlen klar im Überblick hast.</p>
+                </div>
+                <div class="schritt__bild">
+                  <img src="/bilder/schritt-6.webp" width="666" height="1000" alt="" loading="lazy" style="object-position: center 28%" />
+                  <span class="schritt__ziffer" aria-hidden="true">06</span>
+                </div>
+              </article>
+              <article class="schritt" data-schritt="7">
+                <div class="schritt__text">
+                  <h3 class="schritt__titel">7. Mitarbeiter</h3>
+                  <p>Sobald du min. 10.000&nbsp;€ pro Monat umsetzt, schalten wir mit dir gemeinsam das Inserat für deinen ersten Vertriebsmitarbeiter, beraten dich im Bewerbungs- und Onboarding-Prozess und sobald dein erster Mitarbeiter im Vertrieb eingestellt ist, übernehmen wir seine Einschulungen und betreuen ihn in individuellen 1-1 Calls.</p>
+                </div>
+                <div class="schritt__bild">
+                  <img src="/bilder/schritt-7.webp" width="900" height="978" alt="" loading="lazy" />
+                  <span class="schritt__ziffer" aria-hidden="true">07</span>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="karussell" data-karussell>
-      <button type="button" class="karussell__pfeil karussell__pfeil--zurueck" aria-label="Zurück" data-richtung="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
-      <ol class="karussell__spur schritte__liste">
-        <li class="schritt glas">
-          <div class="schritt__bild"><img src="/bilder/schritt-1.webp" width="900" height="675" alt="" loading="lazy" /></div>
-          <h3 class="schritt__titel">1. Bewusstseinsarbeit</h3>
-          <p>Durch wöchentliche Live Calls in einem Inner Circle und geführte Meditationen zeigt dir Darko, wie du einen neuen Bewusstseinszustand aus der Fülle erschaffst, um dir dadurch in Rekordzeit deine gewünschte Realität zu manifestieren.</p>
-        </li>
-        <li class="schritt glas">
-          <div class="schritt__bild"><img src="/bilder/schritt-2.webp" width="900" height="599" alt="" loading="lazy" /></div>
-          <h3 class="schritt__titel">2. Zielgruppe</h3>
-          <p>Du wirst gemeinsam mit deinem persönlichen Kundenberater deine Zielgruppe detaillierter durchleuchten, um den Schmerz, den du mit &amp; für deine Kunden löst, genau zu verstehen und klarer im Marketing zu kommunizieren.</p>
-        </li>
-        <li class="schritt glas">
-          <div class="schritt__bild"><img src="/bilder/schritt-3.webp" width="811" height="1000" alt="" loading="lazy" style="object-position: center 22%" /></div>
-          <h3 class="schritt__titel">3. Angebote</h3>
-          <p>Außerdem baust du in deinen 1-1 Beratungen ein UpSell System auf, das dir helfen wird, langfristig mit deinen Kunden zusammenzuarbeiten und dadurch konstant fünf bzw. sechsstellige Monatsumsätze zu generieren.</p>
-        </li>
-        <li class="schritt glas">
-          <div class="schritt__bild"><img src="/bilder/schritt-4.webp" width="900" height="599" alt="" loading="lazy" /></div>
-          <h3 class="schritt__titel">4. Vertriebsprozess</h3>
-          <p>Das ist der Hauptkern unserer Zusammenarbeit. Wir erstellen mit dir gemeinsam einen individuellen Vertriebsprozess, damit du endlich planbaren Umsatz generierst und dir keine Sorgen mehr machen musst, von wo deine nächsten Kunden kommen.</p>
-        </li>
-        <li class="schritt glas">
-          <div class="schritt__bild"><img src="/bilder/schritt-5.webp" width="900" height="600" alt="" loading="lazy" /></div>
-          <h3 class="schritt__titel">5. Marketing</h3>
-          <p>Des Weiteren unterstützen wir dich bei deinem authentischen Social Media Auftritt. Wir helfen dir beim Aufbau deines Kanals, schalten mit dir ADs und bauen gemeinsam einen Inbound Kanal auf, damit du wöchentlich neue Anfragen erhältst.</p>
-        </li>
-        <li class="schritt glas">
-          <div class="schritt__bild"><img src="/bilder/schritt-6.webp" width="666" height="1000" alt="" loading="lazy" style="object-position: center 28%" /></div>
-          <h3 class="schritt__titel">6. Backoffice</h3>
-          <p>Damit du sauber und ordentlich arbeiten kannst, erstellen wir mit dir dein CRM System, damit du alle Kontaktdaten der Leads, Zahlungseingänge deiner Kunden und alle weiteren Zahlen klar im Überblick hast.</p>
-        </li>
-        <li class="schritt glas">
-          <div class="schritt__bild"><img src="/bilder/schritt-7.webp" width="900" height="978" alt="" loading="lazy" /></div>
-          <h3 class="schritt__titel">7. Mitarbeiter</h3>
-          <p>Sobald du min. 10.000&nbsp;€ pro Monat umsetzt, schalten wir mit dir gemeinsam das Inserat für deinen ersten Vertriebsmitarbeiter, beraten dich im Bewerbungs- und Onboarding-Prozess und sobald dein erster Mitarbeiter im Vertrieb eingestellt ist, übernehmen wir seine Einschulungen und betreuen ihn in individuellen 1-1 Calls.</p>
-        </li>
-      </ol>
-      <button type="button" class="karussell__pfeil karussell__pfeil--weiter" aria-label="Weiter" data-richtung="1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
-    </div>
-
     <div class="container">
       <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="inhalte" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a></div>
     </div>
@@ -546,5 +683,6 @@
   <script src="/karussell.js"></script>
   <script src="/kern.js"></script>
   <script src="/mandala.js"></script>
+  <script src="/bewegung.js"></script>
 </body>
 </html>

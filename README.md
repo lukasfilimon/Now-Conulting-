@@ -17,7 +17,8 @@ hier per `cp` nachziehen, nie hier allein ändern.
 |---|---|
 | `index.html` | Startseite, alle Sektionen |
 | `seite.css` | Layout der Webseite (Kopfleiste, Hero mit Zahlenleiste, Manifest, Karussells, Programme, Live Events, Team, Footer, Unterseiten) |
-| `karussell.js` | Pfeile und Fortschrittsbalken der sieben Schritte und der Testimonials |
+| `karussell.js` | Pfeile und Fortschrittsbalken der Testimonials |
+| `bewegung.js` | Premium-Bewegung: Hero (Wort-Einstieg, 3D-Videokarte, Magnet-Knopf), Laufband, Pillen-Szene, gepinnte 7 Schritte. Alles hängt an `html.bewegung`, ohne JS oder bei reduzierter Bewegung ist alles statisch lesbar |
 | `seite.js` | Konfiguration für kern.js (Trennlinien, Videotitel) |
 | `tracking.js` | Meta-Pixel, nur nach Zustimmung und nur auf now-consulting.at |
 | `termin.js` | Calendly auf /termin/, lädt erst nach Klick, meldet Lead nach Buchung |

@@ -52,11 +52,13 @@ for (const breite of BREITEN) {
 
       // Inhalt eines waagrecht scrollbaren Streifens (Karussell) darf
       // ausserhalb liegen: er ist erreichbar, die Seite selbst scrollt nicht.
-      const imStreifen = el.parentElement && el.parentElement.closest('.karussell__spur');
+      const imStreifen = el.parentElement && el.parentElement.closest('.karussell__spur, .laufband__reihe');
       if (!imStreifen && (r.right > bw + 1 || r.left < -1))
         raus.breiter.push({ name, links: Math.round(r.left), rechts: Math.round(r.right) });
 
       // Beschnitten: Inhalt breiter als der Kasten, und der Kasten schneidet ab.
+      // Laufband-Reihen schneiden absichtlich (Endlosband).
+      if (el.classList.contains('laufband__reihe')) continue;
       const schneidet = s.overflowX === 'hidden' || s.overflowX === 'clip' ||
                         s.textOverflow === 'ellipsis' || s.overflow === 'hidden';
       if (schneidet && el.scrollWidth > el.clientWidth + 1 && el.clientWidth > 0)
