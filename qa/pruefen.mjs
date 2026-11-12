@@ -103,6 +103,35 @@ const p = (name, ist, soll = true) => {
   });
   p('1x Zusammenarbeit: naechster Live-Call, 5 Kacheln, Chat-Antwort sichtbar', za, 'ok');
 
+  // Runde 2: Ueberschriften, Programme-Pfad, Betraege, gestapelte Live Events
+  const r2 = await page.evaluate(async () => {
+    const warte = ms => new Promise(r => setTimeout(r, ms));
+    const hin = async (el, f) => { scrollTo({ top: el.getBoundingClientRect().top + scrollY - innerHeight * f, behavior: 'instant' }); await warte(300); };
+    const fehler = [];
+    const pt = document.querySelector('.programme .section__title');
+    await hin(pt, 0.3); await warte(1600);
+    if (!pt.classList.contains('ist-da') || [...pt.querySelectorAll('.wort__innen')].some(w => getComputedStyle(w).opacity !== '1')) fehler.push('titel');
+    const pf = document.querySelector('.pfad');
+    await hin(pf, 0.05); await warte(1600);
+    if (document.querySelectorAll('.pfad__punkt.ist-erreicht').length !== 3) fehler.push('pfad ' + pf.style.getPropertyValue('--zug'));
+    const z = document.querySelectorAll('[data-zaehle]');
+    await hin(z[0], 0.5); await warte(300); await hin(z[1], 0.5); await warte(2300);
+    if (z[0].textContent !== '10.000' || z[1].textContent !== '100.000') fehler.push('betraege ' + z[0].textContent + '/' + z[1].textContent);
+    if (getComputedStyle(document.querySelector('.format-zeile')).position !== 'sticky') fehler.push('live events nicht gestapelt');
+    if (document.querySelectorAll('.testi-video__bild').length !== 11) fehler.push('vorschaubilder');
+    return fehler.join(', ') || 'ok';
+  });
+  p('1y Runde 2: Ueberschrift, Pfad, Betraege, Stapel, Vorschaubilder', r2, 'ok');
+
+  // Team-Galerie: die Person unter der Maus klappt auf
+  await page.locator('.person').nth(2).scrollIntoViewIfNeeded();
+  await page.locator('.person').nth(2).hover();
+  await page.waitForTimeout(1400);
+  p('1z Team-Galerie: Person unter der Maus klappt auf', await page.evaluate(() => {
+    const p = [...document.querySelectorAll('.person')];
+    return p[2].classList.contains('ist-offen') && p[2].offsetWidth > p[0].offsetWidth * 1.8 ? 'ok' : p.map(x => x.offsetWidth).join('/');
+  }), 'ok');
+
   // 7 Schritte: Buehne klebt, Schritt wechselt mit dem Scrollen
   const sch = await page.evaluate(async () => {
     const s = document.querySelector('.schritte');
@@ -192,9 +221,12 @@ for (const [name, opts] of [['reduzierte Bewegung', { reducedMotion: 'reduce' }]
     schritte: [...document.querySelectorAll('.schritt')].filter(a => a.getBoundingClientRect().height > 50 && getComputedStyle(a).visibility !== 'hidden').length,
     texte: [...document.querySelectorAll('.schritt__text p')].every(p => getComputedStyle(p).opacity === '1'),
     kacheln: [...document.querySelectorAll('.kachel, .blase--du, .blase--berater, .termin, .verlauf__felder span')].every(e => getComputedStyle(e).opacity === '1'),
+    runde2: [...document.querySelectorAll('.darko__bio, .manifest__signatur, .phase__liste li, .stimmen .testi-card, .fuss__leitsatz span, .section__title')].every(e => getComputedStyle(e).opacity === '1')
+      && [...document.querySelectorAll('[data-zaehle]')].map(z => z.textContent).join('/') === '10.000/100.000'
+      && !document.querySelector('.titel-woerter'),
   }));
-  p(`5 ${name}: Headline sichtbar, nichts gepinnt/gedreht, alle 6 Innen-Saetze, 7 Schritte und die Zusammenarbeit lesbar`,
-    `${z.h1}|${z.gepinnt}|${z.dreht}|${z.innen}|${z.schritte}|${z.texte}|${z.kacheln}`, '1|false|false|6|7|true|true');
+  p(`5 ${name}: Headline sichtbar, nichts gepinnt/gedreht, alle 6 Innen-Saetze, 7 Schritte, Zusammenarbeit und Runde 2 lesbar`,
+    `${z.h1}|${z.gepinnt}|${z.dreht}|${z.innen}|${z.schritte}|${z.texte}|${z.kacheln}|${z.runde2}`, '1|false|false|6|7|true|true|true');
   await ctx.close();
 }
 

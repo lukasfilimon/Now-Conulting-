@@ -22,7 +22,8 @@ const SCHWELLE_NORMAL = 4.5;   // WCAG 2.1 AA, normaler Text
 const SCHWELLE_GROSS = 3.0;    // >= 24px, oder >= 18.66px und fett
 
 const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
-const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+// Bewegung reduziert: jeder Text steht im Endzustand (Farben wie nach dem Einblenden)
+const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' });
 await ctx.route('**/*', r => {
   const u = r.request().url();
   if (u.includes('facebook') || u.includes('googletagmanager') || u.includes('vimeo'))

@@ -225,7 +225,7 @@
         </li>
       </ul>
       <p class="pr-turn spiegel__schluss reveal">Solange du nur im Außen schraubst, kommt das Problem wieder.<br />Darum arbeiten wir an beiden Seiten.</p>
-      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="spiegel" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a></div>
+      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="spiegel" class="btn btn--gold btn--large" data-magnet>Klarheitsgespräch buchen <span class="btn__pfeil" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
     </div>
   </section>
 
@@ -234,7 +234,8 @@
     <div class="container">
       <div class="darko__inner">
         <div class="darko__img reveal">
-          <img src="/bilder/darko-manifest.webp" width="800" height="1200" alt="Darko Krstic" loading="lazy" />
+          <div class="manifest__frequenz" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="manifest__rahmen"><img src="/bilder/darko-manifest.webp" width="800" height="1200" alt="Darko Krstic" decoding="async" fetchpriority="low" /></div>
         </div>
         <div class="darko__content reveal">
           <h2 class="manifest__titel"><em>Dein Kontostand spiegelt deine Frequenz.</em></h2>
@@ -363,7 +364,7 @@
         <p class="welten__satz">Bewusstsein &amp; Business in einem einheitlichen Kontext.</p>
         <p class="welten__zusatz">Emotionale und finanzielle Freiheit durch Meditation &amp; authentischen Vertrieb.</p>
       </div>
-      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="unterschied" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a></div>
+      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="unterschied" class="btn btn--gold btn--large" data-magnet>Klarheitsgespräch buchen <span class="btn__pfeil" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
     </div>
   </section>
 
@@ -461,7 +462,7 @@
       </div>
     </div>
     <div class="container">
-      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="inhalte" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a></div>
+      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="inhalte" class="btn btn--gold btn--large" data-magnet>Klarheitsgespräch buchen <span class="btn__pfeil" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
     </div>
   </section>
 
@@ -473,10 +474,22 @@
         <h2 class="section__title">Wir holen dich dort ab, <em>wo du gerade stehst.</em></h2>
       </div>
 
+      <div class="pfad" aria-hidden="true">
+        <svg class="pfad__svg" viewBox="0 0 1000 150" preserveAspectRatio="none">
+          <defs><linearGradient id="pfadGold" x1="0" x2="1"><stop offset="0" stop-color="#8A6E2F"/><stop offset=".55" stop-color="#C9A84C"/><stop offset="1" stop-color="#F0D891"/></linearGradient></defs>
+          <path class="pfad__spur" d="M20 134 C 220 132, 380 118, 500 96 S 820 34, 980 14" />
+          <path class="pfad__linie" d="M20 134 C 220 132, 380 118, 500 96 S 820 34, 980 14" pathLength="1" />
+        </svg>
+        <span class="pfad__punkt" style="--x:2%;--y:89.3%"><b>0&nbsp;€</b></span>
+        <span class="pfad__punkt" style="--x:50%;--y:64%"><b>10.000&nbsp;€</b></span>
+        <span class="pfad__punkt pfad__punkt--ziel" style="--x:98%;--y:9.3%"><b>100.000&nbsp;€</b></span>
+      </div>
+
       <div class="phasen">
         <article class="phase glas reveal-card">
+          <span class="phase__nr" aria-hidden="true">01</span>
           <h3 class="phase__titel">Die Stabilisierungsphase</h3>
-          <p class="phase__zahl">0&nbsp;€ → 10.000&nbsp;€ Monatsumsatz<br />in 3 bis 6 Monaten</p>
+          <p class="phase__zahl"><span class="phase__betrag">0&nbsp;€ → <span data-zaehle="10000">10.000</span>&nbsp;€</span> <span class="phase__einheit">Monatsumsatz<br />in 3 bis 6 Monaten</span></p>
           <p class="phase__wunsch">Du möchtest von deiner Selbstständigkeit finanziell stabil leben, deinen Kunden mit vollem Fokus dienen und dir keine Sorgen mehr über anstehende Rechnungen machen.</p>
           <p class="phase__text">Wir bauen mit dir gemeinsam das Fundament, damit du jeden Monat min. 10.000&nbsp;€ Umsatz generierst:</p>
           <ul class="phase__liste">
@@ -489,8 +502,9 @@
         </article>
 
         <article class="phase phase--gold glas reveal-card">
+          <span class="phase__nr" aria-hidden="true">02</span><span class="phase__rand" aria-hidden="true"></span>
           <h3 class="phase__titel">Skalierungsphase</h3>
-          <p class="phase__zahl">10.000&nbsp;€ → 100.000&nbsp;€ Monatsumsatz<br />in 12 Monaten</p>
+          <p class="phase__zahl"><span class="phase__betrag">10.000&nbsp;€ → <span data-zaehle="100000">100.000</span>&nbsp;€</span> <span class="phase__einheit">Monatsumsatz<br />in 12 Monaten</span></p>
           <p class="phase__wunsch">Du möchtest finanziell frei leben, Mitarbeiter einstellen und das kollektive Bewusstsein von der Matrix befreien.</p>
           <p class="phase__text">Wir zeigen dir den Weg vom Selbstständigen, der in seiner eigenen Matrix gefangen ist, zum Unternehmer, der mit seinen Mitarbeitern finanzielle Freiheit erreicht.</p>
           <ul class="phase__liste">
@@ -503,7 +517,7 @@
         </article>
       </div>
 
-      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="programme" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a></div>
+      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="programme" class="btn btn--gold btn--large" data-magnet>Klarheitsgespräch buchen <span class="btn__pfeil" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
     </div>
   </section>
 
@@ -627,7 +641,7 @@
         </article>
       </div>
 
-      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="zusammenarbeit" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a></div>
+      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="zusammenarbeit" class="btn btn--gold btn--large" data-magnet>Klarheitsgespräch buchen <span class="btn__pfeil" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
     </div>
   </section>
 
@@ -639,12 +653,13 @@
         <p class="section__eyebrow">Live Events</p>
         <h2 class="section__title">Erfahrungen, die dich &amp; dein Business <em>transformieren.</em></h2>
       </div>
-      <div class="formate">
+      <div class="formate" data-stapel>
         <article class="format-zeile reveal-card">
           <div class="testi-video format-zeile__video" data-vimeo="1183850610" data-titel="NOW Money Mind">
-            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+            <div class="testi-video__poster"><img class="testi-video__bild" src="/bilder/poster-moneymind.webp" width="960" height="540" alt="" loading="lazy" decoding="async" /><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
           </div>
           <div class="format-zeile__text">
+            <span class="format-zeile__nr" aria-hidden="true">01 <i>/ 03</i></span>
             <h3 class="format-zeile__titel">NOW Money Mind</h3>
             <p class="format-zeile__satz">Ein Tag. Energie von einer anderen Dimension.</p>
             <p>Tagesseminar mit Fokus auf Vertrieb &amp; Mindset. Unser einziges öffentliches Event mit max. 100 Teilnehmern voller Input und Umsetzungen, damit du endlich den Umsatz erreichst, den du verdienst.</p>
@@ -652,9 +667,10 @@
         </article>
         <article class="format-zeile reveal-card">
           <div class="testi-video format-zeile__video" data-vimeo="1183841506" data-titel="NOW Dubai Mastermind">
-            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+            <div class="testi-video__poster"><img class="testi-video__bild" src="/bilder/poster-dubai.webp" width="960" height="540" alt="" loading="lazy" decoding="async" /><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
           </div>
           <div class="format-zeile__text">
+            <span class="format-zeile__nr" aria-hidden="true">02 <i>/ 03</i></span>
             <h3 class="format-zeile__titel">NOW Dubai Mastermind</h3>
             <p class="format-zeile__satz">Eine Woche. Fülle pur.</p>
             <p>7 Tage in denen wir dir zeigen, wie der Weg zu 1 Million Jahresumsatz ausschaut, Aktivitäten wie Safari Tour, VIP Yacht, luxuriöses Abendessen beim Burj Khalifa und ein Netzwerk von bewussten Unternehmern, die wirklich finanziell frei leben wollen.</p>
@@ -662,16 +678,17 @@
         </article>
         <article class="format-zeile reveal-card">
           <div class="testi-video format-zeile__video" data-vimeo="1203510105" data-titel="NOW Retreat">
-            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+            <div class="testi-video__poster"><img class="testi-video__bild" src="/bilder/poster-retreat.webp" width="960" height="540" alt="" loading="lazy" decoding="async" /><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
           </div>
           <div class="format-zeile__text">
+            <span class="format-zeile__nr" aria-hidden="true">03 <i>/ 03</i></span>
             <h3 class="format-zeile__titel">NOW Retreat</h3>
             <p class="format-zeile__satz">Ein zeitloser Raum. Heilung auf allen Ebenen.</p>
             <p>Tägliche Meditationen. Lebensverändernde Bewusstseinsarbeit. Begegnung mit der Stille. Rückzug zu deinem Kern. Diese Woche heilt deine emotionalen Wunden. Eine Experience mit Gott und deiner Seele.</p>
           </div>
         </article>
       </div>
-      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="erfahrungen" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a></div>
+      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="erfahrungen" class="btn btn--gold btn--large" data-magnet>Klarheitsgespräch buchen <span class="btn__pfeil" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
     </div>
   </section>
 
@@ -689,28 +706,28 @@
       <div class="karussell__spur">
         <div class="testi-card">
           <div class="testi-card__video testi-video" data-vimeo="1179332168" data-titel="Nenad Stefanovic">
-            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+            <div class="testi-video__poster"><img class="testi-video__bild" src="/bilder/poster-nenad.webp" width="960" height="540" alt="" loading="lazy" decoding="async" /><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
           </div>
           <p class="testi-card__name">Nenad Stefanovic</p>
           <p class="testi-card__role">CEO von Relief Massage</p>
         </div>
         <div class="testi-card">
           <div class="testi-card__video testi-video" data-vimeo="1179331518" data-titel="Andrea Bryda">
-            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+            <div class="testi-video__poster"><img class="testi-video__bild" src="/bilder/poster-andrea.webp" width="960" height="540" alt="" loading="lazy" decoding="async" /><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
           </div>
           <p class="testi-card__name">Andrea Bryda</p>
           <p class="testi-card__role">Fitnesstrainerin</p>
         </div>
         <div class="testi-card">
           <div class="testi-card__video testi-video" data-vimeo="1179331896" data-titel="Gabriele Ehm">
-            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+            <div class="testi-video__poster"><img class="testi-video__bild" src="/bilder/poster-gabriele.webp" width="960" height="540" alt="" loading="lazy" decoding="async" /><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
           </div>
           <p class="testi-card__name">Gabriele Ehm</p>
           <p class="testi-card__role">Coachin für Selbstheilung</p>
         </div>
         <div class="testi-card">
           <div class="testi-card__video testi-video" data-vimeo="1179332386" data-titel="Patrick Farkas">
-            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+            <div class="testi-video__poster"><img class="testi-video__bild" src="/bilder/poster-patrick.webp" width="960" height="540" alt="" loading="lazy" decoding="async" /><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
           </div>
           <p class="testi-card__name">Patrick Farkas</p>
           <p class="testi-card__role">Mentaltrainer</p>
@@ -725,28 +742,28 @@
       <div class="karussell__spur">
         <div class="testi-card">
           <div class="testi-card__video testi-video" data-vimeo="1179331719" data-titel="Elisabeth Lick">
-            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+            <div class="testi-video__poster"><img class="testi-video__bild" src="/bilder/poster-elisabeth.webp" width="960" height="540" alt="" loading="lazy" decoding="async" /><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
           </div>
           <p class="testi-card__name">Elisabeth Lick</p>
           <p class="testi-card__role">Coachin für Gesundheit</p>
         </div>
         <div class="testi-card">
           <div class="testi-card__video testi-video" data-vimeo="1179332017" data-titel="Jonathan Fischer">
-            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+            <div class="testi-video__poster"><img class="testi-video__bild" src="/bilder/poster-jonathan.webp" width="960" height="540" alt="" loading="lazy" decoding="async" /><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
           </div>
           <p class="testi-card__name">Jonathan Fischer</p>
           <p class="testi-card__role">Mentaltrainer</p>
         </div>
         <div class="testi-card">
           <div class="testi-card__video testi-video" data-vimeo="1179332282" data-titel="Nikolay Gueorguiev">
-            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+            <div class="testi-video__poster"><img class="testi-video__bild" src="/bilder/poster-nikolay.webp" width="960" height="540" alt="" loading="lazy" decoding="async" /><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
           </div>
           <p class="testi-card__name">Nikolay Gueorguiev</p>
           <p class="testi-card__role">Speditionsleiter</p>
         </div>
         <div class="testi-card">
           <div class="testi-card__video testi-video" data-vimeo="1179331624" data-titel="Bünyamin Ali Deniz">
-            <div class="testi-video__poster"><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
+            <div class="testi-video__poster"><img class="testi-video__bild" src="/bilder/poster-buenyamin.webp" width="960" height="540" alt="" loading="lazy" decoding="async" /><span class="testi-video__play" aria-hidden="true"><svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="38" stroke="currentColor" stroke-width="2.5"/><polygon points="33,24 33,56 58,40" fill="currentColor"/></svg></span><span class="testi-video__label">Video ansehen</span></div>
           </div>
           <p class="testi-card__name">Bünyamin Ali Deniz</p>
           <p class="testi-card__role">Finanzunternehmer</p>
@@ -757,7 +774,7 @@
     </div>
 
     <div class="container">
-      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="testimonials" class="btn btn--gold btn--large">Klarheitsgespräch buchen</a></div>
+      <div class="sektion-cta reveal"><a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="testimonials" class="btn btn--gold btn--large" data-magnet>Klarheitsgespräch buchen <span class="btn__pfeil" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
     </div>
   </section>
 
@@ -768,8 +785,8 @@
         <p class="section__eyebrow">Wer wir sind</p>
         <h2 class="section__title"><em>Fünf Menschen. Eine Mission.</em></h2>
       </div>
-      <div class="team__raster">
-        <article class="person reveal-card">
+      <div class="team__raster" data-galerie>
+        <article class="person reveal-card ist-offen">
           <div class="person__bild"><img src="/bilder/team-darko.webp" width="640" height="648" alt="Darko Krstic" loading="lazy" /></div>
           <h3 class="person__name">Darko Krstic</h3>
           <p class="person__rolle">Gründer &amp; CEO</p>
@@ -805,11 +822,12 @@
 
   <!-- 9. JETZT IST DEIN MOMENT -->
   <section class="section final-cta" id="final-cta" data-mandala="voll">
+    <div class="final-cta__licht" aria-hidden="true"></div>
     <div class="container">
       <p class="section__eyebrow">Jetzt ist dein Moment</p>
       <h2 class="final-cta__title">Wenn du den Ruf spürst,<br /><em>melde dich bei uns.</em></h2>
       <p class="final-cta__sub">Kein manipulativer Pitch. Kein 0815-Skript. Wir hören dich, du hörst uns — danach wissen beide Seiten, ob es passt.</p>
-      <a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="schluss" class="btn btn--gold btn--large">Termin auswählen</a>
+      <a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="schluss" class="btn btn--gold btn--large final-cta__knopf" data-magnet>Termin auswählen <span class="btn__pfeil" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
       <div class="mini-trust">
         <span>1:1 Gespräch</span>
         <span class="mini-trust__dot">·</span>
@@ -823,7 +841,8 @@
   <!-- 10. FAQ -->
   <section class="section faq" id="faq">
     <div class="container">
-      <div class="section__header reveal">
+      <div class="faq__raster">
+      <div class="section__header faq__kopf reveal">
         <p class="section__eyebrow">Häufige Fragen</p>
         <h2 class="section__title">Hier sind die ehrlichen Antworten.</h2>
       </div>
@@ -849,6 +868,7 @@
           <div class="faq__answer"><p>Online via Zoom in 1-1 Calls, wöchentlichen Gruppen-Calls in einem Inner Circle &amp; WhatsApp Support. Wenn du live Erfahrungen erleben möchtest, alternativ vor Ort Retreats, Masterminds und Seminare.</p></div>
         </div>
       </div>
+      </div>
     </div>
   </section>
   </main>
@@ -859,9 +879,9 @@
       <div class="fuss__oben">
         <div class="fuss__marke">
           <img src="/now-logo.webp" width="240" height="240" alt="NOW Consulting" class="footer__logo" />
-          <p class="footer__tagline">Bewusstsein. Unternehmertum. Ein Weg.</p>
+          <p class="footer__tagline fuss__leitsatz"><span>Bewusstsein.</span> <span>Unternehmertum.</span> <span>Ein Weg.</span></p>
         </div>
-        <a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="footer" class="btn btn--gold fuss__knopf">Klarheitsgespräch buchen</a>
+        <a href="/termin/" data-ereignis="NOW_Web_Termin_Klick" data-ereignis-wert="footer" class="btn btn--gold fuss__knopf" data-magnet>Klarheitsgespräch buchen <span class="btn__pfeil" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
       </div>
       <div class="fuss__unten">
         <p>© 2026 NOW Consulting</p>

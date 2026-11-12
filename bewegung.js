@@ -11,6 +11,8 @@
    5. Zwei Welten: Bewusstsein und Business gleiten zusammen
    6. Die 7 Schritte: gepinnte Buehne, ein Schritt pro Scrollabschnitt
    7. Zusammenarbeit: Kachel-Wand mit naechstem Live-Call, Uhr und Chat
+   8. Runde 2: Ueberschriften Wort fuer Wort, Manifest, Programme-Pfad,
+      gestapelte Live Events, Testimonials, Team-Galerie, Abschluss, Footer
 
    Alles Bewegte haengt an html.bewegung (im <head> gesetzt, fehlt bei
    "Bewegung reduzieren"). Ohne diese Klasse und ohne dieses Skript ist
@@ -685,6 +687,195 @@
         if (e[0].isIntersecting && !takt) takt = setInterval(function () { sekunden++; zeige(); }, 1000);
         else if (!e[0].isIntersecting && takt) { clearInterval(takt); takt = null; }
       }).observe(uhr.closest('.kachel'));
+    }
+  })();
+
+  /* ---------- Team-Galerie (auch bei reduzierter Bewegung) ----------
+     Breite Bildschirme: die Person unter Maus oder Fokus klappt auf.
+     Ohne dieses Skript bleibt das normale Raster mit allen Texten. */
+  var galerie = document.querySelector('[data-galerie]');
+  if (galerie) (function () {
+    var leute = Array.prototype.slice.call(galerie.querySelectorAll('.person'));
+    function oeffne(p) { leute.forEach(function (x) { x.classList.toggle('ist-offen', x === p); }); }
+    leute.forEach(function (p) {
+      p.tabIndex = 0;
+      p.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') oeffne(p); });
+      p.addEventListener('focus', function () { oeffne(p); });
+      p.addEventListener('click', function () { oeffne(p); });
+    });
+    galerie.classList.add('galerie--an');
+  })();
+
+  /* ============================================================
+     8. RUNDE 2: Ueberschriften, Manifest, Programme, Live Events,
+        Testimonials, Team, Abschluss, Footer
+     Alles nur mit html.bewegung. Ohne bleibt jede Sektion, wie sie im
+     HTML steht: vollstaendig und ruhig.
+     ============================================================ */
+  if (BEWEGUNG) (function () {
+    var IO = 'IntersectionObserver' in window;
+    // Einmal sichtbar = Klasse setzen und nicht mehr beobachten
+    function einmal(liste, klasse, schwelle, rand) {
+      liste = Array.prototype.slice.call(liste);
+      if (!IO) { liste.forEach(function (el) { el.classList.add(klasse); }); return; }
+      var io = new IntersectionObserver(function (e) {
+        e.forEach(function (x) { if (x.isIntersecting) { x.target.classList.add(klasse); io.unobserve(x.target); } });
+      }, { threshold: schwelle || 0.25, rootMargin: rand || '0px 0px -8% 0px' });
+      liste.forEach(function (el) { io.observe(el); });
+    }
+    function nummeriere(liste, max) {
+      Array.prototype.forEach.call(liste, function (el, i) { el.style.setProperty('--n', Math.min(i, max || 99)); });
+    }
+    // Fortschritt einer Sektion durchs Fenster: 0 = kommt unten herein, 1 = oben hinaus
+    function durchlauf(el) {
+      var r = el.getBoundingClientRect(), vh = window.innerHeight;
+      return klemme((vh - r.top) / (vh + r.height), 0, 1);
+    }
+
+    // 8a. Ueberschriften Wort fuer Wort
+    var titel = document.querySelectorAll('main .section__title, .manifest__titel, .final-cta__title');
+    Array.prototype.forEach.call(titel, function (t) {
+      if (t.closest('.hero')) return;
+      teileWoerter(t);
+      t.classList.add('titel-woerter');
+    });
+    einmal(document.querySelectorAll('.titel-woerter'), 'ist-da', 0.35, '0px 0px -6% 0px');
+
+    // 8b. Manifest: Maske, Parallaxe im Rahmen, Text nacheinander
+    var manifest = document.querySelector('.manifest');
+    if (manifest) {
+      nummeriere(manifest.querySelectorAll('.darko__bio, .manifest__signatur'));
+      einmal(manifest.querySelectorAll('.darko__img, .darko__content'), 'ist-da', 0.2);
+      var mBild = manifest.querySelector('.manifest__rahmen img');
+      var mp = 0;
+      var mLauf = aufgabe(function (dt) {
+        var soll = durchlauf(manifest);
+        mp = folge(mp, soll, 6, dt);
+        if (Math.abs(mp - soll) < 0.0005) mp = soll;
+        if (mBild) {
+          mBild.style.setProperty('--by', mische(-4, 4, mp).toFixed(2) + '%');
+          mBild.style.setProperty('--bs', mische(1.14, 1.04, mp).toFixed(4));
+        }
+        return mp !== soll;
+      });
+      beobachte(manifest, mLauf);
+      window.addEventListener('scroll', function () { if (mLauf.aktiv) wecke(); }, { passive: true });
+    }
+
+    // 8c. Programme: Pfad zeichnet sich, Betraege zaehlen, Lichtkegel
+    var programme = document.querySelector('.programme');
+    if (programme) {
+      var pfad = programme.querySelector('.pfad');
+      var punkte = pfad ? Array.prototype.slice.call(pfad.querySelectorAll('.pfad__punkt')) : [];
+      var stellen = [0.02, 0.5, 0.98];
+      var zug = 0;
+      if (pfad) {
+        pfad.style.setProperty('--zug', 0);
+        var pLauf = aufgabe(function (dt) {
+          var r = pfad.getBoundingClientRect(), vh = window.innerHeight;
+          var soll = klemme((vh * 0.92 - r.top) / (vh * 0.6), 0, 1);
+          zug = folge(zug, soll, 5, dt);
+          if (Math.abs(zug - soll) < 0.0005) zug = soll;
+          pfad.style.setProperty('--zug', zug.toFixed(4));
+          punkte.forEach(function (pk, i) { pk.classList.toggle('ist-erreicht', zug >= stellen[i] - 0.01); });
+          return zug !== soll;
+        });
+        beobachte(pfad, pLauf);
+        window.addEventListener('scroll', function () { if (pLauf.aktiv) wecke(); }, { passive: true });
+      }
+      var phasen = programme.querySelectorAll('.phase');
+      Array.prototype.forEach.call(phasen, function (ph) { nummeriere(ph.querySelectorAll('.phase__liste li')); });
+      einmal(phasen, 'ist-da', 0.2);
+      // Betraege zaehlen hoch, sobald die Karte im Bild ist
+      function punktiert(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+      Array.prototype.forEach.call(programme.querySelectorAll('[data-zaehle]'), function (z) {
+        var ziel = +z.getAttribute('data-zaehle');
+        var gestartet = false;
+        function los() {
+          if (gestartet) return; gestartet = true;
+          var t0 = performance.now(), dauer = 1800;
+          (function schritt(t) {
+            var p = klemme((t - t0) / dauer, 0, 1);
+            z.textContent = punktiert(ziel * ausrollen(p));
+            if (p < 1) requestAnimationFrame(schritt);
+          })(t0);
+        }
+        if (!IO) return;
+        z.textContent = '0';
+        var io = new IntersectionObserver(function (e) { if (e[0].isIntersecting) { los(); io.disconnect(); } }, { threshold: 1 });
+        io.observe(z);
+      });
+      if (FEINER_ZEIGER) Array.prototype.forEach.call(phasen, function (ph) {
+        ph.addEventListener('pointermove', function (e) {
+          var r = ph.getBoundingClientRect();
+          ph.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+          ph.style.setProperty('--my', (e.clientY - r.top) + 'px');
+        });
+      });
+    }
+
+    // 8d. Live Events: die Karten stapeln sich beim Scrollen
+    var formate = document.querySelector('.formate[data-stapel]');
+    if (formate) {
+      var karten = Array.prototype.slice.call(formate.querySelectorAll('.format-zeile'));
+      formate.classList.add('formate--stapel');
+      karten.forEach(function (k, i) { k.classList.remove('reveal-card'); k.style.setProperty('--k', i); });
+      var sLauf = aufgabe(function () {
+        if (getComputedStyle(karten[0]).position !== 'sticky') {
+          karten.forEach(function (k) { k.style.transform = ''; k.style.removeProperty('--dunkel'); });
+          return false;
+        }
+        for (var i = 0; i < karten.length; i++) {
+          var k = karten[i], p = 0;
+          if (i < karten.length - 1) {
+            var a = k.getBoundingClientRect(), b = karten[i + 1].getBoundingClientRect();
+            p = klemme(1 - (b.top - a.top) / Math.max(1, a.height), 0, 1);
+          }
+          k.style.transform = p ? 'scale(' + (1 - p * 0.06).toFixed(4) + ')' : '';
+          k.style.setProperty('--dunkel', (p * 0.55).toFixed(3));
+        }
+        return false;
+      });
+      beobachte(formate, sLauf, '100px 0px');
+      window.addEventListener('scroll', function () { if (sLauf.aktiv) wecke(); }, { passive: true });
+    }
+
+    // 8e. Testimonials: Reihen fahren gestaffelt ein
+    var reihen = document.querySelectorAll('.stimmen__reihe');
+    Array.prototype.forEach.call(reihen, function (r) { nummeriere(r.querySelectorAll('.testi-card'), 4); });
+    einmal(reihen, 'ist-da', 0.15);
+
+    // 8g. Abschluss: Licht waechst aus der Dunkelheit, Mandala dreht mit
+    var schluss = document.querySelector('.final-cta');
+    if (schluss) {
+      var licht = schluss.querySelector('.final-cta__licht');
+      var sp = 0;
+      var fLauf = aufgabe(function (dt) {
+        var soll = durchlauf(schluss);
+        sp = folge(sp, soll, 5, dt);
+        if (Math.abs(sp - soll) < 0.0005) sp = soll;
+        var auf = weich(abschnitt(sp, 0.1, 0.55));
+        if (licht) {
+          licht.style.setProperty('--licht', mische(0.45, 1.1, auf).toFixed(4));
+          licht.style.setProperty('--licht-o', mische(0.2, 1, auf).toFixed(3));
+        }
+        // Nur die Leinwand drehen: die Huelle muss die Sektion decken
+        var m = schluss.querySelector('.lp-mandala canvas');
+        if (m) {
+          m.style.rotate = (sp * 50 - 25).toFixed(2) + 'deg';
+          m.style.scale = mische(0.9, 1, sp).toFixed(4);
+        }
+        return sp !== soll;
+      });
+      beobachte(schluss, fLauf);
+      window.addEventListener('scroll', function () { if (fLauf.aktiv) wecke(); }, { passive: true });
+    }
+
+    // 8h. Footer: der Leitsatz leuchtet Wort fuer Wort auf
+    var leitsatz = document.querySelector('.fuss__leitsatz');
+    if (leitsatz) {
+      nummeriere(leitsatz.querySelectorAll('span'));
+      einmal([leitsatz], 'ist-da', 0.6, '0px');
     }
   })();
 })();
