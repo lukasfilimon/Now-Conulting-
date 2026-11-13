@@ -44,8 +44,12 @@
       if (typeof d === 'string') { try { d = JSON.parse(d); } catch (x) { return; } }
       if (!d || typeof d.event !== 'string') return;
       // Der Kalender waechst auf seine Inhaltshoehe, kein Scrollen im Rahmen.
+      // Nie unter 650 px: waehrend Calendly laedt, meldet es kurz 26 px und
+      // dann 2 px. Uebernommen liess das den Rahmen verschwinden, und in einem
+      // 2 px hohen Rahmen baut Calendly den Kalender nie auf (Lukas, 13.11.2026).
       if (d.event === 'calendly.page_height' && d.payload && d.payload.height) {
-        widget.style.height = d.payload.height;
+        var h = parseInt(d.payload.height, 10);
+        if (h > 0) widget.style.height = Math.max(650, h) + 'px';
         return;
       }
       if (d.event === 'calendly.event_scheduled' && !leadGemeldet) {
