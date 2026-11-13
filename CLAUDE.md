@@ -19,8 +19,8 @@ Darkos Pupille) — Lukas fragen, ob eins davon jetzt dran ist.
 - `main` ist an das Netlify-Projekt `now-consulting` gekoppelt: **jeder Push
   auf `main` geht sofort live.** Arbeiten auf einem Zweig, Vorschau über
   `now-consulting-neu`.
-- Vor jedem Deploy `qa/pruefen.mjs`, `qa/ueberlauf.mjs`, `qa/kontrast.mjs`
-  (siehe README).
+- Vor jedem Deploy `qa/pruefen.mjs`, `qa/ueberlauf.mjs`, `qa/kontrast.mjs`,
+  nach Änderungen an Animationen auch `qa/fluessig.mjs` (siehe README).
 
 ## Zwei Webseiten: Varianten (Entscheidung Lukas, 13.11.2026)
 
@@ -64,3 +64,5 @@ So ist es gebaut:
 |---|---|---|
 | 12.11.2026 | Beim Zusammensetzen von `seite.css` ein `/*` ohne `*/` und ein leerer `@media`-Block: alles danach wurde ignoriert, die Seite sah unformatiert aus | Nach jedem Schnitt in CSS: Klammern und Kommentare zählen (Befehl in NOW-DESIGNSYSTEM.md, Abschnitt 12), dann Bildschirmfoto ansehen |
 | 12.11.2026 | Beim Design-Upgrade auch Texte umgeschrieben und Sektionen umgestellt. Gewünscht war nur das Design. | Bei "schöner machen" / "neuer Stand": Texte und Reihenfolge 1:1 übernehmen. Inhaltliche Änderungen nur auf ausdrücklichen Wunsch. |
+| 13.11.2026 | Manifest-Titel: Goldverlauf (`background-clip: text`) lag auf der Zeile UND auf jedem Wort; beim Hereinfahren zeichnete Chrome „Dein“ und „Kontostand“ übereinander | Verlauf nur auf einer Ebene. Einblendungen Bild für Bild prüfen (Screenshots im Abstand von 150 ms), nicht nur den Endzustand |
+| 13.11.2026 | Ruckler: CSS-Filter und Masken auf drehenden Flächen, Glas-Unschärfe hinter undurchsichtigen Karten, Lichtrand über animierte Farb-Variable, 24 Vimeo-Player im Laufband | Vor jedem Deploy `qa/fluessig.mjs`; Regeln dazu in der README |

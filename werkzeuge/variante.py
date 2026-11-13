@@ -63,7 +63,6 @@ teile = {
     'HINWEIS': nimm(r'<div class="mini-trust hero__trust">.*?</div>', hero_alt, 'Kostenlos/Unverbindlich'),
     'VIDEO': nimm(r'<div class="hero__video" id="heroVideo".*?</div>\s*</div>', hero_alt, 'Video'),
     'ZAHLEN': ''.join(re.findall(r'<div class="zahlen__eintrag">.*?</div>', hero_alt, re.S)),
-    'MANDALA': lies(os.path.join(WURZEL, 'werkzeuge', 'hero-entwurf', 'mandala.svg.txt')),
 }
 hero_neu = lies(os.path.join(QUELLE, 'hero.html'))
 for k, v in teile.items(): hero_neu = hero_neu.replace('{' + k + '}', v)

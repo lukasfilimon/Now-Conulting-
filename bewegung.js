@@ -67,7 +67,12 @@
      1. KOPFLEISTE
      ============================================================ */
   var kopf = document.getElementById('kopf');
-  function kopfZustand() { if (kopf) kopf.classList.toggle('kopf--gescrollt', window.scrollY > 30); }
+  // Nur bei einem echten Wechsel ins DOM schreiben (laeuft bei jedem Scroll-Ereignis)
+  var kopfOben = null;
+  function kopfZustand() {
+    var g = window.scrollY > 30;
+    if (kopf && g !== kopfOben) { kopfOben = g; kopf.classList.toggle('kopf--gescrollt', g); }
+  }
   window.addEventListener('scroll', kopfZustand, { passive: true });
   kopfZustand();
 

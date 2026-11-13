@@ -54,7 +54,7 @@ const p = (name, ist, soll = true) => {
     if (Math.abs(w.width - s.width) > 2 || Math.abs(w.height - s.height) > 2) return sek.id + ': Huelle deckt nicht';
     return 'ok';
   }));
-  p('1l Mandala in jeder data-mandala-Sektion da und mittig', mandala.length === 2 && mandala.every(m => m === 'ok') ? 'ok' : mandala.join(', '), 'ok');
+  p('1l Mandala in jeder data-mandala-Sektion da und mittig', mandala.length >= 2 && mandala.every(m => m === 'ok') ? 'ok' : mandala.join(', '), 'ok');
   await page.waitForTimeout(1500);   // Linien blenden ueber 1,2 s ein
   p('1m Trennlinien eingeblendet', await page.evaluate(() => ['.manifest', '.kunde', '.schritte', '.programme', '.erfahrungen', '.testimonials', '.team', '.faq'].filter(s => getComputedStyle(document.querySelector(s), '::before').opacity !== '1').join(',')), '');
 
@@ -189,8 +189,27 @@ const p = (name, ist, soll = true) => {
   anfragen.length = 0;
   await page.click('#cookie-accept');
   await page.waitForTimeout(1200);
-  const vids = [...new Set(anfragen.filter(u => /player\.vimeo\.com\/video\//.test(u)).map(u => u.match(/video\/(\d+)/)[1]))];
-  p('1o nach Zustimmung laden die 11 weiteren Videos', vids.length, 11);
+  // Video-Boxen des Kerns bekommen ihren Player sofort; die Testimonials der
+  // hellen Seite (data-video-id) erst, wenn jemand sie anklickt (hell.js)
+  const vk = await page.evaluate(() => ({
+    kern: document.querySelectorAll('.testi-video[data-vimeo]').length,
+    mitPlayer: document.querySelectorAll('.testi-video[data-vimeo] iframe').length,
+    fassadePlayer: document.querySelectorAll('[data-video-id] iframe').length
+  }));
+  p('1o nach Zustimmung hat jede Video-Box ihren Player', `${vk.mitPlayer}/${vk.kern}`, `${vk.kern}/${vk.kern}`);
+  p('1o2 Testimonials laden vor dem Klick keinen Player', vk.fassadePlayer, 0);
+  if (await page.locator('[data-video-id]').count()) {
+    const klick = await page.evaluate(async () => {
+      document.getElementById('testimonials').scrollIntoView({ behavior: 'instant' });
+      await new Promise(r => setTimeout(r, 400));
+      const p = [...document.querySelectorAll('[data-video-id] .testi-video__poster')].find(e => { const r = e.getBoundingClientRect(); return r.left > 0 && r.right < innerWidth && r.top > 0 && r.bottom < innerHeight; });
+      if (!p) return 'kein sichtbares Vorschaubild';
+      p.click();
+      await new Promise(r => setTimeout(r, 300));
+      return document.querySelectorAll('[data-video-id] iframe').length;
+    });
+    p('1o3 Klick auf ein Testimonial startet genau einen Player', klick, 1);
+  }
   p('1p Meta-Pixel bleibt auf der Vorschau aus', anfragen.some(u => /facebook/.test(u)), LIVE);
   await ctx.close();
 }

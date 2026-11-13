@@ -2434,7 +2434,24 @@ body.startseite { overflow-x: visible; }
 .phase__nr { font-variant-numeric: lining-nums; position: absolute; top: 14px; right: 26px; font-family: var(--font-display); font-size: clamp(4.5rem, 7vw, 6.4rem); font-weight: 500; line-height: 1; color: transparent; -webkit-text-stroke: 1px rgba(201, 168, 76, 0.38); pointer-events: none; }
 .phase--gold .phase__nr { -webkit-text-stroke-color: rgba(240, 216, 145, 0.55); }
 .phase__rand { position: absolute; inset: 0; z-index: 3; border-radius: inherit; padding: 1.5px; background: conic-gradient(from var(--winkel), transparent 0deg 250deg, rgba(255, 236, 180, 0.95) 300deg, transparent 340deg 360deg); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); pointer-events: none; opacity: 0; }
-.bewegung .phase__rand { opacity: 1; animation: rahmenLicht 8s linear infinite; }
+.bewegung .phase__rand { opacity: 1; }
+/* Das Licht dreht per transform: ein grosser Verlauf hinter dem Rand dreht
+   sich, der Rand selbst bleibt still. Vorher drehte --winkel den Verlauf,
+   dafuer musste die ganze Karte samt Text in jedem Bild neu gemalt werden.
+   240 % Breite: das Quadrat deckt auch hohe Karten bis in die Ecken ab. */
+.phase__rand { background: none; overflow: hidden; }
+.phase__rand::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 240%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: conic-gradient(from 0deg, transparent 0deg 250deg, rgba(255, 236, 180, 0.95) 300deg, transparent 340deg 360deg);
+}
+.bewegung .phase__rand::before { animation: randDrehen 8s linear infinite; }
+@keyframes randDrehen { to { rotate: 360deg; } }
 .phase__zahl { margin-bottom: 26px; }
 .phase__betrag { display: block; margin-bottom: 8px; font-family: var(--font-display); font-size: clamp(2rem, 3.3vw, 2.7rem); font-weight: 500; letter-spacing: 0; text-transform: none; line-height: 1.05; background: linear-gradient(95deg, #F6E2A6, #C9A84C 70%); -webkit-background-clip: text; background-clip: text; color: transparent; font-variant-numeric: lining-nums tabular-nums; }
 .phase__einheit { display: block; }
@@ -2474,7 +2491,7 @@ body.startseite { overflow-x: visible; }
 .testi-video__poster::after { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(60% 60% at 50% 55%, rgba(10, 8, 6, 0.32) 0%, rgba(10, 8, 6, 0.15) 55%, rgba(10, 8, 6, 0.55) 100%), linear-gradient(to top, rgba(10, 8, 6, 0.75), transparent 45%); }
 .testi-video__label, .testi-video__consent { text-shadow: 0 1px 12px rgba(0, 0, 0, 0.9); }
 .testi-video__consent { color: rgba(245, 238, 225, 0.82); }
-.testi-video__play { display: grid; place-items: center; width: 66px; height: 66px; border-radius: 50%; color: var(--gold-light); background: rgba(14, 12, 10, 0.45); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: 0 0 0 1px rgba(240, 216, 145, 0.45), 0 10px 30px -8px rgba(0, 0, 0, 0.8); transition: transform 0.5s var(--aus), box-shadow 0.5s ease, background 0.4s ease; }
+.testi-video__play { display: grid; place-items: center; width: 66px; height: 66px; border-radius: 50%; color: var(--gold-light); background: rgba(14, 12, 10, 0.58); box-shadow: 0 0 0 1px rgba(240, 216, 145, 0.45), 0 10px 30px -8px rgba(0, 0, 0, 0.8); transition: transform 0.5s var(--aus), box-shadow 0.5s ease, background 0.4s ease; }
 .testi-video__play svg { width: 66px; height: 66px; }
 .testi-card:hover .testi-video__bild, .format-zeile:hover .testi-video__bild, .testi-video__poster:focus-visible .testi-video__bild { transform: scale(1.07); filter: brightness(0.75) saturate(1); }
 .testi-card:hover .testi-video__play, .format-zeile:hover .testi-video__play { transform: scale(1.08); background: rgba(201, 168, 76, 0.28); box-shadow: 0 0 0 1px rgba(240, 216, 145, 0.9), 0 0 0 10px rgba(240, 216, 145, 0.1), 0 10px 40px -6px rgba(201, 168, 76, 0.7); }
@@ -2580,7 +2597,7 @@ body.startseite { overflow-x: visible; }
 
 /* Bewegung reduziert: Endzustand, keine Daueranimation */
 @media (prefers-reduced-motion: reduce) {
-  .manifest__frequenz span, .phase__rand, .final-cta__knopf { animation: none !important; }
+  .manifest__frequenz span, .phase__rand, .phase__rand::before, .final-cta__knopf { animation: none !important; }
   .team__raster.galerie--an .person, .team__raster.galerie--an .person__bio { transition: none !important; }
 }
 .formate--stapel .format-zeile::after { content: ''; position: absolute; inset: 0; z-index: 6; border-radius: inherit; background: #050403; opacity: var(--dunkel, 0); pointer-events: none; }
@@ -2622,9 +2639,13 @@ body.startseite { overflow-x: visible; }
 .schritte--gepinnt .schritte__nav { min-height: 0; }
 .schritte--gepinnt .schritte__navpunkt { padding-block: clamp(3px, calc((100svh - 560px) / 30), 9px); }
 /* Unter der Karte keine harte Kante: Die Buehne schneidet den Schatten der
-   Karte nicht mehr ab (das Mandala begrenzt sich selbst, contain: paint),
-   und das Mandala laeuft unten weich aus. */
+   Karte nicht mehr ab (das Mandala begrenzt sich selbst, contain: paint).
+   Das Mandala laeuft unten weich aus und steht hier still: die Drehung
+   (15 min je Runde) sieht man hinter der Karte nicht, sie kostete aber
+   waehrend der ganzen gepinnten Strecke in jedem Bild Rechenzeit, und mit
+   Drehung musste auch die Maske jedes Bild neu gerechnet werden. */
 .schritte__buehne[data-mandala] { overflow: visible; }
+.schritte__buehne > .lp-mandala canvas { animation: none; }
 .schritte__buehne > .lp-mandala {
   -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent);
   mask-image: linear-gradient(to bottom, #000 70%, transparent);

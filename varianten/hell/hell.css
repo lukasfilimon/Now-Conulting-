@@ -138,18 +138,23 @@ body.hell {
     radial-gradient(35% 30% at 88% 20%, rgba(232, 207, 133, 0.22), transparent 70%),
     linear-gradient(180deg, #FBF8F2 0%, var(--elfenbein) 40%, #F1E8D8 100%); }
 .bewegung .hh__licht { animation: hhAtmen 9s ease-in-out infinite alternate; }
-@keyframes hhAtmen { to { filter: brightness(1.03) saturate(1.1); transform: scale(1.04); } }
+/* Nur transform: das rechnet die Grafikkarte; ein animierter Filter musste
+   die ganze Flaeche in jedem Bild neu malen (Messung qa/fluessig.mjs) */
+@keyframes hhAtmen { to { transform: scale(1.04); } }
 .hh__linien { position: absolute; inset: 0; z-index: -3; pointer-events: none;
   background-image: linear-gradient(to right, rgba(20, 17, 13, 0.05) 1px, transparent 1px);
   background-size: calc(min(1240px, 100vw - 44px) / 6) 100%;
   background-position: center top;
   -webkit-mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 55%, transparent 85%);
   mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 55%, transparent 85%); }
-.hh__mandala { position: absolute; z-index: -2; left: 50%; top: 340px; width: min(1500px, 170vw); aspect-ratio: 1; translate: -50% -50%; color: #8A6A1E; opacity: 0.12; pointer-events: none; }
-.hh__mandala svg { width: 100%; height: 100%; }
-.bewegung .hh__mandala svg { animation: hhDrehen 220s linear infinite; }
-@keyframes hhDrehen { to { rotate: 360deg; } }
-.hh__korn { position: absolute; inset: 0; z-index: -1; background-image: var(--korn); opacity: 0.3; mix-blend-mode: multiply; pointer-events: none; }
+/* Mandala: dasselbe wie im Abschluss (mandala.js zeichnet es, kern.css dreht
+   es, Lukas 13.11.2026). Auf Elfenbein dunkler: hell.js faerbt das Canvas
+   einmal ein (kein CSS-Filter auf der drehenden Flaeche). */
+.hh__mandala { position: absolute; z-index: -2; left: 50%; top: 340px; width: min(1500px, 170vw); aspect-ratio: 1; translate: -50% -50%; pointer-events: none; }
+.hh__mandala .lp-mandala { opacity: 0.3; }
+/* Korn ist reines Schwarz: normal darueber sieht gleich aus wie "multiply",
+   kostet aber nicht in jedem Bild eine Mischberechnung */
+.hh__korn { position: absolute; inset: 0; z-index: -1; background-image: var(--korn); opacity: 0.3; pointer-events: none; }
 .hh__inhalt { position: relative; }
 .hero--hell .vertrauen { --rand: #FBF8F2; margin: 0 auto 34px; background: rgba(255, 255, 255, 0.72); box-shadow: 0 0 0 1px rgba(138, 106, 30, 0.14), 0 10px 30px -18px rgba(60, 40, 10, 0.4); }
 .hero--hell .vertrauen__gesichter img { border-color: #FBF8F2; box-shadow: none; }
@@ -187,7 +192,7 @@ body.hell {
 /* Kennzahlen als schwebende Karten */
 .hell .hh__zahlen.zahlen { position: static; margin: 0; padding: 0; display: block; background: none !important; box-shadow: none !important; overflow: visible; }
 .hell .hh__zahlen::before { display: none; }
-.hh__zahlen .zahlen__eintrag { position: absolute; z-index: 3; align-items: flex-start; text-align: left; padding: 16px 20px 15px; border-radius: 20px; background: rgba(255, 252, 246, 0.88); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 0 0 1px rgba(138, 106, 30, 0.14), 0 24px 50px -22px rgba(60, 40, 10, 0.45); border: 0 !important; }
+.hh__zahlen .zahlen__eintrag { position: absolute; z-index: 3; align-items: flex-start; text-align: left; padding: 16px 20px 15px; border-radius: 20px; background: rgba(255, 252, 246, 0.94); box-shadow: 0 0 0 1px rgba(138, 106, 30, 0.14), 0 24px 50px -22px rgba(60, 40, 10, 0.45); border: 0 !important; }
 .hh__zahlen .zahlen__wert { font-size: 2rem; line-height: 1.05; color: var(--tinte); }
 .hh__zahlen .zahlen__label { font-size: 0.8rem; color: var(--text-muted); }
 .hh__zahlen .zahlen__eintrag:nth-child(1) { left: -70px; top: 14%; }
@@ -393,6 +398,9 @@ body.hell {
 .hell .laufband--an { padding: 0; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
 .hell .laufband--an .karussell__spur { display: flex; gap: 22px; width: max-content; overflow: visible; scroll-snap-type: none; padding: 6px 0 22px; will-change: transform; }
 .hell .laufband--an .testi-card { flex: none; width: 340px; }
+/* Testimonials: das Vorschaubild ist der Knopf (Player erst auf Klick,
+   hell.js); kern.css macht es sonst klick-durchlaessig */
+.hell [data-laufband] .testi-video__poster { pointer-events: auto; cursor: pointer; }
 .hell .stimmen__reihe + .stimmen__reihe { margin-top: 10px; }
 
 /* Footer: schmal, Satz in Instrument Serif */
@@ -406,3 +414,8 @@ body.hell {
    Geist mit kursivem Akzentwort in Instrument Serif */
 .hell .weg__titel { font-family: var(--font-body); font-weight: 520; font-size: clamp(1.45rem, 2vw, 1.8rem); letter-spacing: -0.03em; }
 .hell .weg__titel em { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 1.1em; letter-spacing: -0.01em; }
+
+/* Fluessig scrollen: undurchsichtige Karten brauchen keine Glas-Unschaerfe
+   (kern.css setzt sie fuer die dunkle Fassung). Sie war unsichtbar, musste
+   aber in jedem Scroll-Bild neu gerechnet werden (qa/fluessig.mjs). */
+.hell .glas, .hell .pr-card, .hell .fw-card, .hell .inhalte-card, .hell .modul, .hell .phase { -webkit-backdrop-filter: none; backdrop-filter: none; }

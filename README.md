@@ -38,8 +38,17 @@ Kopfleiste und Footer stehen in `index.html`. Nach jeder Änderung daran:
     WEB_URL=http://127.0.0.1:8811 node qa/pruefen.mjs        # 66 Prüfungen
     LP_URL=http://127.0.0.1:8811 node qa/ueberlauf.mjs       # 7 Breiten
     LP_URL=http://127.0.0.1:8811 node qa/kontrast.mjs        # WCAG AA
+    WEB_URL=http://127.0.0.1:8811 node qa/fluessig.mjs       # Ruckler je Sektion
 
 (`playwright` und für kontrast.mjs `pngjs` müssen auffindbar sein.)
+
+`fluessig.mjs` scrollt die Seite gleichmäßig durch und zeigt je Sektion
+hängende Bilder, bremsende Skripte, Layout-Sprünge und Konsolenfehler
+(`GERAET=handy`, `CPU=4` für ein langsames Handy). Der Testbrowser rechnet
+ohne Grafikkarte: aussagekräftig ist der Vergleich der Sektionen, nicht der
+absolute Wert. Gelernt am 13.11.2026: drehende Flächen nie mit CSS-Filter
+oder Maske belegen, keine Glas-Unschärfe hinter undurchsichtigen Karten,
+Lichtränder per `transform` drehen statt per Farb-Variable.
 
 ## Vorschau und Livegang
 
