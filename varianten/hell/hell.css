@@ -1,0 +1,327 @@
+/* ============================================================
+   VARIANTE HELL (B) — 13.11.2026
+   Creme/Elfenbein als Grundton, Schwarz als Buehne (Manifest, Kunde,
+   Live Events, Abschluss, Footer), Gold nur als Akzent.
+   Schrift: Ueberschriften Geist eng gesetzt, Akzentwoerter und kleine
+   Serifen-Momente in Instrument Serif. Texte kommen aus index.html,
+   gebaut mit werkzeuge/variante.py hell.
+   ============================================================ */
+@import url('/schriften/schriften.css');
+
+body.hell {
+  --text: #2B251D;
+  --text-muted: #5C5346;
+  --text-dim: #847A6B;
+  --white: #14110D;
+  --champagner: #7A5C14;
+  --border: rgba(138, 106, 30, 0.2);
+  --glas-kante: linear-gradient(150deg, rgba(255, 255, 255, 0.95), rgba(138, 106, 30, 0.1) 40%, rgba(138, 106, 30, 0.18));
+  --font-display: 'Instrument Serif', 'Cormorant Garamond', Georgia, serif;
+  --tinte: #14110D;
+  --elfenbein: #F7F2E9;
+  --creme: #F1E9DB;
+  --karte: #FFFCF6;
+  --gold-tief: #7A5C14;
+  --korn: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  --schatten-karte: 0 0 0 1px rgba(138, 106, 30, 0.13), 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 28px 60px -36px rgba(70, 45, 10, 0.32);
+  background: var(--elfenbein);
+  color: var(--text);
+  font-synthesis: none;
+}
+.hell #bgShader { display: none; }
+
+/* Dunkle Buehnen bekommen die Nacht-Farben zurueck */
+.hell .buehne-dunkel {
+  --text: #EFE6D6;
+  --text-muted: #B3AA9C;
+  --text-dim: #8A8276;
+  --white: #F6EFE2;
+  --champagner: #E2C97A;
+  --border: rgba(201, 168, 76, 0.28);
+  --glas-kante: linear-gradient(150deg, rgba(226, 201, 122, 0.42), rgba(255, 255, 255, 0.07) 30%, rgba(255, 255, 255, 0.03) 70%, rgba(201, 168, 76, 0.22));
+  color: var(--text);
+}
+/* Dunkle Inseln in hellen Sektionen: Videos, Mini-Oberflaechen, Innen-Seite */
+.hell .spiegel__flaeche--innen, .hell .kachel__ui, .hell .hh__karte, .hell .testi-video__poster, .hell .phase--gold {
+  --text: #EFE6D6; --text-muted: #B3AA9C; --white: #F6EFE2; --champagner: #E2C97A;
+}
+
+/* ---------- Schrift ---------- */
+.hell .hero__headline, .hell .section__title, .hell .manifest__titel, .hell .final-cta__title, .hell .unterseite__titel {
+  font-family: var(--font-body);
+  font-weight: 520;
+  letter-spacing: -0.036em;
+  line-height: 1.04;
+}
+.hell .hero__headline em, .hell .section__title em, .hell .final-cta__title em, .hell .unterseite__titel em, .hell .manifest__titel em {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.06em;
+  letter-spacing: -0.01em;
+}
+/* Die Manifest-Ueberschrift behaelt ihren Goldverlauf (Farbe kommt aus dem Hintergrund) */
+.hell .hero__headline em, .hell .section__title em, .hell .final-cta__title em, .hell .unterseite__titel em { color: var(--champagner); }
+.hell .manifest__titel { font-size: clamp(2.2rem, 3.6vw, 3.3rem); }
+.hell .section__eyebrow { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: 1.3rem; letter-spacing: 0; color: var(--champagner); }
+.hell .section__subtitle { color: var(--text-muted); }
+.hell .zahlen__wert, .hell .phase__betrag, .hell .pfad__punkt b, .hell .phase__nr {
+  font-family: var(--font-body);
+  font-weight: 520;
+  letter-spacing: -0.035em;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.hell .phase__nr { font-weight: 300; letter-spacing: -0.05em; }
+
+/* ---------- Knoepfe: Pille, Gold, dunkler Pfeil ---------- */
+.hell .btn { border-radius: 999px; letter-spacing: -0.01em; }
+.hell .btn--gold {
+  background: linear-gradient(180deg, #ECD38A 0%, #C9A84C 60%, #B38F37 100%);
+  color: #1A1408;
+  font-weight: 600;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 10px 30px -10px rgba(170, 128, 30, 0.75);
+}
+.hell .btn--gold:hover { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 18px 40px -12px rgba(170, 128, 30, 0.9); }
+.hell .btn--large { min-height: 58px; padding: 0 26px; font-size: 1rem; }
+.hell .btn--large:has(.btn__pfeil) { padding-right: 10px; }
+.hell .btn__pfeil { width: 38px; height: 38px; margin: 0 0 0 14px; border-radius: 50%; background: #1A1408; color: #E8CF85; box-shadow: none; }
+.hell .btn:hover .btn__pfeil { background: #1A1408; transform: translateX(3px) rotate(-45deg); }
+.hell .mini-trust { color: var(--text-muted); }
+
+/* ---------- Kopfleiste: schwebende helle Pille ---------- */
+.hell .kopf { padding: 12px 16px; padding-top: max(12px, env(safe-area-inset-top)); }
+.hell .kopf__inner {
+  max-width: 1240px;
+  padding: 8px 8px 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 252, 246, 0.74);
+  box-shadow: 0 0 0 1px rgba(138, 106, 30, 0.14), 0 16px 40px -24px rgba(60, 40, 10, 0.35);
+}
+.hell .kopf__inner::after { display: none; }
+.hell .kopf--gescrollt .kopf__inner { background: rgba(255, 252, 246, 0.9); box-shadow: 0 0 0 1px rgba(138, 106, 30, 0.16), 0 18px 44px -22px rgba(60, 40, 10, 0.45); }
+.hell .kopf__name { font-family: var(--font-body); font-weight: 600; font-size: 1rem; letter-spacing: -0.01em; color: var(--tinte); }
+.hell .kopf__nav a { color: rgba(20, 17, 13, 0.68); }
+.hell .kopf__nav a:hover, .hell .kopf__nav a:focus-visible { color: var(--tinte); }
+.hell .kopf__knopf { min-height: 44px; padding: 0 20px; font-size: 0.9rem; }
+.hell .kopf__logo { border-radius: 50%; }
+
+/* ---------- Helle Sektionen: Material statt flacher Flaeche ---------- */
+.hell .section:not(.buehne-dunkel) {
+  background:
+    var(--korn) 0 0 / 180px 180px,
+    radial-gradient(60% 45% at 92% 0%, rgba(201, 168, 76, 0.11), transparent 60%),
+    radial-gradient(50% 40% at 0% 100%, rgba(201, 168, 76, 0.08), transparent 60%),
+    var(--sektion-grund, var(--elfenbein)) !important;
+  background-blend-mode: soft-light, normal, normal, normal;
+}
+.hell .spiegel, .hell .schritte, .hell .zusammenarbeit, .hell .team { --sektion-grund: var(--creme); }
+/* Buehnen: tiefes Schwarz mit warmem Licht */
+.hell .buehne-dunkel.section { background: radial-gradient(70% 55% at 85% 0%, rgba(201, 168, 76, 0.16), transparent 60%), radial-gradient(60% 50% at 10% 100%, rgba(201, 168, 76, 0.1), transparent 60%), #0D0B09 !important; }
+
+/* Gemeinsame helle Karten */
+.hell .glas, .hell .kachel, .hell .faq__item, .hell .testi-card, .hell .spiegel__flaeche--aussen, .hell .schritt, .hell .schritte__panel {
+  background: var(--karte) !important;
+  box-shadow: var(--schatten-karte) !important;
+}
+.hell .glas::after { display: none; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hell .hero--hell { position: relative; overflow: clip; isolation: isolate; display: block; padding: 150px 0 120px; text-align: center; background: var(--elfenbein); }
+.hh__grund { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.hh__licht { position: absolute; inset: 0; z-index: -4; pointer-events: none;
+  background:
+    radial-gradient(48% 34% at 50% 78%, rgba(201, 168, 76, 0.30), transparent 70%),
+    radial-gradient(40% 30% at 18% 6%, #FFFFFF 0%, transparent 70%),
+    radial-gradient(35% 30% at 88% 20%, rgba(232, 207, 133, 0.22), transparent 70%),
+    linear-gradient(180deg, #FBF8F2 0%, var(--elfenbein) 40%, #F1E8D8 100%); }
+.bewegung .hh__licht { animation: hhAtmen 9s ease-in-out infinite alternate; }
+@keyframes hhAtmen { to { filter: brightness(1.03) saturate(1.1); transform: scale(1.04); } }
+.hh__linien { position: absolute; inset: 0; z-index: -3; pointer-events: none;
+  background-image: linear-gradient(to right, rgba(20, 17, 13, 0.05) 1px, transparent 1px);
+  background-size: calc(min(1240px, 100vw - 44px) / 6) 100%;
+  background-position: center top;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 55%, transparent 85%);
+  mask-image: linear-gradient(to bottom, transparent, #000 15%, #000 55%, transparent 85%); }
+.hh__mandala { position: absolute; z-index: -2; left: 50%; top: 340px; width: min(1500px, 170vw); aspect-ratio: 1; translate: -50% -50%; color: #8A6A1E; opacity: 0.12; pointer-events: none; }
+.hh__mandala svg { width: 100%; height: 100%; }
+.bewegung .hh__mandala svg { animation: hhDrehen 220s linear infinite; }
+@keyframes hhDrehen { to { rotate: 360deg; } }
+.hh__korn { position: absolute; inset: 0; z-index: -1; background-image: var(--korn); opacity: 0.3; mix-blend-mode: multiply; pointer-events: none; }
+.hh__inhalt { position: relative; }
+.hero--hell .vertrauen { --rand: #FBF8F2; margin: 0 auto 34px; background: rgba(255, 255, 255, 0.72); box-shadow: 0 0 0 1px rgba(138, 106, 30, 0.14), 0 10px 30px -18px rgba(60, 40, 10, 0.4); }
+.hero--hell .vertrauen__gesichter img { border-color: #FBF8F2; box-shadow: none; }
+.hero--hell .vertrauen__text { color: var(--text-muted); }
+.hero--hell .vertrauen__text strong { color: var(--tinte); }
+.hell .hero--hell .hero__headline { max-width: 15ch; margin: 0 auto; font-size: clamp(2.7rem, 6vw, 5.9rem); line-height: 0.98; color: var(--tinte); text-wrap: balance; }
+.hell .hero--hell .glanzwort { color: var(--champagner); }
+.hell.bewegung .hero--hell .glanzwort .wort__innen, .bewegung .hell .hero--hell .glanzwort .wort__innen {
+  background-image: linear-gradient(100deg, #6E5214 0%, #8A6A1E 38%, #E2C46F 50%, #8A6A1E 62%, #6E5214 100%);
+}
+.hero--hell .hero__sub { max-width: 540px; margin: 28px auto 34px; font-size: 1.15rem; line-height: 1.6; color: var(--text-muted); }
+.hh__aktion { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.hh__aktion .mini-trust { margin: 0; justify-content: center; }
+/* Buehne mit Video */
+.hh__buehne { position: relative; max-width: 1120px; margin: 76px auto 0; perspective: 1700px; }
+.hh__glut { position: absolute; left: 8%; right: 8%; top: 20%; bottom: -6%; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, rgba(201, 168, 76, 0.55), transparent); filter: blur(40px); }
+.hh__karte { position: relative; aspect-ratio: 16 / 9; border-radius: 28px; overflow: hidden; background: #0D0B09;
+  transform: rotateX(var(--kipp, 0deg)) scale(var(--sk, 1)); transform-origin: 50% 0;
+  box-shadow: 0 0 0 1px rgba(20, 17, 13, 0.1), 0 0 0 8px rgba(255, 255, 255, 0.55), 0 0 0 9px rgba(138, 106, 30, 0.14), 0 90px 140px -50px rgba(60, 40, 10, 0.6), 0 40px 70px -40px rgba(0, 0, 0, 0.55); }
+.hero--hell .hero__video { position: absolute; inset: 0; width: 100%; height: 100%; aspect-ratio: auto; margin: 0; border-radius: 0; background: #0D0B09; }
+/* Vimeo blendet beim stummen Start oben links "Unmute" ein: leicht angeschnitten liegt der Knopf ausserhalb */
+.hero--hell .hero__video iframe { position: absolute; top: -12%; left: -12%; width: 124%; height: 124%; border: 0; }
+.hero--hell .hero-video__poster { background: transparent; }
+.hero--hell .hero-video__bild { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; }
+.hero--hell .hero__video--laeuft .hero-video__bild { opacity: 0; transition: opacity 0.8s ease; }
+.hero--hell .hero-video__poster::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(to top, rgba(10, 8, 6, 0.7), transparent 45%); pointer-events: none; }
+.hero--hell .hero-video__play { position: relative; display: grid; place-items: center; width: 104px; height: 104px; border-radius: 50%; color: #1A1408; background: radial-gradient(circle at 35% 30%, #F6E2A6, #C9A84C 60%, #A88430); box-shadow: 0 0 0 10px rgba(232, 207, 133, 0.18), 0 0 0 22px rgba(232, 207, 133, 0.08), 0 20px 40px -10px rgba(0, 0, 0, 0.6); transition: transform 0.5s var(--aus); }
+.hero--hell .hero-video__play svg { width: 104px; height: 104px; }
+.hero--hell .hero-video__play svg circle { display: none; }
+.hero--hell .hero-video__play svg polygon { transform: translate(3px, 0); }
+.hero--hell .hero-video__poster:hover .hero-video__play { transform: scale(1.07); }
+.bewegung .hero--hell .hero-video__play::before { content: ''; position: absolute; inset: -10px; border-radius: 50%; border: 1px solid rgba(232, 207, 133, 0.7); animation: hhPuls 2.6s ease-out infinite; }
+@keyframes hhPuls { from { opacity: 0.9; transform: scale(0.9); } to { opacity: 0; transform: scale(1.5); } }
+.hero--hell .hero-video__hint { position: absolute; left: 28px; bottom: 24px; color: #F4ECDD; font-size: 0.9rem; letter-spacing: 0.02em; text-transform: none; font-weight: 500; }
+/* Kennzahlen als schwebende Karten */
+.hell .hh__zahlen.zahlen { position: static; margin: 0; padding: 0; display: block; background: none !important; box-shadow: none !important; overflow: visible; }
+.hell .hh__zahlen::before { display: none; }
+.hh__zahlen .zahlen__eintrag { position: absolute; z-index: 3; align-items: flex-start; text-align: left; padding: 16px 20px 15px; border-radius: 20px; background: rgba(255, 252, 246, 0.88); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 0 0 1px rgba(138, 106, 30, 0.14), 0 24px 50px -22px rgba(60, 40, 10, 0.45); border: 0 !important; }
+.hh__zahlen .zahlen__wert { font-size: 2rem; line-height: 1.05; color: var(--tinte); }
+.hh__zahlen .zahlen__label { font-size: 0.8rem; color: var(--text-muted); }
+.hh__zahlen .zahlen__eintrag:nth-child(1) { left: -70px; top: 14%; }
+.hh__zahlen .zahlen__eintrag:nth-child(2) { left: -44px; bottom: 16%; }
+.hh__zahlen .zahlen__eintrag:nth-child(3) { right: -64px; top: 24%; }
+.hh__zahlen .zahlen__eintrag:nth-child(4) { right: -36px; bottom: 9%; }
+.bewegung .hh__zahlen .zahlen__eintrag { animation: hhSchweben 7s ease-in-out infinite alternate; }
+.hh__zahlen .zahlen__eintrag:nth-child(2) { animation-delay: -2s; }
+.hh__zahlen .zahlen__eintrag:nth-child(3) { animation-delay: -4s; }
+.hh__zahlen .zahlen__eintrag:nth-child(4) { animation-delay: -1s; }
+@keyframes hhSchweben { from { translate: 0 -6px; } to { translate: 0 6px; } }
+@media (max-width: 1240px) {
+  .hh__zahlen .zahlen__eintrag:nth-child(1), .hh__zahlen .zahlen__eintrag:nth-child(2) { left: -14px; }
+  .hh__zahlen .zahlen__eintrag:nth-child(3), .hh__zahlen .zahlen__eintrag:nth-child(4) { right: -14px; }
+}
+@media (max-width: 760px) {
+  .hell .hero--hell { padding: 118px 0 90px; }
+  .hell .hero--hell .hero__headline { font-size: clamp(2.4rem, 11vw, 3.6rem); }
+  .hh__buehne { margin-top: 52px; }
+  .hh__karte { border-radius: 18px; }
+  .hero--hell .hero__video iframe { top: -24%; left: -24%; width: 148%; height: 148%; }
+  .hero--hell .hero-video__play, .hero--hell .hero-video__play svg { width: 72px; height: 72px; }
+  .hero--hell .hero-video__hint { left: 16px; bottom: 12px; font-size: 0.8rem; }
+  .hell .hh__zahlen.zahlen { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+  .hh__zahlen .zahlen__eintrag { position: static; animation: none !important; }
+  .hh__zahlen .zahlen__wert { font-size: 1.6rem; }
+}
+
+/* ============================================================
+   SPIEGEL — Aussen hell, Innen dunkel
+   ============================================================ */
+.hell .spiegel__schalter { background: rgba(255, 255, 255, 0.7); box-shadow: 0 0 0 1px rgba(138, 106, 30, 0.18), 0 10px 30px -20px rgba(60, 40, 10, 0.4); }
+.hell .spiegel__seite { color: var(--text-muted); }
+.hell .spiegel__seite.ist-an { color: #fff; }
+.hell .spiegel__schalter.ist-innen .spiegel__seite.ist-an { color: #15110b; }
+.hell .spiegel__daumen { background: linear-gradient(180deg, #3A332A, #14110D); box-shadow: 0 6px 18px -8px rgba(20, 17, 13, 0.6); }
+.hell .spiegel__flaeche--aussen .spiegel__marke { color: var(--text-muted); }
+.hell .spiegel__flaeche--aussen .spiegel__icon { color: var(--text-muted); background: var(--creme); box-shadow: inset 0 0 0 1px rgba(138, 106, 30, 0.2); }
+.hell .spiegel__flaeche--aussen .spiegel__satz { color: var(--tinte); }
+.hell .spiegel__flaeche--innen { box-shadow: 0 0 0 1px rgba(226, 201, 122, 0.4), 0 30px 60px -30px rgba(60, 40, 10, 0.55) !important; }
+
+/* ============================================================
+   ZWEI WELTEN
+   ============================================================ */
+.hell .welten__kreis { fill: rgba(201, 168, 76, 0.06); stroke: rgba(138, 106, 30, 0.45); }
+.hell .welten__marke { color: var(--tinte); }
+
+/* ============================================================
+   7 SCHRITTE
+   ============================================================ */
+.hell .schritte--gepinnt .schritte__panel { -webkit-backdrop-filter: none; backdrop-filter: none; }
+.hell .schritte__navpunkt { color: var(--text-muted); }
+.hell .schritte__navpunkt:hover { color: var(--tinte); }
+.hell .schritte__navpunkt.ist-aktiv { color: var(--tinte); background: linear-gradient(90deg, rgba(201, 168, 76, 0.18), rgba(201, 168, 76, 0.02)); }
+.hell .schritte__navpunkt-nr { color: var(--text-muted); box-shadow: inset 0 0 0 1px rgba(138, 106, 30, 0.3); }
+.hell .schritte__navpunkt.ist-erledigt .schritte__navpunkt-nr { color: var(--gold-tief); box-shadow: inset 0 0 0 1px rgba(138, 106, 30, 0.55); }
+.hell .schritt__titel { font-family: var(--font-body); font-weight: 560; letter-spacing: -0.03em; color: var(--tinte); }
+.hell .schritt__bild { box-shadow: 0 20px 40px -24px rgba(40, 25, 5, 0.5); }
+
+/* ============================================================
+   PROGRAMME — Stabilisierung hell, Skalierung als dunkle Premium-Karte
+   ============================================================ */
+.hell .phase__titel { color: var(--tinte); }
+.hell .phase__betrag { background: linear-gradient(95deg, #A07830, #6E5214 70%); -webkit-background-clip: text; background-clip: text; }
+.hell .phase__einheit { color: var(--gold-tief); }
+.hell .phase__nr { -webkit-text-stroke: 1px rgba(138, 106, 30, 0.35); }
+.hell .phase--gold.glas {
+  background: radial-gradient(90% 60% at 100% 0%, rgba(201, 168, 76, 0.28), transparent 60%), linear-gradient(180deg, #1C1712, #0D0B09) !important;
+  box-shadow: 0 0 0 1px rgba(226, 201, 122, 0.35), 0 40px 80px -40px rgba(40, 25, 5, 0.8) !important;
+  color: var(--text);
+}
+.hell .phase--gold .phase__titel { color: #F6EFE2; }
+.hell .phase--gold .phase__betrag { background: linear-gradient(95deg, #F6E2A6, #C9A84C 70%); -webkit-background-clip: text; background-clip: text; }
+.hell .phase--gold .phase__einheit { color: #E2C97A; }
+.hell .phase--gold .phase__nr { -webkit-text-stroke-color: rgba(240, 216, 145, 0.5); }
+.hell .phase--gold .phase__liste strong { color: #F6EFE2; }
+.hell .phase__liste strong { color: var(--tinte); }
+.hell .pfad__punkt b { color: var(--gold-tief); }
+.hell .pfad__punkt--ziel b { color: #6E5214; }
+.hell .pfad__spur { stroke: rgba(138, 106, 30, 0.45); }
+
+/* ============================================================
+   ZUSAMMENARBEIT — weisse Kacheln, dunkle Mini-Oberflaechen
+   ============================================================ */
+.hell .kachel__titel { color: var(--tinte); }
+.hell .kachel__text p { color: var(--text-muted); }
+.hell .kachel:hover { box-shadow: 0 0 0 1px rgba(138, 106, 30, 0.35), 0 34px 70px -34px rgba(70, 45, 10, 0.4) !important; }
+
+/* ============================================================
+   TESTIMONIALS
+   ============================================================ */
+.hell .stimmen .testi-card { border-color: transparent; }
+.hell .stimmen .testi-card__name { color: var(--tinte); }
+.hell .testi-card__role { color: var(--text-muted) !important; }
+.hell .karussell__pfeil { background: rgba(255, 252, 246, 0.9); color: var(--tinte); border-color: rgba(138, 106, 30, 0.25); box-shadow: 0 10px 30px -18px rgba(60, 40, 10, 0.5); }
+.hell .karussell__pfeil:hover { background: #fff; border-color: var(--gold-tief); }
+.hell .karussell__fortschritt { background: rgba(138, 106, 30, 0.15); }
+
+/* ============================================================
+   TEAM — auf Creme, Fotos als dunkle Paneele
+   ============================================================ */
+.hell .person__name { color: var(--tinte); }
+.hell .person__rolle { color: var(--gold-tief); }
+.hell .person__bio { color: var(--text-muted); }
+@media (min-width: 1100px) {
+  .hell .team__raster.galerie--an .person { --text: #EFE6D6; --text-muted: #B3AA9C; --white: #F6EFE2; --champagner: #E2C97A; }
+  .hell .team__raster.galerie--an .person__name { color: #F6EFE2; }
+  .hell .team__raster.galerie--an .person__rolle { color: #E2C97A; }
+  .hell .team__raster.galerie--an .person__bio { color: rgba(245, 238, 225, 0.82); }
+}
+
+/* ============================================================
+   FAQ
+   ============================================================ */
+.hell .faq__item.open { background: linear-gradient(180deg, #FFF8E8, var(--karte)) !important; box-shadow: 0 0 0 1px rgba(138, 106, 30, 0.38), 0 24px 60px -34px rgba(120, 85, 20, 0.45) !important; }
+.hell .faq__question { color: var(--tinte); }
+.hell .faq__question::before { color: var(--gold-tief); }
+.hell .faq__icon { color: var(--gold-tief); box-shadow: inset 0 0 0 1px rgba(138, 106, 30, 0.35); }
+
+/* ============================================================
+   DUNKLE BUEHNEN: Feinschliff
+   ============================================================ */
+.hell .buehne-dunkel .section__eyebrow, .hell .buehne-dunkel .section__title em { color: #E2C97A; }
+.hell .buehne-dunkel .format-zeile { background: #17130F !important; }
+.hell .final-cta.buehne-dunkel .final-cta__sub { color: rgba(245, 238, 225, 0.86); }
+.hell .fuss.buehne-dunkel { background: #0D0B09; }
+.hell .fuss__leitsatz { font-family: 'Instrument Serif', Georgia, serif; }
+
+/* ============================================================
+   UNTERSEITEN (Termin, Impressum, Datenschutz, AGB)
+   ============================================================ */
+.hell.unterseite-body main, .hell .unterseite { background: transparent; }
+.hell .kalender { background: var(--karte); box-shadow: var(--schatten-karte); border-color: transparent; }
+.hell .kalender__alternativ a, .hell .recht a { color: var(--gold-tief); }
+.hell .recht h2 { color: var(--tinte); font-family: var(--font-body); font-weight: 560; letter-spacing: -0.02em; }
+
+/* Schmale Handys: Frequenz-Ringe nicht breiter als das Bild */
+@media (max-width: 640px) { .hell .manifest__frequenz { width: 100%; overflow: hidden; border-radius: 50%; } }

@@ -43,6 +43,9 @@ for (const breite of BREITEN) {
       const s = getComputedStyle(el);
       if (s.display === 'none' || s.visibility === 'hidden' || parseFloat(s.opacity) < 0.1) continue;
       if (el.closest('[aria-hidden="true"], [hidden]')) continue;
+      // Absichtlich angeschnitten (z. B. Video, das ueber den Rand ragt, damit
+      // Vimeos "Unmute" ausserhalb liegt): data-zuschnitt am Rahmen
+      if (el.closest('[data-zuschnitt]')) continue;
       const r = el.getBoundingClientRect();
       if (r.width < 1 || r.height < 1) continue;
 

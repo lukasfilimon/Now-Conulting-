@@ -1,5 +1,8 @@
 # Vorhaben für die Webseite
 
+**Stand 13.11.2026:** Zwei Webseiten. B „hell“ ist gebaut (siehe CLAUDE.md,
+Abschnitt Varianten). Als Nächstes C „Nacht mit Insel“ als eigene Webseite.
+
 Beschlossene Ideen, die noch nicht gebaut sind. **Bei jedem Sessionstart
 lesen** und Lukas fragen, ob etwas davon jetzt dran ist. Erledigtes hier
 herausnehmen und im Commit erwähnen.

@@ -22,7 +22,7 @@ kopf = re.sub(r'href="#([a-z-]+)"', r'href="/#\1"', kopf)
 fuss = start[start.index('  <!-- FOOTER'):start.index('  <script src="/seite.js">')]
 
 SEITEN = {
-    'termin':      ('Klarheitsgespräch buchen · NOW Consulting', 'Buche dein kostenloses Klarheitsgespräch mit NOW Consulting. 1:1, unverbindlich.', True),
+    'termin':      ('Erstgespräch buchen · NOW Consulting', 'Buche dein kostenloses Erstgespräch mit NOW Consulting. 1:1, unverbindlich.', True),
     'impressum':   ('Impressum · NOW Consulting', 'Impressum der NOW Consulting.', False),
     'datenschutz': ('Datenschutz · NOW Consulting', 'Datenschutzerklärung der NOW Consulting.', False),
     'agb':         ('AGB · NOW Consulting', 'Allgemeine Geschäftsbedingungen der NOW Coaching Service FZCO.', False),

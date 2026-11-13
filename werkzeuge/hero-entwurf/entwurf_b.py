@@ -30,7 +30,7 @@ html.schrift-jetzt .b .titel { line-height: 1.02; }
 .bewegt .b .akzent .wort > span { animation: wortAuf 1.1s var(--aus) forwards, glanz 7s ease-in-out infinite; animation-delay: calc(0.15s + var(--i) * 0.06s), 2.6s; }
 @keyframes glanz { 0% { background-position: 100% 0; } 40%, 100% { background-position: 0% 0; } }
 .b__sub { max-width: 540px; margin: 28px auto 38px; font-size: 1.15rem; line-height: 1.6; color: var(--tinte-2); }
-.b__aktion { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 16px 22px; color: var(--tinte-2); }
+.b__aktion { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 14px; color: var(--tinte-2); }
 /* Buehne: das Video kippt beim Scrollen nach vorne */
 .b__buehne { position: relative; max-width: 1120px; margin: 84px auto 0; perspective: 1700px; }
 .b__glut { position: absolute; left: 8%; right: 8%; top: 20%; bottom: -6%; z-index: -1; border-radius: 50%; background: radial-gradient(closest-side, rgba(201, 168, 76, 0.55), transparent); filter: blur(40px); }

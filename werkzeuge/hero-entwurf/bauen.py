@@ -10,16 +10,16 @@ TITEL = 'Die einzige <span class="akzent">spirituelle</span> Unternehmens&shy;be
 SUB = 'Für Coaches, Trainer und Berater, die Bewusstsein &amp; Business in einem einheitlichen Kontext vereinen möchten.'
 GESICHTER = ''.join(f'<img src="/bilder/kunde-{n}.webp" width="112" height="112" alt="" />' for n in ['gabriele', 'nenad', 'andrea', 'nikolay', 'buenyamin'])
 VERTRAUEN = f'<a class="vertrauen" href="/#testimonials"><span class="vertrauen__gesichter">{GESICHTER}</span><span><strong>1.000+</strong> Unternehmer begleitet</span></a>'
-KNOPF = f'<a class="knopf" href="/termin/">Klarheitsgespräch buchen {PFEIL}</a>'
+KNOPF = f'<a class="knopf" href="/termin/">Erstgespräch buchen {PFEIL}</a>'
 HINWEIS = '<span class="hinweis">Kostenlos <i></i> Unverbindlich</span>'
 VIDEO = '<div class="video-fuellt"><iframe src="https://player.vimeo.com/video/1192498083?background=1&dnt=1" allow="autoplay; fullscreen" title="NOW Consulting Trailer" loading="eager" tabindex="-1" aria-hidden="true"></iframe></div>'
 def zahl(wert, nach, label, verzug=900):
     return f'<div class="zahl"><span class="zahl__wert" data-zaehle="{wert}" data-nach="{nach}" data-verzug="{verzug}">{wert if wert < 1000 else "1.000"}{nach}</span><span class="zahl__label">{label}</span></div>'
-Z = [zahl(1000, '+', 'Unternehmer begleitet'), zahl(98, '%', 'Kundenzufriedenheit', 1000), zahl(2, 'M+ €', 'Jahresumsatz', 1100), zahl(6, ' Jahre', 'Erfahrung', 1200)]
+Z = [zahl(1000, '+', 'Unternehmer begleitet'), zahl(98, '%', 'Kundenzufriedenheit', 1000), zahl(3, 'M+ €', 'Jahresumsatz', 1100), zahl(7, ' Jahre', 'Erfahrung', 1200)]
 
 def nav(art):
     links = ''.join(f'<a href="/#{a}">{t}</a>' for a, t in [('inhalte', 'Inhalte'), ('programme', 'Programme'), ('testimonials', 'Testimonials'), ('team', 'Unser Team'), ('faq', 'FAQ')])
-    return f'<header class="nav nav--{art}"><a class="nav__marke" href="/"><img src="/now-logo.webp" width="240" height="240" alt="" /><span>NOW Consulting</span></a><nav class="nav__links" aria-label="Hauptnavigation">{links}</nav><a class="knopf knopf--klein" href="/termin/">Klarheitsgespräch buchen</a></header>'
+    return f'<header class="nav nav--{art}"><a class="nav__marke" href="/"><img src="/now-logo.webp" width="240" height="240" alt="" /><span>NOW Consulting</span></a><nav class="nav__links" aria-label="Hauptnavigation">{links}</nav><a class="knopf knopf--klein" href="/termin/">Erstgespräch buchen</a></header>'
 
 def wahl(aktiv):
     namen = {'a': 'Tag &amp; Nacht', 'b': 'Hell', 'c': 'Nacht + Insel'}

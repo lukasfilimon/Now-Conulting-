@@ -15,12 +15,32 @@ Darkos Pupille) — Lukas fragen, ob eins davon jetzt dran ist.
   12.11.2026).** Neu ist nur das Design. Keine Texte umschreiben, kürzen
   oder "verbessern" und keine Sektionen umstellen, ohne dass Lukas es
   ausdrücklich will. Vorschläge vorher fragen, nie einfach umsetzen.
-- Knöpfe: „Klarheitsgespräch buchen“, im Schluss „Termin auswählen“, alle → `/termin/`.
+- Knöpfe: „Erstgespräch buchen“ (vorher „Klarheitsgespräch“, geändert von Lukas 13.11.2026, überall), im Schluss „Termin auswählen“, alle → `/termin/`.
 - `main` ist an das Netlify-Projekt `now-consulting` gekoppelt: **jeder Push
   auf `main` geht sofort live.** Arbeiten auf einem Zweig, Vorschau über
   `now-consulting-neu`.
 - Vor jedem Deploy `qa/pruefen.mjs`, `qa/ueberlauf.mjs`, `qa/kontrast.mjs`
   (siehe README).
+
+## Zwei Webseiten: Varianten (Entscheidung Lukas, 13.11.2026)
+
+Lukas lässt zwei vollständige Webseiten bauen und entscheidet danach:
+- **B „hell“**: Creme/Elfenbein als Grundton, Schwarz nur als Bühne
+  (Manifest, Kunde, Live Events, Abschluss, Footer), Gold nur als Akzent.
+  Überschriften Geist eng gesetzt, Akzentwörter Instrument Serif kursiv.
+  Vorschau: Netlify-Projekt `now-consulting-hell`.
+- **C „Nacht mit Insel“**: kommt als Nächstes (Vorlage: `/entwurf-hero/c/`).
+
+So ist es gebaut:
+- `index.html` im Repo-Ordner ist die **eine Textquelle** für alle
+  Varianten. Texte nur dort ändern, sie wirken überall.
+- `varianten/<name>/`: nur das, was die Variante anders macht (`hero.html`
+  mit Platzhaltern, eigenes CSS/JS, Schriften).
+- `python3 werkzeuge/variante.py hell` baut die ganze Webseite samt
+  Unterseiten nach `_ausgabe/hell/` (nicht im Git). Ausliefern aus diesem
+  Ordner, QA mit einem lokalen Server auf diesem Ordner.
+- Welche Sektionen dunkle Bühnen sind, steht in `werkzeuge/variante.py`
+  (`DUNKEL`).
 
 ## Inhaltliche Regeln (aus der alten Seite übernommen, gelten weiter)
 
@@ -30,7 +50,7 @@ Darkos Pupille) — Lukas fragen, ob eins davon jetzt dran ist.
   Selbst-Diagnose.
 - **Cross-Sell** (Money Mind, Dubai Mastermind, Retreat) gehört in
   „Erfahrungen“, nie in Programme. Die Formate verlinken nicht auf alte
-  Landingpages, der Knopf führt zum Klarheitsgespräch.
+  Landingpages, der Knopf führt zum Erstgespräch.
 - Abgrenzen: Darko-Sektion = Philosophie, „Wer ist unser Kunde“ =
   Avatar-Spiegel, sieben Schritte = Methodik, Programme = Angebots-Phasen.
 - Ton: keine Marketing-Slogans, keine generischen Coaching-Phrasen, konkrete

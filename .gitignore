@@ -1,3 +1,5 @@
 node_modules/
 package-lock.json
 qa/aufnahmen/
+_ausgabe/
+__pycache__/

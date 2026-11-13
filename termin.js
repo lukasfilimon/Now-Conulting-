@@ -53,7 +53,7 @@
         if (typeof fbq === 'function') {
           var id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
                  : 'lead-' + Date.now() + '-' + Math.random().toString(16).slice(2);
-          fbq('track', 'Lead', { content_name: 'Klarheitsgespräch', currency: 'EUR', value: 0 }, { eventID: id });
+          fbq('track', 'Lead', { content_name: 'Erstgespräch', currency: 'EUR', value: 0 }, { eventID: id });
         }
       }
     });

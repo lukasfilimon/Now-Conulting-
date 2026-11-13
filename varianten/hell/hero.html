@@ -1,0 +1,28 @@
+  <!-- 1. HERO (Variante hell) — Elfenbein mit Licht, feinen Linien, Mandala
+       und Korn. Ueberschrift mittig, darunter Darkos Video als dunkle Buehne,
+       die beim Scrollen nach vorne kippt (hell.js). Die Kennzahlen schweben
+       als Karten am Rand. Texte kommen aus der Startseite (werkzeuge/variante.py). -->
+  <section class="hero hero--hell" id="hero">
+    <div class="hh__grund" aria-hidden="true">
+      <div class="hh__licht"></div>
+      <div class="hh__linien"></div>
+      <div class="hh__mandala">{MANDALA}</div>
+      <div class="hh__korn"></div>
+    </div>
+    <div class="container hh__inhalt">
+      {VERTRAUEN}
+      {TITEL}
+      {SUB}
+      <div class="hh__aktion" data-intro style="--n:2">
+        {KNOPF}
+        {HINWEIS}
+      </div>
+      <div class="hh__buehne" data-intro-video>
+        <div class="hh__glut" aria-hidden="true"></div>
+        <div class="hh__karte" data-zuschnitt>
+          {VIDEO}
+        </div>
+        <div class="hh__zahlen zahlen">{ZAHLEN}</div>
+      </div>
+    </div>
+  </section>

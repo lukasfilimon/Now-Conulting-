@@ -35,7 +35,7 @@ const p = (name, ist, soll = true) => {
   p('1d an Vimeo nur das Hero-Video', [...new Set(anfragen.filter(u => /player\.vimeo\.com\/video\//.test(u)).map(u => u.match(/video\/(\d+)/)[1]))].join(','), '1192498083');
   p('1e Cookie-Leiste sichtbar', await page.isVisible('#cookie-bar'), true);
   p('1f genau eine h1', await page.locator('h1').count(), 1);
-  p('1g Knopftexte wie auf der alten Seite', [...new Set((await page.locator('a.btn').allTextContents()).map(t => t.replace(/\s+/g, ' ').trim()))].sort().join('|'), 'Klarheitsgespräch buchen|Termin auswählen');
+  p('1g Knopftexte wie auf der alten Seite', [...new Set((await page.locator('a.btn').allTextContents()).map(t => t.replace(/\s+/g, ' ').trim()))].sort().join('|'), 'Erstgespräch buchen|Termin auswählen');
   p('1h jeder Knopf fuehrt zu /termin/', (await page.locator('a.btn').evaluateAll(as => as.every(a => a.getAttribute('href') === '/termin/'))), true);
   const robots = await page.locator('meta[name=robots]').count();
   if (LIVE) p('1i LIVE: kein noindex auf der Startseite', robots, 0);
