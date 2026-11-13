@@ -1540,7 +1540,8 @@ body.startseite { overflow-x: visible; }
    Ueberschrift weicht nach oben, die Haende gehen auseinander und setzen
    sich ueber ihre Spalte, die Spalten bauen sich auf. Haende und Spalten
    sitzen absolut im Container und bekommen ihre Lage pro Bild. */
-.kunde--szene { padding: 0; }
+/* Unten voller Sektionsabstand wie ueberall (Lukas, 13.11.2026) */
+.kunde--szene { padding: 0 0 var(--section-pad); }
 .kunde--szene .kunde__strecke { height: 280vh; }
 .kunde--szene .kunde__buehne {
   position: sticky;
@@ -2394,9 +2395,14 @@ body.startseite { overflow-x: visible; }
 .bewegung .manifest .darko__img.ist-da .manifest__frequenz span { animation-play-state: running; }
 @keyframes frequenz { 0% { transform: scale(0.62); opacity: 0; } 18% { opacity: 0.55; } 100% { transform: scale(1.32); opacity: 0; } }
 /* Text: Absaetze nacheinander, Zitat in Gold, Unterschrift zeichnet sich */
-.manifest__titel em { background: linear-gradient(100deg, var(--gold) 0%, var(--gold) 38%, #FFF1C4 50%, var(--gold) 62%, var(--gold) 100%) 0 0 / 260% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; }
-.bewegung .manifest__titel.ist-da em { animation: glanzlauf 7s ease-in-out 1.6s infinite; }
-.manifest__titel em .wort__innen { background: inherit; -webkit-background-clip: text; background-clip: text; }
+/* Goldverlauf mit Glanz. Ist die Zeile in Woerter geteilt (bewegung.js),
+   traegt NUR jedes Wort den Verlauf: lag er zusaetzlich auf der ganzen
+   Zeile, zeichnete Chrome beim Hereinfahren der Woerter die Fuellung an
+   falscher Stelle ("Dein" und "Kontostand" uebereinander, Lukas 13.11.2026). */
+.manifest__titel em, .manifest__titel.ist-geteilt em .wort__innen { background: linear-gradient(100deg, var(--gold) 0%, var(--gold) 38%, #FFF1C4 50%, var(--gold) 62%, var(--gold) 100%) 0 0 / 260% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; }
+.manifest__titel.ist-geteilt em { background: none; -webkit-background-clip: border-box; background-clip: border-box; }
+.bewegung .manifest__titel.ist-da em, .bewegung .manifest__titel.ist-geteilt.ist-da em .wort__innen { animation: glanzlauf 7s ease-in-out 1.6s infinite; }
+.bewegung .manifest__titel.ist-geteilt.ist-da em { animation: none; }
 .manifest .darko__bio em { font-family: var(--font-display); font-size: 1.24em; line-height: 1.4; color: var(--champagner); }
 .bewegung .manifest .darko__bio,
 .bewegung .manifest .manifest__signatur { opacity: 0; transform: translateY(22px); transition: opacity 0.9s ease, transform 1.1s var(--aus); transition-delay: calc(var(--n, 0) * 130ms + 250ms); }
