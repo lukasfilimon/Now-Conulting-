@@ -226,8 +226,36 @@ body.hell {
 .hell .spiegel__daumen { background: linear-gradient(180deg, #3A332A, #14110D); box-shadow: 0 6px 18px -8px rgba(20, 17, 13, 0.6); }
 .hell .spiegel__flaeche--aussen .spiegel__marke { color: var(--text-muted); }
 .hell .spiegel__flaeche--aussen .spiegel__icon { color: var(--text-muted); background: var(--creme); box-shadow: inset 0 0 0 1px rgba(138, 106, 30, 0.2); }
-.hell .spiegel__flaeche--aussen .spiegel__satz { color: var(--tinte); }
-.hell .spiegel__flaeche--innen { box-shadow: 0 0 0 1px rgba(226, 201, 122, 0.4), 0 30px 60px -30px rgba(60, 40, 10, 0.55) !important; }
+.hell .spiegel__flaeche--aussen .spiegel__satz { color: var(--tinte); font-size: 1.16rem; line-height: 1.45; letter-spacing: -0.01em; }
+/* Innen-Karten: Vorschlag 1 "Schwarz & Linie" (gewaehlt von Lukas, 13.11.2026).
+   Mattes Schwarz, eine Goldlinie oben (waechst mit der Maus), Saetze in Geist,
+   Nummern 01-06 auf beiden Seiten. Vergleich: /entwurf-innen/ */
+.hell .spiegel__raster { counter-reset: spiegel; }
+.hell .spiegel__karte { counter-increment: spiegel; }
+.hell .spiegel__flaeche { justify-content: space-between; }
+.hell .spiegel__marke { width: 100%; }
+.hell .spiegel__marke::after { content: counter(spiegel, decimal-leading-zero); margin-left: auto; font-size: 0.8rem; font-weight: 400; letter-spacing: 0; font-variant-numeric: tabular-nums; color: rgba(20, 17, 13, 0.35); }
+.hell .spiegel__flaeche--innen {
+  gap: 46px;
+  padding: 30px 30px 32px;
+  background: #0E0C0A !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 240, 210, 0.07), 0 30px 60px -36px rgba(30, 18, 0, 0.7) !important;
+}
+.hell .spiegel__flaeche--innen::after { display: none; }
+.hell .spiegel__flaeche--innen::before { content: ''; position: absolute; left: 30px; top: 0; width: 44px; height: 2px; background: linear-gradient(90deg, #E8CF85, #C9A84C); box-shadow: 0 0 14px rgba(232, 207, 133, 0.7); transition: width 0.9s var(--aus) 0.2s; }
+.hell .spiegel__karte:hover .spiegel__flaeche--innen::before { width: calc(100% - 60px); }
+.hell .spiegel__flaeche--innen .spiegel__icon { display: none; }
+.hell .spiegel__flaeche--innen .spiegel__marke { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; color: var(--gold); }
+.hell .spiegel__flaeche--innen .spiegel__marke::after { color: rgba(244, 236, 221, 0.35); }
+.hell .spiegel__flaeche--innen .spiegel__satz { font-family: var(--font-body); font-style: normal; font-weight: 500; font-size: 1.42rem; line-height: 1.3; letter-spacing: -0.022em; color: #F4ECDD; text-wrap: pretty; }
+.hell .spiegel__schluss { max-width: 900px; font-family: var(--font-body); font-weight: 520; font-size: clamp(1.35rem, 2.4vw, 1.9rem); line-height: 1.3; letter-spacing: -0.03em; color: var(--tinte); }
+.hell .spiegel__schluss-zwei { color: var(--gold-tief); }
+@media (max-width: 760px) {
+  .hell .spiegel__flaeche--innen { gap: 30px; padding: 26px 24px 28px; }
+  .hell .spiegel__flaeche--innen::before { left: 24px; }
+  .hell .spiegel__karte:hover .spiegel__flaeche--innen::before { width: calc(100% - 48px); }
+  .hell .spiegel__flaeche--innen .spiegel__satz { font-size: 1.24rem; }
+}
 
 /* ============================================================
    ZWEI WELTEN
