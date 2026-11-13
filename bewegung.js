@@ -607,7 +607,8 @@
      Der naechste Live-Call (Mo und Mi, 10:00 Wiener Zeit) wird immer
      eingetragen, auch ohne Bewegung: das ist Inhalt, keine Animation.
      Alles andere nur mit html.bewegung: Kacheln steigen gestaffelt auf,
-     die Agenda hakt sich ab, die Uhr laeuft, der Chat baut sich auf.
+     Agenda und Aufgaben haken sich ab, die Termine erscheinen, der Chat
+     baut sich auf (Frage, "nimmt Audio auf ...", Sprachmemo).
      ============================================================ */
   var kacheln = document.querySelector('.kacheln');
   if (kacheln) (function () {
@@ -648,7 +649,6 @@
 
     // 7b. Kacheln erscheinen gestaffelt, jede spielt ihren Ablauf einmal ab
     var liste = Array.prototype.slice.call(kacheln.querySelectorAll('.kachel'));
-    kacheln.querySelectorAll('.spieler__welle span').forEach(function (s, i) { s.style.setProperty('--i', i); });
     function staffeln() {
       var spalten = getComputedStyle(kacheln).gridTemplateColumns.split(' ').length || 1;
       var spalte = 0;

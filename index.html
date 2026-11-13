@@ -515,15 +515,16 @@
   </section>
 
   <!-- NEU (Entwurf, 13.11.2026): SO FUEHLT SICH ZUSAMMENARBEIT AN.
-       Fakten von Lukas: ausschliesslich 1:1; zwei Live-Calls pro Woche mit
-       Darko (Montag und Mittwoch, 10 Uhr) zusaetzlich zu den 1:1 Calls;
+       Fakten von Lukas: ausschliesslich 1:1; zwei Live-Calls pro Woche
+       (Montag 10 Uhr Mindset-Call mit Darko, Mittwoch 10 Uhr Vertriebscall
+       mit Lukas) zusaetzlich zu den 1:1 Calls;
        taeglicher WhatsApp-Support; Meditationsbibliothek; kein Kick-off,
        sondern direkt eine Beratung (Geschaeftsmodell, Zielgruppe,
        Angebotsstruktur, Vertriebsweg); ab Woche 2 Umsetzung, vor allem im
        Vertrieb, dazu Content fuer Marketing und Social Media, individuell.
        Jede Kachel ist eine kleine Oberflaeche, die beim Hereinscrollen
        anspringt (bewegung.js). Der Chat ist eine Darstellung, keine echte
-       Unterhaltung, und ist im Kopf als "Beispiel" gekennzeichnet.
+       Unterhaltung (Absender "NOW Kundenberater", Sprachmemo 10:23).
        Ohne JavaScript oder bei "Bewegung reduzieren" steht der Endzustand. -->
   <section class="section zusammenarbeit" id="zusammenarbeit" aria-labelledby="zusammenarbeitTitel">
     <div class="container">
@@ -533,27 +534,28 @@
         <p class="section__subtitle">Dazu zwei Live-Calls pro Woche, täglicher WhatsApp-Support und eine Meditationsbibliothek.</p>
       </div>
 
+      <!-- Kacheln nach Lukas' Wahl (13.11.2026): Oberflaechen wie echte Apps,
+           die 1:1 Beratung als Foto mit Glas-Bausteinen. Farben kommen aus
+           Variablen (--ui-*, --wa-*): dunkel in seite.css, hell in hell.css. -->
       <div class="kacheln">
         <!-- 1:1 Beratung -->
         <article class="kachel kachel--beratung">
-          <div class="kachel__ui anruf" aria-hidden="true">
-            <div class="anruf__leiste"><span class="anruf__punkt"></span>1:1 Beratung</div>
-            <div class="anruf__kacheln">
-              <div class="anruf__person anruf__person--spricht">
-                <img src="/bilder/team-darko.webp" width="640" height="648" alt="" loading="lazy" />
-                <span class="anruf__name">Darko · Gründer</span>
-              </div>
-              <div class="anruf__person">
-                <img src="/bilder/team-lukas.webp" width="640" height="853" alt="" loading="lazy" />
-                <span class="anruf__name">Lukas · Kundenberater</span>
-              </div>
+          <div class="kachel__ui kachel__ui--foto" aria-hidden="true">
+            <img class="kachel__foto" src="/bilder/schritt-1.webp" width="900" height="675" alt="" loading="lazy" />
+            <div class="ui-glas beratung__wer">
+              <span class="beratung__avatare"><img src="/bilder/team-darko.webp" width="640" height="648" alt="" loading="lazy" /><img src="/bilder/team-lukas.webp" width="640" height="853" alt="" loading="lazy" /></span>
+              <span class="beratung__name"><b>1:1 Beratung</b><small>Darko &amp; dein Kundenberater</small></span>
+              <span class="beratung__live">Live</span>
             </div>
-            <ul class="agenda-liste">
-              <li style="--n:0">Geschäftsmodell</li>
-              <li style="--n:1">Zielgruppe</li>
-              <li style="--n:2">Angebotsstruktur</li>
-              <li style="--n:3">Vertriebsweg</li>
-            </ul>
+            <div class="ui-glas beratung__agenda">
+              <p class="ui-klein">Heute im Call</p>
+              <ul class="ui-liste agenda-liste">
+                <li class="ok" style="--n:0"><span class="ui-haken"></span>Geschäftsmodell</li>
+                <li class="ok" style="--n:1"><span class="ui-haken"></span>Zielgruppe</li>
+                <li class="ok" style="--n:2"><span class="ui-haken"></span>Angebotsstruktur</li>
+                <li class="jetzt" style="--n:3"><span class="ui-haken"></span>Vertriebsweg</li>
+              </ul>
+            </div>
           </div>
           <div class="kachel__text">
             <h3 class="kachel__titel">1:1 Beratung</h3>
@@ -561,18 +563,16 @@
           </div>
         </article>
 
-        <!-- Live-Calls -->
+        <!-- Live-Calls: Mo Mindset-Call, Mi Vertriebscall (der naechste wird markiert) -->
         <article class="kachel kachel--kalender">
-          <div class="kachel__ui woche" aria-hidden="true">
-            <div class="woche__kopf"><span>Deine Woche</span><span class="woche__naechster" data-naechster>Mo &amp; Mi · 10:00</span></div>
-            <div class="woche__tage">
-              <div class="woche__tag" data-tag="1"><span class="woche__kuerzel">Mo</span><span class="termin termin--live"><b>10:00</b> Mindset-Call</span></div>
-              <div class="woche__tag" data-tag="2"><span class="woche__kuerzel">Di</span></div>
-              <div class="woche__tag" data-tag="3"><span class="woche__kuerzel">Mi</span><span class="termin termin--live"><b>10:00</b> Vertriebs&shy;call</span></div>
-              <div class="woche__tag" data-tag="4"><span class="woche__kuerzel">Do</span></div>
-              <div class="woche__tag" data-tag="5"><span class="woche__kuerzel">Fr</span></div>
+          <div class="kachel__ui" aria-hidden="true">
+            <div class="ui-karte kal">
+              <div class="kal__kopf"><b>Deine Woche</b><span data-naechster>Mo &amp; Mi · 10:00</span></div>
+              <div class="kal__tage"><span class="kal__tag kal__tag--call" data-tag="1">Mo</span><span class="kal__tag" data-tag="2">Di</span><span class="kal__tag kal__tag--call" data-tag="3">Mi</span><span class="kal__tag" data-tag="4">Do</span><span class="kal__tag" data-tag="5">Fr</span></div>
+              <div class="kal__termin" data-tag="1" style="--n:0"><i></i><span class="kal__zeit">10:00</span><b>Mindset-Call</b><span class="kal__wann">Mo</span></div>
+              <div class="kal__termin" data-tag="3" style="--n:1"><i></i><span class="kal__zeit">10:00</span><b>Vertriebscall</b><span class="kal__wann">Mi</span></div>
+              <p class="kal__fuss">1:1 Calls nach Absprache</p>
             </div>
-            <p class="woche__eins"><span class="termin termin--eins">1:1 Calls</span> nach Absprache, dazwischen</p>
           </div>
           <div class="kachel__text">
             <h3 class="kachel__titel">Zwei Live-Calls pro Woche</h3>
@@ -580,18 +580,19 @@
           </div>
         </article>
 
-        <!-- WhatsApp -->
+        <!-- WhatsApp: Frage, "nimmt Audio auf ...", dann 10 Minuten Sprachmemo -->
         <article class="kachel kachel--chat">
-          <div class="kachel__ui chat" aria-hidden="true">
-            <div class="chat__kopf"><img class="chat__logo" src="/now-logo.webp" width="240" height="240" alt="" loading="lazy" /><span class="chat__wer"><span>NOW Kundenberater</span><span class="chat__status"><span class="chat__online">online</span><span class="chat__nimmt">nimmt Audio auf …</span></span></span><span class="chat__beispiel">Beispiel</span></div>
-            <div class="chat__verlauf">
-              <p class="blase blase--du">Ich hatte gerade einen Sales-Call, in dem die Kundin keine Entscheidung treffen konnte. Kannst du in die Aufzeichnung hineinhören und mir Feedback geben?<span class="blase__zeit">14:05 <svg class="blase__haken" viewBox="0 0 18 11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6l3.2 3.2L11 1.6M6.6 9.2l.6.6L16.6 1.6"/></svg></span></p>
-              <div class="blase blase--berater sprachmemo">
-                <span class="sprachmemo__play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.8v14.4L19 12z"/></svg></span>
-                <span class="sprachmemo__spur"><span class="sprachmemo__welle"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="sprachmemo__punkt"></span></span>
-                <span class="sprachmemo__bild"><img class="chat__logo" src="/now-logo.webp" width="240" height="240" alt="" loading="lazy" /><span class="sprachmemo__mikro"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-3.1A7 7 0 0 0 19 11z"/></svg></span></span>
-                <span class="sprachmemo__dauer">10:00</span>
-                <span class="blase__zeit">14:38</span>
+          <div class="kachel__ui" aria-hidden="true">
+            <div class="wa">
+              <div class="wa__kopf"><img src="/now-logo.webp" width="240" height="240" alt="" loading="lazy" /><span class="wa__wer"><b>NOW Kundenberater</b><small><span class="wa__online">online</span><span class="wa__nimmt">nimmt Audio auf …</span></small></span><span class="wa__icons"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2.5"/><path d="M16 10.5l5-3v9l-5-3z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span></div>
+              <div class="wa__verlauf">
+                <p class="wa__blase wa__blase--aus blase--du">Ich hatte gerade einen Sales-Call, in dem die Kundin keine Entscheidung treffen konnte. Kannst du in die Aufzeichnung hineinhören und mir Feedback geben?<span class="wa__zeit">14:05 <svg class="wa__haken" viewBox="0 0 18 11" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6l3.2 3.2L11 1.5M7.5 8.4l.9.8L15.2 1.5"/></svg></span></p>
+                <div class="wa__blase wa__blase--ein wa__memo blase--berater">
+                  <span class="wa__play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.8v14.4L19 12z"/></svg></span>
+                  <span class="wa__spur"><span class="wa__punkt"></span><span class="wa__welle"><i style="--h:11px"></i><i style="--h:14px"></i><i style="--h:19px"></i><i style="--h:18px"></i><i style="--h:19px"></i><i style="--h:20px"></i><i style="--h:17px"></i><i style="--h:19px"></i><i style="--h:18px"></i><i style="--h:16px"></i><i style="--h:9px"></i><i style="--h:11px"></i><i style="--h:12px"></i><i style="--h:19px"></i><i style="--h:20px"></i><i style="--h:16px"></i><i style="--h:22px"></i><i style="--h:21px"></i><i style="--h:18px"></i><i style="--h:15px"></i><i style="--h:10px"></i><i style="--h:8px"></i><i style="--h:14px"></i><i style="--h:12px"></i><i style="--h:14px"></i><i style="--h:15px"></i><i style="--h:14px"></i><i style="--h:16px"></i><i style="--h:15px"></i><i style="--h:16px"></i></span></span>
+                  <span class="wa__bild"><img src="/now-logo.webp" width="240" height="240" alt="" loading="lazy" /><span class="wa__mikro"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 14a3 3 0 0 0 3-3V5a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.9V21h2v-3.1A7 7 0 0 0 19 11z"/></svg></span></span>
+                  <span class="wa__dauer">10:23</span><span class="wa__zeit wa__zeit--memo">14:38</span>
+                </div>
               </div>
             </div>
           </div>
@@ -601,15 +602,13 @@
           </div>
         </article>
 
-        <!-- Meditationsbibliothek -->
+        <!-- Meditationsbibliothek: Player (Titel und Laenge sind ein Beispiel) -->
         <article class="kachel kachel--meditation">
-          <div class="kachel__ui spieler" aria-hidden="true">
-            <div class="spieler__kopf">
-              <span class="spieler__knopf"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l10.5-6.5z"/></svg></span>
-              <span class="spieler__titel"><strong>Geführte Meditation</strong><span>mit Darko · Bibliothek</span></span>
-            </div>
-            <div class="spieler__welle">
-              <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          <div class="kachel__ui" aria-hidden="true">
+            <div class="ui-karte spieler">
+              <div class="spieler__oben"><span class="spieler__cover"><img src="/bilder/mandala-linie.svg" width="120" height="120" alt="" loading="lazy" /></span><span class="spieler__info"><span class="ui-klein">Bibliothek</span><b>Vom Mangel in die Fülle</b><span>Darko · 18 Min</span></span></div>
+              <div class="spieler__leiste"><span class="spieler__spur"><span></span></span><span class="spieler__zeiten"><span>6:08</span><span>−11:52</span></span></div>
+              <div class="spieler__tasten"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/><text x="12" y="15.2" font-size="7" text-anchor="middle" fill="currentColor" stroke="none" font-weight="600">15</text></svg></span><span class="spieler__play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.8v14.4L19 12z"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 12a8 8 0 1 1-2.4-5.7"/><path d="M20 4v4h-4"/><text x="12" y="15.2" font-size="7" text-anchor="middle" fill="currentColor" stroke="none" font-weight="600">15</text></svg></span></div>
             </div>
           </div>
           <div class="kachel__text">
@@ -618,15 +617,17 @@
           </div>
         </article>
 
-        <!-- Umsetzung -->
+        <!-- Umsetzung nach jedem Call -->
         <article class="kachel kachel--umsetzung">
-          <div class="kachel__ui schritte-liste" aria-hidden="true">
-            <div class="schritte-liste__kopf"><span>Nach deinem letzten Call</span><span class="chat__beispiel">Beispiel</span></div>
-            <ul>
-              <li class="erledigt" style="--n:0"><span class="schritte-liste__haken"></span>Preis für dein Angebot neu festlegen<em>Angebot</em></li>
-              <li class="erledigt" style="--n:1"><span class="schritte-liste__haken"></span>Leitfaden fürs Erstgespräch schärfen<em>Vertrieb</em></li>
-              <li style="--n:2"><span class="schritte-liste__haken"></span>3 Reels aus Kundenfragen drehen<em>Content</em></li>
-            </ul>
+          <div class="kachel__ui" aria-hidden="true">
+            <div class="ui-karte todo">
+              <div class="todo__kopf"><b>Nach deinem letzten Call</b><span class="ui-chip">Beispiel</span></div>
+              <ul class="ui-liste todo__liste">
+                <li class="ok" style="--n:0"><span class="ui-haken"></span><span class="todo__text">Preis für dein Angebot neu festlegen</span><em>Angebot</em></li>
+                <li class="ok" style="--n:1"><span class="ui-haken"></span><span class="todo__text">Leitfaden fürs Erstgespräch schärfen</span><em>Vertrieb</em></li>
+                <li style="--n:2"><span class="ui-haken"></span><span class="todo__text">3 Reels aus Kundenfragen drehen</span><em>Content</em></li>
+              </ul>
+            </div>
           </div>
           <div class="kachel__text">
             <h3 class="kachel__titel">Umsetzung nach jedem Call</h3>

@@ -42,7 +42,7 @@ body.hell {
   color: var(--text);
 }
 /* Dunkle Inseln in hellen Sektionen: Videos, Mini-Oberflaechen, Innen-Seite */
-.hell .spiegel__flaeche--innen, .hell .kachel__ui, .hell .hh__karte, .hell .testi-video__poster, .hell .phase--gold,
+.hell .spiegel__flaeche--innen, .hell .hh__karte, .hell .testi-video__poster, .hell .phase--gold,
 .hell .cookie-bar, .hell .legal-overlay, .hell .legal-modal {
   --text: #EFE6D6; --text-muted: #B3AA9C; --text-dim: #8A8276; --white: #F6EFE2; --champagner: #E2C97A;
 }
@@ -358,16 +358,38 @@ body.hell {
 /* ============================================================
    RUNDE 3 (Lukas, 13.11.2026)
    ============================================================ */
-/* Zusammenarbeit: Titel in Geist ("1:1" statt "l:l"), Oberflaechen in mattem
-   Schwarz wie die Innen-Karten, Gold nur noch als Akzent */
+/* Zusammenarbeit: Titel in Geist ("1:1" statt "l:l") */
 .hell .kachel__titel { font-family: var(--font-body); font-weight: 560; font-size: 1.35rem; letter-spacing: -0.025em; }
-.hell .kachel__ui { background: #0E0C0A; box-shadow: inset 0 0 0 1px rgba(255, 240, 210, 0.07); }
-.hell .kachel__ui.chat { background: #0B141A; }
-.hell .anruf__leiste, .hell .woche__kopf, .hell .schritte-liste__kopf { color: #F4ECDD; }
-.hell .agenda-liste li, .hell .woche__tag, .hell .schritte-liste li { background: rgba(255, 255, 255, 0.045); }
-.hell .anruf__person { background: #1A1714; }
-.hell .spieler__titel strong { color: #F4ECDD; }
-.hell .kachel__ui { --text: #F4ECDD; --text-muted: #A39C91; }
+/* Mini-Oberflaechen hell wie echte Apps (Lukas' Wahl, 13.11.2026): weisse
+   Karten auf Sand, Gold nur fuer Haken und Termine, WhatsApp im hellen
+   Modus. Die 1:1 Beratung ist ein Foto mit hellen Glas-Bausteinen. */
+.hell .kacheln {
+  --ui-flaeche: linear-gradient(180deg, #F5EFE3, #EFE7D7);
+  --ui-rand: rgba(138, 106, 30, 0.1);
+  --ui-karte: #FFFFFF;
+  --ui-karte-rand: rgba(20, 17, 13, 0.05);
+  --ui-schatten: 0 8px 20px -14px rgba(60, 40, 10, 0.35);
+  --ui-text: #14110D;
+  --ui-text-2: #6B6256;
+  --ui-linie: rgba(20, 17, 13, 0.07);
+  --ui-akzent: #FBF5E6;
+  --ui-akzent-text: #7A5C14;
+  --ui-tag: #F6F1E7;
+  --ui-cover: radial-gradient(circle at 50% 50%, #FFF9EA, #F1E3C2 70%);
+  --ui-spur: #EEE7D9;
+  --ui-haken-rand: rgba(138, 106, 30, 0.35);
+  --ui-glas: rgba(255, 252, 246, 0.8);
+  --ui-glas-rand: rgba(255, 255, 255, 0.6);
+  --wa-grund: #EFEAE2;
+  --wa-muster-farbe: rgba(0, 0, 0, 0.045);
+  --wa-kopf: #FFFFFF;
+  --wa-aus: #D9FDD3;
+  --wa-ein: #FFFFFF;
+  --wa-text: #111B21;
+  --wa-meta: #667781;
+  --wa-icon: #54656F;
+  --wa-welle: #B4BEC4;
+}
 
 /* Testimonials: Endlos-Laufband (hell.js), am Handy normales Wischen */
 .hell [data-laufband] .karussell__pfeil, .hell [data-laufband] .karussell__fortschritt { display: none; }

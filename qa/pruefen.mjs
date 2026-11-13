@@ -117,7 +117,7 @@ const p = (name, ist, soll = true) => {
     }
     await new Promise(r => setTimeout(r, 5200));
     const naechster = sek.querySelector('[data-naechster]').textContent;
-    const tag = sek.querySelectorAll('.woche__tag.ist-naechster').length;
+    const tag = sek.querySelectorAll('.kal__tag.ist-naechster').length;
     const kacheln = [...sek.querySelectorAll('.kachel')].filter(k => getComputedStyle(k).opacity === '1').length;
     const antwort = getComputedStyle(sek.querySelector('.blase--berater')).opacity;
     return /^Nächster: (Heute|Morgen|Mo|Mi) · 10:00$/.test(naechster) && tag === 1 && kacheln === 5 && antwort === '1' ? 'ok' : [naechster, tag, kacheln, antwort].join('/');
@@ -241,7 +241,7 @@ for (const [name, opts] of [['reduzierte Bewegung', { reducedMotion: 'reduce' }]
     innen: [...document.querySelectorAll('.spiegel__flaeche--innen')].filter(f => f.getBoundingClientRect().height > 40 && getComputedStyle(f).opacity === '1').length,
     schritte: [...document.querySelectorAll('.schritt')].filter(a => a.getBoundingClientRect().height > 50 && getComputedStyle(a).visibility !== 'hidden').length,
     texte: [...document.querySelectorAll('.schritt__text p')].every(p => getComputedStyle(p).opacity === '1'),
-    kacheln: [...document.querySelectorAll('.kachel, .blase--du, .blase--berater, .termin, .verlauf__felder span')].every(e => getComputedStyle(e).opacity === '1'),
+    kacheln: [...document.querySelectorAll('.kachel, .blase--du, .blase--berater, .kal__termin')].every(e => getComputedStyle(e).opacity === '1'),
     runde2: [...document.querySelectorAll('.darko__bio, .manifest__signatur, .phase__liste li, .stimmen .testi-card, .fuss__leitsatz span, .section__title')].every(e => getComputedStyle(e).opacity === '1')
       && [...document.querySelectorAll('[data-zaehle]')].map(z => z.textContent).join('/') === '10.000/100.000'
       && !document.querySelector('.titel-woerter'),

@@ -54,7 +54,7 @@ def wa_blasen():
             f'<div class="wa__blase wa__blase--ein wa__memo"><span class="wa__play">{ICON["play"]}</span>'
             f'<span class="wa__spur"><span class="wa__punkt"></span>{welle()}</span>'
             f'<span class="wa__bild"><img src="/now-logo.webp" alt="" width="240" height="240" /><span class="wa__mikro">{ICON["mikro"]}</span></span>'
-            f'<span class="wa__dauer">10:00</span><span class="wa__zeit wa__zeit--memo">14:38</span></div>')
+            f'<span class="wa__dauer">10:23</span><span class="wa__zeit wa__zeit--memo">14:38</span></div>')
 
 def agenda(cls, erledigt=3):
     return (f'<ul class="{cls}">' + ''.join(
