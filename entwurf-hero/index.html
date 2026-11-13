@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Hero-Entwürfe · NOW Consulting</title>
+<link rel="icon" href="/favicon-32.png" />
+<link rel="stylesheet" href="/entwurf-hero/gemeinsam.css" />
+<style>
+body { background: #0D0B09; color: #F4ECDD; padding: 0; }
+.uebersicht { width: min(1180px, 100% - 40px); margin: 0 auto; padding: 72px 0 96px; }
+.uebersicht h1 { margin: 0 0 12px; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 520; letter-spacing: -0.035em; }
+.uebersicht h1 em { font-family: 'Instrument Serif', serif; font-weight: 400; color: #E8CF85; }
+.uebersicht > p { max-width: 640px; margin: 0 0 48px; color: #B9AF9F; line-height: 1.6; }
+.karten { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.karte { display: block; text-decoration: none; border-radius: 22px; overflow: hidden; background: #17130F; box-shadow: 0 0 0 1px rgba(232, 207, 133, 0.18); transition: transform 0.5s var(--aus), box-shadow 0.4s ease; }
+.karte:hover { transform: translateY(-4px); box-shadow: 0 0 0 1px rgba(232, 207, 133, 0.6), 0 30px 60px -30px rgba(201, 168, 76, 0.5); }
+.karte img { width: 100%; aspect-ratio: 960 / 572; object-fit: cover; }
+.karte div { padding: 20px 22px 24px; }
+.karte b { display: block; font-size: 1.2rem; font-weight: 600; letter-spacing: -0.01em; }
+.karte span { display: block; margin-top: 6px; font-size: 0.92rem; line-height: 1.55; color: #B9AF9F; }
+@media (max-width: 860px) { .karten { grid-template-columns: minmax(0, 1fr); } }
+</style>
+</head>
+<body>
+<main class="uebersicht">
+  <h1>Drei Heroes, <em>drei Farbsysteme</em></h1>
+  <p>Schwarz, Gold und Creme, jeweils anders verteilt. Auf jeder Seite schaltest du oben zwischen A, B und C um, und mit „Schrift“ zwischen neuer Schrift und der Schrift der jetzigen Seite. Am besten auch am Handy ansehen.</p>
+  <div class="karten">
+    <a class="karte" href="/entwurf-hero/a/"><img src="/entwurf-hero/vorschau-a.webp" alt="Entwurf A" width="960" height="572" /><div><b>A · Tag und Nacht</b><span>Geteilter Bildschirm: links Creme mit Text, rechts Darko im Dunkeln. Auf der Naht ein Mandala, halb im Tag, halb in der Nacht. Mit der Maus wird die Seite unter dir größer.</span></div></a>
+    <a class="karte" href="/entwurf-hero/b/"><img src="/entwurf-hero/vorschau-b.webp" alt="Entwurf B" width="960" height="572" /><div><b>B · Hell</b><span>Elfenbein mit Körnung, Licht und feinem Mandala. Große Überschrift, darunter Darkos Video als dunkle Bühne, die beim Scrollen nach vorne kippt.</span></div></a>
+    <a class="karte" href="/entwurf-hero/c/"><img src="/entwurf-hero/vorschau-c.webp" alt="Entwurf C" width="960" height="572" /><div><b>C · Nacht mit Insel</b><span>Darkos Video über den ganzen Bildschirm, die Überschrift groß darauf. Untertitel und Knopf auf einer hellen Creme-Insel, Trailer im runden Knopf.</span></div></a>
+  </div>
+</main>
+<script src="/entwurf-hero/gemeinsam.js"></script>
+</body>
+</html>
