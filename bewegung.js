@@ -523,6 +523,8 @@
     function textPasst() {
       var hoch = liste.clientHeight;
       if (hoch < 120) return false;
+      // Die Liste links muss in die Karte passen, sonst ragt sie heraus
+      if (!schritte.classList.contains('schritte--schmal') && nav && nav.scrollHeight > nav.clientHeight + 1) return false;
       return artikel.every(function (a) {
         var t = a.querySelector('.schritt__text');
         var bild = a.querySelector('.schritt__bild');

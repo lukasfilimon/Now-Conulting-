@@ -1,0 +1,282 @@
+/* Zusammenarbeit: drei Vorschlaege fuer die Kacheln (Entwurf 13.11.2026)
+   Gebaut von werkzeuge/kachel-entwurf/bauen.py */
+:root {
+  --tinte: #14110D;
+  --tinte-2: #5C5346;
+  --tinte-3: #8A8072;
+  --creme: #F1E9DB;
+  --elfenbein: #F7F2E9;
+  --karte: #FFFCF6;
+  --gold: #C9A84C;
+  --gold-hell: #E8CF85;
+  --gold-tief: #7A5C14;
+  --folie: linear-gradient(135deg, #EED79A 0%, #C9A84C 42%, #F3E1A8 62%, #B48E3A 100%);
+  --aus: cubic-bezier(0.23, 1, 0.32, 1);
+  --sans: 'Geist', ui-sans-serif, system-ui, sans-serif;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --korn: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  --wa-muster: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><g fill='none' stroke='%23000' stroke-opacity='.055' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'><circle cx='18' cy='20' r='7'/><path d='M60 12l4 8 9 1-7 6 2 9-8-5-8 5 2-9-7-6 9-1z'/><path d='M94 24c6-7 15 2 8 8-5 4-13-2-8-8z'/><rect x='12' y='62' width='17' height='12' rx='3'/><path d='M50 70q8-10 16 0t16 0'/><circle cx='102' cy='70' r='4'/><path d='M16 106l8-8 8 8'/><path d='M60 102h16M68 94v16'/><path d='M94 100a8 8 0 1 0 16 0'/></g></svg>");
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+body { margin: 0; font-family: var(--sans); color: var(--tinte); background: var(--creme); -webkit-font-smoothing: antialiased; font-synthesis: none; }
+img { display: block; max-width: 100%; }
+figure { margin: 0; }
+
+.leiste { position: sticky; top: 0; z-index: 10; display: flex; gap: 6px; align-items: center; justify-content: center; flex-wrap: wrap; padding: 10px 14px; background: rgba(13, 11, 9, 0.92); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); color: #EDE4D3; font-size: 0.85rem; }
+.leiste span { opacity: 0.6; margin-right: 8px; }
+.leiste a { color: inherit; text-decoration: none; padding: 7px 14px; border-radius: 999px; }
+.leiste a:hover { background: rgba(255, 255, 255, 0.08); }
+.leiste .zurueck { margin-left: 8px; color: #E8CF85; }
+
+.vorschlag { position: relative; padding: 90px 20px 100px; background: var(--korn) 0 0 / 180px 180px, radial-gradient(60% 45% at 92% 0%, rgba(201, 168, 76, 0.11), transparent 60%), var(--creme); background-blend-mode: soft-light, normal, normal; }
+.vorschlag + .vorschlag { border-top: 1px solid rgba(138, 106, 30, 0.25); }
+.vorschlag__kopf { max-width: 760px; margin: 0 auto 40px; text-align: center; }
+.vorschlag__nr { display: inline-block; padding: 5px 12px; border-radius: 999px; background: var(--tinte); color: var(--gold-hell); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.vorschlag__kopf h2 { margin: 14px 0 8px; font-size: clamp(2rem, 4vw, 3rem); font-weight: 520; letter-spacing: -0.035em; }
+.vorschlag__kopf p { margin: 0; color: var(--tinte-2); line-height: 1.6; }
+
+/* --- Raster und Karte wie auf der Webseite ------------------------ */
+.raster { list-style: none; margin: 0 auto; padding: 0; max-width: 1092px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.karte { display: flex; flex-direction: column; min-width: 0; padding: 14px 14px 26px; border-radius: 24px; background: var(--karte); box-shadow: 0 0 0 1px rgba(138, 106, 30, 0.13), 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 28px 60px -36px rgba(70, 45, 10, 0.32); transition: translate 0.6s var(--aus), box-shadow 0.45s ease; }
+.karte:hover { translate: 0 -4px; box-shadow: 0 0 0 1px rgba(138, 106, 30, 0.3), 0 34px 70px -34px rgba(70, 45, 10, 0.4); }
+.karte--breit { grid-column: span 2; }
+.karte h3 { margin: 0 0 8px; padding: 0 12px; font-size: 1.35rem; font-weight: 560; letter-spacing: -0.025em; line-height: 1.2; }
+.karte .text { margin: 0; padding: 0 12px; font-size: 0.92rem; line-height: 1.65; color: var(--tinte-2); }
+.ui { position: relative; height: 250px; border-radius: 16px; overflow: hidden; margin-bottom: 22px; font-size: 12px; line-height: 1.35; color: var(--tinte); }
+.ui ul { list-style: none; margin: 0; padding: 0; }
+.ui p { margin: 0; }
+
+/* Haken (alle Vorschlaege, Farbe je Vorschlag) */
+.haken { position: relative; flex: none; width: 16px; height: 16px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px rgba(138, 106, 30, 0.35); }
+.ok .haken::after { content: ''; position: absolute; left: 5px; top: 4px; width: 6px; height: 3px; border-left: 1.6px solid #fff; border-bottom: 1.6px solid #fff; rotate: -45deg; }
+.jetzt .haken { box-shadow: inset 0 0 0 1.5px var(--gold); }
+.jetzt .haken::after { content: ''; position: absolute; inset: 4px; border-radius: 50%; background: var(--gold); animation: puls 1.6s ease-in-out infinite; }
+@keyframes puls { 50% { opacity: 0.25; } }
+
+/* --- WhatsApp (V1 und V3: ganzes Fenster, V2: nur Blasen) ---------- */
+.wa { display: flex; flex-direction: column; height: 100%; border-radius: 12px; overflow: hidden; background: var(--wa-muster) 0 0 / 120px 120px, #EFEAE2; box-shadow: 0 0 0 1px rgba(20, 17, 13, 0.06), 0 10px 24px -16px rgba(60, 40, 10, 0.35); }
+.wa--sand { background: var(--wa-muster) 0 0 / 120px 120px, #EADFC9; }
+.wa__kopf { display: flex; align-items: center; gap: 9px; padding: 8px 12px; background: #fff; border-bottom: 1px solid rgba(0, 0, 0, 0.06); }
+.wa--sand .wa__kopf { background: #FBF7EF; }
+.wa__kopf img { width: 28px; height: 28px; border-radius: 50%; object-fit: contain; background: var(--karte); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06); }
+.wa__wer b { display: block; font-size: 12.5px; font-weight: 600; color: #111B21; }
+.wa__wer small { display: block; font-size: 10.5px; color: #667781; }
+.wa__icons { margin-left: auto; display: flex; gap: 14px; color: #54656F; }
+.wa__icons svg { width: 17px; height: 17px; }
+.wa__verlauf { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 7px; padding: 10px 12px; }
+.wa__blase { position: relative; max-width: 88%; margin: 0; padding: 6px 8px 5px; border-radius: 8px; font-size: 11.5px; line-height: 1.38; color: #111B21; box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13); }
+.wa__blase--aus { align-self: flex-end; background: #D9FDD3; border-top-right-radius: 0; }
+.wa__blase--aus::before { content: ''; position: absolute; top: 0; right: -6px; width: 0; height: 0; border-top: 8px solid #D9FDD3; border-right: 6px solid transparent; }
+.wa__blase--ein { align-self: flex-start; background: #fff; border-top-left-radius: 0; }
+.wa__blase--ein::before { content: ''; position: absolute; top: 0; left: -6px; width: 0; height: 0; border-top: 8px solid #fff; border-left: 6px solid transparent; }
+.wa__zeit { float: right; display: inline-flex; align-items: center; gap: 3px; margin: 5px 0 -3px 10px; font-size: 9.5px; color: #667781; }
+.wa__zeit svg { width: 15px; height: 10px; }
+.wa__memo { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-rows: auto auto; align-items: center; column-gap: 9px; width: 88%; padding: 7px 9px 5px; }
+.wa__play { grid-area: 1 / 1; color: #54656F; display: grid; }
+.wa__play svg { width: 20px; height: 20px; }
+.wa__spur { grid-area: 1 / 2; position: relative; display: flex; align-items: center; height: 26px; min-width: 0; }
+.wa__welle { display: flex; align-items: center; gap: 2px; overflow: hidden; }
+.wa__welle i { flex: none; width: 2.5px; height: var(--h); border-radius: 2px; background: #B4BEC4; }
+.wa__punkt { position: absolute; left: -2px; top: 50%; translate: 0 -50%; width: 11px; height: 11px; border-radius: 50%; background: #00A884; box-shadow: 0 0 0 2px #fff; z-index: 1; }
+.wa__bild { grid-area: 1 / 3 / 3 / 4; position: relative; width: 38px; height: 38px; }
+.wa__bild img { width: 38px; height: 38px; border-radius: 50%; object-fit: contain; background: var(--karte); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06); }
+.wa__mikro { position: absolute; left: -5px; bottom: -2px; display: grid; place-items: center; width: 17px; height: 17px; border-radius: 50%; background: #fff; color: #00A884; }
+.wa__mikro svg { width: 12px; height: 12px; }
+.wa__dauer { grid-area: 2 / 2; font-size: 9.5px; color: #667781; }
+.wa__zeit--memo { grid-area: 2 / 2; justify-self: end; float: none; margin: 0; }
+
+/* ==================================================================
+   1  HELL WIE ECHTE APPS
+   ================================================================== */
+.v1-ui { padding: 16px; background: linear-gradient(180deg, #F5EFE3, #EFE7D7); box-shadow: inset 0 0 0 1px rgba(138, 106, 30, 0.1); }
+.v1-fl { border-radius: 12px; background: #fff; box-shadow: 0 0 0 1px rgba(20, 17, 13, 0.05), 0 8px 20px -14px rgba(60, 40, 10, 0.35); }
+.v1-klein { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tinte-3); }
+.v1 .ok .haken { background: linear-gradient(180deg, #D9B759, #B08A30); box-shadow: none; }
+.v1-chip { padding: 3px 8px; border-radius: 999px; background: #F4EEE2; font-size: 9.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tinte-3); }
+
+/* 1:1 */
+.v1-anruf { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); gap: 12px 14px; }
+.v1-anruf__kopf { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; }
+.v1-anruf__wer { margin-left: auto; font-weight: 400; color: var(--tinte-3); }
+.rec { width: 7px; height: 7px; border-radius: 50%; background: #E5484D; box-shadow: 0 0 0 3px rgba(229, 72, 77, 0.15); }
+.v1-anruf__bilder { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; min-height: 0; }
+.v1-anruf__bilder figure { position: relative; min-height: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 0 0 1px rgba(20, 17, 13, 0.06); }
+.v1-anruf__bilder figure:first-child { box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px #C9A84C; }
+.v1-anruf__bilder img { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; }
+.v1-anruf__bilder figcaption { position: absolute; left: 8px; bottom: 8px; padding: 3px 8px; border-radius: 999px; background: rgba(255, 255, 255, 0.86); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); font-size: 10.5px; font-weight: 500; }
+.v1-agenda { display: flex; flex-direction: column; gap: 8px; padding: 12px; min-height: 0; }
+.v1-liste { display: flex; flex-direction: column; justify-content: space-between; flex: 1; }
+.v1-liste li { display: flex; align-items: center; gap: 9px; padding: 6px 0; font-size: 12.5px; border-top: 1px solid rgba(20, 17, 13, 0.06); }
+.v1-liste li:first-child { border-top: 0; }
+
+/* Kalender */
+.v1-kal { display: flex; flex-direction: column; gap: 10px; height: 100%; padding: 12px 12px 10px; }
+.v1-kal__kopf { display: flex; justify-content: space-between; align-items: baseline; font-size: 12.5px; }
+.v1-kal__kopf span { font-size: 10.5px; color: var(--gold-tief); font-weight: 500; }
+.v1-kal__tage { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+.v1-kal__tage span { position: relative; display: grid; place-items: center; height: 30px; border-radius: 8px; font-size: 11px; color: var(--tinte-3); background: #F7F3EB; }
+.v1-kal__tage .an { color: var(--tinte); font-weight: 600; }
+.v1-kal__tage .an::after { content: ''; position: absolute; bottom: 4px; width: 4px; height: 4px; border-radius: 50%; background: #B08A30; }
+.v1-kal__tage .heute { background: linear-gradient(180deg, #F0DB9C, #D2B25A); color: var(--tinte); box-shadow: 0 6px 14px -8px rgba(170, 128, 30, 0.8); }
+.v1-kal__tage .heute::after { background: var(--tinte); }
+.v1-termin { display: grid; grid-template-columns: 3px auto 1fr auto; align-items: center; gap: 10px; padding: 8px 10px 8px 8px; border-radius: 9px; background: #FBF5E6; }
+.v1-termin i { align-self: stretch; border-radius: 2px; background: linear-gradient(180deg, #D9B759, #B08A30); }
+.v1-termin .zeit { font-size: 11px; color: var(--tinte-3); font-variant-numeric: tabular-nums; }
+.v1-termin b { font-size: 12.5px; font-weight: 600; }
+.v1-termin .tag { font-size: 10.5px; font-weight: 600; color: var(--gold-tief); }
+.v1-kal__fuss { margin-top: auto !important; padding-top: 2px; font-size: 10.5px; color: var(--tinte-3); text-align: center; }
+
+/* Meditation */
+.v1-spieler { display: flex; flex-direction: column; justify-content: space-between; height: 100%; padding: 14px; }
+.v1-spieler__oben { display: flex; align-items: center; gap: 12px; }
+.v1-cover { flex: none; display: grid; place-items: center; width: 68px; height: 68px; border-radius: 12px; overflow: hidden; color: #B08A30; background: radial-gradient(circle at 50% 50%, #FFF9EA, #F1E3C2 70%); box-shadow: 0 0 0 1px rgba(138, 106, 30, 0.15); }
+.v1-cover svg { width: 120%; height: 120%; opacity: 1; animation: drehen 120s linear infinite; }
+.v1-spieler__info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.v1-spieler__info b { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; }
+.v1-spieler__info > span:last-child { font-size: 11px; color: var(--tinte-3); }
+.v1-zeitleiste__spur { position: relative; display: block; height: 4px; border-radius: 4px; background: #EEE7D9; }
+.v1-zeitleiste__spur span { position: absolute; inset: 0 66% 0 0; border-radius: 4px; background: linear-gradient(90deg, #D9B759, #B08A30); }
+.v1-zeitleiste__spur span::after { content: ''; position: absolute; right: -6px; top: 50%; translate: 0 -50%; width: 12px; height: 12px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1px rgba(20, 17, 13, 0.1), 0 2px 6px rgba(60, 40, 10, 0.3); }
+.v1-zeitleiste__zeiten { display: flex; justify-content: space-between; margin-top: 6px; font-size: 10px; color: var(--tinte-3); font-variant-numeric: tabular-nums; }
+.v1-tasten { display: flex; justify-content: center; align-items: center; gap: 26px; color: var(--tinte-2); }
+.v1-tasten svg { width: 22px; height: 22px; display: block; }
+.v1-tasten__play { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; color: var(--tinte); background: linear-gradient(180deg, #EBD083, #C9A84C); box-shadow: 0 8px 18px -8px rgba(170, 128, 30, 0.8); }
+.v1-tasten__play svg { width: 20px; height: 20px; margin-left: 2px; }
+
+/* Umsetzung */
+.v1-todo { display: flex; flex-direction: column; height: 100%; padding: 12px; }
+.v1-todo__kopf { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-size: 12.5px; }
+.v1-aufgaben { display: flex; flex-direction: column; justify-content: space-around; flex: 1; }
+.v1-aufgaben li { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid rgba(20, 17, 13, 0.06); font-size: 12px; }
+.v1-aufgaben li:first-child { border-top: 0; }
+.v1-aufgaben li.ok .aufgabe { color: var(--tinte-3); }
+.v1-aufgaben em { margin-left: auto; flex: none; padding: 2px 8px; border-radius: 999px; background: #FBF5E6; font-style: normal; font-size: 10px; font-weight: 500; color: var(--gold-tief); }
+
+/* ==================================================================
+   2  BILD & GLAS
+   ================================================================== */
+.v2-ui { background: #CDBFA6; }
+.ui__foto { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.v2-ui::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(25, 16, 4, 0.38), transparent 55%), linear-gradient(to bottom, rgba(25, 16, 4, 0.18), transparent 30%); pointer-events: none; }
+.glas { position: absolute; z-index: 1; background: rgba(255, 252, 246, 0.78); -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%); border-radius: 14px; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6), 0 14px 34px -14px rgba(25, 15, 0, 0.6); }
+.v2-klein { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tinte-3); }
+.v2 .ok .haken { background: linear-gradient(180deg, #D9B759, #B08A30); box-shadow: none; }
+.v2-pille { top: 14px; left: 14px; display: inline-flex; align-items: center; gap: 7px; padding: 6px 11px; border-radius: 999px; font-size: 11.5px; font-weight: 600; }
+.v2-pille--wa img { width: 20px; height: 20px; border-radius: 50%; background: var(--karte); }
+
+/* 1:1 */
+.v2-wer { left: 14px; bottom: 14px; display: flex; align-items: center; gap: 10px; padding: 8px 12px 8px 8px; border-radius: 999px; }
+.v2-wer b { display: block; font-size: 12.5px; }
+.v2-wer small { display: block; font-size: 10.5px; color: var(--tinte-2); }
+.v2-avatare { display: flex; }
+.v2-avatare img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; object-position: center 20%; box-shadow: 0 0 0 2px #fff; }
+.v2-avatare img + img { margin-left: -9px; }
+.v2-live { margin-left: 6px; display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; border-radius: 999px; background: #E5484D; color: #fff; font-size: 9.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.v2-live::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: #fff; animation: puls 1.4s ease-in-out infinite; }
+.v2-agenda { top: 14px; right: 14px; bottom: 14px; width: 214px; display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; }
+.v2-liste { display: flex; flex-direction: column; justify-content: space-around; flex: 1; }
+.v2-liste li { display: flex; align-items: center; gap: 9px; font-size: 12.5px; font-weight: 500; }
+
+/* Kalender */
+.v2-kal { left: 14px; right: 14px; bottom: 14px; display: flex; flex-direction: column; padding: 6px 12px; }
+.v2-termin { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+.v2-termin + .v2-termin { border-top: 1px solid rgba(20, 17, 13, 0.08); }
+.v2-tag { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: var(--folie); color: #2A1F0A; font-size: 11.5px; font-weight: 650; box-shadow: inset 0 1px 0 rgba(255, 250, 230, 0.7); }
+.v2-termin b { display: block; font-size: 13px; }
+.v2-termin small { display: block; font-size: 10.5px; color: var(--tinte-2); }
+
+/* WhatsApp */
+.v2-blasen { position: absolute; z-index: 1; left: 14px; right: 14px; bottom: 14px; display: flex; flex-direction: column; gap: 7px; }
+.v2-blasen .wa__blase { box-shadow: 0 10px 24px -12px rgba(0, 0, 0, 0.55); }
+.v2-chat .ui__foto { filter: saturate(0.9); }
+
+/* Meditation */
+.v2-retreat { top: auto; bottom: 0; height: 165%; object-position: 70% 100%; }
+.v2-spieler { left: 14px; right: 14px; bottom: 14px; display: flex; align-items: center; gap: 12px; padding: 10px 14px 10px 10px; }
+.v2-spieler__play { flex: none; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; color: var(--tinte); background: linear-gradient(180deg, #EBD083, #C9A84C); box-shadow: 0 8px 18px -8px rgba(170, 128, 30, 0.8); }
+.v2-spieler__play svg { width: 18px; height: 18px; margin-left: 2px; }
+.v2-spieler__info { flex: 1; min-width: 0; }
+.v2-spieler__info b { display: block; font-size: 13px; }
+.v2-spieler__info small { display: block; font-size: 10.5px; color: var(--tinte-2); }
+.v2-spur { display: block; height: 3px; margin-top: 7px; border-radius: 3px; background: rgba(20, 17, 13, 0.12); overflow: hidden; }
+.v2-spur span { display: block; width: 34%; height: 100%; background: linear-gradient(90deg, #D9B759, #B08A30); }
+
+/* Umsetzung */
+.v2-todo { left: 14px; right: 14px; bottom: 14px; padding: 10px 12px 6px; }
+.v2-todo__kopf { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; font-size: 12.5px; }
+.v2-todo__kopf span { font-size: 9.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tinte-3); }
+.v2-aufgaben li { display: flex; align-items: center; gap: 9px; padding: 6px 0; border-top: 1px solid rgba(20, 17, 13, 0.08); font-size: 11.5px; }
+.v2-aufgaben li.ok .aufgabe { color: var(--tinte-3); }
+.v2-aufgaben em { margin-left: auto; flex: none; font-style: normal; font-size: 10px; font-weight: 600; color: var(--gold-tief); }
+
+/* ==================================================================
+   3  SAND & GOLD
+   ================================================================== */
+.v3-ui { padding: 16px; background: var(--korn) 0 0 / 180px 180px, radial-gradient(120% 90% at 15% 0%, #F7EFDF, transparent 60%), linear-gradient(160deg, #EFE4CF, #E4D3B4); background-blend-mode: soft-light, normal, normal; box-shadow: inset 0 0 0 1px rgba(138, 106, 30, 0.16); }
+.v3-papier { border-radius: 12px; background: #FBF7EF; box-shadow: inset 0 1px 0 #fff, 0 0 0 1px rgba(138, 106, 30, 0.13), 0 12px 24px -16px rgba(90, 60, 10, 0.45); }
+.v3-kopf { font-family: var(--serif); font-style: italic; font-size: 1.2rem; line-height: 1.1; color: var(--tinte); }
+.v3-kopf span { float: right; margin-top: 3px; font-family: var(--sans); font-style: normal; font-size: 9.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-tief); }
+.v3 .haken { width: 15px; height: 15px; border-radius: 4px; rotate: 45deg; scale: 0.85; box-shadow: inset 0 0 0 1.5px rgba(138, 106, 30, 0.45); }
+.v3 .ok .haken { background: var(--folie); box-shadow: 0 2px 6px -2px rgba(140, 100, 20, 0.6); }
+.v3 .ok .haken::after { left: 4.5px; top: 3.5px; rotate: -90deg; border-color: var(--tinte); border-width: 0 0 1.6px 1.6px; }
+.v3 .jetzt .haken::after { inset: 4px; border-radius: 1px; }
+
+/* 1:1 */
+.v3-anruf { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 16px; align-items: stretch; }
+.v3-paar { display: flex; align-items: center; justify-content: center; gap: 14px; }
+.v3-paar figure { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.v3-medaillon { display: block; width: 118px; height: 118px; padding: 3px; border-radius: 50%; background: var(--folie); box-shadow: 0 14px 28px -14px rgba(110, 75, 10, 0.6); }
+.v3-medaillon img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; object-position: center 20%; border: 3px solid #FBF7EF; }
+.v3-paar figcaption { text-align: center; line-height: 1.15; }
+.v3-paar figcaption b { display: block; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.25rem; }
+.v3-paar figcaption span { font-size: 9.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-tief); }
+.v3-und { margin-top: -34px; font-family: var(--serif); font-style: italic; font-size: 1.6rem; color: var(--gold-tief); }
+.v3-agenda { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; }
+.v3-liste { display: flex; flex-direction: column; justify-content: space-around; flex: 1; }
+.v3-liste li { display: flex; align-items: center; gap: 10px; font-size: 12.5px; }
+.v3-liste li + li { border-top: 1px solid rgba(138, 106, 30, 0.12); padding-top: 6px; }
+
+/* Kalender */
+.v3-kal { display: flex; flex-direction: column; gap: 10px; height: 100%; padding: 14px; }
+.v3-kal__tage { flex: 1; display: grid; grid-template-columns: 2fr 1fr 2fr 1fr 1fr; gap: 5px; }
+.v3-tag { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 8px 3px; border-radius: 9px; background: rgba(138, 106, 30, 0.05); box-shadow: inset 0 0 0 1px rgba(138, 106, 30, 0.08); }
+.v3-tag__name { font-size: 9.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tinte-3); }
+.v3-tag--call .v3-tag__name { color: var(--gold-tief); }
+.v3-folie { display: flex; flex-direction: column; align-items: center; gap: 1px; width: 100%; padding: 7px 2px; border-radius: 7px; background: var(--folie); box-shadow: inset 0 1px 0 rgba(255, 250, 230, 0.7), 0 6px 14px -8px rgba(140, 100, 20, 0.7); font-size: 9.5px; font-weight: 500; color: #2A1F0A; text-align: center; line-height: 1.2; }
+.v3-folie b { font-size: 12.5px; font-weight: 650; }
+.v3-kal__fuss { font-family: var(--serif); font-style: italic; font-size: 0.95rem; color: var(--tinte-2); text-align: center; }
+
+/* Meditation */
+.v3-med { display: grid; place-items: center; }
+.v3-med__mandala { position: absolute; left: 50%; top: 42%; width: 230px; height: 230px; translate: -50% -50%; color: #A67F28; opacity: 0.55; }
+.v3-med__mandala svg { width: 100%; height: 100%; animation: drehen 90s linear infinite; }
+.v3-med__play { position: absolute; left: 50%; top: 42%; translate: -50% -50%; display: grid; place-items: center; width: 58px; height: 58px; border-radius: 50%; color: #2A1F0A; background: var(--folie); box-shadow: 0 0 0 6px rgba(251, 247, 239, 0.75), 0 16px 30px -12px rgba(110, 75, 10, 0.75); }
+.v3-med__play svg { width: 22px; height: 22px; margin-left: 3px; }
+.v3-med__titel { position: absolute; left: 16px; right: 16px; bottom: 14px; text-align: center; line-height: 1.2; }
+.v3-med__titel b { display: block; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 1.3rem; }
+.v3-med__titel span { font-size: 9.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-tief); }
+
+/* Umsetzung */
+.v3-todo { display: flex; flex-direction: column; height: 100%; padding: 14px 16px 10px; }
+.v3-aufgaben { display: flex; flex-direction: column; justify-content: space-around; flex: 1; margin-top: 6px !important; }
+.v3-aufgaben li { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+.v3-aufgaben li + li { border-top: 1px solid rgba(138, 106, 30, 0.12); padding-top: 8px; }
+.v3-aufgaben li.ok .aufgabe { color: var(--tinte-3); }
+.v3-aufgaben em { margin-left: auto; flex: none; font-style: normal; font-size: 9px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-tief); }
+
+@keyframes drehen { to { rotate: 360deg; } }
+
+/* --- Schmal ---------------------------------------------------------- */
+@media (max-width: 960px) { .raster { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 620px) {
+  .vorschlag { padding: 64px 16px 72px; }
+  .raster { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .karte--breit { grid-column: auto; }
+  .v1-anruf { grid-template-columns: minmax(0, 1fr); }
+  .v1-agenda, .v2-agenda { display: none; }
+  .v1-anruf__wer { display: none; }
+  .v3-anruf { grid-template-columns: minmax(0, 1fr); }
+  .v3-agenda { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }

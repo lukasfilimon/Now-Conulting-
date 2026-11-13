@@ -2548,3 +2548,25 @@ body.startseite { overflow-x: visible; }
 /* Schmale Handys: Frequenz-Ringe im Manifest nicht breiter als das Bild
    (sie wachsen in der Animation auf das 1,3-Fache) */
 @media (max-width: 640px) { .manifest__frequenz { width: 100%; overflow: hidden; border-radius: 50%; } }
+
+/* ============================================
+   UNSERE INHALTE, Runde 4 (Lukas, 13.11.2026)
+   Das Foto bleibt immer in der Karte, mit gleichem Rand oben, rechts und
+   unten. Bei wenig Bildschirmhoehe rueckt die Liste links enger zusammen,
+   statt die Karte zu sprengen. Unter dem Knopf wieder voller Abstand
+   wie bei den anderen Sektionen.
+   ============================================ */
+.schritte--gepinnt { padding: 0 0 var(--section-pad); }
+.schritte--gepinnt .schritte__panel { grid-template-rows: minmax(0, 1fr); }
+.schritte--gepinnt .schritte__nav { min-height: 0; }
+.schritte--gepinnt .schritte__navpunkt { padding-block: clamp(3px, calc((100svh - 560px) / 30), 9px); }
+/* Unter der Karte keine harte Kante: Die Buehne schneidet den Schatten der
+   Karte nicht mehr ab (das Mandala begrenzt sich selbst, contain: paint),
+   und das Mandala laeuft unten weich aus. */
+.schritte__buehne[data-mandala] { overflow: visible; }
+.schritte__buehne > .lp-mandala {
+  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent);
+  mask-image: linear-gradient(to bottom, #000 70%, transparent);
+}
+/* WhatsApp: NOW-Logo als Profilbild (Lukas, 13.11.2026) */
+.chat__kopf img.chat__logo, .sprachmemo__bild img.chat__logo { object-fit: contain; object-position: center; background: #FFFCF6; }
