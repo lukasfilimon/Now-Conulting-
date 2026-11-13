@@ -1397,97 +1397,174 @@ body.startseite { overflow-x: visible; }
 }
 
 /* ============================================
-   WER IST UNSER KUNDE — Haende, Pillen, zwei Realitaeten
+   WER IST UNSER KUNDE — "Die Wahl" (Lukas, 13.11.2026)
+   Zwei Haende derselben Person: links eine matte grau-blaue Pille
+   (momentane Realitaet), rechts eine goldene, die leuchtet (Wunsch-
+   Realitaet). Darunter je eine Spalte: Linie, Titel, Liste. Keine Kaesten,
+   gleiche Sprache wie die Innen-Karten ("Schwarz & Linie").
+   Ohne Szene: Haende nebeneinander, darunter die Spalten.
    ============================================ */
 .kunde { overflow: clip; }
-.kunde .section__title em { color: var(--white); }
-.kunde__szene {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 1.5%;
-  row-gap: 12px;
+.kunde__buehne { position: relative; }
+/* Weicher Lichtkegel von oben auf die Haende */
+.kunde__buehne::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 34% 62% at 50% -6%, rgba(255, 236, 190, 0.12), rgba(255, 236, 190, 0.035) 55%, transparent 78%);
 }
-.kunde__hand { position: relative; width: min(100%, 400px); }
-.kunde__hand--blau { justify-self: end;   --px: 60%;   --py: 54.5%; --glut: 64, 156, 255; }
-.kunde__hand--rot  { justify-self: start; --px: 41.8%; --py: 55.8%; --glut: 255, 72, 48; }
+.kunde__buehne > .container { position: relative; z-index: 1; }
+.kunde__szene {
+  --spalt: clamp(28px, 5vw, 76px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--spalt);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+/* Haende: Breite/Hoehe kommt aus dem Bild; --px/--py = Mitte der Pille,
+   --hand-maske laesst die Aermel unten ins Dunkel auslaufen */
+.kunde__hand { position: relative; justify-self: center; width: min(100%, 280px); margin-bottom: 18px; }
+.kunde__hand--links  { --px: 60%;   --py: 54.5%; --glut: 160, 182, 204; --glut-stark: 0.3; }
+.kunde__hand--rechts { --px: 41.8%; --py: 55.8%; --glut: 244, 200, 104; --glut-stark: 1; }
 .kunde__hand img {
   position: relative;
   display: block;
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.65));
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.6));
+  -webkit-mask-image: var(--hand-maske, none);
+  mask-image: var(--hand-maske, none);
 }
 .kunde__glut {
   position: absolute;
   z-index: 1;
   left: var(--px);
   top: var(--py);
-  width: 58%;
+  width: 56%;
   aspect-ratio: 1;
   translate: -50% -50%;
   border-radius: 50%;
   pointer-events: none;
-  background: radial-gradient(closest-side, rgba(var(--glut), 0.62), rgba(var(--glut), 0.2) 45%, transparent 72%);
+  background: radial-gradient(closest-side, rgba(var(--glut), 0.55), rgba(var(--glut), 0.16) 45%, transparent 72%);
   mix-blend-mode: screen;
-  opacity: calc(0.55 + 0.45 * var(--glanz, 0));
-  scale: calc(0.85 + 0.45 * var(--glanz, 0));
+  opacity: calc((0.5 + 0.5 * var(--glanz, 1)) * var(--glut-stark));
+  scale: calc(0.8 + 0.4 * var(--glanz, 1));
 }
-.bewegung .kunde__glut { animation: glutAtmen 3.4s ease-in-out infinite alternate; }
+.bewegung .kunde__hand--rechts .kunde__glut { animation: glutAtmen 3.4s ease-in-out infinite alternate; }
 @keyframes glutAtmen { from { filter: brightness(0.85); } to { filter: brightness(1.25); } }
-.kunde__karten { grid-column: 1 / -1; width: 100%; max-width: 1000px; margin: 0 auto; }
-.kunde .fw-card--no .fw-card__title { color: #9ccbff; }
-.kunde .fw-card--yes .fw-card__title { color: #ff9e8c; }
-.kunde .fw-card--no { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 24px 48px -24px rgba(0, 0, 0, 0.75), 0 0 70px -30px rgba(64, 156, 255, 0.45); }
-.kunde .fw-card--yes { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 24px 48px -24px rgba(0, 0, 0, 0.75), 0 0 70px -30px rgba(255, 72, 48, 0.4); }
 
-/* Szene (bewegung.js, nur mit Platz): Sektion bleibt stehen, Haende und
-   Karten sitzen absolut in der Szene und bekommen ihre Transformation pro
-   Bild aus dem Scrollfortschritt. */
+/* Zwei Spalten mit feiner Mittellinie */
+.kunde__wege {
+  position: relative;
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--spalt);
+}
+.kunde__wege::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  bottom: 6px;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(201, 168, 76, 0.3) 18%, rgba(201, 168, 76, 0.3) 82%, transparent);
+  opacity: var(--teiler, 1);
+}
+.weg { position: relative; padding-top: 24px; }
+.weg::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 2px;
+  border-radius: 2px;
+  transform-origin: left center;
+  transform: scaleX(var(--linie, 1));
+}
+.weg--jetzt::before { background: linear-gradient(90deg, rgba(160, 182, 204, 0.8), rgba(160, 182, 204, 0.06)); }
+.weg--wunsch::before { background: linear-gradient(90deg, #EED79A, rgba(201, 168, 76, 0.1)); box-shadow: 0 0 16px rgba(232, 207, 133, 0.45); }
+.weg__titel {
+  margin: 0 0 6px;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.3vw, 2rem);
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--white);
+}
+.weg__titel em { font-style: italic; }
+.weg--jetzt .weg__titel em { color: #AFC0D1; }
+.weg--wunsch .weg__titel em { color: var(--champagner); }
+.weg__liste { list-style: none; margin: 0; padding: 0; }
+.weg__punkt {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 13px 0;
+  border-top: 1px solid rgba(255, 240, 210, 0.08);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+.weg__punkt:first-child { border-top: 0; }
+.weg--jetzt .weg__punkt { color: var(--text-muted); }
+.weg--wunsch .weg__punkt { color: var(--text); }
+.weg__marke { position: relative; flex: none; display: grid; place-items: center; width: 20px; height: 20px; margin-top: 2px; border-radius: 50%; }
+.weg--jetzt .weg__marke { box-shadow: inset 0 0 0 1px rgba(160, 182, 204, 0.35); }
+.weg--jetzt .weg__marke::before { content: ''; width: 8px; height: 1.5px; border-radius: 1px; background: rgba(175, 192, 209, 0.85); }
+.weg--wunsch .weg__marke { color: #15110b; background: linear-gradient(180deg, #EBD083, #B9963F); box-shadow: 0 0 12px -2px rgba(201, 168, 76, 0.75); }
+.weg--wunsch .weg__marke svg { width: 12px; height: 12px; }
+
+@media (max-width: 760px) {
+  .kunde__szene { --spalt: 16px; }
+  .kunde__hand { width: min(100%, 170px); margin-bottom: 10px; }
+  .kunde__wege { grid-template-columns: minmax(0, 1fr); row-gap: 34px; }
+  .kunde__wege::before { display: none; }
+  .weg__titel { font-size: 1.55rem; }
+}
+
+/* Szene (bewegung.js, nur mit Platz): die Sektion bleibt stehen, die
+   Ueberschrift weicht nach oben, die Haende gehen auseinander und setzen
+   sich ueber ihre Spalte, die Spalten bauen sich auf. Haende und Spalten
+   sitzen absolut im Container und bekommen ihre Lage pro Bild. */
 .kunde--szene { padding: 0; }
-.kunde--szene .kunde__strecke { height: 270vh; }
+.kunde--szene .kunde__strecke { height: 280vh; }
 .kunde--szene .kunde__buehne {
   position: sticky;
   top: 0;
   height: 100vh;
   height: 100svh;
   box-sizing: border-box;
-  padding: 104px 0 36px;
+  padding: 96px 0 30px;
   display: flex;
   flex-direction: column;
 }
-.kunde--szene .kunde__buehne > .container { flex: 1; min-height: 0; display: flex; flex-direction: column; }
-.kunde--szene .section__header { flex: none; margin-bottom: 8px; }
-.kunde--szene .kunde__szene { flex: 1; min-height: 0; display: block; }
+.kunde--szene .kunde__buehne > .container { flex: 1; min-height: 0; }
+.kunde--szene .section__header { position: relative; z-index: 2; margin-bottom: 0; }
+.kunde--szene .section__header > * { will-change: opacity, transform; }
+.kunde--szene .section__header .section__subtitle { margin-top: 10px; }
+.kunde--szene .kunde__szene { display: block; max-width: none; margin: 0; }
 .kunde--szene .kunde__hand {
   position: absolute;
   left: 0;
   top: 0;
-  width: var(--hand-breite, 380px);
+  z-index: 1;
+  width: var(--hand-breite, 300px);
+  margin: 0;
   transform-origin: 0 0;
   will-change: transform;
 }
-.kunde--szene .kunde__karten {
+.kunde--szene .kunde__wege {
   position: absolute;
   left: 50%;
-  top: 50%;
-  translate: -50% -50%;
-  width: min(940px, 100%);
-  max-width: none;
-  margin: 0;
+  bottom: 0;
   z-index: 2;
+  width: min(1000px, 100%);
+  translate: -50% 0;
 }
-.kunde--szene .fw-card { will-change: transform, opacity; }
-/* In der Szene liegen die Haende hinter den Karten: helles Glas liesse sie
-   als Farbflecken durchscheinen, darum dunkles Glas (wie auf Fotos, 6.3). */
-.kunde--szene .fw-card { background: linear-gradient(180deg, rgba(30, 26, 20, 0.94), rgba(14, 12, 10, 0.96)); }
-.kunde--szene .fw-card--yes { background: linear-gradient(180deg, rgba(44, 34, 20, 0.95), rgba(18, 14, 10, 0.97)); }
-/* Kompakter, damit die Szene auch auf Laptops mit 720 px Hoehe passt */
-.kunde--szene .fw-card { padding: 26px 28px 14px; }
-.kunde--szene .fw-card__title { margin-bottom: 2px; }
-.kunde--szene .fw-item { padding: 13px 0; }
-.kunde--szene .kunde__buehne { padding-top: 96px; padding-bottom: 28px; }
-.kunde--szene .section__header .section__subtitle { margin-top: 10px; }
+.kunde--szene .weg__punkt { padding: 11px 0; }
 
 /* ============================================
    DIE 7 SCHRITTE

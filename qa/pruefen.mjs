@@ -167,17 +167,17 @@ const p = (name, ist, soll = true) => {
   });
   p('1u 7 Schritte: Buehne gepinnt, bei 55 % ist Schritt 4 aktiv', sch, 'ok');
 
-  // Wer ist unser Kunde: am Ende der Szene sind beide Karten ganz da
+  // Wer ist unser Kunde: am Ende der Szene sind beide Spalten ganz da
   const kd = await page.evaluate(async () => {
     const k = document.querySelector('.kunde');
     if (!k.classList.contains('kunde--szene')) return 'keine Szene';
     const st = document.querySelector('.kunde__strecke');
     scrollTo({ top: st.getBoundingClientRect().top + scrollY + st.offsetHeight - innerHeight - 5, behavior: 'instant' });
     await new Promise(r => setTimeout(r, 1200));
-    const o = [...document.querySelectorAll('.kunde__karten .fw-card')].map(c => parseFloat(getComputedStyle(c).opacity));
+    const o = [...document.querySelectorAll('.kunde .weg__titel, .kunde .weg__punkt')].map(c => parseFloat(getComputedStyle(c).opacity));
     return o.every(v => v > 0.99) ? 'ok' : o.join(',');
   });
-  p('1v Kunde-Szene: Karten am Ende sichtbar', kd, 'ok');
+  p('1v Kunde-Szene: Spalten am Ende sichtbar', kd, 'ok');
   p('1r Originaltexte: Headline', (await page.locator('h1').innerText()).replace(/\u00ad/g, '').replace(/\s+/g, ' ').trim(), 'Die einzige spirituelle Unternehmensberatung im DACH-Raum');
 
   // FAQ

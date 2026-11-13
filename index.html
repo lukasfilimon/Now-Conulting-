@@ -252,66 +252,49 @@
     </div>
   </section>
 
-  <!-- 3. WER IST UNSER KUNDE — Haende mit blauer und roter Pille, daraus
-       die zwei Realitaeten (links blau, rechts rot).
+  <!-- 3. WER IST UNSER KUNDE — "Die Wahl" (Lukas, 13.11.2026): zwei Haende
+       derselben Person, links eine matte grau-blaue Pille (momentane
+       Realitaet), rechts eine goldene, die leuchtet (Wunsch-Realitaet).
+       Darunter je eine Spalte mit Linie, Titel und Liste, keine Kaesten.
        Grosse Bildschirme (bewegung.js, Klasse kunde--szene): die Sektion
-       bleibt stehen, die Haende oeffnen sich beim Scrollen, die Pillen
-       leuchten auf und jede Karte waechst aus ihrer Pille heraus.
-       Sonst: Haende nebeneinander, Karten darunter. -->
+       bleibt stehen, die Ueberschrift weicht, die Haende gehen auseinander
+       ueber ihre Spalte, die Pillen leuchten, die Spalten bauen sich auf.
+       Sonst: Haende nebeneinander, Spalten darunter. -->
   <section class="section kunde" id="kunde">
     <div class="kunde__strecke">
       <div class="kunde__buehne">
         <div class="container">
           <div class="section__header reveal">
         <p class="section__eyebrow">Für wen wir arbeiten</p>
-        <h2 class="section__title"><em>Wer ist unser Kunde?</em></h2>
+        <h2 class="section__title">Wer ist <em>unser Kunde?</em></h2>
         <p class="section__subtitle">Coaches, Trainer und Berater, die dem Licht dienen und finanziell frei leben möchten:</p>
       </div>
           <div class="kunde__szene">
-            <div class="kunde__hand kunde__hand--blau" aria-hidden="true">
+            <div class="kunde__hand kunde__hand--links" aria-hidden="true">
               <span class="kunde__glut"></span>
-              <img src="/bilder/hand-blau.webp" width="900" height="873" alt="" />
+              <img src="/bilder/hand-links.webp" width="900" height="873" alt="" />
             </div>
-            <div class="kunde__hand kunde__hand--rot" aria-hidden="true">
+            <div class="kunde__hand kunde__hand--rechts" aria-hidden="true">
               <span class="kunde__glut"></span>
-              <img src="/bilder/hand-rot.webp" width="900" height="871" alt="" />
+              <img src="/bilder/hand-rechts.webp" width="900" height="871" alt="" />
             </div>
-            <div class="fw__grid kunde__karten">
-        <div class="fw-card fw-card--no">
-          <h3 class="fw-card__title">Deine momentane Realität</h3>
-          <ul class="fw-card__list fw-card__list--no">
-            <li class="fw-item reveal-item">
-              <span class="fw-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 12h10" /></svg></span>
-              <span class="fw-item__text">Du verkaufst dein Angebot für einen zu niedrigen Preis.</span>
-            </li>
-            <li class="fw-item reveal-item">
-              <span class="fw-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 12h10" /></svg></span>
-              <span class="fw-item__text">Du weißt nicht, von wo deine nächsten Kunden kommen.</span>
-            </li>
-            <li class="fw-item reveal-item">
-              <span class="fw-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 12h10" /></svg></span>
-              <span class="fw-item__text">Du hast unbewusst noch eine mentale Blockade gegen Mitarbeiter.</span>
-            </li>
-          </ul>
-        </div>
-
-        <div class="fw-card fw-card--yes">
-          <h3 class="fw-card__title">Deine Wunsch Realität</h3>
-          <ul class="fw-card__list">
-            <li class="fw-item reveal-item">
-              <span class="fw-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5 L10 16.5 L18 7.5" /></svg></span>
-              <span class="fw-item__text">Du machst konstant fünf bis sechsstellige Monatsumsätze.</span>
-            </li>
-            <li class="fw-item reveal-item">
-              <span class="fw-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5 L10 16.5 L18 7.5" /></svg></span>
-              <span class="fw-item__text">Du hast einen planbaren &amp; skalierbaren Neukunden-Funnel.</span>
-            </li>
-            <li class="fw-item reveal-item">
-              <span class="fw-item__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5 L10 16.5 L18 7.5" /></svg></span>
-              <span class="fw-item__text">Du hast 1-3 Mitarbeiter, die mit dir an deiner Mission arbeiten.</span>
-            </li>
-          </ul>
-        </div>
+            <div class="kunde__wege">
+              <div class="weg weg--jetzt">
+                <h3 class="weg__titel">Deine <em>momentane</em> Realität</h3>
+                <ul class="weg__liste">
+                  <li class="weg__punkt reveal-item"><span class="weg__marke" aria-hidden="true"></span><span>Du verkaufst dein Angebot für einen zu niedrigen Preis.</span></li>
+                  <li class="weg__punkt reveal-item"><span class="weg__marke" aria-hidden="true"></span><span>Du weißt nicht, von wo deine nächsten Kunden kommen.</span></li>
+                  <li class="weg__punkt reveal-item"><span class="weg__marke" aria-hidden="true"></span><span>Du hast unbewusst noch eine mentale Blockade gegen Mitarbeiter.</span></li>
+                </ul>
+              </div>
+              <div class="weg weg--wunsch">
+                <h3 class="weg__titel">Deine <em>Wunsch</em>-Realität</h3>
+                <ul class="weg__liste">
+                  <li class="weg__punkt reveal-item"><span class="weg__marke" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5 L10 16.5 L18 7.5" /></svg></span><span>Du machst konstant fünf bis sechsstellige Monatsumsätze.</span></li>
+                  <li class="weg__punkt reveal-item"><span class="weg__marke" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5 L10 16.5 L18 7.5" /></svg></span><span>Du hast einen planbaren &amp; skalierbaren Neukunden-Funnel.</span></li>
+                  <li class="weg__punkt reveal-item"><span class="weg__marke" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5 L10 16.5 L18 7.5" /></svg></span><span>Du hast 1-3 Mitarbeiter, die mit dir an deiner Mission arbeiten.</span></li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>

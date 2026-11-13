@@ -406,3 +406,8 @@ body.hell {
 /* 7 Schritte, gepinnt: keine zweite Karte im Panel, Text mit Luft */
 .hell .schritte--gepinnt .schritt { background: none !important; box-shadow: none !important; }
 .hell .schritte--gepinnt .schritt__text { padding: 6px 4px 6px 14px; }
+
+/* Wer ist unser Kunde, "Die Wahl": Spaltentitel wie die Ueberschriften,
+   Geist mit kursivem Akzentwort in Instrument Serif */
+.hell .weg__titel { font-family: var(--font-body); font-weight: 520; font-size: clamp(1.45rem, 2vw, 1.8rem); letter-spacing: -0.03em; }
+.hell .weg__titel em { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-size: 1.1em; letter-spacing: -0.01em; }

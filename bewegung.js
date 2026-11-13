@@ -6,8 +6,8 @@
       und spiegelt Licht, Aura folgt dem Zeiger, magnetischer Knopf
    3. Der Spiegel: Karten drehen sich vom Symptom (Aussen) auf die
       Ursache (Innen), Schalter und Maus drehen mit
-   4. Wer ist unser Kunde: Haende oeffnen sich, Karten wachsen aus den
-      Pillen (nur mit Platz, sonst ruhige Fassung)
+   4. Wer ist unser Kunde: Haende gehen auseinander, unter jeder Hand
+      waechst ihre Spalte (nur mit Platz, sonst ruhige Fassung)
    5. Zwei Welten: Bewusstsein und Business gleiten zusammen
    6. Die 7 Schritte: gepinnte Buehne, ein Schritt pro Scrollabschnitt
    7. Zusammenarbeit: Kachel-Wand mit naechstem Live-Call, Uhr und Chat
@@ -311,69 +311,80 @@
   })();
 
   /* ============================================================
-     4. WER IST UNSER KUNDE — die Pillen-Szene
+     4. WER IST UNSER KUNDE — "Die Wahl"
+     Start: Ueberschrift, darunter beide Haende gross und nah beieinander.
+     Beim Scrollen weicht die Ueberschrift nach oben, die Haende gehen
+     auseinander und setzen sich ueber ihre Spalte, die goldene Pille
+     leuchtet auf, dann wachsen Linie, Titel und Punkte jeder Spalte.
+     Passt das nicht in den Bildschirm: ruhige Fassung (nur CSS).
      ============================================================ */
   var kunde = document.querySelector('.kunde');
   if (BEWEGUNG && kunde) (function () {
     var strecke = kunde.querySelector('.kunde__strecke');
-    var szene = kunde.querySelector('.kunde__szene');
-    var haende = [kunde.querySelector('.kunde__hand--blau'), kunde.querySelector('.kunde__hand--rot')];
-    var karten = Array.prototype.slice.call(kunde.querySelectorAll('.kunde__karten .fw-card'));
-    var punkte = karten.map(function (k) { return Array.prototype.slice.call(k.querySelectorAll('.fw-item')); });
-    var pille = [{ x: 0.6, y: 0.545 }, { x: 0.418, y: 0.558 }];
-    var VERH = 873 / 900;              // Hoehe/Breite der Handbilder
+    var feld = kunde.querySelector('.kunde__buehne > .container');
+    var kopfTeile = Array.prototype.slice.call(kunde.querySelectorAll('.section__header > *'));
+    var kopf = kunde.querySelector('.section__header');
+    var haende = [kunde.querySelector('.kunde__hand--links'), kunde.querySelector('.kunde__hand--rechts')];
+    var bilder = haende.map(function (h) { return h.querySelector('img'); });
+    var wege = kunde.querySelector('.kunde__wege');
+    var spalten = Array.prototype.slice.call(kunde.querySelectorAll('.weg'));
+    var titel = spalten.map(function (s) { return s.querySelector('.weg__titel'); });
+    var punkte = spalten.map(function (s) { return Array.prototype.slice.call(s.querySelectorAll('.weg__punkt')); });
     var an = false, geo = null, p = 0, pSoll = 0;
 
     function passt() { return window.innerWidth >= 1000 && window.innerHeight >= 640; }
+    // Hoehe/Breite des Handbilds (aus dem Bild selbst, sonst aus den Attributen)
+    function verh(i) {
+      var b = bilder[i];
+      if (b.naturalWidth) return b.naturalHeight / b.naturalWidth;
+      return (+b.getAttribute('height') || 1) / (+b.getAttribute('width') || 1);
+    }
 
     function zuruecksetzen() {
-      haende.concat(karten).forEach(function (el) { el.style.transform = ''; el.style.opacity = ''; el.style.filter = ''; });
-      punkte.forEach(function (liste) { liste.forEach(function (el) { el.style.opacity = ''; el.style.transform = ''; el.style.transition = ''; }); });
-      haende.forEach(function (h) { h.style.removeProperty('--glanz'); });
+      haende.forEach(function (h) { h.style.transform = ''; h.style.removeProperty('--glanz'); });
+      kopfTeile.forEach(function (el) { el.style.opacity = ''; el.style.transform = ''; });
+      spalten.forEach(function (s) { s.style.removeProperty('--linie'); });
+      wege.style.removeProperty('--teiler');
+      titel.forEach(function (t) { t.style.opacity = ''; t.style.transform = ''; });
+      punkte.forEach(function (l) { l.forEach(function (el) { el.style.opacity = ''; el.style.transform = ''; }); });
     }
 
     function messen() {
       zuruecksetzen();
-      var w = szene.clientWidth, h = szene.clientHeight;
-      var sr = szene.getBoundingClientRect();
-      var kartenBox = karten.map(function (k) {
-        var r = k.getBoundingClientRect();
-        return { x: r.left - sr.left, y: r.top - sr.top, w: r.width, h: r.height };
-      });
-      // Karten muessen in die Szene passen, sonst ruhige Fassung
-      var hoehe = Math.max(kartenBox[0].h, kartenBox[1].h);
-      if (hoehe > h - 8) return null;
-      var vw = window.innerWidth;
-      // Start: beide Haende gross nebeneinander in der Mitte
-      var hb = Math.min(w * 0.36, (h * 0.98) / VERH, 470);
-      var luecke = w * 0.015;
-      var y0 = (h - hb * VERH) / 2;
-      // Ende: kleiner, links und rechts neben den Karten, leicht verdeckt
-      var s1 = 0.66;
-      var he = hb * s1;
-      var links = kartenBox[0].x, rechts = kartenBox[1].x + kartenBox[1].w;
-      var mitteY = kartenBox[0].y + kartenBox[0].h / 2;
-      // Wie weit die Szene links/rechts ueber den Bildschirmrand hinaus darf
-      var randL = -sr.left + 10, randR = vw - sr.left - 10;
-      var cxL = Math.max(links - he * 0.22, randL + he * 0.42);
-      var cxR = Math.min(rechts + he * 0.22, randR - he * 0.42);
+      var fr = feld.getBoundingClientRect();
+      var W = fr.width, H = fr.height;
+      var kopfUnten = kopf.getBoundingClientRect().bottom - fr.top + 16;
+      var wegeOben = wege.getBoundingClientRect().top - fr.top;
+      var sp = spalten.map(function (s) { var r = s.getBoundingClientRect(); return { x: r.left - fr.left, w: r.width }; });
+      var v = [verh(0), verh(1)], vmax = Math.max(v[0], v[1]);
+      // Start: gross und nah beieinander unter der Ueberschrift
+      var platzStart = H - kopfUnten;
+      var hb = Math.min(W * 0.3, (platzStart * 0.97) / vmax, 460);
+      var luecke = W * 0.01;
+      // Ende: ueber der eigenen Spalte (die Ueberschrift ist dann weg)
+      var platzEnde = wegeOben - 14;
+      var he = Math.min((platzEnde * 0.96) / vmax, sp[0].w * 0.6, hb);
+      if (platzStart < 220 || he < 140) return null;
       return {
-        w: w, h: h, hb: hb, karten: kartenBox,
-        start: [{ x: w / 2 - luecke / 2 - hb, y: y0 }, { x: w / 2 + luecke / 2, y: y0 }],
-        ende: [{ x: cxL - he / 2, y: mitteY - he * VERH * 0.5 }, { x: cxR - he / 2, y: mitteY - he * VERH * 0.5 }],
-        s1: s1
+        hb: hb,
+        s1: he / hb,
+        start: [0, 1].map(function (i) {
+          return { x: i === 0 ? W / 2 - luecke / 2 - hb : W / 2 + luecke / 2, y: kopfUnten + (platzStart - hb * v[i]) / 2 };
+        }),
+        ende: [0, 1].map(function (i) {
+          return { x: sp[i].x + sp[i].w / 2 - he / 2, y: wegeOben - 14 - he * v[i] };
+        })
       };
     }
 
     function anschalten() {
       kunde.classList.add('kunde--szene');
-      szene.style.setProperty('--hand-breite', '0px');
-      // Die Einblend-Klassen des Kerns wuerden die Bewegung pro Bild mit
-      // ihren eigenen Uebergaengen verschmieren.
-      punkte.forEach(function (liste) { liste.forEach(function (el) { el.classList.remove('reveal-item'); el.style.transition = 'none'; }); });
+      feld.style.setProperty('--hand-breite', '0px');
+      // Die Einblend-Klassen des Kerns wuerden die Bewegung pro Bild verschmieren
+      punkte.forEach(function (l) { l.forEach(function (el) { el.classList.remove('reveal-item'); el.style.transition = 'none'; }); });
       geo = messen();
       if (!geo) { ausschalten(); return; }
-      szene.style.setProperty('--hand-breite', geo.hb + 'px');
+      feld.style.setProperty('--hand-breite', geo.hb + 'px');
       an = true;
       pSoll = fortschritt(); p = pSoll;
       zeichnen();
@@ -381,9 +392,9 @@
     function ausschalten() {
       an = false;
       kunde.classList.remove('kunde--szene');
-      szene.style.removeProperty('--hand-breite');
+      feld.style.removeProperty('--hand-breite');
       zuruecksetzen();
-      punkte.forEach(function (liste) { liste.forEach(function (el) { el.style.opacity = '1'; el.style.transform = 'none'; }); });
+      punkte.forEach(function (l) { l.forEach(function (el) { el.style.opacity = '1'; el.style.transform = 'none'; }); });
     }
 
     function fortschritt() {
@@ -394,30 +405,29 @@
 
     function zeichnen() {
       var g = geo;
-      var a = inOut(abschnitt(p, 0.04, 0.46));              // Haende oeffnen
-      var glut = klemme(weich(abschnitt(p, 0, 0.32)) - 0.55 * weich(abschnitt(p, 0.55, 0.9)), 0, 1);
-      var pillen = [];
+      var a = inOut(abschnitt(p, 0.08, 0.5));               // Haende gehen auseinander
+      var k = weich(abschnitt(p, 0.1, 0.34));               // Ueberschrift weicht
+      kopfTeile.forEach(function (el, j) {
+        var kj = klemme(k * 1.25 - j * 0.12, 0, 1);
+        el.style.opacity = (1 - kj).toFixed(3);
+        el.style.transform = 'translate3d(0,' + (-28 * kj).toFixed(1) + 'px,0)';
+      });
+      var glanz = weich(abschnitt(p, 0.04, 0.42));
       haende.forEach(function (hand, i) {
         var s = mische(1, g.s1, a);
         var x = mische(g.start[i].x, g.ende[i].x, a);
         var y = mische(g.start[i].y, g.ende[i].y, a);
-        var rot = (i === 0 ? -1 : 1) * 9 * a;
-        hand.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) scale(' + s.toFixed(4) + ') rotate(' + rot.toFixed(2) + 'deg)';
-        hand.style.setProperty('--glanz', glut.toFixed(3));
-        // Pillenmitte (ohne Drehung genuegt fuer den Startpunkt der Karte)
-        pillen.push({ x: x + pille[i].x * g.hb * s, y: y + pille[i].y * g.hb * VERH * s });
+        hand.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) scale(' + s.toFixed(4) + ')';
+        hand.style.setProperty('--glanz', glanz.toFixed(3));
       });
-      karten.forEach(function (karte, i) {
-        var k = ausrollen(abschnitt(p, 0.3 + i * 0.07, 0.72 + i * 0.07));
-        var box = g.karten[i];
-        var dx = pillen[i].x - (box.x + box.w / 2);
-        var dy = pillen[i].y - (box.y + box.h / 2);
-        var s = mische(0.06, 1, k);
-        karte.style.transform = 'translate3d(' + (dx * (1 - k)).toFixed(1) + 'px,' + (dy * (1 - k)).toFixed(1) + 'px,0) scale(' + s.toFixed(4) + ')';
-        karte.style.opacity = klemme(k * 2.4, 0, 1).toFixed(3);
-        karte.style.filter = k < 0.999 ? 'blur(' + ((1 - k) * 14).toFixed(1) + 'px)' : '';
+      wege.style.setProperty('--teiler', weich(abschnitt(p, 0.5, 0.7)).toFixed(3));
+      spalten.forEach(function (sp, i) {
+        sp.style.setProperty('--linie', ausrollen(abschnitt(p, 0.42 + i * 0.05, 0.62 + i * 0.05)).toFixed(4));
+        var t = ausrollen(abschnitt(p, 0.5 + i * 0.05, 0.66 + i * 0.05));
+        titel[i].style.opacity = t.toFixed(3);
+        titel[i].style.transform = 'translate3d(0,' + ((1 - t) * 12).toFixed(1) + 'px,0)';
         punkte[i].forEach(function (el, j) {
-          var q = ausrollen(abschnitt(p, 0.6 + i * 0.05 + j * 0.06, 0.8 + i * 0.05 + j * 0.06));
+          var q = ausrollen(abschnitt(p, 0.57 + i * 0.04 + j * 0.06, 0.75 + i * 0.04 + j * 0.06));
           el.style.opacity = q.toFixed(3);
           el.style.transform = 'translate3d(0,' + ((1 - q) * 14).toFixed(1) + 'px,0)';
         });
@@ -436,7 +446,7 @@
     beobachte(kunde, lauf, '300px 0px');
 
     function pruefen() {
-      if (passt()) { if (!an) anschalten(); else { geo = messen(); if (!geo) ausschalten(); else { szene.style.setProperty('--hand-breite', geo.hb + 'px'); zeichnen(); } } }
+      if (passt()) { if (!an) anschalten(); else { geo = messen(); if (!geo) ausschalten(); else { feld.style.setProperty('--hand-breite', geo.hb + 'px'); zeichnen(); } } }
       else if (an) ausschalten();
     }
     var warte;
