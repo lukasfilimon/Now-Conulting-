@@ -1423,11 +1423,22 @@ body.startseite { overflow-x: visible; }
   max-width: 1000px;
   margin: 0 auto;
 }
-/* Haende: Breite/Hoehe kommt aus dem Bild; --px/--py = Mitte der Pille,
-   --hand-maske laesst die Aermel unten ins Dunkel auslaufen */
-.kunde__hand { position: relative; justify-self: center; width: min(100%, 280px); margin-bottom: 18px; }
-.kunde__hand--links  { --px: 60%;   --py: 54.5%; --glut: 160, 182, 204; --glut-stark: 0.3; }
-.kunde__hand--rechts { --px: 41.8%; --py: 55.8%; --glut: 244, 200, 104; --glut-stark: 1; }
+/* Haende (Bild von Lukas, geschnitten mit werkzeuge/haende-schneiden.py):
+   beide im selben Massstab (--s = CSS-Pixel je Bildpixel), --px/--py =
+   Mitte der Pille im Bild; die Pille steht ueber der Spaltenmitte. Die
+   Aermel laufen unten ins Dunkel aus (--hand-maske). */
+.kunde__szene { --s: 0.36; }
+.kunde__hand {
+  position: relative;
+  justify-self: center;
+  width: calc(var(--bild-b) * var(--s) * 1px);
+  max-width: 100%;
+  margin-bottom: -18px;
+  translate: calc(50% - var(--px)) 0;
+  --hand-maske: linear-gradient(to bottom, #000 74%, transparent 97%);
+}
+.kunde__hand--links  { --bild-b: 575; --px: 68.6%; --py: 40.6%; --glut: 160, 182, 204; --glut-stark: 0.28; --glut-breite: 36%; }
+.kunde__hand--rechts { --bild-b: 599; --px: 31.7%; --py: 41.8%; --glut: 244, 200, 104; --glut-stark: 1; --glut-breite: 38%; }
 .kunde__hand img {
   position: relative;
   display: block;
@@ -1442,7 +1453,7 @@ body.startseite { overflow-x: visible; }
   z-index: 1;
   left: var(--px);
   top: var(--py);
-  width: 56%;
+  width: var(--glut-breite, 40%);
   aspect-ratio: 1;
   translate: -50% -50%;
   border-radius: 50%;
@@ -1518,8 +1529,8 @@ body.startseite { overflow-x: visible; }
 .weg--wunsch .weg__marke svg { width: 12px; height: 12px; }
 
 @media (max-width: 760px) {
-  .kunde__szene { --spalt: 16px; }
-  .kunde__hand { width: min(100%, 170px); margin-bottom: 10px; }
+  .kunde__szene { --spalt: 16px; --s: 0.2; }
+  .kunde__hand { margin-bottom: -8px; }
   .kunde__wege { grid-template-columns: minmax(0, 1fr); row-gap: 34px; }
   .kunde__wege::before { display: none; }
   .weg__titel { font-size: 1.55rem; }
@@ -1551,8 +1562,9 @@ body.startseite { overflow-x: visible; }
   left: 0;
   top: 0;
   z-index: 1;
-  width: var(--hand-breite, 300px);
+  max-width: none;
   margin: 0;
+  translate: none;
   transform-origin: 0 0;
   will-change: transform;
 }

@@ -333,18 +333,23 @@
     var an = false, geo = null, p = 0, pSoll = 0;
 
     function passt() { return window.innerWidth >= 1000 && window.innerHeight >= 640; }
-    // Hoehe/Breite des Handbilds (aus dem Bild selbst, sonst aus den Attributen)
-    function verh(i) {
+    // Bildgroesse in Pixeln (beide Haende im selben Massstab) und die Lage
+    // der Pille im Bild (--px/--py aus seite.css, in Prozent)
+    function bildmass(i) {
       var b = bilder[i];
-      if (b.naturalWidth) return b.naturalHeight / b.naturalWidth;
-      return (+b.getAttribute('height') || 1) / (+b.getAttribute('width') || 1);
+      return b.naturalWidth ? { b: b.naturalWidth, h: b.naturalHeight } : { b: +b.getAttribute('width') || 1, h: +b.getAttribute('height') || 1 };
+    }
+    function pille(i) {
+      var cs = getComputedStyle(haende[i]);
+      return { x: (parseFloat(cs.getPropertyValue('--px')) || 50) / 100, y: (parseFloat(cs.getPropertyValue('--py')) || 50) / 100 };
     }
 
     function zuruecksetzen() {
-      haende.forEach(function (h) { h.style.transform = ''; h.style.removeProperty('--glanz'); });
+      haende.forEach(function (h) { h.style.transform = ''; h.style.width = ''; h.style.removeProperty('--glanz'); });
       kopfTeile.forEach(function (el) { el.style.opacity = ''; el.style.transform = ''; });
       spalten.forEach(function (s) { s.style.removeProperty('--linie'); });
       wege.style.removeProperty('--teiler');
+      wege.style.bottom = '';
       titel.forEach(function (t) { t.style.opacity = ''; t.style.transform = ''; });
       punkte.forEach(function (l) { l.forEach(function (el) { el.style.opacity = ''; el.style.transform = ''; }); });
     }
@@ -356,35 +361,42 @@
       var kopfUnten = kopf.getBoundingClientRect().bottom - fr.top + 16;
       var wegeOben = wege.getBoundingClientRect().top - fr.top;
       var sp = spalten.map(function (s) { var r = s.getBoundingClientRect(); return { x: r.left - fr.left, w: r.width }; });
-      var v = [verh(0), verh(1)], vmax = Math.max(v[0], v[1]);
-      // Start: gross und nah beieinander unter der Ueberschrift
+      var m = [bildmass(0), bildmass(1)], pl = [pille(0), pille(1)];
+      var hMax = Math.max(m[0].h, m[1].h);
+      // Start: gross und nah beieinander unter der Ueberschrift, so wie auf
+      // dem Foto (die Bilder enden innen an der Luecke zwischen den Haenden)
       var platzStart = H - kopfUnten;
-      var hb = Math.min(W * 0.3, (platzStart * 0.97) / vmax, 460);
-      var luecke = W * 0.01;
-      // Ende: ueber der eigenen Spalte (die Ueberschrift ist dann weg)
-      var platzEnde = wegeOben - 14;
-      var he = Math.min((platzEnde * 0.96) / vmax, sp[0].w * 0.6, hb);
-      if (platzStart < 220 || he < 140) return null;
+      var s0 = Math.min((platzStart * 0.98) / hMax, (W * 0.78) / (m[0].b + m[1].b + 60), 560 / hMax);
+      var luecke = 60 * s0;
+      // Ende: Pille ueber der Spaltenmitte, Aermel laufen hinter der Linie aus
+      var platzEnde = wegeOben + 12;
+      var s1 = Math.min((platzEnde * 0.94) / hMax, (sp[0].w * 0.5) / (pl[0].x * m[0].b), (sp[1].w * 0.5) / ((1 - pl[1].x) * m[1].b), s0);
+      if (platzStart < 220 || s1 * hMax < 200) return null;
+      // Grosse Bildschirme: Schlussbild (Haende + Spalten) senkrecht mittig
+      var hoch = Math.max(0, (platzEnde - s1 * hMax) / 2);
+      wege.style.bottom = hoch.toFixed(1) + 'px';
+      platzEnde -= hoch;
       return {
-        hb: hb,
-        s1: he / hb,
-        start: [0, 1].map(function (i) {
-          return { x: i === 0 ? W / 2 - luecke / 2 - hb : W / 2 + luecke / 2, y: kopfUnten + (platzStart - hb * v[i]) / 2 };
-        }),
+        s0: s0,
+        k: s1 / s0,
+        breite: [m[0].b * s0, m[1].b * s0],
+        start: [
+          { x: W / 2 - luecke / 2 - m[0].b * s0, y: kopfUnten + (platzStart - m[0].h * s0) / 2 },
+          { x: W / 2 + luecke / 2, y: kopfUnten + (platzStart - m[1].h * s0) / 2 }
+        ],
         ende: [0, 1].map(function (i) {
-          return { x: sp[i].x + sp[i].w / 2 - he / 2, y: wegeOben - 14 - he * v[i] };
+          return { x: sp[i].x + sp[i].w / 2 - pl[i].x * m[i].b * s1, y: platzEnde - m[i].h * s1 };
         })
       };
     }
 
     function anschalten() {
       kunde.classList.add('kunde--szene');
-      feld.style.setProperty('--hand-breite', '0px');
       // Die Einblend-Klassen des Kerns wuerden die Bewegung pro Bild verschmieren
       punkte.forEach(function (l) { l.forEach(function (el) { el.classList.remove('reveal-item'); el.style.transition = 'none'; }); });
       geo = messen();
       if (!geo) { ausschalten(); return; }
-      feld.style.setProperty('--hand-breite', geo.hb + 'px');
+      setzeBreite();
       an = true;
       pSoll = fortschritt(); p = pSoll;
       zeichnen();
@@ -392,9 +404,12 @@
     function ausschalten() {
       an = false;
       kunde.classList.remove('kunde--szene');
-      feld.style.removeProperty('--hand-breite');
       zuruecksetzen();
       punkte.forEach(function (l) { l.forEach(function (el) { el.style.opacity = '1'; el.style.transform = 'none'; }); });
+    }
+
+    function setzeBreite() {
+      haende.forEach(function (h, i) { h.style.width = geo.breite[i].toFixed(1) + 'px'; });
     }
 
     function fortschritt() {
@@ -414,7 +429,7 @@
       });
       var glanz = weich(abschnitt(p, 0.04, 0.42));
       haende.forEach(function (hand, i) {
-        var s = mische(1, g.s1, a);
+        var s = mische(1, g.k, a);
         var x = mische(g.start[i].x, g.ende[i].x, a);
         var y = mische(g.start[i].y, g.ende[i].y, a);
         hand.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0) scale(' + s.toFixed(4) + ')';
@@ -446,7 +461,7 @@
     beobachte(kunde, lauf, '300px 0px');
 
     function pruefen() {
-      if (passt()) { if (!an) anschalten(); else { geo = messen(); if (!geo) ausschalten(); else { feld.style.setProperty('--hand-breite', geo.hb + 'px'); zeichnen(); } } }
+      if (passt()) { if (!an) anschalten(); else { geo = messen(); if (!geo) ausschalten(); else { setzeBreite(); zeichnen(); } } }
       else if (an) ausschalten();
     }
     var warte;
