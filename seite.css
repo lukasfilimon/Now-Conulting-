@@ -2466,3 +2466,7 @@ body.startseite { overflow-x: visible; }
 .formate--stapel .format-zeile::after { content: ''; position: absolute; inset: 0; z-index: 6; border-radius: inherit; background: #050403; opacity: var(--dunkel, 0); pointer-events: none; }
 
 .final-cta .final-cta__sub { color: rgba(245, 238, 225, 0.86); }
+
+/* Spiegel-Schalter: Fokus in Markengold statt Browser-Blau (Tastatur bleibt sichtbar) */
+.spiegel__seite:focus { outline: none; }
+.spiegel__seite:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
