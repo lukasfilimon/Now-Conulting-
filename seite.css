@@ -2456,8 +2456,6 @@ body.startseite { overflow-x: visible; }
 .format-zeile__video { aspect-ratio: auto; min-height: 100%; }
 .format-zeile__video::before { content: ''; display: block; padding-top: 56.25%; }
 .format-zeile__text { padding: 40px 44px; }
-.format-zeile__nr { display: block; margin-bottom: 18px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.22em; color: var(--gold); }
-.format-zeile__nr i { font-style: normal; color: var(--text-muted); }
 .format-zeile__titel { font-size: clamp(2rem, 3vw, 2.5rem); }
 .format-zeile__satz { font-size: 1.22rem; color: var(--champagner); }
 .formate--stapel .format-zeile { opacity: 1; transform: none; }
