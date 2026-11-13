@@ -58,11 +58,32 @@ const p = (name, ist, soll = true) => {
   await page.waitForTimeout(1500);   // Linien blenden ueber 1,2 s ein
   p('1m Trennlinien eingeblendet', await page.evaluate(() => ['.manifest', '.kunde', '.schritte', '.programme', '.erfahrungen', '.testimonials', '.team', '.faq'].filter(s => getComputedStyle(document.querySelector(s), '::before').opacity !== '1').join(',')), '');
 
-  // Testimonials-Karussell: Pfeil blaettert weiter
-  const vorher = await page.locator('#testimonials .karussell__spur').first().evaluate(e => e.scrollLeft);
-  await page.locator('#testimonials .karussell__pfeil--weiter').first().click();
-  await page.waitForTimeout(900);
-  p('1q Testimonials-Karussell blaettert weiter', (await page.locator('#testimonials .karussell__spur').first().evaluate(e => e.scrollLeft)) > vorher, true);
+  // Testimonials: Laufband (Variante hell) laeuft und haelt unter der Maus an,
+  // sonst blaettert das Karussell mit dem Pfeil weiter
+  if (await page.locator('[data-laufband]').count()) {
+    const lb = await page.evaluate(async () => {
+      const reihen = [...document.querySelectorAll('[data-laufband]')];
+      reihen[0].scrollIntoView({ behavior: 'instant', block: 'center' });
+      await new Promise(r => setTimeout(r, 400));
+      const x = () => reihen.map(r => new DOMMatrix(getComputedStyle(r.querySelector('.karussell__spur')).transform).m41);
+      const a = x(); await new Promise(r => setTimeout(r, 1200)); const b = x();
+      return reihen.every(r => r.classList.contains('laufband--an')) && b[0] > a[0] && b[1] < a[1] ? 'ok' : `an=${reihen.map(r => r.classList.contains('laufband--an'))} ${a} -> ${b}`;
+    });
+    p('1q Testimonials-Laufband: oben nach rechts, unten nach links', lb, 'ok');
+    const reihe = page.locator('[data-laufband]').first();
+    await reihe.hover();
+    await page.waitForTimeout(900);
+    const h1 = await reihe.evaluate(r => new DOMMatrix(getComputedStyle(r.querySelector('.karussell__spur')).transform).m41);
+    await page.waitForTimeout(700);
+    const h2 = await reihe.evaluate(r => new DOMMatrix(getComputedStyle(r.querySelector('.karussell__spur')).transform).m41);
+    p('1q2 Laufband haelt unter der Maus an', Math.abs(h2 - h1) < 1.5, true);
+    await page.mouse.move(2, 2);
+  } else {
+    const vorher = await page.locator('#testimonials .karussell__spur').first().evaluate(e => e.scrollLeft);
+    await page.locator('#testimonials .karussell__pfeil--weiter').first().click();
+    await page.waitForTimeout(900);
+    p('1q Testimonials-Karussell blaettert weiter', (await page.locator('#testimonials .karussell__spur').first().evaluate(e => e.scrollLeft)) > vorher, true);
+  }
 
   // Spiegel: Karten drehen beim Scrollen auf "Innen", der Schalter dreht zurueck
   const sp = await page.evaluate(async () => {
@@ -94,7 +115,7 @@ const p = (name, ist, soll = true) => {
       scrollTo({ top: k.getBoundingClientRect().top + scrollY - innerHeight * 0.3, behavior: 'instant' });
       await new Promise(r => setTimeout(r, 250));
     }
-    await new Promise(r => setTimeout(r, 3800));
+    await new Promise(r => setTimeout(r, 5200));
     const naechster = sek.querySelector('[data-naechster]').textContent;
     const tag = sek.querySelectorAll('.woche__tag.ist-naechster').length;
     const kacheln = [...sek.querySelectorAll('.kachel')].filter(k => getComputedStyle(k).opacity === '1').length;
@@ -118,7 +139,7 @@ const p = (name, ist, soll = true) => {
     await hin(z[0], 0.5); await warte(300); await hin(z[1], 0.5); await warte(2300);
     if (z[0].textContent !== '10.000' || z[1].textContent !== '100.000') fehler.push('betraege ' + z[0].textContent + '/' + z[1].textContent);
     if (getComputedStyle(document.querySelector('.format-zeile')).position !== 'sticky') fehler.push('live events nicht gestapelt');
-    if (document.querySelectorAll('.testi-video__bild').length !== 11) fehler.push('vorschaubilder');
+    if ([...document.querySelectorAll('.testi-video__bild')].filter(i => !i.closest('[data-klon]')).length !== 11) fehler.push('vorschaubilder');
     return fehler.join(', ') || 'ok';
   });
   p('1y Runde 2: Ueberschrift, Pfad, Betraege, Stapel, Vorschaubilder', r2, 'ok');

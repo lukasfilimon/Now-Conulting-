@@ -663,8 +663,9 @@
       if (k.classList.contains('ist-an')) return;
       k.classList.add('ist-sichtbar', 'ist-an');
       if (k.classList.contains('kachel--chat')) {
-        setTimeout(function () { k.classList.add('chat--tippt'); }, 1300);
-        setTimeout(function () { k.classList.remove('chat--tippt'); k.classList.add('chat--antwort'); }, 3300);
+        // Frage steht, dann "nimmt Audio auf ...", dann die Sprachmemo
+        setTimeout(function () { k.classList.add('chat--tippt'); }, 1500);
+        setTimeout(function () { k.classList.remove('chat--tippt'); k.classList.add('chat--antwort'); }, 4300);
       }
     }
     if (!('IntersectionObserver' in window)) { liste.forEach(starte); return; }
@@ -675,19 +676,6 @@
     }, { threshold: 0.3 });
     liste.forEach(function (k) { io.observe(k); });
 
-    // 7c. Gespraechsuhr laeuft, solange der Anruf im Bild ist
-    var uhr = kacheln.querySelector('[data-uhr]');
-    if (uhr) {
-      var sekunden = 0, takt = null;
-      var zeige = function () {
-        var m = Math.floor(sekunden / 60), s = sekunden % 60;
-        uhr.textContent = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
-      };
-      new IntersectionObserver(function (e) {
-        if (e[0].isIntersecting && !takt) takt = setInterval(function () { sekunden++; zeige(); }, 1000);
-        else if (!e[0].isIntersecting && takt) { clearInterval(takt); takt = null; }
-      }).observe(uhr.closest('.kachel'));
-    }
   })();
 
   /* ---------- Team-Galerie (auch bei reduzierter Bewegung) ----------
@@ -703,6 +691,8 @@
       p.addEventListener('focus', function () { oeffne(p); });
       p.addEventListener('click', function () { oeffne(p); });
     });
+    // Verlaesst die Maus die Galerie, steht wieder Darko vorne (Lukas, 13.11.2026)
+    galerie.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') oeffne(leute[0]); });
     galerie.classList.add('galerie--an');
   })();
 

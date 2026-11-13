@@ -72,6 +72,11 @@ start = start.replace(hero_alt, hero_neu)
 for sek in DUNKEL:
     start, n = re.subn(r'(<section class="section [^"]*?\b' + re.escape(sek) + r'\b)', r'\1 buehne-dunkel', start, count=1)
     assert n == 1, sek
+# Testimonials als Endlos-Laufband statt Karussell (hell, Lukas 13.11.2026)
+LAUFBAND = {'hell': True}.get(NAME, False)
+if LAUFBAND:
+    start, n = re.subn(r'<div class="karussell stimmen__reihe" data-karussell>', '<div class="karussell stimmen__reihe" data-laufband>', start)
+    assert n == 2, 'Testimonial-Reihen nicht gefunden'
 start = start.replace('<script src="/bewegung.js"></script>', f'<script src="/bewegung.js"></script>\n  <script src="/{NAME}.js"></script>')
 schreib(os.path.join(ZIEL, 'index.html'), kopf_und_assets(start))
 
