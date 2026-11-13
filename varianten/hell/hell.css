@@ -42,8 +42,9 @@ body.hell {
   color: var(--text);
 }
 /* Dunkle Inseln in hellen Sektionen: Videos, Mini-Oberflaechen, Innen-Seite */
-.hell .spiegel__flaeche--innen, .hell .kachel__ui, .hell .hh__karte, .hell .testi-video__poster, .hell .phase--gold {
-  --text: #EFE6D6; --text-muted: #B3AA9C; --white: #F6EFE2; --champagner: #E2C97A;
+.hell .spiegel__flaeche--innen, .hell .kachel__ui, .hell .hh__karte, .hell .testi-video__poster, .hell .phase--gold,
+.hell .cookie-bar, .hell .legal-overlay, .hell .legal-modal {
+  --text: #EFE6D6; --text-muted: #B3AA9C; --text-dim: #8A8276; --white: #F6EFE2; --champagner: #E2C97A;
 }
 
 /* ---------- Schrift ---------- */
