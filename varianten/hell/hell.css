@@ -228,13 +228,9 @@ body.hell {
 .hell .spiegel__flaeche--aussen .spiegel__icon { color: var(--text-muted); background: var(--creme); box-shadow: inset 0 0 0 1px rgba(138, 106, 30, 0.2); }
 .hell .spiegel__flaeche--aussen .spiegel__satz { color: var(--tinte); font-size: 1.16rem; line-height: 1.45; letter-spacing: -0.01em; }
 /* Innen-Karten: Vorschlag 1 "Schwarz & Linie" (gewaehlt von Lukas, 13.11.2026).
-   Mattes Schwarz, eine Goldlinie oben (waechst mit der Maus), Saetze in Geist,
-   Nummern 01-06 auf beiden Seiten. Vergleich: /entwurf-innen/ */
-.hell .spiegel__raster { counter-reset: spiegel; }
-.hell .spiegel__karte { counter-increment: spiegel; }
+   Mattes Schwarz, eine Goldlinie oben (waechst mit der Maus), Saetze in Geist.
+   Ohne Nummern (Lukas, 13.11.2026). Vergleich: /entwurf-innen/ */
 .hell .spiegel__flaeche { justify-content: space-between; }
-.hell .spiegel__marke { width: 100%; }
-.hell .spiegel__marke::after { content: counter(spiegel, decimal-leading-zero); margin-left: auto; font-size: 0.8rem; font-weight: 400; letter-spacing: 0; font-variant-numeric: tabular-nums; color: rgba(20, 17, 13, 0.35); }
 .hell .spiegel__flaeche--innen {
   gap: 46px;
   padding: 30px 30px 32px;
@@ -246,7 +242,6 @@ body.hell {
 .hell .spiegel__karte:hover .spiegel__flaeche--innen::before { width: calc(100% - 60px); }
 .hell .spiegel__flaeche--innen .spiegel__icon { display: none; }
 .hell .spiegel__flaeche--innen .spiegel__marke { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; color: var(--gold); }
-.hell .spiegel__flaeche--innen .spiegel__marke::after { color: rgba(244, 236, 221, 0.35); }
 .hell .spiegel__flaeche--innen .spiegel__satz { font-family: var(--font-body); font-style: normal; font-weight: 500; font-size: 1.42rem; line-height: 1.3; letter-spacing: -0.022em; color: #F4ECDD; text-wrap: pretty; }
 .hell .spiegel__schluss { max-width: 900px; font-family: var(--font-body); font-weight: 520; font-size: clamp(1.35rem, 2.4vw, 1.9rem); line-height: 1.3; letter-spacing: -0.03em; color: var(--tinte); }
 .hell .spiegel__schluss-zwei { color: var(--gold-tief); }
