@@ -17,8 +17,13 @@ Darkos Pupille) — Lukas fragen, ob eins davon jetzt dran ist.
   ausdrücklich will. Vorschläge vorher fragen, nie einfach umsetzen.
 - Knöpfe: „Erstgespräch buchen“ (vorher „Klarheitsgespräch“, geändert von Lukas 13.11.2026, überall), im Schluss „Termin auswählen“, alle → `/termin/`.
 - `main` ist an das Netlify-Projekt `now-consulting` gekoppelt: **jeder Push
-  auf `main` geht sofort live.** Arbeiten auf einem Zweig, Vorschau über
-  `now-consulting-neu`.
+  auf `main` geht sofort live.** Seit 14.11.2026 steht dort die neue Seite in
+  der hellen Fassung B (Netlify baut sie mit `werkzeuge/variante.py hell`,
+  siehe `netlify.toml`). Arbeiten auf einem Zweig, Vorschau über
+  `now-consulting-hell` (Ordner `_ausgabe/hell` ausliefern). Auf `main` nur,
+  wenn Lukas es sagt.
+- Kein `noindex` auf der Startseite und den Unterseiten (nur `/danke/`); die
+  Vorschau-Projekte verweisen per `canonical` auf now-consulting.at.
 - Vor jedem Deploy `qa/pruefen.mjs`, `qa/ueberlauf.mjs`, `qa/kontrast.mjs`,
   nach Änderungen an Animationen auch `qa/fluessig.mjs` (siehe README).
 

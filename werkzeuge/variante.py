@@ -14,7 +14,8 @@ NAME = sys.argv[1] if len(sys.argv) > 1 else 'hell'
 QUELLE = os.path.join(WURZEL, 'varianten', NAME)
 ZIEL = os.path.join(WURZEL, '_ausgabe', NAME)
 NICHT = {'.git', 'node_modules', '_ausgabe', 'varianten', 'werkzeuge', 'qa', 'notizen', 'entwurf-hero',
-         'README.md', 'CLAUDE.md', 'package.json', 'package-lock.json', '.gitignore', '.netlify'}
+         'README.md', 'CLAUDE.md', 'package.json', 'package-lock.json', '.gitignore', '.netlify',
+         'Orienteriungsdokument', 'Die Wahl zwischen zwei Kapseln.png'}   # Arbeitsdateien, nicht oeffentlich
 
 # Welche Sektionen in dieser Variante dunkle Buehnen sind
 DUNKEL = {
@@ -44,11 +45,12 @@ def kopf_und_assets(html):
 if os.path.exists(ZIEL): shutil.rmtree(ZIEL)
 os.makedirs(ZIEL)
 for e in os.listdir(WURZEL):
-    if e in NICHT or e.startswith('.') and e != '.well-known': continue
+    if e in NICHT or e.endswith('.md') or e.startswith('.') and e != '.well-known': continue
     q = os.path.join(WURZEL, e)
     (shutil.copytree if os.path.isdir(q) else shutil.copy2)(q, os.path.join(ZIEL, e))
 for e in os.listdir(QUELLE):
-    if e in ('hero.html',) or e.endswith('.md'): continue
+    # Entwurfsseiten (Vorschlaege zum Vergleichen) gehoeren nicht auf die Domain
+    if e in ('hero.html',) or e.endswith('.md') or e.startswith('entwurf'): continue
     q = os.path.join(QUELLE, e)
     (shutil.copytree if os.path.isdir(q) else shutil.copy2)(q, os.path.join(ZIEL, e))
 
@@ -83,5 +85,13 @@ schreib(os.path.join(ZIEL, 'index.html'), kopf_und_assets(start))
 for seite in ('termin', 'impressum', 'datenschutz', 'agb', 'danke'):
     p = os.path.join(ZIEL, seite, 'index.html')
     schreib(p, kopf_und_assets(lies(p)))
+
+# 4. netlify.toml im Ausgabeordner: ohne Bau-Schritt, der Ordner IST die
+#    Seite (die Wurzel-netlify.toml baut erst hierher). Weiterleitungen und
+#    Kopfzeilen bleiben gleich.
+toml = lies(os.path.join(WURZEL, 'netlify.toml'))
+toml, n = re.subn(r'\[build\]\n(?:  .*\n)+', '[build]\n  publish = "."\n  command = "echo \'Fertig gebaut von werkzeuge/variante.py\'"\n', toml, count=1)
+assert n == 1, 'netlify.toml: [build] nicht gefunden'
+schreib(os.path.join(ZIEL, 'netlify.toml'), toml)
 
 print('gebaut:', os.path.relpath(ZIEL, WURZEL))

@@ -38,8 +38,10 @@ const p = (name, ist, soll = true) => {
   p('1g Knopftexte wie auf der alten Seite', [...new Set((await page.locator('a.btn').allTextContents()).map(t => t.replace(/\s+/g, ' ').trim()))].sort().join('|'), 'Erstgespräch buchen|Termin auswählen');
   p('1h jeder Knopf fuehrt zu /termin/', (await page.locator('a.btn').evaluateAll(as => as.every(a => a.getAttribute('href') === '/termin/'))), true);
   const robots = await page.locator('meta[name=robots]').count();
-  if (LIVE) p('1i LIVE: kein noindex auf der Startseite', robots, 0);
-  else p('1i Vorschau: noindex gesetzt', robots, 1);
+  // Seit dem Livegang (14.11.2026) nirgends noindex auf der Startseite; die
+  // Vorschau-Projekte verweisen per canonical auf die echte Domain
+  p('1i kein noindex auf der Startseite', robots, 0);
+  p('1i2 kanonische Adresse ist now-consulting.at', await page.locator('link[rel=canonical]').getAttribute('href'), 'https://now-consulting.at/');
   await page.waitForFunction(() => [...document.images].every(i => i.complete), null, { timeout: 10000 }).catch(() => {});
   p('1j alle Bilder geladen', await page.evaluate(() => [...document.images].filter(i => !i.complete || !i.naturalWidth).map(i => i.src).join(', ')), '');
   p('1k Anker der Navigation existieren', await page.evaluate(() => [...document.querySelectorAll('.kopf__nav a')].every(a => document.querySelector(a.getAttribute('href')))), true);

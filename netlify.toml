@@ -1,10 +1,16 @@
-# NOW-Webseite: statische Dateien, kein Build-Schritt.
-# Der Befehl unten ueberschreibt den alten Build aus dem Netlify-UI
-# ("npm run build" der Vite-Seite). Ohne ihn wuerde Netlify nach dem
-# Umschalten versuchen, eine Seite zu bauen, die es nicht mehr gibt.
+# NOW-Webseite, live auf now-consulting.at (Projekt now-consulting, Zweig
+# main, seit 14.11.2026). Live ist die helle Fassung B: Netlify baut sie
+# aus index.html mit werkzeuge/variante.py (nur Python-Standardbibliothek,
+# keine Abhaengigkeiten) nach _ausgabe/hell und liefert diesen Ordner aus.
+# Der Befehl ueberschreibt den alten Build aus dem Netlify-UI ("npm run
+# build" der Vite-Seite). Schlaegt der Bau fehl, bleibt die letzte Fassung
+# online.
+# variante.py schreibt in _ausgabe/hell eine eigene netlify.toml ohne
+# Bau-Schritt, damit die Vorschau (now-consulting-hell) weiter direkt aus
+# dem Ordner ausgeliefert werden kann.
 [build]
-  publish = "."
-  command = "echo 'Statische Seite, kein Build'"
+  command = "python3 werkzeuge/variante.py hell"
+  publish = "_ausgabe/hell"
 
 # Arbeitsdateien sind nicht oeffentlich. Netlify kann nur Pfade am Ende
 # platzhaltern, keine Dateiendungen: "/*.md" greift nie, jede Datei

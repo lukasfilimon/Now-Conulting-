@@ -33,6 +33,10 @@ for name, (titel, beschreibung, termin) in SEITEN.items():
     inhalt = open(f'werkzeuge/inhalte/{name}.html', encoding='utf-8').read().rstrip()
     extra = '  <script src="/termin.js"></script>\n' if termin else ''
     mandala = '  <script src="/mandala.js"></script>\n' if name in ('termin', 'danke') else ''
+    # Danke-Seite nie in Google (Kit: nur nach einer Buchung erreichbar),
+    # alle anderen mit kanonischer Adresse auf der echten Domain
+    robots = ('  <meta name="robots" content="noindex, nofollow" />\n' if name == 'danke'
+              else f'  <link rel="canonical" href="https://now-consulting.at/{name}/" />\n')
     html = f'''<!DOCTYPE html>
 <html lang="de">
 <head>
@@ -40,8 +44,7 @@ for name, (titel, beschreibung, termin) in SEITEN.items():
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>{titel}</title>
   <meta name="description" content="{beschreibung}" />
-  <meta name="robots" content="noindex, nofollow" />
-  <meta name="theme-color" content="#0e0c0a" />
+{robots}  <meta name="theme-color" content="#0e0c0a" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
