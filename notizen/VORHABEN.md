@@ -90,9 +90,10 @@ Verlauf Woche 1 / ab Woche 2). Fakten von Lukas (13.11.2026):
   allem Vertrieb, dazu Content für Marketing und Social Media — „immer
   sehr individuell“.
 
-Noch offen: Wer im Anruf und im Chat als Kundenberater zu sehen ist
-(Entwurf: Lukas mit Teamfoto), optional drei bis fünf echte Titel aus der
-Meditationsbibliothek für den Player.
+Geklärt (13.11.2026): Im Chat steht „NOW Kundenberater“ mit dem NOW-Logo,
+die Calls heißen Mindset-Call (Montag) und Vertriebscall (Mittwoch).
+Noch offen: optional drei bis fünf echte Titel aus der Meditationsbibliothek
+für den Player.
 
 **Vergleich „Andere vs. NOW“** — links matt, rechts NOW mit echten Zahlen.
 
@@ -102,3 +103,20 @@ Meditationsbibliothek für den Player.
 (Leistung greifbar machen), monads.ch (Selbstbewusstsein, schwebende
 Versprechen), hoshinoya.com und aman.com (Ruhe, Raum, Licht aus der
 Dunkelheit). Heartbeat nicht weiter als Vorlage nehmen: zu erkennbar.
+
+---
+
+## 3. Calendly-Termintyp heißt noch „Klarheitsgespräch“ (gemerkt 14.11.2026)
+
+Die Webseite sagt überall „Erstgespräch“, der eingebettete Calendly-Termin
+ist aber noch der alte Typ **„Kostenloses Klarheitsgespräch“**
+(`calendly.com/jetzt/klarheitsgespreach`, 30 Minuten, Telefon). Wer bucht,
+sieht diesen Namen in Calendly und in der Bestätigungs-E-Mail.
+
+**Entscheidung Lukas (14.11.2026): „merk dir aber lassen wir mal so“.**
+Nichts an Calendly ändern, bis Lukas es sagt. Möglichkeiten für später:
+- den Termintyp in Calendly auf „Kostenloses Erstgespräch“ umbenennen
+  (Link und Einbettung bleiben gleich), oder
+- auf den vorhandenen Typ `quali-call` umstellen (dann `data-calendly` in
+  `werkzeuge/inhalte/termin.html` ändern und `qa/pruefen.mjs` Test 3
+  laufen lassen).
