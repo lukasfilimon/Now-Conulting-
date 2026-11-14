@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Baut die Unterseiten (termin, impressum, datenschutz, agb) aus
+"""Baut die Unterseiten (termin, impressum, datenschutz, agb, danke) aus
 werkzeuge/inhalte/<name>.html und uebernimmt Kopfleiste, Footer und
 Cookie-Leiste aus index.html. Nach jeder Aenderung an Kopf oder Footer
 der Startseite einmal laufen lassen:
@@ -26,12 +26,13 @@ SEITEN = {
     'impressum':   ('Impressum · NOW Consulting', 'Impressum der NOW Consulting.', False),
     'datenschutz': ('Datenschutz · NOW Consulting', 'Datenschutzerklärung der NOW Consulting.', False),
     'agb':         ('AGB · NOW Consulting', 'Allgemeine Geschäftsbedingungen der NOW Coaching Service FZCO.', False),
+    'danke':       ('Termin gebucht · NOW Consulting', 'Dein Erstgespräch mit NOW Consulting ist gebucht.', False),
 }
 
 for name, (titel, beschreibung, termin) in SEITEN.items():
     inhalt = open(f'werkzeuge/inhalte/{name}.html', encoding='utf-8').read().rstrip()
     extra = '  <script src="/termin.js"></script>\n' if termin else ''
-    mandala = '  <script src="/mandala.js"></script>\n' if termin else ''
+    mandala = '  <script src="/mandala.js"></script>\n' if name in ('termin', 'danke') else ''
     html = f'''<!DOCTYPE html>
 <html lang="de">
 <head>

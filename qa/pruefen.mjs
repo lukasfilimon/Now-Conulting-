@@ -231,7 +231,8 @@ for (const w of [320, 360, 375, 390, 414, 768, 1024, 1280, 1440]) {
 }
 console.log('  OK   2 kein Ueberstand auf 9 Breiten x 5 Seiten (gesammelt)');
 
-// --- 3. Termin: Calendly erst nach Klick
+// --- 3. Termin nach dem NOW-Erstgespraech-Kit (Lektion 3/4): Calendly erst
+//        nach Zustimmung, iframe ohne widget.js, Buchung -> NOW_LEAD + Lead -> /danke/
 {
   const ctx = await browser.newContext();
   const anfragen = [];
@@ -239,10 +240,32 @@ console.log('  OK   2 kein Ueberstand auf 9 Breiten x 5 Seiten (gesammelt)');
   const page = await ctx.newPage();
   await page.goto(BASIS + '/termin/', { waitUntil: 'networkidle' });
   p('3a Termin: kein Calendly vor dem Klick', anfragen.some(u => /calendly/.test(u)), false);
-  await page.click('#kalenderLaden');
+  p('3a2 Termin: Platzhalter mit Direkt-Link', await page.evaluate(() => { const a = document.querySelector('#calendly-embed .media-consent__link'); return !!a && /^https:\/\/calendly\.com\//.test(a.href) && !/embed_/.test(a.href) && a.target === '_blank'; }), true);
+  await page.click('#calendly-embed .media-consent__btn');
   await page.waitForTimeout(500);
-  p('3b Termin: Calendly nach dem Klick', anfragen.some(u => /calendly/.test(u)), true);
-  p('3c Termin: Widget eingefuegt', await page.locator('.calendly-inline-widget').count(), 1);
+  p('3b Termin: "Kalender laden" stimmt zu', await page.evaluate(() => localStorage.getItem('consent_v1')), 'all');
+  const ifr = await page.evaluate(() => { const f = document.querySelector('#calendly-embed iframe'); return f ? f.src : ''; });
+  p('3c Termin: iframe mit embed_domain und ohne Calendly-Angaben', /embed_domain=/.test(ifr) && /embed_type=Inline/.test(ifr) && /hide_event_type_details=1/.test(ifr) && /hide_gdpr_banner=1/.test(ifr), true);
+  p('3c2 Termin: kein widget.js', anfragen.some(u => /widget\.js/.test(u)), false);
+  p('3c3 Termin: kein eigener Kasten um den Kalender', await page.evaluate(() => { const cs = getComputedStyle(document.getElementById('calendly-embed')); return cs.backgroundColor === 'rgba(0, 0, 0, 0)' && cs.backgroundImage === 'none' && cs.boxShadow === 'none'; }), true);
+  // Buchung nachstellen: Calendly-Nachricht mit echtem Ursprung, fbq beobachten
+  const ergebnis = await page.evaluate(async () => {
+    const aufrufe = []; window.fbq = function () { aufrufe.push([...arguments]); };
+    const box = document.getElementById('calendly-embed');
+    window.dispatchEvent(new MessageEvent('message', { origin: 'https://calendly.com', data: { event: 'calendly.page_height', payload: { height: '2px' } } }));
+    const nachKlein = box.style.height;
+    window.dispatchEvent(new MessageEvent('message', { origin: 'https://calendly.com', data: { event: 'calendly.page_height', payload: { height: '1036px' } } }));
+    const nachGross = box.style.height;
+    window.dispatchEvent(new MessageEvent('message', { origin: 'https://evil.example', data: { event: 'calendly.event_scheduled' } }));
+    window.dispatchEvent(new MessageEvent('message', { origin: 'https://calendly.com', data: { event: 'calendly.event_scheduled' } }));
+    window.dispatchEvent(new MessageEvent('message', { origin: 'https://calendly.com', data: { event: 'calendly.event_scheduled' } }));
+    return { nachKlein, nachGross, aufrufe: aufrufe.map(a => [a[0], a[1], a[3] && a[3].eventID ? 'id' : 'keine-id', a[2] && ('value' in a[2]) ? 'value!' : 'ok']) };
+  });
+  p('3d Termin: Hoehe ignoriert 2 px, uebernimmt 1036 px (+8)', ergebnis.nachKlein + '|' + ergebnis.nachGross, '660px|1044px');
+  p('3e Termin: Buchung -> genau einmal NOW_LEAD + Lead, gleiche ID, ohne Wert', JSON.stringify(ergebnis.aufrufe), JSON.stringify([['trackCustom', 'NOW_LEAD', 'id', 'ok'], ['track', 'Lead', 'id', 'ok']]));
+  for (let i = 0; i < 25 && !/\/danke\/$/.test(page.url()); i++) await page.waitForTimeout(200);   // Weiterleitung nach 300 ms + Laden
+  p('3f Termin: danach weiter auf /danke/', new URL(page.url()).pathname, '/danke/');
+  p('3g Danke-Seite: kein zweites Lead-Ereignis, noindex', await page.evaluate(() => !/fbq\(/.test([...document.scripts].map(s => s.textContent).join('')) && /noindex/.test(document.querySelector('meta[name=robots]').content)), true);
   await ctx.close();
 }
 

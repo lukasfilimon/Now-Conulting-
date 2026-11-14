@@ -1,71 +1,95 @@
 /* ============================================================
    TERMIN — Calendly-Kalender auf /termin/
+   Nach dem NOW-Erstgespraech-Kit (now-anleitungs-hub,
+   Erstgespraech-Landingpage/Landingpage-Baukasten: LEKTIONEN.md
+   Lektion 3 und 4, TRACKING.md Abschnitt 3 und 5). Aenderungen dort
+   hier mitziehen.
 
-   Laedt erst nach Klick auf "Kalender anzeigen". Hat jemand schon allen
-   Cookies zugestimmt (consent_v1 = all), laedt er sofort.
-   Vorher geht keine Verbindung zu calendly.com hinaus.
-
-   Nach einer fertigen Buchung (calendly.event_scheduled) meldet die
-   Seite einmal das Standardereignis Lead an Meta, aber nur, wenn der
-   Pixel geladen ist, also nach Zustimmung und auf der echten Domain.
-   Die eventID ist fuer eine spaetere Conversions API gedacht: Browser-
-   und Server-Ereignis mit derselben ID zaehlt Meta als EINEN Lead.
+   - Vor der Zustimmung laedt NICHTS von calendly.com. Im Kasten steht
+     der Platzhalter (.media-consent): "Kalender laden" stimmt zu
+     (acceptAll aus kern.js), der Direkt-Link bucht ohne Einbettung.
+   - loadCalendly() baut das iframe selbst, ohne widget.js, mit
+     embed_domain (sonst schickt Calendly keine Nachrichten), ohne
+     eigenen Kasten. Startwert 660 px, danach meldet Calendly die Hoehe.
+   - Nach der Buchung (calendly.event_scheduled): NOW_LEAD + Lead mit
+     derselben eventID, ohne value/currency, dann weiter auf /danke/.
    ============================================================ */
 (function () {
-  var box = document.getElementById('kalender');
-  var knopf = document.getElementById('kalenderLaden');
-  if (!box || !knopf) return;
+  'use strict';
+  var box = document.getElementById('calendly-embed');
+  if (!box) return;
   var url = box.getAttribute('data-calendly');
-  var geladen = false, leadGemeldet = false;
+  // Akzentfarbe fuer buchbare Tage und Knoepfe (sechs Hex-Stellen, ohne #).
+  // Dunkles Gold: weisse Schrift darauf bleibt gut lesbar.
+  var AKZENT = '8a6a1e';
+  // Die dunkle Fassung der Webseite faerbt den Kalender dunkel ein; die
+  // helle nutzt Calendlys eigene weisse Karte (Kit: nur primary_color).
+  var DUNKEL = !document.body.classList.contains('hell');
 
-  function laden() {
-    if (geladen || !url) return;
-    geladen = true;
-    var hinweis = document.getElementById('kalenderHinweis');
-    if (hinweis) hinweis.remove();
-    box.classList.add('kalender--offen');
+  function zugestimmt() { try { return localStorage.getItem('consent_v1') === 'all'; } catch (e) { return false; } }
 
-    var parameter = 'hide_gdpr_banner=1&background_color=181410&text_color=f2efe9&primary_color=c9a84c';
-    var widget = document.createElement('div');
-    widget.className = 'calendly-inline-widget';
-    widget.setAttribute('data-url', url + (url.indexOf('?') < 0 ? '?' : '&') + parameter);
-    widget.style.minWidth = '280px';
-    widget.style.height = '700px';
-    box.appendChild(widget);
+  function loadCalendly() {
+    if (!url || box.querySelector('iframe')) return;      // nur einmal
+    var ph = box.querySelector('.media-consent');
+    if (ph) ph.remove();
+    box.style.height = '660px';                           // Startwert UND Rueckfallebene
 
-    var skript = document.createElement('script');
-    skript.src = 'https://assets.calendly.com/assets/external/widget.js';
-    skript.async = true;
-    document.head.appendChild(skript);
-
-    window.addEventListener('message', function (e) {
-      if (e.origin !== 'https://calendly.com') return;
-      var d = e.data;
-      if (typeof d === 'string') { try { d = JSON.parse(d); } catch (x) { return; } }
-      if (!d || typeof d.event !== 'string') return;
-      // Der Kalender waechst auf seine Inhaltshoehe, kein Scrollen im Rahmen.
-      // Nie unter 650 px: waehrend Calendly laedt, meldet es kurz 26 px und
-      // dann 2 px. Uebernommen liess das den Rahmen verschwinden, und in einem
-      // 2 px hohen Rahmen baut Calendly den Kalender nie auf (Lukas, 13.11.2026).
-      if (d.event === 'calendly.page_height' && d.payload && d.payload.height) {
-        var h = parseInt(d.payload.height, 10);
-        if (h > 0) widget.style.height = Math.max(650, h) + 'px';
-        return;
-      }
-      if (d.event === 'calendly.event_scheduled' && !leadGemeldet) {
-        leadGemeldet = true;
-        if (typeof fbq === 'function') {
-          var id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
-                 : 'lead-' + Date.now() + '-' + Math.random().toString(16).slice(2);
-          fbq('track', 'Lead', { content_name: 'Erstgespräch', currency: 'EUR', value: 0 }, { eventID: id });
-        }
-      }
-    });
+    var ifr = document.createElement('iframe');
+    ifr.src = url
+      + '?embed_domain=' + encodeURIComponent(location.host)
+      + '&embed_type=Inline'
+      + '&hide_event_type_details=1&hide_gdpr_banner=1&primary_color=' + (DUNKEL ? 'c9a84c' : AKZENT)
+      + (DUNKEL ? '&background_color=181410&text_color=f2efe9' : '');
+    ifr.title = 'Termin für dein Erstgespräch buchen';
+    ifr.style.cssText = 'width:100%;height:100%;border:0;display:block;';
+    box.appendChild(ifr);
   }
 
-  knopf.addEventListener('click', laden);
-  try { if (localStorage.getItem('consent_v1') === 'all') laden(); } catch (x) {}
-  // Wer in der Cookie-Leiste zustimmt, bekommt den Kalender gleich mit.
+  function daten(e) {
+    if (e.origin !== 'https://calendly.com') return null;     // Origin-Check, kein Wildcard
+    var d = e.data;
+    if (typeof d === 'string') { try { d = JSON.parse(d); } catch (x) { return null; } }
+    return d && typeof d.event === 'string' ? d : null;
+  }
+
+  // Hoehe von Calendly melden lassen, nicht raten. Beim Laden kommen
+  // Zwischenwerte wie 2 px und 26 px: alles unter 300 px ignorieren.
+  window.addEventListener('message', function (e) {
+    var d = daten(e);
+    if (!d || d.event !== 'calendly.page_height') return;
+    var h = parseInt(d.payload && d.payload.height, 10);
+    if (!h || h < 300) return;
+    box.style.height = (h + 8) + 'px';                    // +8 px Puffer (Absenden-Knopf)
+  });
+
+  // NOW-Ziel-Event: genau einmal pro Buchung, nur mit geladenem Pixel
+  var nowEventFired = false;
+  function fireNowConversion() {
+    if (nowEventFired) return;
+    if (typeof fbq !== 'function') return;
+    nowEventFired = true;
+    var eventId = (window.crypto && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : 'now-' + Date.now() + '-' + Math.random().toString(16).slice(2);
+    var data = { content_name: 'erstgespraech', content_category: 'now_erstgespraech' };
+    fbq('trackCustom', 'NOW_LEAD', data, { eventID: eventId });   // Ziel-Event (Kampagne)
+    fbq('track', 'Lead', data, { eventID: eventId });             // Standard-Signal
+  }
+  window.addEventListener('message', function (e) {
+    var d = daten(e);
+    if (!d || d.event !== 'calendly.event_scheduled') return;
+    fireNowConversion();
+    setTimeout(function () { window.location.href = '/danke/'; }, 300);   // erst feuern, dann weiter
+  });
+
+  // Ausloeser: Platzhalter-Knopf (stimmt zu), Zustimmung in der Leiste,
+  // oder schon gespeicherte Zustimmung
+  var knopf = box.querySelector('.media-consent__btn');
+  if (knopf) knopf.addEventListener('click', function () {
+    if (!zugestimmt() && typeof window.acceptAll === 'function') window.acceptAll();
+    loadCalendly();
+  });
   var zustimmen = document.getElementById('cookie-accept');
-  if (zustimmen) zustimmen.addEventListener('click', laden);
+  if (zustimmen) zustimmen.addEventListener('click', loadCalendly);
+  if (zugestimmt()) loadCalendly();
 })();

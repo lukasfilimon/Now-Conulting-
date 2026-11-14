@@ -348,7 +348,6 @@ body.hell {
    UNTERSEITEN (Termin, Impressum, Datenschutz, AGB)
    ============================================================ */
 .hell.unterseite-body main, .hell .unterseite { background: transparent; }
-.hell .kalender { background: var(--karte); box-shadow: var(--schatten-karte); border-color: transparent; }
 .hell .kalender__alternativ a, .hell .recht a { color: var(--gold-tief); }
 .hell .recht h2 { color: var(--tinte); font-family: var(--font-body); font-weight: 560; letter-spacing: -0.02em; }
 
@@ -419,3 +418,10 @@ body.hell {
    (kern.css setzt sie fuer die dunkle Fassung). Sie war unsichtbar, musste
    aber in jedem Scroll-Bild neu gerechnet werden (qa/fluessig.mjs). */
 .hell .glas, .hell .pr-card, .hell .fw-card, .hell .inhalte-card, .hell .modul, .hell .phase { -webkit-backdrop-filter: none; backdrop-filter: none; }
+
+/* Terminseite (Kit): Platzhalter und Danke-Seite auf Elfenbein */
+.hell .media-consent { border-color: rgba(138, 106, 30, 0.38); }
+.hell .media-consent__text { color: var(--tinte); }
+.hell .media-consent__link { color: var(--gold-tief); }
+.hell .danke-schritte h2 { font-family: var(--font-body); font-weight: 560; font-size: 1.2rem; letter-spacing: -0.02em; color: var(--tinte); }
+.hell .danke-schritte__icon { color: var(--gold-tief); }

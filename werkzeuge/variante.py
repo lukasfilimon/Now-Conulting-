@@ -80,7 +80,7 @@ start = start.replace('<script src="/bewegung.js"></script>', f'<script src="/be
 schreib(os.path.join(ZIEL, 'index.html'), kopf_und_assets(start))
 
 # 3. Unterseiten: gleiche Inhalte, Variante drueber
-for seite in ('termin', 'impressum', 'datenschutz', 'agb'):
+for seite in ('termin', 'impressum', 'datenschutz', 'agb', 'danke'):
     p = os.path.join(ZIEL, seite, 'index.html')
     schreib(p, kopf_und_assets(lies(p)))
 
