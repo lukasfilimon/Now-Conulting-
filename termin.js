@@ -19,9 +19,10 @@
   var box = document.getElementById('calendly-embed');
   if (!box) return;
   var url = box.getAttribute('data-calendly');
-  // Akzentfarbe fuer buchbare Tage und Knoepfe (sechs Hex-Stellen, ohne #).
-  // Dunkles Gold: weisse Schrift darauf bleibt gut lesbar.
-  var AKZENT = '8a6a1e';
+  // Akzentfarbe fuer buchbare Tage und Knoepfe (sechs Hex-Stellen, ohne #):
+  // dasselbe Gold wie die Knoepfe der Webseite (Kern-Ton von .btn--gold,
+  // Lukas 14.11.2026)
+  var AKZENT = 'c9a84c';
   // Die dunkle Fassung der Webseite faerbt den Kalender dunkel ein; die
   // helle nutzt Calendlys eigene weisse Karte (Kit: nur primary_color).
   var DUNKEL = !document.body.classList.contains('hell');
@@ -38,7 +39,7 @@
     ifr.src = url
       + '?embed_domain=' + encodeURIComponent(location.host)
       + '&embed_type=Inline'
-      + '&hide_event_type_details=1&hide_gdpr_banner=1&primary_color=' + (DUNKEL ? 'c9a84c' : AKZENT)
+      + '&hide_event_type_details=1&hide_gdpr_banner=1&primary_color=' + AKZENT
       + (DUNKEL ? '&background_color=181410&text_color=f2efe9' : '');
     ifr.title = 'Termin für dein Erstgespräch buchen';
     ifr.style.cssText = 'width:100%;height:100%;border:0;display:block;';
