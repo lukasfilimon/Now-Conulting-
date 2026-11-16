@@ -52,12 +52,12 @@ Lichtränder per `transform` drehen statt per Farb-Variable.
 
 ## Vorschau und Livegang
 
-Die neue Fassung liegt auf dem Zweig `claude/nifty-albattani-3of2i7` und
-läuft zur Ansicht im eigenen Netlify-Projekt `now-consulting-neu`
-(now-consulting-neu.netlify.app). Live (`now-consulting`, gekoppelt an
-`main`) ist weiter die alte Seite.
+**Erledigt:** Seit 14.11.2026 ist die neue Seite (helle Fassung B) live auf
+now-consulting.at. Netlify baut sie aus `main` mit `werkzeuge/variante.py
+hell` (siehe `netlify.toml`). Die Vorschau-Projekte `now-consulting-neu` und
+`now-consulting-hell` sind seit 16.11.2026 geloescht.
 
-**Umschalten auf now-consulting.at**, in dieser Reihenfolge:
+So lief das Umschalten (zum Nachlesen):
 
 1. In `index.html` die Zeile `<meta name="robots" content="noindex, nofollow" />`
    entfernen (Kommentar "VORSCHAU" darüber). Die Unterseiten behalten ihr noindex.

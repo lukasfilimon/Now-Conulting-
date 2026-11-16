@@ -6,8 +6,8 @@
 # build" der Vite-Seite). Schlaegt der Bau fehl, bleibt die letzte Fassung
 # online.
 # variante.py schreibt in _ausgabe/hell eine eigene netlify.toml ohne
-# Bau-Schritt, damit die Vorschau (now-consulting-hell) weiter direkt aus
-# dem Ordner ausgeliefert werden kann.
+# Bau-Schritt, damit sich der Ordner bei Bedarf direkt als Vorschau in ein
+# eigenes Projekt ausliefern laesst.
 [build]
   command = "python3 werkzeuge/variante.py hell"
   publish = "_ausgabe/hell"

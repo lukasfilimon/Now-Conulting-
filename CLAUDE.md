@@ -19,11 +19,13 @@ Darkos Pupille) — Lukas fragen, ob eins davon jetzt dran ist.
 - `main` ist an das Netlify-Projekt `now-consulting` gekoppelt: **jeder Push
   auf `main` geht sofort live.** Seit 14.11.2026 steht dort die neue Seite in
   der hellen Fassung B (Netlify baut sie mit `werkzeuge/variante.py hell`,
-  siehe `netlify.toml`). Arbeiten auf einem Zweig, Vorschau über
-  `now-consulting-hell` (Ordner `_ausgabe/hell` ausliefern). Auf `main` nur,
-  wenn Lukas es sagt.
-- Kein `noindex` auf der Startseite und den Unterseiten (nur `/danke/`); die
-  Vorschau-Projekte verweisen per `canonical` auf now-consulting.at.
+  siehe `netlify.toml`). Arbeiten auf einem Zweig. Auf `main` nur, wenn
+  Lukas es sagt. Die Vorschau-Projekte `now-consulting-hell` und
+  `now-consulting-neu` hat Lukas am 16.11.2026 geloescht: fuer eine Vorschau
+  bei Bedarf ein neues Projekt anlegen und `_ausgabe/hell` dorthin
+  ausliefern; loeschen tut Lukas selbst.
+- Kein `noindex` auf der Startseite und den Unterseiten (nur `/danke/`); jede
+  Vorschau verweist per `canonical` auf now-consulting.at.
 - Vor jedem Deploy `qa/pruefen.mjs`, `qa/ueberlauf.mjs`, `qa/kontrast.mjs`,
   nach Änderungen an Animationen auch `qa/fluessig.mjs` (siehe README).
 
@@ -33,7 +35,7 @@ Lukas lässt zwei vollständige Webseiten bauen und entscheidet danach:
 - **B „hell“**: Creme/Elfenbein als Grundton, Schwarz nur als Bühne
   (Manifest, Kunde, Live Events, Abschluss, Footer), Gold nur als Akzent.
   Überschriften Geist eng gesetzt, Akzentwörter Instrument Serif kursiv.
-  Vorschau: Netlify-Projekt `now-consulting-hell`.
+  **Live auf now-consulting.at seit 14.11.2026.**
 - **C „Nacht mit Insel“**: kommt als Nächstes (Vorlage: `/entwurf-hero/c/`).
 
 So ist es gebaut:
